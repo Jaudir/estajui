@@ -8,8 +8,8 @@ require_once './util/connect.php';
  *
  * @author gabriel Lucas
  */
-class Aluno extends Usuario implements CrudInterface {
-    
+class Aluno extends Usuario implements CrudInterface
+{
     private $_cpf;
     private $_nome;
     private $_datat_nasc;
@@ -25,8 +25,9 @@ class Aluno extends Usuario implements CrudInterface {
     private $_estado_natal;
     private $_acesso;
     private $_endereco;
-            
-    public function __construct($login, $senha, $tipo, $_cpf, $_nome, $_datat_nasc, $_rg_num, $_rg_orgao, $_estado_civil, $_sexo, $_telefone, $_celular, $_nome_pai, $_nome_mae, $_cidade_natal, $_estado_natal, $_acesso, $_endereco) {
+
+    public function __construct($login, $senha, $tipo, $_cpf, $_nome, $_datat_nasc, $_rg_num, $_rg_orgao, $_estado_civil, $_sexo, $_telefone, $_celular, $_nome_pai, $_nome_mae, $_cidade_natal, $_estado_natal, $_acesso, $_endereco)
+    {
         parent::__construct($login, $senha, $tipo);
         $this->_cpf = $_cpf;
         $this->_nome = $_nome;
@@ -44,143 +45,174 @@ class Aluno extends Usuario implements CrudInterface {
         $this->_acesso = $_acesso;
         $this->_endereco = $_endereco;
     }
-    
-    public function getcpf() {
+
+    public function getcpf()
+    {
         return $this->_cpf;
     }
 
-    public function getnome() {
+    public function getnome()
+    {
         return $this->_nome;
     }
 
-    public function getdatat_nasc() {
+    public function getdatat_nasc()
+    {
         return $this->_datat_nasc;
     }
 
-    public function getrg_num() {
+    public function getrg_num()
+    {
         return $this->_rg_num;
     }
 
-    public function getrg_orgao() {
+    public function getrg_orgao()
+    {
         return $this->_rg_orgao;
     }
 
-    public function getestado_civil() {
+    public function getestado_civil()
+    {
         return $this->_estado_civil;
     }
 
-    public function getsexo() {
+    public function getsexo()
+    {
         return $this->_sexo;
     }
 
-    public function gettelefone() {
+    public function gettelefone()
+    {
         return $this->_telefone;
     }
 
-    public function getcelular() {
+    public function getcelular()
+    {
         return $this->_celular;
     }
 
-    public function getnome_pai() {
+    public function getnome_pai()
+    {
         return $this->_nome_pai;
     }
 
-    public function getnome_mae() {
+    public function getnome_mae()
+    {
         return $this->_nome_mae;
     }
 
-    public function getcidade_natal() {
+    public function getcidade_natal()
+    {
         return $this->_cidade_natal;
     }
 
-    public function getestado_natal() {
+    public function getestado_natal()
+    {
         return $this->_estado_natal;
     }
 
-    public function getacesso() {
+    public function getacesso()
+    {
         return $this->_acesso;
     }
 
-    public function getendereco() {
+    public function getendereco()
+    {
         return $this->_endereco;
     }
 
-    public function setcpf($_cpf) {
+    public function setcpf($_cpf)
+    {
         $this->_cpf = $_cpf;
         return $this;
     }
 
-    public function setnome($_nome) {
+    public function setnome($_nome)
+    {
         $this->_nome = $_nome;
         return $this;
     }
 
-    public function setdatat_nasc($_datat_nasc) {
+    public function setdatat_nasc($_datat_nasc)
+    {
         $this->_datat_nasc = $_datat_nasc;
         return $this;
     }
 
-    public function setrg_num($_rg_num) {
+    public function setrg_num($_rg_num)
+    {
         $this->_rg_num = $_rg_num;
         return $this;
     }
 
-    public function setrg_orgao($_rg_orgao) {
+    public function setrg_orgao($_rg_orgao)
+    {
         $this->_rg_orgao = $_rg_orgao;
         return $this;
     }
 
-    public function setestado_civil($_estado_civil) {
+    public function setestado_civil($_estado_civil)
+    {
         $this->_estado_civil = $_estado_civil;
         return $this;
     }
 
-    public function setsexo($_sexo) {
+    public function setsexo($_sexo)
+    {
         $this->_sexo = $_sexo;
         return $this;
     }
 
-    public function settelefone($_telefone) {
+    public function settelefone($_telefone)
+    {
         $this->_telefone = $_telefone;
         return $this;
     }
 
-    public function setcelular($_celular) {
+    public function setcelular($_celular)
+    {
         $this->_celular = $_celular;
         return $this;
     }
 
-    public function setnome_pai($_nome_pai) {
+    public function setnome_pai($_nome_pai)
+    {
         $this->_nome_pai = $_nome_pai;
         return $this;
     }
 
-    public function setnome_mae($_nome_mae) {
+    public function setnome_mae($_nome_mae)
+    {
         $this->_nome_mae = $_nome_mae;
         return $this;
     }
 
-    public function setcidade_natal($_cidade_natal) {
+    public function setcidade_natal($_cidade_natal)
+    {
         $this->_cidade_natal = $_cidade_natal;
         return $this;
     }
 
-    public function setestado_natal($_estado_natal) {
+    public function setestado_natal($_estado_natal)
+    {
         $this->_estado_natal = $_estado_natal;
         return $this;
     }
 
-    public function setacesso($_acesso) {
+    public function setacesso($_acesso)
+    {
         $this->_acesso = $_acesso;
         return $this;
     }
 
-    public function setendereco($_endereco) {
+    public function setendereco($_endereco)
+    {
         $this->_endereco = $_endereco;
         return $this;
     }
 
-    public function create() {
+    public function create()
+    {
         parent::create();
         $conexao = Conexao::getConnection();
         if ($conexao) {
@@ -200,18 +232,19 @@ class Aluno extends Usuario implements CrudInterface {
         }
     }
 
-    public static function read($key, $limite, Usuario $user) {
+    public static function read($key, $limite, Usuario $user)
+    {
         $conexao = Conexao::getConnection();
         if ($conexao) {
             if ($limite == 0) {
-                if ($key == NULL) {
+                if ($key == null) {
                     $pstmt = $conexao->prepare("SELECT * FROM funcionario");
                 } else {
                     $pstmt = $conexao->prepare("SELECT * FROM funcionario WHERE siape LIKE :siape");
                     $pstmt->bindParam(':siape', $key);
                 }
             } else {
-                if ($key == NULL) {
+                if ($key == null) {
                     $pstmt = $conexao->prepare("SELECT * FROM funcionario LIMIT :limite");
                 } else {
                     $pstmt = $conexao->prepare("SELECT * FROM funcionario WHERE siape LIKE :siape LIMIT :limite");
@@ -237,7 +270,8 @@ class Aluno extends Usuario implements CrudInterface {
         }
     }
 
-    public function update() {
+    public function update()
+    {
         $conexao = Conexao::getConnection();
         if ($conexao) {
             $pstmt = $conexao->prepare("UPDATE Funcionario SET siape=?, nome=?, bool_po=?, bool_oe=?, bool_ce=?, bool_sra=?, bool_root=?, formacao=?, privilegio=?, campus_cnpj=? where siape = ?");
@@ -256,7 +290,8 @@ class Aluno extends Usuario implements CrudInterface {
         }
     }
 
-    public function delete() {
+    public function delete()
+    {
         $conexao = Conexao::getConnection();
         if ($conexao) {
             $pstmt = $conexao->prepare("DELETE from funcionario WHERE siape LIKE ?");
@@ -274,5 +309,5 @@ class Aluno extends Usuario implements CrudInterface {
             return "Erro ao conectar com o banco de dados, tente novamente";
         }
     }
-    
 }
+?>
