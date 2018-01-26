@@ -1,7 +1,7 @@
 <?php
 
-require_once './util/CrudInterface.php';
-require_once './util/connect.php';
+require_once '/opt/lampp/htdocs/estajui/util/CrudInterface.php';
+require_once '/opt/lampp/htdocs/estajui/util/connect.php';
 
 /**
  * Description of Endereco
@@ -18,11 +18,9 @@ class Endereco implements CrudInterface
     private $_cidade;
     private $_uf;
     private $_cep;
-    private $_id_usuario;
 
-    public function __construct($_id, $_logradouro, $_bairro, $_numero, $_complemento, $_cidade, $_uf, $_cep, $_id_usuario)
+    public function __construct($_logradouro, $_bairro, $_numero, $_complemento, $_cidade, $_uf, $_cep)
     {
-        $this->_id = $_id;
         $this->_logradouro = $_logradouro;
         $this->_bairro = $_bairro;
         $this->_numero = $_numero;
@@ -30,14 +28,8 @@ class Endereco implements CrudInterface
         $this->_cidade = $_cidade;
         $this->_uf = $_uf;
         $this->_cep = $_cep;
-        $this->_id_usuario = $_id_usuario;
     }
 
-
-    public function getid_usuario()
-    {
-        return $this->_id_usuario;
-    }
 
 
     public function getid()
@@ -86,11 +78,7 @@ class Endereco implements CrudInterface
         return $this;
     }
 
-    public function setid_usuario($_id_usuario)
-    {
-        $this->_id_usuario = $_id_usuario ;
-        return $this;
-    }
+
     public function setlogradouro($_logradouro)
     {
         $this->_logradouro = $_logradouro;
@@ -143,15 +131,23 @@ class Endereco implements CrudInterface
                 $pstmt->execute(array($this->_logradouro, $this->_bairro, $this->_numero, $this->_complemento, $this->_cidade, $this->_uf, $this->_cep));
                 $conexao->commit();
                 $this->_id = $conexao->lastInsertId();
-                return "Usuario cadastrado com sucesso";
+                return true;//"Usuario cadastrado com sucesso";
             } catch (PDOExecption $e) {
                 $conexao->rollback();
                 #return "Error!: " . $e->getMessage() . "</br>";
-                return "Erro ao salvar no banco de dados, tente novamente";
+                return false;"Erro ao salvar no banco de dados, tente novamente";
             }
         } else {
             return "Erro ao conectar com o banco de dados, tente novamente";
         }
+    }
+
+    public function createOnTransaction($conexao)
+    {
+        $pstmt = $conexao->prepare("INSERT INTO endereco (logradouro, bairro, numero, complemento, cidade, uf, cep) VALUES(?, ?, ?, ?, ?, ?, ?)");
+        $pstmt->execute(array($this->_logradouro, $this->_bairro, $this->_numero, $this->_complemento, $this->_cidade, $this->_uf, $this->_cep));
+        echo "entrou"."<br>";
+        $this->_id = $conexao->lastInsertId();
     }
 
     public static function read($key, $limite)
@@ -232,4 +228,3 @@ class Endereco implements CrudInterface
         }
     }
 }
-?>

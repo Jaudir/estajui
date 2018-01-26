@@ -1,7 +1,11 @@
 <?php
 
-require_once './util/CrudInterface.php';
-require_once './util/connect.php';
+require_once $_SERVER['DOCUMENT_ROOT'].'/estajui/util/CrudInterface.php';
+require_once $_SERVER['DOCUMENT_ROOT'].'/estajui/util/connect.php';
+require_once $_SERVER['DOCUMENT_ROOT'].'/estajui/models/Usuario.php';
+
+#require_once './util/CrudInterface.php';
+#require_once './util/connect.php';
 
 /**
  * Description of Discente
@@ -26,26 +30,50 @@ class Aluno extends Usuario implements CrudInterface
     private $_acesso;
     private $_endereco;
 
-    public function __construct($login, $senha, $tipo, $_cpf, $_nome, $_datat_nasc, $_rg_num, $_rg_orgao, $_estado_civil, $_sexo, $_telefone, $_celular, $_nome_pai, $_nome_mae, $_cidade_natal, $_estado_natal, $_acesso, $_endereco)
-    {
-        parent::__construct($login, $senha, $tipo);
-        $this->_cpf = $_cpf;
-        $this->_nome = $_nome;
-        $this->_datat_nasc = $_datat_nasc;
-        $this->_rg_num = $_rg_num;
-        $this->_rg_orgao = $_rg_orgao;
-        $this->_estado_civil = $_estado_civil;
-        $this->_sexo = $_sexo;
-        $this->_telefone = $_telefone;
-        $this->_celular = $_celular;
-        $this->_nome_pai = $_nome_pai;
-        $this->_nome_mae = $_nome_mae;
-        $this->_cidade_natal = $_cidade_natal;
-        $this->_estado_natal = $_estado_natal;
-        $this->_acesso = $_acesso;
-        $this->_endereco = $_endereco;
+    public function __construct(){
+
     }
 
+    public static function fromDataBase($login, $senha, $tipo, $_cpf, $_nome, $_datat_nasc, $_rg_num, $_rg_orgao, $_estado_civil, $_sexo, $_telefone, $_celular, $_nome_pai, $_nome_mae, $_cidade_natal, $_estado_natal, $_acesso, $_endereco)
+    {
+        $instance = new self();
+        $instance->parent::__construct($login, $senha, $tipo);
+        $instance->_cpf = $_cpf;
+        $instance->_nome = $_nome;
+        $instance->_datat_nasc = $_datat_nasc;
+        $instance->_rg_num = $_rg_num;
+        $instance->_rg_orgao = $_rg_orgao;
+        $instance->_estado_civil = $_estado_civil;
+        $instance->_sexo = $_sexo;
+        $instance->_telefone = $_telefone;
+        $instance->_celular = $_celular;
+        $instance->_nome_pai = $_nome_pai;
+        $instance->_nome_mae = $_nome_mae;
+        $instance->_cidade_natal = $_cidade_natal;
+        $instance->_estado_natal = $_estado_natal;
+        $instance->_acesso = $_acesso;
+        $instance->_endereco = $_endereco;
+    }
+
+    public static function fromController($_cpf, $_nome, $_datat_nasc, $_rg_num, $_rg_orgao, $_estado_civil, $_sexo, $_telefone, $_celular, $_nome_pai, $_nome_mae, $_cidade_natal, $_estado_natal)
+    {
+        $instance = new self();
+        $instance->_cpf = $_cpf;
+        $instance->_nome = $_nome;
+        $instance->_datat_nasc = $_datat_nasc;
+        $instance->_rg_num = $_rg_num;
+        $instance->_rg_orgao = $_rg_orgao;
+        $instance->_estado_civil = $_estado_civil;
+        $instance->_sexo = $_sexo;
+        $instance->_telefone = $_telefone;
+        $instance->_celular = $_celular;
+        $instance->_nome_pai = $_nome_pai;
+        $instance->_nome_mae = $_nome_mae;
+        $instance->_cidade_natal = $_cidade_natal;
+        $instance->_estado_natal = $_estado_natal;
+        return $instance;
+
+  }
     public function getcpf()
     {
         return $this->_cpf;
@@ -231,7 +259,7 @@ class Aluno extends Usuario implements CrudInterface
             return "Erro ao conectar com o banco de dados, tente novamente";
         }
     }
-
+/**
     public static function read($key, $limite, Usuario $user)
     {
         $conexao = Conexao::getConnection();
@@ -269,7 +297,7 @@ class Aluno extends Usuario implements CrudInterface
             return "Erro ao conectar com o banco de dados, tente novamente";
         }
     }
-
+**/
     public function update()
     {
         $conexao = Conexao::getConnection();

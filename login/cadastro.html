@@ -30,7 +30,8 @@
               <h3>Cadastro</h3>
             </div>
           </div>
-          <form class="container" id="needs-validation" novalidate>
+          <form class="container" id="needs-validation" novalidate method="POST" action="../controllers/estudante/cadastro_controller.php">
+            <!--
             <div class="row">
               <div class="col-md-12 form-sub-title">
                 <h3>Dados pessoais do estudante</h3>
@@ -155,14 +156,16 @@
                     Preencha este campo.
                   </div>
                 </div>
+                -->
                 <div class="col-md-2 mb-2">
                   <label for="cep">CEP</label>
-                  <input type="text" class="form-control" id="cep" placeholder="99999-999" required>
+                  <input type="text" class="form-control" name="cep" id="cep" placeholder="99999-999" required>
                   <div class="invalid-feedback">
                     Por favor, informe um CEP válido.
                   </div>
                 </div>
               </div>
+              <!--
               <div class="row">
                 <div class="col-md-4 mb-3">
                   <label for="validationCustom15">Complemento</label>
@@ -197,6 +200,7 @@
                   <input type="text" class="form-control" id="telefone" placeholder="(DDD) 9999-9999">
                 </div>
               </div>
+            -->
             </section>
             <div class="row">
               <div class="col-md-12 form-sub-title">
@@ -204,6 +208,7 @@
               </div>
             </div>
             <section>
+            <!--
               <div class="row">
                 <div class="col-md-6 mb-3">
                   <label for="validationCustom20">Email</label>
@@ -236,6 +241,7 @@
                   </div>
                 </div>
               </div>
+            -->
             </section>
             <div class="row">
               <div class="col-md-12" style="margin-top: 30px;">
