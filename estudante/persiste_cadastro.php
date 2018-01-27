@@ -1,8 +1,5 @@
 <?php
 
-
-require_once $_SERVER['DOCUMENT_ROOT'].'/estajui/models/Endereco.php';
-require_once $_SERVER['DOCUMENT_ROOT'].'/estajui/models/Aluno.php';
 require_once $_SERVER['DOCUMENT_ROOT'].'/estajui/models/Usuario.php';
 require_once $_SERVER['DOCUMENT_ROOT'].'/estajui/util/String.php';
 require_once $_SERVER['DOCUMENT_ROOT'].'/estajui/util/connect.php';
@@ -72,7 +69,7 @@ if (isset($_POST['cadastrar'])) {
             $_SESSION['senha_erro2'] = true;
             unset($_SESSION['senha']);
             unset($_SESSION['senha_confirmacao']);
-            
+
             $erros++;
         }
     }
@@ -107,11 +104,11 @@ if (isset($_POST['cadastrar'])) {
                     unset($key);
                     unset($_SESSION[$key]);
                 }
-                header("Location:../../login/login.html");
+                header("Location:../login/login.html");
             } catch (PDOExecption $e) {
                 $conexao->rollback();
             }
         }
     }
 }
-header("Location:../../login/cadastro.php");
+header("Location: cadastro.php");
