@@ -12,7 +12,8 @@ require_once $_SERVER['DOCUMENT_ROOT'].'/estajui/util/connect.php';
  *
  * @author gabriel Lucas
  */
-class Usuario implements CrudInterface {
+class Usuario implements CrudInterface
+{
 
     /**
      * O e-mail do usuário para logar no sistema (chave primária).
@@ -53,7 +54,8 @@ class Usuario implements CrudInterface {
      * @return void Cconstrutor de classe, e por isso retorna void (nada)
      * @access public
      */
-    public function __construct($login, $senha, $tipo) {
+    public function __construct($login, $senha, $tipo)
+    {
         $this->_login = $login;
         $this->_senha = $senha;
         $this->_tipo = $tipo;
@@ -67,7 +69,8 @@ class Usuario implements CrudInterface {
      * @return string E-mail do usuário
      * @access public
      */
-    public function getlogin() {
+    public function getlogin()
+    {
         return $this->_login;
     }
 
@@ -79,7 +82,8 @@ class Usuario implements CrudInterface {
      * @return string Senha do usuário
      * @access public
      */
-    public function getsenha() {
+    public function getsenha()
+    {
         return $this->_senha;
     }
 
@@ -91,7 +95,8 @@ class Usuario implements CrudInterface {
      * @return int tipo do usuário
      * @access public
      */
-    public function gettipo() {
+    public function gettipo()
+    {
         return $this->_tipo;
     }
 
@@ -105,7 +110,8 @@ class Usuario implements CrudInterface {
      * @return string O novo valor de login (e-mail)
      * @access public
      */
-    public function setlogin($login) {
+    public function setlogin($login)
+    {
         $this->_login = $login;
         return $this;
     }
@@ -122,7 +128,8 @@ class Usuario implements CrudInterface {
      * @see Usuario::$_senha          Variável da senha
      * @see Usuario::generateSenha()  Método gerador de hash
      */
-    public function setsenha($senha) {
+    public function setsenha($senha)
+    {
         $this->_senha = $senha;
         return $this;
     }
@@ -138,12 +145,14 @@ class Usuario implements CrudInterface {
      * @access public
      * @see Usuario::$_tipo
      */
-    public function settipo($tipo) {
+    public function settipo($tipo)
+    {
         $this->_tipo = $tipo;
         return $this;
     }
 
-    public function create() {
+    public function create()
+    {
         $conexao = Conexao::getConnection();
         if ($conexao) {
             $pstmt = $conexao->prepare("INSERT INTO usuario (email, senha, tipo) VALUES(?,?, ?)");
@@ -168,18 +177,19 @@ class Usuario implements CrudInterface {
         $pstmt->execute(array($this->_login, $this->_senha, $this->_tipo));
     }
 
-    public static function read($key, $limite) {
+    public static function read($key, $limite)
+    {
         $conexao = Conexao::getConnection();
         if ($conexao) {
             if ($limite == 0) {
-                if ($key == NULL) {
+                if ($key == null) {
                     $pstmt = $conexao->prepare("SELECT * FROM usuario");
                 } else {
                     $pstmt = $conexao->prepare("SELECT * FROM usuario WHERE email LIKE :email");
                     $pstmt->bindParam(':email', $key);
                 }
             } else {
-                if ($key == NULL) {
+                if ($key == null) {
                     $pstmt = $conexao->prepare("SELECT * FROM usuario LIMIT :limite");
                 } else {
                     $pstmt = $conexao->prepare("SELECT * FROM usuario WHERE email LIKE :email LIMIT :limite");
@@ -205,7 +215,46 @@ class Usuario implements CrudInterface {
         }
     }
 
-    public function update() {
+
+
+
+    public static function updateOnDemand($tabela, $campos, $valores, $keys)
+    {
+        $sql = "UPDATE ".$tabela." SET ";
+        foreach ($campos as $atributo) {
+            $sql.=$atributo."=? ";
+        }
+        $sql.="where ";
+        $i = 0;
+        foreach ($keys as $key) {
+            if ($i>0) {
+                $sql.= " AND ";
+            }
+            $sql.=$key."=? ";
+            $i++;
+        }
+        echo $sql;
+      /*  $conexao = Conexao::getConnection();
+        if ($conexao) {
+            try {
+                $pstmt = $conexao->prepare($sql);
+                $conexao->beginTransaction();
+                $pstmt->execute($valores);
+                $conexao->commit();
+                return "Seus dados foram alterados com sucesso";
+            } catch (PDOExecption $e) {
+                $conexao->rollback();
+                return "Erro ao salvar no banco de dados, tente novamente";
+            }
+
+        } else {
+            return "Erro ao conectar com o banco de dados, tente novamente";
+        }
+        */
+    }
+
+    public function update()
+    {
         $conexao = Conexao::getConnection();
         if ($conexao) {
             $pstmt = $conexao->prepare("UPDATE usuario SET email=?, senha=?, tipo=? where email = ?");
@@ -224,7 +273,8 @@ class Usuario implements CrudInterface {
         }
     }
 
-    public function delete() {
+    public function delete()
+    {
         $conexao = Conexao::getConnection();
         if ($conexao) {
             $pstmt = $conexao->prepare("DELETE from usuario WHERE email LIKE ?");
@@ -254,7 +304,8 @@ class Usuario implements CrudInterface {
      * @access public
      * @see Usuario::$_senha          Variável da senha
      */
-    public static function generateSenha($senha) {
+    public static function generateSenha($senha)
+    {
         $options = [
             'cost' => 10,
         ];
@@ -272,12 +323,12 @@ class Usuario implements CrudInterface {
      * @return Usuario Login válido (Usuario), ou não (NULL)
      * @access public
      */
-    public static function validate($login, $senha) {
+    public static function validate($login, $senha)
+    {
         $user = Usuario::read($login, 1)[0];
         if ($login == $user->getlogin() && password_verify($senha, $user->getsenha())) {
             return $user;
         }
-        return NULL;
+        return null;
     }
-
 }

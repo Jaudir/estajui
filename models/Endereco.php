@@ -146,7 +146,6 @@ class Endereco implements CrudInterface
     {
         $pstmt = $conexao->prepare("INSERT INTO endereco (logradouro, bairro, numero, complemento, cidade, uf, cep) VALUES(?, ?, ?, ?, ?, ?, ?)");
         $pstmt->execute(array($this->_logradouro, $this->_bairro, $this->_numero, $this->_complemento, $this->_cidade, $this->_uf, $this->_cep));
-        echo "entrou"."<br>";
         $this->_id = $conexao->lastInsertId();
     }
 
