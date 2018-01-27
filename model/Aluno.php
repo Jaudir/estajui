@@ -12,7 +12,7 @@ class Aluno extends Usuario implements CrudInterface {
     
     private $_cpf;
     private $_nome;
-    private $_datat_nasc;
+    private $_data_nasc;
     private $_rg_num;
     private $_rg_orgao;
     private $_estado_civil;
@@ -26,11 +26,11 @@ class Aluno extends Usuario implements CrudInterface {
     private $_acesso;
     private $_endereco;
             
-    public function __construct($login, $senha, $tipo, $_cpf, $_nome, $_datat_nasc, $_rg_num, $_rg_orgao, $_estado_civil, $_sexo, $_telefone, $_celular, $_nome_pai, $_nome_mae, $_cidade_natal, $_estado_natal, $_acesso, $_endereco) {
+    public function __construct($login, $senha, $tipo, $_cpf, $_nome, $_data_nasc, $_rg_num, $_rg_orgao, $_estado_civil, $_sexo, $_telefone, $_celular, $_nome_pai, $_nome_mae, $_cidade_natal, $_estado_natal, $_acesso, $_endereco) {
         parent::__construct($login, $senha, $tipo);
         $this->_cpf = $_cpf;
         $this->_nome = $_nome;
-        $this->_datat_nasc = $_datat_nasc;
+        $this->_data_nasc = $_data_nasc;
         $this->_rg_num = $_rg_num;
         $this->_rg_orgao = $_rg_orgao;
         $this->_estado_civil = $_estado_civil;
@@ -54,7 +54,7 @@ class Aluno extends Usuario implements CrudInterface {
     }
 
     public function getdatat_nasc() {
-        return $this->_datat_nasc;
+        return $this->_data_nasc;
     }
 
     public function getrg_num() {
@@ -115,8 +115,8 @@ class Aluno extends Usuario implements CrudInterface {
         return $this;
     }
 
-    public function setdatat_nasc($_datat_nasc) {
-        $this->_datat_nasc = $_datat_nasc;
+    public function setdata_nasc($_data_nasc) {
+        $this->_data_nasc = $_data_nasc;
         return $this;
     }
 
@@ -184,12 +184,12 @@ class Aluno extends Usuario implements CrudInterface {
         parent::create();
         $conexao = Conexao::getConnection();
         if ($conexao) {
-            $pstmt = $conexao->prepare("INSERT INTO aluno (siape, nome, bool_po, bool_oe, bool_ce, bool_sra, bool_root, formacao, privilegio, usuario_email, campus_cnpj) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+            $pstmt = $conexao->prepare("INSERT INTO aluno (cpf, nome, data_nasc, rg_num, rg_orgao, estado_civil, sexo, telefone, celular, nome_pai, nome_mae, cidade_natal, estado_natal, acesso, usuario_email, endereco_id) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
             try {
                 $conexao->beginTransaction();
-                $pstmt->execute(array($this->_siape, $this->_nome, (int)$this->_po, (int)$this->_oe, (int)$this->_ce, (int)$this->_sra, (int)$this->_root, $this->_formacao, (int)$this->_privilegio, parent::getlogin(), $this->_campus->getcnpj()));
+                $pstmt->execute(array( $this->$_cpf, $this->$_nome, $this->$_data_nasc, $this->$_rg_num, $this->$_rg_orgao, $this->$_estado_civil, $this->$_sexo, $this->$_telefone, $this->$_celular, $this->$_nome_pai, $this->$_nome_mae, $this->$_cidade_natal, $this->$_estado_natal, $this->$_acesso, parent::getlogin(), $this->_endereco->getid()) );
                 $conexao->commit();
-                return "Funcionario cadastrado com sucesso";
+                return "Aluno cadastrado com sucesso";
             } catch (PDOExecption $e) {
                 $conexao->rollback();
                 #return "Error!: " . $e->getMessage() . "</br>";
@@ -205,17 +205,17 @@ class Aluno extends Usuario implements CrudInterface {
         if ($conexao) {
             if ($limite == 0) {
                 if ($key == NULL) {
-                    $pstmt = $conexao->prepare("SELECT * FROM funcionario");
+                    $pstmt = $conexao->prepare("SELECT * FROM aluno");
                 } else {
-                    $pstmt = $conexao->prepare("SELECT * FROM funcionario WHERE siape LIKE :siape");
-                    $pstmt->bindParam(':siape', $key);
+                    $pstmt = $conexao->prepare("SELECT * FROM aluno WHERE cpf LIKE :cpf");
+                    $pstmt->bindParam(':cpf', $key);
                 }
             } else {
                 if ($key == NULL) {
-                    $pstmt = $conexao->prepare("SELECT * FROM funcionario LIMIT :limite");
+                    $pstmt = $conexao->prepare("SELECT * FROM aluno LIMIT :limite");
                 } else {
-                    $pstmt = $conexao->prepare("SELECT * FROM funcionario WHERE siape LIKE :siape LIMIT :limite");
-                    $pstmt->bindParam(':siape', $key);
+                    $pstmt = $conexao->prepare("SELECT * FROM aluno WHERE cpf LIKE :cpf LIMIT :limite");
+                    $pstmt->bindParam(':cpf', $key);
                 }
                 $pstmt->bindParam(':limite', $limite, PDO::PARAM_INT);
             }
@@ -224,7 +224,7 @@ class Aluno extends Usuario implements CrudInterface {
                 $cont = 0;
                 $result = [];
                 while ($row = $pstmt->fetch()) {
-                    $result[$cont] = new Funcionario($user->getlogin(), $user->getsenha(), $user->gettipo(), $row["siape"], $row["nome"], boolval($row["bool_po"]), boolval($row["bool_oe"]), boolval($row["bool_ce"]), boolval($row["bool_sra"]), boolval($row["bool_root"]), $row["formacao"], boolval($row["privilegio"]), Campus::read($row["campus_cnpj"], 1));
+                    $result[$cont] = new Aluno($user->getlogin(), $user->getsenha(), $user->gettipo(), $row["cpf"], $row["nome"],  $row["data_nasc"],  $row["rg_num"],  $row["rg_orgao"],  $row["estado_civil"],  $row["sexo"],  $row["telefone"],  $row["celular"],  $row["nome_pai"],  $row["nome_mae"],  $row["cidade_natal"],  $row["estado_natal"], boolval($row["acesso"]), Endereco::read( $row["endereco_id"]));
                     $cont++;
                 }
                 return $result;
@@ -237,13 +237,13 @@ class Aluno extends Usuario implements CrudInterface {
         }
     }
 
-    public function update() {
+    public function update() { 
         $conexao = Conexao::getConnection();
         if ($conexao) {
-            $pstmt = $conexao->prepare("UPDATE Funcionario SET siape=?, nome=?, bool_po=?, bool_oe=?, bool_ce=?, bool_sra=?, bool_root=?, formacao=?, privilegio=?, campus_cnpj=? where siape = ?");
+            $pstmt = $conexao->prepare("UPDATE Aluno SET nome=?, rg_orgao=?, estado_civil=?, sexo=?, telefone=?, celular=?, nome_pai=?, nome_mae=?, cidade_natal=?, estado_natal=?, acesso=?, endereco_id=? where cpf = ?");
             try {
                 $conexao->beginTransaction();
-                $pstmt->execute(array($this->_siape, $this->_nome, (int)$this->_po, (int)$this->_oe, (int)$this->_ce, (int)$this->_sra, (int)$this->_root, $this->_formacao, (int)$this->_privilegio, parent::getlogin(), $this->_campus->getcnpj(), $this->_siape));
+                $pstmt->execute(array($this->$_nome, $this->$_rg_orgao, $this->$_estado_civil, $this->$_sexo, $this->$_telefone, $this->$_celular, $this->$_nome_pai, $this->$_nome_mae,$this->$_cidade_natal, $this->$_estado_natal,  $this->$_acesso, $this->$_endereco->getid()));
                 $conexao->commit();
                 return parent::update();
             } catch (PDOExecption $e) {
@@ -256,13 +256,15 @@ class Aluno extends Usuario implements CrudInterface {
         }
     }
 
-    public function delete() {
+    public function delete() { #necessario deletar o usuario tbm?
         $conexao = Conexao::getConnection();
         if ($conexao) {
-            $pstmt = $conexao->prepare("DELETE from funcionario WHERE siape LIKE ?");
+            $pstmt_endereco = $conexao->prepare("DELETE from endereco WHERE id LIKE ?");
+            $pstmt_aluno = $conexao->prepare("DELETE from aluno WHERE cpf LIKE ?");
             try {
                 $conexao->beginTransaction();
-                $pstmt->execute(array($this->_siape));
+                $pstmt_endereco->execute(array($this->_endereco->getid()));
+                $pstmt_aluno->execute(array($this->_cpf));
                 $conexao->commit();
                 return parent::delete();
             } catch (PDOExecption $e) {
