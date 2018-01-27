@@ -1,0 +1,269 @@
+drop database if exists estajui;
+create database estajui;
+
+use estajui;
+
+
+create table endereco(
+	id int auto_increment primary key,
+	logradouro varchar(50),
+	bairro varchar(30),
+	numero int,
+	complemento varchar(10),
+	cidade varchar(30),
+	uf char(2),
+	cep numeric(8)
+);
+
+create table empresa (
+	cnpj numeric(14) primary key,
+	nome varchar(40),
+	telefone numeric(11),
+	fax numeric(10),
+	nregistro numeric(8), 
+	conselhofiscal varchar(30), 
+	endereco_id int,
+	foreign key(endereco_id) references endereco(id)
+);
+
+create table responsavel(
+	email varchar(50) primary key,
+	nome varchar(50),
+	telefone numeric(11),
+	cargo varchar(20),
+	empresa_cnpj numeric(14),
+	foreign key(empresa_cnpj) references empresa(cnpj)
+);
+
+create table supervisor(
+	id int auto_increment primary key,
+	nome varchar(50),
+	cargo varchar(20),
+	habilitacao varchar(100),
+	empresa_cnpj numeric(14),
+	foreign key(empresa_cnpj) references empresa(cnpj)
+);
+
+create table campus(
+	cnpj numeric(14) primary key,
+	telefone numeric(11),
+	endereco_id int,
+	foreign key(endereco_id) references endereco(id)
+);
+
+create table curso(
+	id int auto_increment primary key,
+	nome varchar(40),
+	turno varchar(10),
+	campus_cnpj numeric(11),
+	foreign key(campus_cnpj) references campus(cnpj)
+);
+
+create table status(
+	codigo int auto_increment primary key,
+	descricao varchar(170),
+	bitmap_usuarios_alvos varchar(5) /* Aluno PO OE CE SRA*/
+);
+
+create table usuario(
+	email varchar(50) primary key,
+	senha varchar(256) NOT NULL,
+	tipo int
+);
+
+create table funcionario(
+	siape numeric(9) primary key,
+	nome varchar(50),
+	bool_po int, 
+bool_oe int, 	
+bool_ce int, 	
+bool_sra int, 	
+bool_root int,
+	formacao varchar(100),
+	privilegio int,
+	usuario_email varchar(50),
+	campus_cnpj numeric(14),
+	foreign key(usuario_email) references usuario(email),
+	foreign key(campus_cnpj) references campus(cnpj)
+);
+
+create table aluno(
+	cpf numeric(11) primary key,
+	nome varchar(50),
+	data_nasc date,
+	rg_num varchar(15),
+	rg_orgao varchar(14),
+	estado_civil varchar(10),
+	sexo char(10),
+	telefone numeric(11),
+	celular numeric(11),
+	nome_pai varchar(50),
+	nome_mae varchar(50),
+	cidade_natal varchar(30),
+	estado_natal char(2),
+	acesso int,
+	usuario_email varchar(50),
+	endereco_id int,
+	foreign key(usuario_email) references usuario(email),
+	foreign key(endereco_id) references endereco(id)
+);
+
+create table aluno_estuda_curso(
+	matricula int unique primary key,
+	semestre_inicio int,
+	ano_inicio int,
+	curso_id int,
+	aluno_cpf numeric(11),
+	foreign key(curso_id) references curso(id),
+	foreign key(aluno_cpf) references aluno (cpf)
+);
+
+create table estagio(
+	id int auto_increment primary key,
+	bool_aprovado int,
+	bool_obrigatorio int,
+	periodo int,
+	serie int,
+	modulo int,
+	integ_ano numeric(4),
+	integ_semestre numeric(1),
+	dependencias varchar(200),
+	justificativa varchar(150),
+	endereco_tc varchar(30),
+	endereco_pe varchar(30),
+	aluno_cpf numeric(11),
+	empresa_cnpj numeric(14),
+	curso_id int,
+	po_siape numeric(9),
+	status_codigo int,
+	foreign key(po_siape) references funcionario(siape),
+	foreign key(aluno_cpf ) references aluno(cpf),
+	foreign key(empresa_cnpj) references empresa(cnpj),	
+	foreign key(curso_id) references curso(id),
+	foreign key(status_codigo) references status(codigo)
+);
+
+create table modifica_status(
+    id int auto_increment primary key,
+    data date,	
+    estagio_id int,
+    status_codigo int,
+    usuario_email varchar(50),
+    foreign key(estagio_id) references estagio(id),
+    foreign key(status_codigo ) references status(codigo),
+    foreign key(usuario_email) references usuario(email)	
+);
+
+
+create table notificacao(
+	id int auto_increment primary key,
+	lida char,
+	modifica_status_id int,
+	foreign key(modifica_status_id) references modifica_status(id)
+);
+
+create table comentario_pe(
+	id int auto_increment primary key,
+	data date,
+	descricao varchar(1000),
+	endereco_correcao varchar(30),
+	estagio_id int,
+	po_siape numeric(9),
+	foreign key(po_siape) references funcionario(siape),
+	foreign key(estagio_id) references estagio(id)
+);
+
+create table plano_estagio(
+	estagio_id int primary key, 
+	data_assinatura date,
+	atividades varchar(100),
+	remuneracao real,
+	vale_transporte real,
+	data_ini date,
+	data_fim date,
+	hora_inicio1 timestamp default now(),
+	hora_inicio2 timestamp default now(),
+	hora_fim1 timestamp default now(),
+	hora_fim2 timestamp default now(),
+	total_horas timestamp default now(),
+	data_efetivacao date,
+	foreign key(estagio_id) references estagio(id)
+);
+
+create table organiza_curso (
+	oe_siape numeric(9),
+	curso_id int,
+	campus_cnpj numeric(14),
+	primary key(oe_siape, curso_id, campus_cnpj),
+	foreign key(oe_siape) references funcionario(siape),
+	foreign key(curso_id) references curso(id),
+foreign key(campus_cnpj) references campus(cnpj)
+);
+
+create table apolice(
+	numero varchar(50) primary key,
+	estagio_id int,
+	seguradora varchar(50),
+	foreign key(estagio_id) references estagio(id)
+);
+
+create table relatorio(
+	id int auto_increment primary key,
+	endereco varchar(30),
+	data_envio date,
+	estagio_id int,
+	foreign key(estagio_id) references estagio(id)
+);
+
+create table comentario_relatorio(
+	id int auto_increment primary key,
+	data date,
+	descricao varchar(1000),
+	relatorio_id int,
+	po_siape numeric(9),
+	foreign key(po_siape) references funcionario(siape),
+	foreign key(relatorio_id) references relatorio(id)
+);
+
+create table orienta_estagio (
+    estagio_id int,
+    po_siape numeric(9),
+    foreign key(po_siape) references funcionario(siape),
+    foreign key(estagio_id) references estagio(id)
+);
+
+create table oferece_curso (
+	id int auto_increment primary key,
+	turno varchar(10),
+curso_id int,
+campus_cnpj numeric(14),
+foreign key(campus_cnpj) references campus(cnpj),
+foreign key(curso_id) references curso(id)
+);
+
+create table leciona (
+	po_siape numeric(9),
+	oferece_curso_id int,
+	primary key(po_siape, oferece_curso_id),
+	foreign key(po_siape) references funcionario(siape),
+	foreign key(oferece_curso_id) references oferece_curso(id)
+);
+
+create table organiza (
+	email_oe varchar(50),
+	oferece_curso_id int,
+	primary key(email_oe, oferece_curso_id),
+	foreign key(oferece_curso_id) references oferece_curso(id)
+);
+
+insert into status (descricao) values ("Aguardando parecer da secretaria");
+insert into status (descricao) values ("Estágio deferido pela secretaria");
+insert into status (descricao) values ("Aguardando definição do Professor orientador");
+insert into status (descricao) values ("Professor orientador definido. Aguardando que o estudante encaminhe à Coordenadoria de Extensão os documentos (TC, PE, *Minuta de convênio) devidamente assinados");
+insert into status (descricao) values ("Aguardando que o estudante retire os documentos na Coordenadoria de Extensão e os encaminhe a secretaria");
+insert into status (descricao) values ("Início de Estágio Autorizado. Aguardando que o estudante submeta o relatório de estágio");
+insert into status (descricao) values ("Aguardando correção do relatório de estágio");
+insert into status (descricao) values ("Relatório de estágio aprovado. Aguardando que o estudante encaminhe o relatório de estágio para a Coordenadoria de Extensão");
+insert into status (descricao) values ("Relatório Final de Estágio e Declaração de Conclusão do Estágio enviados à Secretaria");
+insert into status (descricao) values ("Estágio concluído");
+
