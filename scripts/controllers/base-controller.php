@@ -3,15 +3,19 @@
 require_once('configs.php');
 
 function base_url(){
+    global $configs;
     return $configs['BASE_URL'];
 }
 
 function loadModel($modelFile, $modelClassName){
-    require_once('Sistema/' . $this->configs['MODELS_DIR'] . '/' . $modelFile . '.php');
+    global $configs;
+    global $DB;
+    require_once($configs['MODELS_DIR'] . '/' . $modelFile . '.php');
 
+    //instancia o model
     $M = new $modelClassName;
 
-    if($M->init($this->configs['DB'])){
+    if($M->init($DB)){
         return $M;
     }
 
@@ -19,17 +23,27 @@ function loadModel($modelFile, $modelClassName){
 }
 
 function loadView($viewFile){
-    require_once('Sistema/' . $this->configs['VIEWS_DIR'] . '/' . $view . '.php');
+    global $configs;
+    require_once($configs['VIEWS_DIR'] . '/' . $view . '.php');
+}
+
+function loadDAO($daoFile){
+    global $configs;
+    require_once($configs['DAOS_DIR'] . '/' . $daoFile . '.php');
+
+    //não instancia a classe
+    return true;
 }
 
 function loadUtil($utilFile, $utilClassName = null){
-    require_once('Sistema/' . $this->configs['UTILS_DIR'] . '/' . $utilFile . '.php');
+    global $configs;
+    require_once($configs['UTILS_DIR'] . '/' . $utilFile . '.php');
 
     //carrega uma classe específica
     if($utilClassName != null){
         $M = new $utilClassName;
 
-        if($M->init($this->configs['DB'])){
+        if($M->init($configs['DB'])){
             return $M;
         }else{
             return null;

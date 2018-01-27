@@ -6,10 +6,11 @@ if (isset($_POST['cadastrar'])) {
     //carregar arquivo da pasta util e model para cadastrar o aluno
     loadUtil('String');
     loadModel('aluno-model', 'AlunoModel');
+    loadDao('Aluno');
 
     session_start();
     //talvez seja uma boa inicializar o aluno pelo post(não no construtor, mas em um método init():bool)
-    $aluno = new Aluno();
+    $aluno = new Aluno(null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
 
     $aluno->_cpf=filter_var($_POST['cpf'], FILTER_SANITIZE_NUMBER_INT);
     $aluno->_nome=LimpaString::limpar($_POST['nome']);
@@ -48,13 +49,13 @@ if (isset($_POST['cadastrar'])) {
 
     $erros = 0;
     $notificao_erros = array();
-    if (!filter_var($_login, FILTER_VALIDATE_EMAIL)) {
+    if (!filter_var($aluno->_login, FILTER_VALIDATE_EMAIL)) {
         $_SESSION['email_erro1'] = true;
         unset($_SESSION['email']);
         unset($_SESSION['email_confirmacao']);
         $erros++;
     } else {
-        if (strcmp($_login, $_login_confirmacao)!=0) {
+        if (strcmp($aluno->_login, $aluno->_login_confirmacao)!=0) {
             $_SESSION['email_erro2'] = "Os emails informados não são iguais.";
             unset($_SESSION['email']);
             unset($_SESSION['email_confirmacao']);
@@ -62,13 +63,13 @@ if (isset($_POST['cadastrar'])) {
         }
     }
 
-    if (strcmp($_senha, $_senha_confirmacao)!=0) {
+    if (strcmp($aluno->_senha, $aluno->_senha_confirmacao)!=0) {
         $_SESSION['senha_erro1'] = "As senhas não iguais.";
         unset($_SESSION['senha']);
         unset($_SESSION['senha_confirmacao']);
         $erros++;
     } else {
-        if (strlen($_senha)<8) {
+        if (strlen($aluno->_senha)<8) {
             $_SESSION['senha_erro2'] = true;
             unset($_SESSION['senha']);
             unset($_SESSION['senha_confirmacao']);
@@ -77,16 +78,16 @@ if (isset($_POST['cadastrar'])) {
         }
     }
 
-    $model = loadModel('aluno-model');
+    $model = loadModel('aluno-model', 'AlunoModel');
     if($model != null){
         if($model->cadastrar($aluno)){
-            header("Location:../login/login.html");
+            redirect(base_url() . '/estajui/login/login.html');
         }else{
-            echo "ERROR MESSAGE!!!"
+            echo "ERROR MESSAGE!!!";
         }
     }else{
         echo "ERROR MESSAGE!!!";
     }
 }
 //header("Location: cadastro.php");
-redirect('cadastro.php');
+redirect(base_url() . '/estajui/login/cadastro.php');

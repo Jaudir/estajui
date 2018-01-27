@@ -34,7 +34,7 @@
               <h3>Cadastro</h3>
             </div>
           </div>
-          <form class="container" id="needs-validation" novalidate method="POST" action="persiste_cadastro.php">
+          <form class="container" id="needs-validation" novalidate method="POST" action="http://localhost/estajui/scripts/controllers/persiste_cadastro.php">
 
             <div class="row">
               <div class="col-md-12 form-sub-title">

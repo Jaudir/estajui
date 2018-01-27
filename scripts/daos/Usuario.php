@@ -1,7 +1,6 @@
 <?php
 
-require_once './util/CrudInterface.php';
-require_once './util/connect.php';
+require_once 'CrudInterface.php';
 
 /**
  * Representação de um usuário para o sistema.
@@ -18,7 +17,7 @@ class Usuario implements CrudInterface {
      * @var string Utilizada para a verificação de login
      * @access private
      */
-    private $_login;
+    public $_login;
 
     /**
      *  A senha (hash) do usuário para logar no sistema.
@@ -29,7 +28,7 @@ class Usuario implements CrudInterface {
      * @var string Utilizada para a verificação de login
      * @access private
      */
-    private $_senha;
+    public $_senha;
 
     /**
      * Indicador de tipo de login
@@ -39,7 +38,7 @@ class Usuario implements CrudInterface {
      * @var int Utilizada para identificar o tipo de usuário
      * @access private
      */
-    private $_tipo;
+    public $_tipo;
 
     /**
      * Construtor de Usuário
@@ -137,100 +136,6 @@ class Usuario implements CrudInterface {
     public function settipo($tipo) {
         $this->_tipo = $tipo;
         return $this;
-    }
-
-    public function create() {
-        $conexao = Conexao::getConnection();
-        if ($conexao) {
-            $pstmt = $conexao->prepare("INSERT INTO usuario (email, senha, tipo) VALUES(?,?, ?)");
-            try {
-                $conexao->beginTransaction();
-                $pstmt->execute(array($this->_login, $this->_senha, $this->_tipo));
-                $conexao->commit();
-                return "Usuario cadastrado com sucesso";
-            } catch (PDOExecption $e) {
-                $conexao->rollback();
-                #return "Error!: " . $e->getMessage() . "</br>";
-                return "Erro ao salvar no banco de dados, tente novamente";
-            }
-        } else {
-            return "Erro ao conectar com o banco de dados, tente novamente";
-        }
-    }
-
-    public static function read($key, $limite) {
-        $conexao = Conexao::getConnection();
-        if ($conexao) {
-            if ($limite == 0) {
-                if ($key == NULL) {
-                    $pstmt = $conexao->prepare("SELECT * FROM usuario");
-                } else {
-                    $pstmt = $conexao->prepare("SELECT * FROM usuario WHERE email LIKE :email");
-                    $pstmt->bindParam(':email', $key);
-                }
-            } else {
-                if ($key == NULL) {
-                    $pstmt = $conexao->prepare("SELECT * FROM usuario LIMIT :limite");
-                } else {
-                    $pstmt = $conexao->prepare("SELECT * FROM usuario WHERE email LIKE :email LIMIT :limite");
-                    $pstmt->bindParam(':email', $key);
-                }
-                $pstmt->bindParam(':limite', $limite, PDO::PARAM_INT);
-            }
-            try {
-                $pstmt->execute();
-                $cont = 0;
-                $result = [];
-                while ($row = $pstmt->fetch()) {
-                    $result[$cont] = new Usuario($row["email"], $row["senha"], $row["tipo"]);
-                    $cont++;
-                }
-                return $result;
-            } catch (PDOExecption $e) {
-                #return "Error!: " . $e->getMessage() . "</br>";
-                return "Erro ao consultar o banco de dados, tente novamente";
-            }
-        } else {
-            return "Erro ao conectar com o banco de dados, tente novamente";
-        }
-    }
-
-    public function update() {
-        $conexao = Conexao::getConnection();
-        if ($conexao) {
-            $pstmt = $conexao->prepare("UPDATE usuario SET email=?, senha=?, tipo=? where email = ?");
-            try {
-                $conexao->beginTransaction();
-                $pstmt->execute(array($this->_login, $this->_senha, $this->_tipo, $this->_login));
-                $conexao->commit();
-                return "Seus dados foram alterados com sucesso";
-            } catch (PDOExecption $e) {
-                $conexao->rollback();
-                #return "Error!: " . $e->getMessage() . "</br>";
-                return "Erro ao salvar no banco de dados, tente novamente";
-            }
-        } else {
-            return "Erro ao conectar com o banco de dados, tente novamente";
-        }
-    }
-
-    public function delete() {
-        $conexao = Conexao::getConnection();
-        if ($conexao) {
-            $pstmt = $conexao->prepare("DELETE from usuario WHERE email LIKE ?");
-            try {
-                $conexao->beginTransaction();
-                $pstmt->execute(array($this->_login));
-                $conexao->commit();
-                return "O usuário " . $this->_login . " foi excluido com sucesso";
-            } catch (PDOExecption $e) {
-                $conexao->rollback();
-                #return "Error!: " . $e->getMessage() . "</br>";
-                return "Erro ao deletar no banco de dados, tente novamente";
-            }
-        } else {
-            return "Erro ao conectar com o banco de dados, tente novamente";
-        }
     }
 
     /**
