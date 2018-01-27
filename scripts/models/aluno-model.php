@@ -12,19 +12,15 @@ class AlunoModel extends MainModel{
             $pstmt = $this->conn->prepare("INSERT INTO endereco (logradouro, bairro, numero, complemento, cidade, uf, cep) VALUES(?, ?, ?, ?, ?, ?, ?)");
             $pstmt->execute(array($aluno->_logradouro, $aluno->_bairro, $aluno->_numero, $aluno->_complemento, $aluno->_cidade, $aluno->_uf, $aluno->_cep));
 
-            $endereco_id = $this->conn->lastInsertId();
-
+            $aluno->endereco_id = $this->conn->lastInsertId();
 
             $pstmt = $this->conn->prepare(" INSERT INTO aluno (nome, estado_natal, cidade_natal, data_nasc, nome_pai, nome_mae, estado_civil, sexo, rg_num, rg_orgao, cpf, telefone, celular, usuario_email, endereco_id) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
             $pstmt->execute(array($aluno->_nome,$aluno->_estado_natal,$aluno->_cidade_natal,$aluno->_data_nasc,$aluno->_nome_pai,$aluno->_nome_mae,$aluno->_estado_civil,$aluno->_sexo,$aluno->_rg_num,$aluno->_rg_orgao,$aluno->_cpf,$aluno->_telefone,$aluno->_celular,$aluno->_login,$aluno->endereco_id));
-            $this->conn->commit();
-            // apaga as variáveis do $_POST
-            foreach ($_POST as $key) {
-                unset($key);
-                unset($_SESSION[$key]);
-            }
+            
+            return $this->conn->commit();
         } catch (PDOExecption $e) {
             $this->conn->rollback();
+            return false;
         }
     }
 }

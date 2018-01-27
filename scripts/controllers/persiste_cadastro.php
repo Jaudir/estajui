@@ -38,14 +38,7 @@ if (isset($_POST['cadastrar'])) {
     $aluno->_login_confirmacao= LimpaString::limpar($_POST['email_confirmacao']);
     $aluno->_senha= $_POST['senha'];
     $aluno->_senha_confirmacao= $_POST['senha_confirmacao'];
-    $aluno->_tipo = 1;//Aluno
-
-
-
-    //uooooooot?? guarda tudo do post na session? :SSS
-    foreach ($_POST as $key => $value) {
-        $_SESSION[$key] = $value;
-    }
+    $aluno->_tipo = 1;
 
     $erros = 0;
     $notificao_erros = array();
