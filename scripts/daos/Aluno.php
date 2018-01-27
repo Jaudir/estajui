@@ -25,7 +25,7 @@ class Aluno extends Usuario implements CrudInterface {
     private $_estado_natal;
     private $_acesso;
     private $_endereco;
-            
+
     public function __construct($login, $senha, $tipo, $_cpf, $_nome, $_datat_nasc, $_rg_num, $_rg_orgao, $_estado_civil, $_sexo, $_telefone, $_celular, $_nome_pai, $_nome_mae, $_cidade_natal, $_estado_natal, $_acesso, $_endereco) {
         parent::__construct($login, $senha, $tipo);
         $this->_cpf = $_cpf;

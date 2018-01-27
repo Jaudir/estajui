@@ -1,18 +1,19 @@
 <?php
 
 require_once('base-constroller.php');
-require_once('../models/empresa.php');
 
 if(!isset($_POST['veredito']) || !isset($_POST['just'])){
     header('');
 }else{
+    /*verificar a sessão de CE*/
+
     $verdict = $_POST['veredito'];
     $justf = $_POST['just'];
 
-    $model = new EmpresaModel();
-    if($model->init($db)){
+    $model = loadModel('empresa');
+    if($model != null){
         if($model->alterarConvenio($verdict, $justf)){
-            header();
+            redirect(base_url());
         }
     }
 }

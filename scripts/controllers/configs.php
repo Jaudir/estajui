@@ -1,6 +1,14 @@
 <?php
 
-//mais configs aqui(setar constantes com nomes de diretórios, etc.)
+/*Definir constantes que serão usadas em controllers e models
+Este arquivo é incluido no controller base
+*/
+
+$configs['BASE_URL'] = 'http://localhost'
+$configs['CONTROLLERS_DIR'] = '.';
+$configs['MODELS_DIR'] = '../models';
+$configs['VIEWS_DIR'] = '../../estajui';
+$configs['UTILS_DIR'] = '../util/';
 
 $DB['SERVER'] = 'localhost';
 $DB['NAME'] = 'estajui';
