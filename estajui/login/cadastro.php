@@ -2,8 +2,6 @@
 
 <?php
   session_start();
-  if(!empty($_SESSION['sucesso_aluno'])) echo "sucesso";
-  unset($_SESSION['sucesso_aluno']);
 ?>
 <html>
   <head>
