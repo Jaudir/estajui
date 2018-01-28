@@ -1,35 +1,37 @@
 <?php
 
 require_once 'Usuario.php';
-
+require_once 'Endereco.php';
 /**
  * Description of Discente
  *
  * @author gabriel Lucas
  */
 class Aluno extends Usuario implements CrudInterface {
-    
-    public $_cpf;
-    public $_nome;
-    public $_datat_nasc;
-    public $_rg_num;
-    public $_rg_orgao;
-    public $_estado_civil;
-    public $_sexo;
-    public $_telefone;
-    public $_celular;
-    public $_nome_pai;
-    public $_nome_mae;
-    public $_cidade_natal;
-    public $_estado_natal;
-    public $_acesso;
-    public $_endereco;
 
-    public function __construct($login, $senha, $tipo, $_cpf, $_nome, $_datat_nasc, $_rg_num, $_rg_orgao, $_estado_civil, $_sexo, $_telefone, $_celular, $_nome_pai, $_nome_mae, $_cidade_natal, $_estado_natal, $_acesso, $_endereco) {
+    private $_cpf;
+    private $_nome;
+    private $_data_nasc;
+    private $_rg_num;
+    private $_rg_orgao;
+    private $_estado_civil;
+    private $_sexo;
+    private $_telefone;
+    private $_celular;
+    private $_nome_pai;
+    private $_nome_mae;
+    private $_cidade_natal;
+    private $_estado_natal;
+    private $_acesso;
+    private $_endereco_id;
+    public $endereco;
+
+    public function __construct($login, $senha, $tipo, $_cpf, $_nome, $_data_nasc, $_rg_num, $_rg_orgao, $_estado_civil, $_sexo, $_telefone, $_celular, $_nome_pai, $_nome_mae, $_cidade_natal, $_estado_natal, $_acesso, $endereco) {
         parent::__construct($login, $senha, $tipo);
+        $this->endereco = $endereco;
         $this->_cpf = $_cpf;
         $this->_nome = $_nome;
-        $this->_datat_nasc = $_datat_nasc;
+        $this->_data_nasc = $_data_nasc;
         $this->_rg_num = $_rg_num;
         $this->_rg_orgao = $_rg_orgao;
         $this->_estado_civil = $_estado_civil;
@@ -40,10 +42,8 @@ class Aluno extends Usuario implements CrudInterface {
         $this->_nome_mae = $_nome_mae;
         $this->_cidade_natal = $_cidade_natal;
         $this->_estado_natal = $_estado_natal;
-        $this->_acesso = $_acesso;
-        $this->_endereco = $_endereco;
     }
-    
+
     public function getcpf() {
         return $this->_cpf;
     }
@@ -52,8 +52,8 @@ class Aluno extends Usuario implements CrudInterface {
         return $this->_nome;
     }
 
-    public function getdatat_nasc() {
-        return $this->_datat_nasc;
+    public function getdata_nasc() {
+        return $this->_data_nasc;
     }
 
     public function getrg_num() {
@@ -101,7 +101,11 @@ class Aluno extends Usuario implements CrudInterface {
     }
 
     public function getendereco() {
-        return $this->_endereco;
+        return $this->endereco;
+    }
+
+    public function getendereco_id() {
+        return $this->_endereco_id;
     }
 
     public function setcpf($_cpf) {
@@ -114,8 +118,8 @@ class Aluno extends Usuario implements CrudInterface {
         return $this;
     }
 
-    public function setdatat_nasc($_datat_nasc) {
-        $this->_datat_nasc = $_datat_nasc;
+    public function setdata_nasc($_data_nasc) {
+        $this->_data_nasc = $_data_nasc;
         return $this;
     }
 
@@ -174,8 +178,8 @@ class Aluno extends Usuario implements CrudInterface {
         return $this;
     }
 
-    public function setendereco($_endereco) {
-        $this->_endereco = $_endereco;
+    public function setendereco_id($_endereco_id) {
+        $this->_endereco_id = $_endereco_id;
         return $this;
     }
 }

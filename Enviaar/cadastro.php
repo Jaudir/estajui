@@ -2,21 +2,19 @@
 
 <?php
   session_start();
-  if(!empty($_SESSION['sucesso_aluno'])) echo "sucesso";
-  unset($_SESSION['sucesso_aluno']);
 ?>
 <html>
   <head>
     <meta charset="utf-8">
     <title>Cadastro</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
-    <link rel="stylesheet" href="../../assets/css/main.css">
+    <link rel="stylesheet" href="../css/main.css">
   </head>
   <body>
     <div class="container-fluid">
       <nav class="navbar navbar-expand-lg navbar-light nav-menu">
         <a class="navbar-brand" href="#">
-          <img src="../assets/img/logo.png" height="42" class="d-inline-block align-top" alt="">
+          <img src="../img/logo.png" height="42" class="d-inline-block align-top" alt="">
         </a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
@@ -36,7 +34,7 @@
               <h3>Cadastro</h3>
             </div>
           </div>
-          <form class="container" id="needs-validation" novalidate method="POST" action="http://localhost/estajui/scripts/controllers/persiste_cadastro.php">
+          <form class="container" id="needs-validation" novalidate method="POST" action="persiste_cadastro.php">
 
             <div class="row">
               <div class="col-md-12 form-sub-title">

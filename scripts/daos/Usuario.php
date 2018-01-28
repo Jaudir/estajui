@@ -11,38 +11,39 @@ class Usuario implements CrudInterface {
 
     /**
      * O e-mail do usuário para logar no sistema (chave primária).
-     * 
+     *
      * Deve ser checado quanto a validade do BD ( máximo de 50 caracteres, caracteristica de email e caracteres inválidos) antes de entregue a classe.
-     * 
+     *
      * @var string Utilizada para a verificação de login
      * @access private
      */
-    public $_login;
-
+    private $_login;
+    private $_login_confirmacao;
+    private $_senha_confirmacao;
     /**
      *  A senha (hash) do usuário para logar no sistema.
-     * 
+     *
      * Deve ser checado quanto a validade do BD (256 caracteres e caracteres inválidos) antes de entregue a classe, além de utilizar o método
      * generateSenha() ao salvar pela primeira vez para gerar o hash seguro.
-     * 
+     *
      * @var string Utilizada para a verificação de login
      * @access private
      */
-    public $_senha;
+    private $_senha;
 
     /**
      * Indicador de tipo de login
-     * 
+     *
      * É gerenciada pelo sistema e indica se o usuário é um discente (1) ou funcionario (2)
-     * 
+     *
      * @var int Utilizada para identificar o tipo de usuário
      * @access private
      */
-    public $_tipo;
+    private $_tipo;
 
     /**
      * Construtor de Usuário
-     * 
+     *
      * Inicia o objeto e define seus valores (login, senha e tipo)
      *
      * @return void Cconstrutor de classe, e por isso retorna void (nada)
@@ -56,9 +57,9 @@ class Usuario implements CrudInterface {
 
     /**
      * Getter de login
-     * 
+     *
      * Devolve o e-mail do usuario
-     * 
+     *
      * @return string E-mail do usuário
      * @access public
      */
@@ -68,9 +69,9 @@ class Usuario implements CrudInterface {
 
     /**
      * Getter de senha
-     * 
+     *
      * Devolve o hash da senha do usuario
-     * 
+     *
      * @return string Senha do usuário
      * @access public
      */
@@ -80,9 +81,9 @@ class Usuario implements CrudInterface {
 
     /**
      * Getter de tipo
-     * 
+     *
      * Devolve o tipo de login do usuario
-     * 
+     *
      * @return int tipo do usuário
      * @access public
      */
@@ -92,11 +93,11 @@ class Usuario implements CrudInterface {
 
     /**
      * Setter de login
-     * 
+     *
      * Define o valor de login (e-mail) do usuário
-     * 
+     *
      * @param string $login O valor a ser definido para login (e-mail)
-     * 
+     *
      * @return string O novo valor de login (e-mail)
      * @access public
      */
@@ -107,11 +108,11 @@ class Usuario implements CrudInterface {
 
     /**
      * Setter de senha
-     * 
+     *
      * Define o valor de senha do usuário. Este valor deve ser o hash da senha digitada.
-     * 
+     *
      * @param string $senha O valor a ser definido para senha
-     * 
+     *
      * @return string O novo valor de senha
      * @access public
      * @see Usuario::$_senha          Variável da senha
@@ -124,11 +125,11 @@ class Usuario implements CrudInterface {
 
     /**
      * Setter de tipo
-     * 
+     *
      * Define o tipo do usuário.
-     * 
+     *
      * @param int $tipo O tipo a ser definido ao usuário
-     * 
+     *
      * @return int O novo tipo
      * @access public
      * @see Usuario::$_tipo
@@ -138,13 +139,27 @@ class Usuario implements CrudInterface {
         return $this;
     }
 
+    public function setlogin_confirmacao($_login_confirmacao){
+      $this->_login_confirmacao = $_login_confirmacao;
+    }
+    public function getlogin_confirmacao(){
+      return $this->_login_confirmacao;
+    }
+
+    public function setsenha_confirmacao($_senha_confirmacao){
+      $this->_senha_confirmacao = $_senha_confirmacao;
+    }
+    public function getsenha_confirmacao(){
+      return $this->_senha_confirmacao;
+    }
+
     /**
      * Gerador de hashes
-     * 
+     *
      * A partir de um valor recebido cria um hash seguro.
-     * 
+     *
      * @param string $senha O valor a ser convertido em hash
-     * 
+     *
      * @return string Um hash correspondente ao valor passado ao método.
      * @access public
      * @see Usuario::$_senha          Variável da senha
@@ -158,12 +173,12 @@ class Usuario implements CrudInterface {
 
     /**
      * Validador de login
-     * 
+     *
      * Compara os valores passados com o usuário, e se forem iguais (válidos) o usuário pode logar no sistema.
-     * 
+     *
      * @param string $login O login (e-mail) digitado
      * @param string $senha A senha digitada (não o hash)
-     * 
+     *
      * @return Usuario Login válido (Usuario), ou não (NULL)
      * @access public
      */
@@ -174,5 +189,6 @@ class Usuario implements CrudInterface {
         }
         return NULL;
     }
+
 
 }
