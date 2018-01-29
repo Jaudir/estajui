@@ -1,14 +1,14 @@
 <?php
 
-require_once './util/CrudInterface.php';
-require_once './util/connect.php';
+require_once 'Usuario.php';
+//require_once './util/connect.php';
 
 /**
  * Representação de um usuário para o sistema.
  *
  * @author gabriel Lucas
  */
-class Funcionario extends Usuario {
+class Funcionario extends Usuario implements CrudInterface {
 
     private $_siape;
     private $_nome;
