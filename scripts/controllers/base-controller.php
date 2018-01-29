@@ -7,6 +7,12 @@ function base_url(){
     return $configs['BASE_URL'];
 }
 
+function redirect($url){
+    header('Location:'.$url);
+}
+
+/* CARREGAMENTOS ------------------------------------------------------------ */
+
 function loadModel($modelFile, $modelClassName){
     global $configs;
     global $DB;
@@ -53,6 +59,27 @@ function loadUtil($utilFile, $utilClassName = null){
     return true;
 }
 
-function redirect($url){
-    header('Location:'.$url);
+/* SESSÃO ------------------------------------------------------------------------------- */
+
+/*retorna a variável de sessão*/
+function getSession(){
+    $session =  loadUtil('Session', 'Session');
+    $session->start();
+    return $session;
+}
+
+/* Verifica se o usuário está logado com a permissão requerida
+    caso não esteja logado ou não tenha permissão redreciona para a página de login
+    caso tenha a permissão irá retornar a variável de sessao
+*/
+function checkPermission($required){
+    $session = getSession();
+
+    if(!$session->isLogged())
+        redirect(base_url() . '/index.php');
+
+    if($session->getPermissao() != $required)
+        redirect(base_url() . '/index.php');
+
+    return $session;
 }

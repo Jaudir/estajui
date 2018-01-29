@@ -32,6 +32,7 @@ create table responsavel(
 	telefone numeric(11),
 	cargo varchar(20),
 	empresa_cnpj numeric(14),
+	aprovado boolean,
 	foreign key(empresa_cnpj) references empresa(cnpj)
 );
 

@@ -1,3 +1,6 @@
+<?php
+  require_once('../scripts/controllers/coordenador-extensao/load-home.php.php');
+?>
 <!DOCTYPE html>
 <html>
   <head>
@@ -21,7 +24,7 @@
           <ul class="nav-content navbar-nav">
             <li>
               <span class="navbar-text">
-                Mario Sérgio Costa da Silveira
+                <?php echo $session->usario->nome ?>
               </span>
             </li>
             <li class="nav-item">
@@ -81,11 +84,16 @@
                   </tr>
                 </thead>
                 <tbody>
+                  <?php
+                    $row_id = 1;
+                    foreach($statusTabela as $status):
+                  ?>
+
                   <tr class="red">
-                    <th scope="row">1</th>
-                    <td>Convênio de empresa aguarda aprovação.</td>
-                    <td>22/11/2017</td>
-                    <td>Ciência da Computação</td>
+                    <th scope="row"><?php echo $row_id; ?></th>
+                    <td><?php echo $status->descricao; ?></td>
+                    <td><?php echo $status->data; ?></td>
+                    <td><?php echo $status->curso; ?></td>
                     <td class="center">
                       <button type="button" class="btn btn-link"
                         data-toggle="modal" data-target="#aprovarConvenio">
@@ -94,40 +102,8 @@
                     </td>
                     <td class="center"><a href="#"> <i class="fa fa-eye"></i> </a></td>
                   </tr>
-                  <tr class="red">
-                    <th scope="row">2</th>
-                    <td>Aguardando assinatura da direção e apólice do seguro</td>
-                    <td>15/11/2017</td>
-                    <td>Engenharia Química</td>
-                    <td class="center">
-                      <button type="button" class="btn btn-link"
-                        data-toggle="modal" data-target="#apoliceSeguro">
-                        <i class="fa fa-pencil"></i>
-                      </button>
-                    </td>
-                    <td class="center"><a href="#"> <i class="fa fa-eye"></i> </a></td>
-                  </tr>
-                  <tr class="red">
-                    <th scope="row">3</th>
-                    <td>Aguardando entrega dos documentos finais de estágio.</td>
-                    <td>10/07/2017</td>
-                    <td>Ciência da Computação</td>
-                    <td class="center">
-                      <button type="button" class="btn btn-link"
-                        data-toggle="modal" data-target="">
-                        <i class="fa fa-pencil"></i>
-                      </button>
-                    </td>
-                    <td class="center"><a href="#"> <i class="fa fa-eye"></i> </a></td>
-                  </tr>
-                  <tr class="green">
-                    <th scope="row">4</th>
-                    <td>Concluído</td>
-                    <td>01/09/2015</td>
-                    <td>Técnico em informática</td>
-                    <td class="center"><a href="#"> <i class="fa fa-pencil"></i> </a></td>
-                    <td class="center"><a href="#"> <i class="fa fa-eye"></i> </a></td>
-                  </tr>
+
+                  <?php endforeach; ?>
                 </tbody>
               </table>
             </div>
@@ -167,6 +143,8 @@
                   </div>
                 </div>
                 <form name="convenio" method="post">
+                  <!--ID da empresa no banco de dados-->
+                  <input type="hidden" name="empresa_id" value="<?php $empresa->id; ?>">
                   <div class="form-group">
                     <div class="custom-controls-stacked d-block my-3" style="margin-top: 10px;">
                       <label class="custom-control custom-radio">
