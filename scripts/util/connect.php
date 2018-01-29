@@ -5,17 +5,19 @@
  *
  * @author gabriel Lucas
  */
-class Conexao {
+class Conexao
+{
 
     /**
      * Gerador de coneção
-     * 
+     *
      * Cria uma coneção PDO com o BD.
-     * 
+     *
      * @return PDO|string Objeto de coneção com o BD
      * @access public
      */
-    public static function getConnection() {
+    public static function getConnection()
+    {
         $servername = "localhost";
         $username = "projeto_estajui";
         $password = "est*826491735";
@@ -29,6 +31,25 @@ class Conexao {
         }
     }
 
-}
+    public static function multiplesInsertions($array)
+    {
+        $conexao = self::getConnection();
+        if ($conexao) {
+            try {
+                $conexao->beginTransaction();
+                foreach ($array as $tabela) {
+                    $tabela->createOnTransaction($conexao);
+                }
+                $conexao->commit();
+                return 0;
+            } catch (PDOExecption $e) {
 
-?>
+                $conexao->rollback();
+              return 1;
+
+            }
+        } else {
+            return 2;// sem conexão com o banco de dados;
+        }
+    }
+}
