@@ -8,7 +8,7 @@ Tem tambem os subitens da home-item que são os itens do menu.
 Há na pasta JS um script chamado masks.js que possui máscaras de formato para entrada de dados, 
 o formulário de cadastro dos usuários utiliza dessas máscaras como exemplo.
 
-Estrutura dos Arquivos
+Estrutura do Projeto
 =======================
 
 * **assets/**
