@@ -14,7 +14,7 @@
     <div class="container-fluid">
       <nav class="navbar navbar-expand-lg navbar-light nav-menu">
         <a class="navbar-brand" href="#">
-          <img src="../img/logo.png" height="42" class="d-inline-block align-top" alt="">
+          <img src="../img/LOGO.PNG" height="42" class="d-inline-block align-top" alt="">
         </a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
@@ -34,7 +34,7 @@
               <h3>Cadastro</h3>
             </div>
           </div>
-          <form class="container" id="needs-validation" novalidate method="POST" action="http://localhost/estajui/scripts/controllers/persiste_cadastro.php">
+          <form class="container" id="needs-validation" novalidate method="POST" action="../controllers/estudante/cadastro_controller.php">
 
             <div class="row">
               <div class="col-md-12 form-sub-title">
