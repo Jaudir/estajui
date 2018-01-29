@@ -10,4 +10,3 @@ class LimpaString
         return $var;
     }
 }
-?>

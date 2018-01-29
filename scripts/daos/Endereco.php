@@ -1,15 +1,15 @@
 <?php
 
-require_once '/opt/lampp/htdocs/estajui/util/CrudInterface.php';
-require_once '/opt/lampp/htdocs/estajui/util/connect.php';
+require_once './util/CrudInterface.php';
+require_once './util/connect.php';
 
 /**
  * Description of Endereco
  *
  * @author gabriel Lucas
  */
-class Endereco implements CrudInterface
-{
+class Endereco implements CrudInterface{
+
     private $_id;
     private $_logradouro;
     private $_bairro;
@@ -19,8 +19,8 @@ class Endereco implements CrudInterface
     private $_uf;
     private $_cep;
 
-    public function __construct($_logradouro, $_bairro, $_numero, $_complemento, $_cidade, $_uf, $_cep)
-    {
+    public function __construct($_id, $_logradouro, $_bairro, $_numero, $_complemento, $_cidade, $_uf, $_cep) {
+        $this->_id = $_id;
         $this->_logradouro = $_logradouro;
         $this->_bairro = $_bairro;
         $this->_numero = $_numero;
@@ -30,99 +30,79 @@ class Endereco implements CrudInterface
         $this->_cep = $_cep;
     }
 
-
-
-    public function getid()
-    {
+    public function getid() {
         return $this->_id;
     }
 
-    public function getlogradouro()
-    {
+    public function getlogradouro() {
         return $this->_logradouro;
     }
 
-    public function getbairro()
-    {
+    public function getbairro() {
         return $this->_bairro;
     }
 
-    public function getnumero()
-    {
+    public function getnumero() {
         return $this->_numero;
     }
 
-    public function getcomplemento()
-    {
+    public function getcomplemento() {
         return $this->_complemento;
     }
 
-    public function getcidade()
-    {
+    public function getcidade() {
         return $this->_cidade;
     }
 
-    public function getuf()
-    {
+    public function getuf() {
         return $this->_uf;
     }
 
-    public function getcep()
-    {
+    public function getcep() {
         return $this->_cep;
     }
 
-    public function setid($_id)
-    {
+    public function setid($_id) {
         $this->_id = $_id;
         return $this;
     }
 
-
-    public function setlogradouro($_logradouro)
-    {
+    public function setlogradouro($_logradouro) {
         $this->_logradouro = $_logradouro;
         return $this;
     }
 
-    public function setbairro($_bairro)
-    {
+    public function setbairro($_bairro) {
         $this->_bairro = $_bairro;
         return $this;
     }
 
-    public function setnumero($_numero)
-    {
+    public function setnumero($_numero) {
         $this->_numero = $_numero;
         return $this;
     }
 
-    public function setcomplemento($_complemento)
-    {
+    public function setcomplemento($_complemento) {
         $this->_complemento = $_complemento;
         return $this;
     }
 
-    public function setcidade($_cidade)
-    {
+    public function setcidade($_cidade) {
         $this->_cidade = $_cidade;
         return $this;
     }
 
-    public function setuf($_uf)
-    {
+    public function setuf($_uf) {
         $this->_uf = $_uf;
         return $this;
     }
 
-    public function setcep($_cep)
-    {
+    public function setcep($_cep) {
         $this->_cep = $_cep;
         return $this;
     }
 
-    public function create()
-    {
+    public function create() {
         $conexao = Conexao::getConnection();
         if ($conexao) {
             $pstmt = $conexao->prepare("INSERT INTO endereco (logradouro, bairro, numero, complemento, cidade, uf, cep) VALUES(?, ?, ?, ?, ?, ?, ?)");
@@ -131,37 +111,29 @@ class Endereco implements CrudInterface
                 $pstmt->execute(array($this->_logradouro, $this->_bairro, $this->_numero, $this->_complemento, $this->_cidade, $this->_uf, $this->_cep));
                 $conexao->commit();
                 $this->_id = $conexao->lastInsertId();
-                return true;//"Usuario cadastrado com sucesso";
+                return "Usuario cadastrado com sucesso";
             } catch (PDOExecption $e) {
                 $conexao->rollback();
                 #return "Error!: " . $e->getMessage() . "</br>";
-                return false;"Erro ao salvar no banco de dados, tente novamente";
+                return "Erro ao salvar no banco de dados, tente novamente";
             }
         } else {
             return "Erro ao conectar com o banco de dados, tente novamente";
         }
     }
 
-    public function createOnTransaction($conexao)
-    {
-        $pstmt = $conexao->prepare("INSERT INTO endereco (logradouro, bairro, numero, complemento, cidade, uf, cep) VALUES(?, ?, ?, ?, ?, ?, ?)");
-        $pstmt->execute(array($this->_logradouro, $this->_bairro, $this->_numero, $this->_complemento, $this->_cidade, $this->_uf, $this->_cep));
-        $this->_id = $conexao->lastInsertId();
-    }
-
-    public static function read($key, $limite)
-    {
+    public static function read($key, $limite) {
         $conexao = Conexao::getConnection();
         if ($conexao) {
             if ($limite == 0) {
-                if ($key == null) {
+                if ($key == NULL) {
                     $pstmt = $conexao->prepare("SELECT * FROM endereco");
                 } else {
                     $pstmt = $conexao->prepare("SELECT * FROM endereco WHERE id LIKE :id");
                     $pstmt->bindParam(':id', $key);
                 }
             } else {
-                if ($key == null) {
+                if ($key == NULL) {
                     $pstmt = $conexao->prepare("SELECT * FROM endereco LIMIT :limite");
                 } else {
                     $pstmt = $conexao->prepare("SELECT * FROM endereco WHERE id LIKE :id LIMIT :limite");
@@ -187,8 +159,7 @@ class Endereco implements CrudInterface
         }
     }
 
-    public function update()
-    {
+    public function update() {
         $conexao = Conexao::getConnection();
         if ($conexao) {
             $pstmt = $conexao->prepare("UPDATE endereco SET logradouro=?, bairro=?, numero=?, complemento=?, cidade=?, uf=?, cep=? WHERE id = ?");
@@ -207,8 +178,7 @@ class Endereco implements CrudInterface
         }
     }
 
-    public function delete()
-    {
+    public function delete() {
         $conexao = Conexao::getConnection();
         if ($conexao) {
             $pstmt = $conexao->prepare("DELETE from endereco WHERE id LIKE ?");
@@ -226,4 +196,5 @@ class Endereco implements CrudInterface
             return "Erro ao conectar com o banco de dados, tente novamente";
         }
     }
+
 }
