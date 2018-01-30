@@ -1,24 +1,27 @@
 <?php
 
-require_once('base-constroller.php');
+require_once(dirname(__FILE__) . '/../base-controller.php');
 
-$session = loadUtil('Session', 'Session');
+/* QUANDO estiver logado deve checar a permissao do usuário*/
 
-if(!isset($_POST['veredito']) || !isset($_POST['just']) || !isset($_POST['empresa_id'])){
+$session = $loader->loadUtil('Session', 'Session');
+$session->start();
+
+if(!isset($_POST['veredito']) || !isset($_POST['justificativa']) || !isset($_POST['cnpj'])){
     $session->pushError('Dados inválidos para a operação!');
 }else{
 
     $veredito = $_POST['veredito'];
-    $justificativa = $_POST['just'];
-    $empresa_id = $_POST['empresa_id'];
+    $justificativa = $_POST['justificativa'];
+    $cnpj = $_POST['cnpj'];
 
-    if($session->getPermissao() == 'CE'){
+    //if($session->getPermissao() == 'CE'){
         /*Verifica pré cadastro*/
 
-        $model = loadModel('empresa', 'EmpresaModel');
+        $model = $loader->loadModel('coord-ext', 'CoordExtModel');
         if($model != null){
-            if($model->verificaPreCadastro($empresa_id)){
-                if($model->confirmarCadastro($veredito, $justificativa)){
+            if(!$model->verificaPreCadastro($cnpj)){
+                if($model->alterarConvenio($veredito, $justificativa, $cnpj)){
                 }else{ 
                     $session->pushError('Não foi possível realizar a operação! Por favor contate o administrador do sistema!');
                 }
@@ -27,9 +30,8 @@ if(!isset($_POST['veredito']) || !isset($_POST['just']) || !isset($_POST['empres
             }
         }
 
-    }else{
-        $session->pushError('Você não tem permissão para realizar esta operação!');
-    }
+    //}else{
+        //$session->pushError('Você não tem permissão para realizar esta operação!');
+    //}
 }
 redirect(base_url() . '/estajui/coordenador-extensao/home.php');
-?>

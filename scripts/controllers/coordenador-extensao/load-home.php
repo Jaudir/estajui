@@ -1,15 +1,22 @@
 <?php
 /* Carrega os dados da home do coordenador de extensão */
+require_once(dirname(__FILE__) . '/../base-controller.php');
 
-require_once('../base-controller.php');
+//$session = checkPermission('CE');
 
-$session = checkPermission('CE');
+$model = $loader->loadModel('coord-ext', 'CoordExtModel');
 
-$model = loadModel('coord-ext', 'CoordExtModel');
-$tabelaStatus = null;
+$statusEstagios = null;
+$statusEstagios = null;
 
 if($model != null){
     /* Carregar dados de estágios e empresas */
-    $tabelaStatus = $model->getEstagios();
-    array_push($tabelaStatus, $model->getEmpresas());
+    $statusEstagios = $model->listaEstagios();
+    $statusEmpresas = $model->listaEmpresas();
+
+    if(!$statusEstagios)
+        $statusEstagios = array();
+    
+    if(!$statusEmpresas)
+        $statusEmpresas = array();
 }

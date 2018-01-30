@@ -4,6 +4,7 @@
 class Session{
     public function start(){
         session_start();
+        $_SESSION['errors'] = array();
     }
 
     public function destroy(){
@@ -19,17 +20,20 @@ class Session{
         return $_SESSION['usuario'];
     }
 
+    public function isLogged(){
+        return isset($_SESSION['usuario']);
+    }
+
     public function getPermissao(){
         return $_SESSION['permissao'];
     }
 
     public function pushError($description){
-        $_SESSION['has_error'] = true;
         array_push($_SESSION['errors'], $description);
     }
 
     public function hasError(){
-        return $_SESSION['has_error'];
+        return (count($_SESSION['erros']) > 0);
     }
 
     public function getErrors(){

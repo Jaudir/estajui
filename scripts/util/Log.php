@@ -1,7 +1,10 @@
 <?php
 
 class Log{
-    public static function logPDOError($stmt){
-        error_log('DB error: SQLSTATE: ' . $stmt[0] . ' MySQL code: ' $stmt[1] . 'Description:' . $stmt[2]);
+    public static function logPDOError($info, $echo = false){
+        if($echo)
+            var_dump($info);
+            //echo 'DB error: SQLSTATE: ' . $info[0] . ' MySQL code: ' $info[1] . 'Description:' . $info[2] . '<br>';
+        //error_log('DB error: SQLSTATE: ' . $info[0] . ' MySQL code: ' $info[1] . 'Description:' . $info[2], 0);
     }
 }
