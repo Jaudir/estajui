@@ -1,12 +1,11 @@
 <?php
 
-require_once('base-controller.php');
+require_once(dirname(__FILE__) . '/../base-controller.php');
 
 if (isset($_POST['cadastrar'])) {
     //carregar arquivo da pasta util e model para cadastrar o aluno
-    loadUtil('String');
-    loadModel('aluno-model', 'AlunoModel');
-    loadDao('Aluno');
+    $loader->loadUtil('String');
+    $loader->loadDao('Aluno');
 
     session_start();
     //talvez seja uma boa inicializar o aluno pelo post(não no construtor, mas em um método init():bool)
@@ -71,7 +70,7 @@ if (isset($_POST['cadastrar'])) {
         }
     }
 
-    $model = loadModel('aluno-model', 'AlunoModel');
+    $model = $loader->loadModel('aluno-model', 'AlunoModel');
     if($model != null){
         if($model->cadastrar($aluno)){
             redirect(base_url() . '/estajui/login/login.html');

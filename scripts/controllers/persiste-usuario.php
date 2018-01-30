@@ -1,12 +1,11 @@
 <?php
 
-require_once('base-controller.php');
+require_once(dirname(__FILE__) . '/../base-controller.php');
 
 if (isset($_POST['cadastrar'])) {
     //carregar arquivo da pasta util e model para cadastrar o aluno
-    loadUtil('String');
-    loadModel('funcionario-model', 'FuncionarioModel');
-    loadDao('Funcionario');
+    $loader->loadUtil('String');
+    $loader->loadDao('Funcionario');
 
     session_start();
     //talvez seja uma boa inicializar o aluno pelo post(não no construtor, mas em um método init():bool)
@@ -74,7 +73,7 @@ if (isset($_POST['cadastrar'])) {
 	
 	echo "<br>".$funcionario->isroot();
 
-    $model = loadModel('funcionario-model', 'FuncionarioModel');
+    $model = $loader->loadModel('funcionario-model', 'FuncionarioModel');
     if($model != null){
         if($model->cadastrar($funcionario)){
 			echo "Salvo no BD!";
