@@ -3,7 +3,7 @@
 class MainModel{
     protected $conn;
 
-    //chamar quando o model é instanciado, return true em caso de falha
+    //chamar quando o model é instanciado, return false em caso de falha
     public function init($DB){
         try{
             $servername = $DB['SERVER'];

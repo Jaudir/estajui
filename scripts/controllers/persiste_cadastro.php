@@ -1,13 +1,18 @@
 <?php
 
-require_once('base-controller.php');
+require_once(dirname(__FILE__) . '/../base-controller.php');
 
 if (isset($_POST['cadastrar'])) {
     //carregar arquivo da pasta util e model para cadastrar o aluno
+<<<<<<< HEAD
     loadUtil('String');
     loadModel('aluno-model', 'AlunoModel');
     loadDao('Aluno');
     loadDao('Email');
+=======
+    $loader->loadUtil('String');
+    $loader->loadDao('Aluno');
+>>>>>>> upstream/master
 
     session_start();
 
@@ -73,6 +78,7 @@ if (isset($_POST['cadastrar'])) {
         }
     }
 
+<<<<<<< HEAD
     $model = loadModel('aluno-model', 'AlunoModel');
 
     if($model->VerificaLoginCadastrado($aluno->getlogin())){
@@ -90,6 +96,14 @@ if (isset($_POST['cadastrar'])) {
         } else {
             $_SESSION['erros_cadastro'] = true;
             redirect(base_url() . '/estajui/login/cadastro.php');
+=======
+    $model = $loader->loadModel('aluno-model', 'AlunoModel');
+    if($model != null){
+        if($model->cadastrar($aluno)){
+            redirect(base_url() . '/estajui/login/login.html');
+        }else{
+            echo "ERROR MESSAGE!!!";
+>>>>>>> upstream/master
         }
     } else {
         $_SESSION['erro_bd'] = true;

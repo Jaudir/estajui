@@ -1,11 +1,14 @@
+<?php
+  require_once('../../scripts/controllers/coordenador-extensao/load-home.php');
+?>
 <!DOCTYPE html>
 <html>
   <head>
     <meta charset="utf-8">
     <title>Página inicial | Coordenação de Extensão </title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
-    <link rel="stylesheet" href="../css/icons/css/font-awesome.min.css">
-    <link rel="stylesheet" href="../css/main.css">
+    <link rel="stylesheet" href="../../assets/css/icons/css/font-awesome.min.css">
+    <link rel="stylesheet" href="../../assets/css/main.css">
   </head>
   <body>
     <div class="container-home container-fluid fullscreen">
@@ -21,7 +24,7 @@
           <ul class="nav-content navbar-nav">
             <li>
               <span class="navbar-text">
-                Mario Sérgio Costa da Silveira
+                <?php echo "PEGAR NOME DA SESSÃO"; ?>
               </span>
             </li>
             <li class="nav-item">
@@ -81,11 +84,16 @@
                   </tr>
                 </thead>
                 <tbody>
+                  <?php
+                    $row_id = 1;
+                    foreach($statusEstagios as $estagio):
+                  ?>
+
                   <tr class="red">
-                    <th scope="row">1</th>
-                    <td>Convênio de empresa aguarda aprovação.</td>
-                    <td>22/11/2017</td>
-                    <td>Ciência da Computação</td>
+                    <th scope="row"><?php echo $row_id++; ?></th>
+                    <td><?php echo $estagio['descricao']; ?></td>
+                    <td><?php echo $estagio['data'] ?></td>
+                    <td><?php echo $estagio['curso']; ?></td>
                     <td class="center">
                       <button type="button" class="btn btn-link"
                         data-toggle="modal" data-target="#aprovarConvenio">
@@ -94,40 +102,47 @@
                     </td>
                     <td class="center"><a href="#"> <i class="fa fa-eye"></i> </a></td>
                   </tr>
+
+                  <?php endforeach; ?>
+
+                  <?php
+                    foreach($statusEmpresas as $empresa):
+                  ?>
                   <tr class="red">
-                    <th scope="row">2</th>
-                    <td>Aguardando assinatura da direção e apólice do seguro</td>
-                    <td>15/11/2017</td>
-                    <td>Engenharia Química</td>
+                    <th scope="row"><?php echo $row_id++; ?></th>
+                    <td>Aguardando aprovação de convênio</td>
+                    <td><?php echo "Data?" ?></td>
+                    <td><?php echo "Curso?" ?></td>
                     <td class="center">
-                      <button type="button" class="btn btn-link"
-                        data-toggle="modal" data-target="#apoliceSeguro">
+                      <button type="button" class="btn btn-link empresaModalToggle"
+                        data-toggle="modal" data-target="#aprovarConvenio">
                         <i class="fa fa-pencil"></i>
+                        <div class="empresaDados" style="display:none;">
+                        <h6>Razão Social: </h6> <p>Lorem Ipsum</p><br>
+                        <h6>CNPJ: </h6> <p class="cnpj"><?php echo $empresa['cnpj']?></p><br>
+                        <h6>Nome fantasia: </h6> <p>Lorem</p> <br>
+                        <h6>Telefone: </h6> <p><?php echo $empresa['telefone']?></p> <br>
+                        <h6>FAX: </h6> <p><?php echo $empresa['fax']?></p> <br>
+                        <h6>Registro: </h6> <p><?php echo $empresa['nregistro']?></p> <br>
+                        <h6>Conselho de fiscalização: </h6> <p><?php echo $empresa['conselhofiscal']?></p> <br>
+                        <h6>Nome do responsável: </h6> <p>João da Silva Valadares</p> <br>
+                        <h6>Telefone do responsável: </h6> <p>(38) 9 91029987</p> <br>
+                        <h6>Email: </h6> <p>joao@email.com</p> <br>
+                        <h6>Cargo: </h6> <p>Diretor de T.I.</p> <br>
+                        <h6>Logradouro: </h6> <p><?php echo $empresa['logradouro']?></p>
+                        <h6>Número: </h6> <p><?php echo $empresa['numero']?></p>
+                        <h6>Sala: </h6> <p>13</p>
+                        <h6>Bairro: </h6> <p><?php echo $empresa['bairro']?></p>
+                        <h6>Cidade: </h6> <p><?php echo $empresa['cidade']?></p>
+                        <h6>Estado: </h6> <p><?php echo $empresa['cep']?></p>
+                        <h6>CEP: </h6> <p>39400-289</p>
+                        </div>
                       </button>
                     </td>
                     <td class="center"><a href="#"> <i class="fa fa-eye"></i> </a></td>
                   </tr>
-                  <tr class="red">
-                    <th scope="row">3</th>
-                    <td>Aguardando entrega dos documentos finais de estágio.</td>
-                    <td>10/07/2017</td>
-                    <td>Ciência da Computação</td>
-                    <td class="center">
-                      <button type="button" class="btn btn-link"
-                        data-toggle="modal" data-target="">
-                        <i class="fa fa-pencil"></i>
-                      </button>
-                    </td>
-                    <td class="center"><a href="#"> <i class="fa fa-eye"></i> </a></td>
-                  </tr>
-                  <tr class="green">
-                    <th scope="row">4</th>
-                    <td>Concluído</td>
-                    <td>01/09/2015</td>
-                    <td>Técnico em informática</td>
-                    <td class="center"><a href="#"> <i class="fa fa-pencil"></i> </a></td>
-                    <td class="center"><a href="#"> <i class="fa fa-eye"></i> </a></td>
-                  </tr>
+
+                  <?php endforeach; ?>
                 </tbody>
               </table>
             </div>
@@ -145,37 +160,21 @@
               </div>
               <div class="modal-body">
                 <div class="row">
-                  <div class="col-md-12 dados-aluno">
-                    <h6>Razão Social: </h6> <p>Lorem Ipsum</p><br>
-                    <h6>CNPJ: </h6> <p>1029.02930.19303-00001</p><br>
-                    <h6>Nome fantasia: </h6> <p>Lorem</p> <br>
-                    <h6>Telefone: </h6> <p>(38) 3213-9888</p> <br>
-                    <h6>FAX: </h6> <p>000999-91892</p> <br>
-                    <h6>Registro: </h6> <p>999-0</p> <br>
-                    <h6>Conselho de fiscalização: </h6> <p>Dolor sit amet</p> <br>
-                    <h6>Nome do responsável: </h6> <p>João da Silva Valadares</p> <br>
-                    <h6>Telefone do responsável: </h6> <p>(38) 9 91029987</p> <br>
-                    <h6>Email: </h6> <p>joao@email.com</p> <br>
-                    <h6>Cargo: </h6> <p>Diretor de T.I.</p> <br>
-                    <h6>Logradouro: </h6> <p>Lorem ipsum</p>
-                    <h6>Número: </h6> <p>000</p>
-                    <h6>Sala: </h6> <p>13</p>
-                    <h6>Bairro: </h6> <p>Ipsum</p>
-                    <h6>Cidade: </h6> <p>Montes Claros</p>
-                    <h6>Estado: </h6> <p>MG</p>
-                    <h6>CEP: </h6> <p>39400-289</p>
+                  <div class="col-md-12 dados-aluno" id="empresaDadosInModal">
+                      <!---->
                   </div>
                 </div>
-                <form name="convenio" method="post">
+                <form name="convenio" id="empresaForm" method="post" action="<?php echo $configs['BASE_URL'] . '/scripts/controllers/coordenador-extensao/pre-cadastrar-empresa.php'?>">
+                  <input type="hidden" id="ecnpj" name="cnpj" value="">
                   <div class="form-group">
                     <div class="custom-controls-stacked d-block my-3" style="margin-top: 10px;">
                       <label class="custom-control custom-radio">
-                        <input id="radioStacked1" name="radio-stacked" type="radio" class="custom-control-input" required>
+                        <input id="radioStacked1" name="veredito" type="radio" class="custom-control-input" required>
                         <span class="custom-control-indicator"></span>
                         <span class="custom-control-description">Aprovado</span>
                       </label>
                       <label class="custom-control custom-radio" style="margin-left: 20px;">
-                        <input id="radioStacked2" name="radio-stacked" type="radio" class="custom-control-input" required>
+                        <input id="radioStacked2" name="veredito" type="radio" class="custom-control-input" required>
                         <span class="custom-control-indicator"></span>
                         <span class="custom-control-description">Reprovado</span>
                       </label>
@@ -183,8 +182,7 @@
                     <div class="row">
                       <div class="col-md-12">
                         <label for="justificativa">Justificativa</label>
-                        <textarea name="justificativa" rows="3" class="form-control" required>
-                        </textarea>
+                        <textarea name="justificativa" rows="3" class="form-control" required></textarea>
                       </div>
                     </div>
                   </div>
@@ -192,7 +190,7 @@
               </div>
               <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Sair</button>
-                <button type="button" class="btn btn-primary">Confirmar</button>
+                <button type="button" id="enviarFormEmpresa" class="btn btn-primary">Confirmar</button>
               </div>
             </div>
           </div>
@@ -255,5 +253,17 @@
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
+    <script>
+      $(function(){
+        $('.empresaModalToggle').click(function(){
+          $('#ecnpj').val($(this).find('.cnpj').html());
+          $('#empresaDadosInModal').html($(this).children('.empresaDados').html());
+        });
+
+        $('#enviarFormEmpresa').click(function(){
+          $('#empresaForm').submit();
+        });
+      });
+    </script>
   </body>
 </html>
