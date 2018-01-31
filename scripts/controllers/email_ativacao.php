@@ -1,6 +1,8 @@
 <?php
 require_once('base-controller.php');
 
+
+
 session_start();
 
 if(isset($_GET['code'])){
@@ -15,4 +17,3 @@ if(isset($_GET['code'])){
  }
  //redirect(base_url() . '/estajui/login/login.php');
 }
-
