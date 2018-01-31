@@ -2,8 +2,10 @@
 
 require_once('MainModel.php');
 
-class AlunoModel extends MainModel{
-    public function cadastrar($aluno){
+class AlunoModel extends MainModel
+{
+    public function cadastrar($aluno)
+    {
         try {
             $this->conn->beginTransaction();
             $pstmt = $this->conn->prepare("INSERT INTO usuario (email, senha, tipo) VALUES(?,?, ?)");
@@ -18,10 +20,26 @@ class AlunoModel extends MainModel{
             $pstmt->execute(array($aluno->getnome(),$aluno->getestado_natal(),$aluno->getcidade_natal(),$aluno->getdata_nasc(),$aluno->getnome_pai(),$aluno->getnome_mae(),$aluno->getestado_civil(),$aluno->getsexo(),$aluno->getrg_num(),$aluno->getrg_orgao(),$aluno->getcpf(),$aluno->gettelefone(),$aluno->getcelular()
             ,$aluno->getlogin(),$aluno->getendereco_id()));
 
-             $this->conn->commit();
-             return true;
+            $this->conn->commit();
+            return true;
         } catch (PDOExecption $e) {
             $this->conn->rollback();
+            return false;
+        }
+    }
+
+
+    public function VerificaLoginCadastrado($email)
+    {
+        try {
+            $pstmt = $this->conn->prepare("SELECT id from usuario WHERE email LIKE :email");
+            $pstmt->bindParam(':email', $email);
+            $pstmt->execute();
+            if ($pstmt->fetch() == null) {
+                return false;
+            }
+            return true;
+        } catch (PDOExecption $e) {
             return false;
         }
     }

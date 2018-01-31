@@ -7,6 +7,7 @@ if (isset($_POST['cadastrar'])) {
     loadUtil('String');
     loadModel('aluno-model', 'AlunoModel');
     loadDao('Aluno');
+    loadDao('Email');
 
     session_start();
 
@@ -72,17 +73,26 @@ if (isset($_POST['cadastrar'])) {
         }
     }
 
-
-
     $model = loadModel('aluno-model', 'AlunoModel');
+
+    if($model->VerificaLoginCadastrado($aluno->getlogin())){
+        $_SESSION['email_cadastrado'] = true;
+        $erros++;
+    }
+
+
     if ($model != null  && $erros == 0) {
         if ($model->cadastrar($aluno)) {
-            $_SESSION['sucesso_aluno'] = true;
+            $email = Email::sendEmailAluno($aluno->getlogin());
+            $modelEmail = loadModel('email-model', 'EmailModel');
+            $modelEmail->emitirCodigoConfirmacao($aluno, $email);
             redirect(base_url() . '/estajui/login/login.php');
         } else {
+            $_SESSION['erros_cadastro'] = true;
             redirect(base_url() . '/estajui/login/cadastro.php');
         }
     } else {
+        $_SESSION['erro_bd'] = true;
         redirect(base_url() . '/estajui/login/cadastro.php');
     }
 } else {

@@ -281,6 +281,14 @@
                   }
                   ?>
                 </span>
+                <span class="error">
+                <?php if (!empty($_SESSION['email_cadastrado'])) {
+                    echo "Este email já está em uso.";
+                    unset($_SESSION['email_cadastrado']);
+                }
+                ?>
+              </span>
+
                 </div>
                 <div class="col-md-6 mb-3">
                   <label for="validationCustom21">Confirmação de email</label>
