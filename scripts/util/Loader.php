@@ -23,7 +23,7 @@ class Loader{
         //instancia o model
         $M = new $modelClassName;
     
-        if($M->init($this->DB)){
+        if($M->init($this->DB, $this)){
             return $M;
         }
     

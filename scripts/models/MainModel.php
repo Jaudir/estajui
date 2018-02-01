@@ -2,10 +2,13 @@
 
 class MainModel{
     protected $conn;
+    protected $loader;
 
     //chamar quando o model é instanciado, return false em caso de falha
-    public function init($DB){
+    public function init($DB, $loader){
         try{
+            $this->loader = $loader;
+            
             $servername = $DB['SERVER'];
             $dbname = $DB['NAME'];
             $username = $DB['USERNAME'];
