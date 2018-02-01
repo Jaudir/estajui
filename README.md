@@ -15,7 +15,7 @@ Como criar um caso de uso
   * **1-** Criar uma branch a partir da master branch.
   * **2-** Implementar seu caso de uso.
   * **3-** Upar sua branch no github e iniciar uma pull request da sua branch.
-  * **4-** Informar aos testadores da sua requisição, que devem baixar sua branch(pull) e realizar os testes necessários.
+  * **4-** Informar aos testadores sobre sua requisição, que devem baixar sua branch(pull) e realizar os testes necessários.
   * **5-** Caso hajam erros, que devem ser informados através da pull request, correções necessárias devem ser feitas na mesma branch, sempre commitando elas na sua branch e dando push no github para que fiquem disponíveis pra todos verem. 
   * **6-** Quando seu caso de uso finalmente for aceito, você pode aceitar a pull request e dar merge na master branch.
 
@@ -26,7 +26,7 @@ Como criar um caso de uso
   * **1-** Criar uma branch a partir da master branch.
   * **2-** Implementar seu caso de uso.
   * **3-** Upar sua branch no github.
-  * **4-** Informar aos testadores da sua branch, que devem baixa-la(pull) e realizar os testes necessários.
+  * **4-** Informar aos testadores sobre sua branch, que devem baixa-la(pull) e realizar os testes necessários.
   * **5-** Caso hajam erros, correções necessárias devem ser feitas na mesma branch, sempre commitando elas na sua branch e dando push no github para que fiquem disponíveis pra todos verem. 
   * **6-** Quando seu caso de uso finalmente for aceito, você pode dar merge na master branch.
 
