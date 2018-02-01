@@ -8,6 +8,28 @@ Tem tambem os subitens da home-item que são os itens do menu.
 Há na pasta JS um script chamado masks.js que possui máscaras de formato para entrada de dados, 
 o formulário de cadastro dos usuários utiliza dessas máscaras como exemplo.
 
+Como criar um caso de uso
+=========================
+  Para implementar um caso de uso, os seguintes passos devem ser tomados:
+
+  * **1-** Criar uma branch a partir da master branch.
+  * **2-** Implementar seu caso de uso.
+  * **3-** Upar sua branch no github e iniciar uma pull request da sua branch.
+  * **4-** Informar aos testadores da sua requisição, que devem baixar sua branch(pull) e realizar os testes necessários.
+  * **5-** Caso hajam erros, que devem ser informados através da pull request, correções necessárias devem ser feitas na mesma branch, sempre commitando elas na sua branch e dando push no github para que fiquem disponíveis pra todos verem. 
+  * **6-** Quando seu caso de uso finalmente for aceito, você pode aceitar a pull request e dar merge na master branch.
+
+  Sobre pull requests: [About Pull requests Github](https://help.github.com/articles/about-pull-requests/), é simples de usar e vai facilitar a comunicação entre a equipe de teste e os desenvolvedores.
+
+  Caso não queira utilizar pull requests, você pode seguir este modelo:
+
+  * **1-** Criar uma branch a partir da master branch.
+  * **2-** Implementar seu caso de uso.
+  * **3-** Upar sua branch no github.
+  * **4-** Informar aos testadores da sua branch, que devem baixa-la(pull) e realizar os testes necessários.
+  * **5-** Caso hajam erros, correções necessárias devem ser feitas na mesma branch, sempre commitando elas na sua branch e dando push no github para que fiquem disponíveis pra todos verem. 
+  * **6-** Quando seu caso de uso finalmente for aceito, você pode dar merge na master branch.
+
 Estrutura do Projeto
 =======================
 
@@ -39,11 +61,6 @@ Estrutura do Projeto
       Aqui ficam scripts auxiliares, qualquer script útil e que deve ser muito utilizado pode ser colocado aqui, exemplo: formatação de strings, manipulação de sessão, etc.
   
   Por último, não é recomendado que a pasta scripts contenham arquivos soltos, cada arquivo deve ser colocado em alguma de suas subpastas.
-  
-Como criar um caso de uso
-=========================
-
-  Criar uma branch a partir do master, implementar seu caso de uso, upar sua branch pro github, passar o nome de sua branch para os testadores, que vão dar pull nela e testar o caso de uso, depois que o caso de uso for aprovado, dê merge na branch master, caso haja algum conflito que não possa ser facilmente resolvido, entre em contato com a pessoa que fez a alteração conflitante.
 
 Desenvolvendo
 =============
@@ -109,7 +126,7 @@ Caso seja necessário, você pode adicionar funções ao arquivo *base-controlle
 O arquivo *configs.php* possui informações de configuração do sistema, por exemplo a url base e 
 as informações de acesso ao banco de dados(que são repassadas aos models pelo loader).
 
-  Criar Models
+  Criando Models
   -------------------
 
   Todo model deve herdar da classe *MainModel*, então absta utilizar a variável membro *$conn* para acessar o banco de dados e variável *loader* para carregar daos e arquivos da pasta util que possam ser necessários.
