@@ -38,7 +38,15 @@ class CoordExtModel extends MainModel{
 
     /*Lista empresas que estão aguardando aprovação do convênio*/
     public function listaEmpresas(){
-        $st = $this->conn->prepare('select * from empresa inner join endereco on endereco.id = empresa.endereco_id where conveniada = 0');
+        $st = $this->conn->prepare(
+            'select 
+            endereco.*,
+            empresa.*,
+            responsavel.nome as resp_nome, responsavel.email as resp_email, responsavel.telefone as resp_tel, responsavel.cargo as resp_cargo
+            from empresa 
+            inner join endereco on endereco.id = empresa.endereco_id 
+            left join responsavel on responsavel.empresa_cnpj = empresa.cnpj
+            where conveniada = 0');
         if(!$st->execute()){
             //log?
             return false;

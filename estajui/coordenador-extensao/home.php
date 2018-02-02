@@ -118,24 +118,24 @@
                         data-toggle="modal" data-target="#aprovarConvenio">
                         <i class="fa fa-pencil"></i>
                         <div class="empresaDados" style="display:none;">
-                        <h6>Razão Social: </h6> <p>Lorem Ipsum</p><br>
+                        <h6>Razão Social: </h6> <p><?php echo $empresa['razao_social']?></p><br>
                         <h6>CNPJ: </h6> <p class="cnpj"><?php echo $empresa['cnpj']?></p><br>
-                        <h6>Nome fantasia: </h6> <p>Lorem</p> <br>
+                        <h6>Nome fantasia: </h6> <p><?php echo $empresa['nome']?></p> <br>
                         <h6>Telefone: </h6> <p><?php echo $empresa['telefone']?></p> <br>
                         <h6>FAX: </h6> <p><?php echo $empresa['fax']?></p> <br>
                         <h6>Registro: </h6> <p><?php echo $empresa['nregistro']?></p> <br>
                         <h6>Conselho de fiscalização: </h6> <p><?php echo $empresa['conselhofiscal']?></p> <br>
-                        <h6>Nome do responsável: </h6> <p>João da Silva Valadares</p> <br>
-                        <h6>Telefone do responsável: </h6> <p>(38) 9 91029987</p> <br>
-                        <h6>Email: </h6> <p>joao@email.com</p> <br>
-                        <h6>Cargo: </h6> <p>Diretor de T.I.</p> <br>
+                        <h6>Nome do responsável: </h6> <p><?php echo $empresa['resp_nome']?></p> <br>
+                        <h6>Telefone do responsável: </h6> <p><?php echo $empresa['resp_tel']?></p> <br>
+                        <h6>Email: </h6> <p><?php echo $empresa['resp_email']?></p> <br>
+                        <h6>Cargo: </h6> <p><?php echo $empresa['resp_cargo']?></p> <br>
                         <h6>Logradouro: </h6> <p><?php echo $empresa['logradouro']?></p>
                         <h6>Número: </h6> <p><?php echo $empresa['numero']?></p>
-                        <h6>Sala: </h6> <p>13</p>
+                        <h6>Sala: </h6> <p><?php "Não tem sala"?></p>
                         <h6>Bairro: </h6> <p><?php echo $empresa['bairro']?></p>
                         <h6>Cidade: </h6> <p><?php echo $empresa['cidade']?></p>
-                        <h6>Estado: </h6> <p><?php echo $empresa['cep']?></p>
-                        <h6>CEP: </h6> <p>39400-289</p>
+                        <h6>Estado: </h6> <p><?php echo $empresa['estado']?></p>
+                        <h6>CEP: </h6> <p><?php echo $empresa['cep']?></p>
                         </div>
                       </button>
                     </td>
