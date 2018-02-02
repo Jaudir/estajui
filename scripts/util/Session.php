@@ -11,23 +11,39 @@ class Session{
         session_destroy();
     }
 
-    public function setUsuario($usuario, $permissao){
+    /* cahamr quando efetuar o login do usuário */
+    public function setUsuario($usuario){
+        $_SESSION['is_func'] = (get_class($usuario) == 'Funcionario');
         $_SESSION['usuario'] = $usuario;
-        $_SESSION['permissao'] = $permissao;
     }
 
     public function getUsuario(){
         return $_SESSION['usuario'];
     }
 
+    public function ispo(){
+        return ($_SESSION['is_func'] && $_SESSION['usuario']->ispo());
+    }
+
+    public function isoe(){
+        return ($_SESSION['is_func'] && $_SESSION['usuario']->isoe());
+    }
+
+    public function isce(){
+        return ($_SESSION['is_func'] && $_SESSION['usuario']->isce());
+    }
+
+    public function issra(){
+        return ($_SESSION['is_func'] && $_SESSION['usuario']->issra());
+    }
+
+    public function isroot(){
+        return ($_SESSION['is_func'] && $_SESSION['usuario']->isroot());
+    }
+
     public function isLogged(){
         return isset($_SESSION['usuario']);
     }
-
-    public function getPermissao(){
-        return $_SESSION['permissao'];
-    }
-
     public function pushError($description){
         array_push($_SESSION['errors'], $description);
     }
