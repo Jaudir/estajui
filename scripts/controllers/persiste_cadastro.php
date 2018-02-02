@@ -4,21 +4,11 @@ require_once(dirname(__FILE__) . '/../base-controller.php');
 
 if (isset($_POST['cadastrar'])) {
     //carregar arquivo da pasta util e model para cadastrar o aluno
-<<<<<<< HEAD
-    loadUtil('String');
-    loadModel('aluno-model', 'AlunoModel');
-    loadDao('Aluno');
-    loadDao('Email');
-=======
     $loader->loadUtil('String');
     $loader->loadDao('Aluno');
->>>>>>> upstream/master
+    $loader->loadDao('Email');
 
-    session_start();
-
-
-
-
+    $session = getSession();
 
     $endereco = new Endereco(null,LimpaString::limpar($_POST['logradouro']), LimpaString::limpar($_POST['bairro']), LimpaString::limpar($_POST['numero']),
     LimpaString::limpar($_POST['complemento']), LimpaString::limpar($_POST['cidade']), LimpaString::limpar($_POST['uf']),
@@ -78,8 +68,7 @@ if (isset($_POST['cadastrar'])) {
         }
     }
 
-<<<<<<< HEAD
-    $model = loadModel('aluno-model', 'AlunoModel');
+    $model = $loader->loadModel('aluno-model', 'AlunoModel');
 
     if($model->VerificaLoginCadastrado($aluno->getlogin())){
         $_SESSION['email_cadastrado'] = true;
@@ -96,14 +85,6 @@ if (isset($_POST['cadastrar'])) {
         } else {
             $_SESSION['erros_cadastro'] = true;
             redirect(base_url() . '/estajui/login/cadastro.php');
-=======
-    $model = $loader->loadModel('aluno-model', 'AlunoModel');
-    if($model != null){
-        if($model->cadastrar($aluno)){
-            redirect(base_url() . '/estajui/login/login.html');
-        }else{
-            echo "ERROR MESSAGE!!!";
->>>>>>> upstream/master
         }
     } else {
         $_SESSION['erro_bd'] = true;

@@ -7,7 +7,8 @@ if (isset($_POST['cadastrar'])) {
     $loader->loadUtil('String');
     $loader->loadDao('Funcionario');
 
-    session_start();
+	$session = getSession();
+	
     //talvez seja uma boa inicializar o aluno pelo post(não no construtor, mas em um método init():bool)
     //$aluno = new Aluno(null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
 	$funcionario = new Funcionario(null,null,null,null,null,null,null,null,null,null,null,null,null);
