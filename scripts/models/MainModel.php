@@ -23,4 +23,20 @@ class MainModel{
 
         return true;
     }
+
+    public function listarEstagiosEmpresa($cnpj){
+        $st = $this->conn->prepare("select * from estagio where empresa_cnpj = $cnpj");
+        if(!$st->execute()){
+            return false;
+        }
+        return $st->fetchAll();
+    }
+
+    public function listarAlunosEstagio($aluno_cpf){
+        $st = $this->conn->prepare("select * from aluno where cpf = $aluno_cpf");
+        if(!$st->execute()){
+            return false;
+        }
+        return $st->fetchAll();
+    }
 }

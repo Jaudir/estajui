@@ -15,6 +15,7 @@ if($session->isce()){
     $model = $loader->loadModel('coord-ext', 'CoordExtModel');
     if($model != null){
         if(!$model->verificaPreCadastro($cnpj)){
+            //altera convênio e notifica alunos
             if($model->alterarConvenio($veredito, $justificativa, $cnpj)){
             }else{ 
                 $session->pushError('Não foi possível realizar a operação! Por favor contate o administrador do sistema!');

@@ -19,10 +19,36 @@ class CoordExtModel extends MainModel{
         return false;
     }
 
-    //altera a situação de uma empresa conveniada
+    //altera a situação de uma empresa conveniada e notifica os alunos em estágios associados
     public function alterarConvenio($veredito, $justificativa, $cnpj){
-        $st = $this->conn->prepare("update empresa set conveniada = true where cnpj = $cnpj");
-        return $st->execute();
+
+        /*Listar estagios associados*/
+        $estagios = $this->listarEstagiosEmpresa($cnpj);
+        if(!$estagios)
+            return false;
+
+        //listar alunos que estão no estagio associado
+        $alunos = array();
+        foreach($estagios as $estagio){
+            $alunos = array_merge($alunos, $this->listarAlunoEstagio($estagio['aluno_cpf']));
+        }
+
+        if($this->conn->beginTransaction()){
+            $this->conn->exec("update empresa set conveniada = true where cnpj = $cnpj");
+
+            //notificar todos os alunos
+            foreach($alunos as $aluno){
+                $this->conn->exec("");
+            }
+
+            if(!$this->conn->commit()){
+                return false;
+            }
+        }else{
+            return false;
+        }
+
+        return true;
     }
 
     /*Lista status de todos os estágios*/
