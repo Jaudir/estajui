@@ -1,7 +1,8 @@
 <?php
 
-require_once './util/CrudInterface.php';
-require_once './util/connect.php';
+require_once 'CrudInterface.php';
+require_once 'Usuario.php';
+//require_once 'connect.php';
 
 /**
  * Representação de um usuário para o sistema.

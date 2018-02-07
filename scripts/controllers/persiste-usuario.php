@@ -1,14 +1,15 @@
 <?php
 
-require_once(dirname(__FILE__) . '/../base-controller.php');
+require_once(dirname(__FILE__) . '/base-controller.php');
+//require_once('base-controller.php');
+
 
 if (isset($_POST['cadastrar'])) {
     //carregar arquivo da pasta util e model para cadastrar o aluno
     $loader->loadUtil('String');
-    $loader->loadDao('Funcionario');
+	$loader->loadDao('Funcionario');	
 
-	$session = getSession();
-	
+    session_start();
     //talvez seja uma boa inicializar o aluno pelo post(não no construtor, mas em um método init():bool)
     //$aluno = new Aluno(null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
 	$funcionario = new Funcionario(null,null,null,null,null,null,null,null,null,null,null,null,null);

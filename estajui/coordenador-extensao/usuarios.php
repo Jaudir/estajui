@@ -60,11 +60,11 @@
         <div class="col-lg-10 status-desc">
           <div class="row">
             <div class="offset-md-1 col-md-10">
-              <form class="container" id="needs-validation" novalidate>
+              <form class="container" id="needs-validation" novalidate method="POST" action="../../scripts/controllers/persiste-usuario.php">
                 <div class="row">
                   <div class="col-md-12 mb-3">
                     <label for="validationCustom01">Nome completo</label>
-                    <input type="text" class="form-control" id="validationCustom01" required>
+                    <input type="text" class="form-control" id="validationCustom01" required type="text" name="nome">
                     <div class="invalid-feedback">
                       Por favor, informe o nome completo.
                     </div>
@@ -73,14 +73,14 @@
                 <div class="row">
                     <div class="col-md-6 mb-3">
                       <label for="validationCustom03">SIAPE</label>
-                      <input type="text" class="form-control" id="validationCustom03" placeholder="" required>
+                      <input type="text" class="form-control" id="validationCustom03" placeholder="" required type="number" name="siape">
                       <div class="invalid-feedback">
                         Por favor, informe este campo.
                       </div>
                     </div>
                     <div class="col-md-6 mb-2">
                       <label>Vínculo</label>
-                      <select class="form-control" required>
+                      <select class="form-control" required name="vinculo">
                         <option value="">...</option>
                         <option>Docente</option>
                         <option>Técnico administrativo</option>
@@ -90,14 +90,14 @@
                 <div class="row">
                   <div class="col-md-6 mb-3">
                     <label for="validationCustom05">Email</label>
-                    <input type="text" class="form-control" id="validationCustom05" placeholder="" required>
+                    <input type="text" class="form-control" id="validationCustom05" placeholder="" required type="email" name="email">
                     <div class="invalid-feedback">
                       Por favor, informe um e-mail válido.
                     </div>
                   </div>
                   <div class="col-md-6 mb-2">
                     <label>Confirmação de email</label>
-                    <input type="text" class="form-control" id="validationCustom06" placeholder="" required>
+                    <input type="text" class="form-control" id="validationCustom06" placeholder="" required type="confirmEmail" name="confirmEmail">
                     <div class="invalid-feedback">
                       Por favor, informe um e-mail válido.
                     </div>
@@ -109,27 +109,27 @@
                   </div>
                   <div class="col-md-12 mb-2">
                     <label class="custom-control custom-checkbox">
-                      <input type="checkbox" class="custom-control-input">
+                      <input type="checkbox" class="custom-control-input" name="CComp">
                       <span class="custom-control-indicator"></span>
                       <span class="custom-control-description">Ciência da Computação</span>
                     </label>
                     <label class="custom-control custom-checkbox">
-                      <input type="checkbox" class="custom-control-input">
+                      <input type="checkbox" class="custom-control-input" name="EQuim">
                       <span class="custom-control-indicator"></span>
                       <span class="custom-control-description">Engenharia Química</span>
                     </label>
                     <label class="custom-control custom-checkbox">
-                      <input type="checkbox" class="custom-control-input">
+                      <input type="checkbox" class="custom-control-input" name="TecInf">
                       <span class="custom-control-indicator"></span>
                       <span class="custom-control-description">Técnico em Informática</span>
                     </label>
                     <label class="custom-control custom-checkbox">
-                      <input type="checkbox" class="custom-control-input">
+                      <input type="checkbox" class="custom-control-input" name="TecQuim">
                       <span class="custom-control-indicator"></span>
                       <span class="custom-control-description">Técnico em Química</span>
                     </label>
                     <label class="custom-control custom-checkbox">
-                      <input type="checkbox" class="custom-control-input">
+                      <input type="checkbox" class="custom-control-input" name="TecElet">
                       <span class="custom-control-indicator"></span>
                       <span class="custom-control-description">Técnico em Eletrotécnica</span>
                     </label>
@@ -141,22 +141,22 @@
                   </div>
                   <div class="col-md-12 mb-2">
                     <label class="custom-control custom-checkbox">
-                      <input type="checkbox" class="custom-control-input">
+                      <input type="checkbox" class="custom-control-input" name="PO">
                       <span class="custom-control-indicator"></span>
                       <span class="custom-control-description">Professor Orientador</span>
                     </label>
                     <label class="custom-control custom-checkbox">
-                      <input type="checkbox" class="custom-control-input">
+                      <input type="checkbox" class="custom-control-input" name="CE">
                       <span class="custom-control-indicator"></span>
                       <span class="custom-control-description">Coordenador de Extensão</span>
                     </label>
                     <label class="custom-control custom-checkbox">
-                      <input type="checkbox" class="custom-control-input">
+                      <input type="checkbox" class="custom-control-input" name="SRA">
                       <span class="custom-control-indicator"></span>
                       <span class="custom-control-description">Secretaria</span>
                     </label>
                     <label class="custom-control custom-checkbox">
-                      <input type="checkbox" class="custom-control-input">
+                      <input type="checkbox" class="custom-control-input" name="OE">
                       <span class="custom-control-indicator"></span>
                       <span class="custom-control-description">Organizador de Estágio</span>
                     </label>
@@ -164,8 +164,8 @@
                 </div>
                 <div class="row">
                   <div class="col-md-12" style="margin-top: 30px;">
-                    <button class="btn btn-success" type="submit">Cadastrar</button>
-                    <button class="btn btn-danger" type="submit">Cancelar</button>
+                    <button class="btn btn-success" type="submit" name="cadastrar">Cadastrar</button>
+                    <button class="btn btn-danger" type="submit" name="cancelar">Cancelar</button>
                   </div>
                 </div>
               </form>
