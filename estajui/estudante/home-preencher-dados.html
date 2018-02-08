@@ -4,14 +4,14 @@
     <meta charset="utf-8">
     <title>Página inicial | Estudante</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
-    <link rel="stylesheet" href="../css/icons/css/font-awesome.min.css">
-    <link rel="stylesheet" href="../css/main.css">
+    <link rel="stylesheet" href="../../assets/css/icons/css/font-awesome.min.css">
+    <link rel="stylesheet" href="../../assets/css/main.css">
   </head>
   <body>
     <div class="container-home container-fluid fullscreen">
       <nav class="navbar navbar-expand-lg navbar-light nav-menu">
         <a class="navbar-brand" href="#">
-          <img src="../img/LOGO.PNG" height="42" class="d-inline-block align-top" alt="">
+          <img src="../../assets/img/LOGO.PNG" height="42" class="d-inline-block align-top" alt="">
         </a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
@@ -65,7 +65,7 @@
             </div>
           </div>
           <div class="row">
-            <div class="offset-lg-1 col-lg-10 status-desc-item" style="border-bottom: none;">
+            <div class="offset-lg-1 col-lg-10 status-desc-item">
               <h4>Status: </h4>
               <p>solicitação de estágio deferida pela secretária.</p>
             </div>
@@ -79,11 +79,78 @@
                 data-target="#modalEstagio" style="padding: 10px;">Preencher dados</button></a>
             </div>
           </div>
+          <!-- TIMELINE DE STATUS -->
+          <div class="row row-timeline">
+    				<div class="offset-lg-1 col-lg-10">
+              <!--<div class="page-header">
+                <h3>Progresso</h3>
+              </div>-->
+    					<div style="display:inline-block;width:100%;overflow-y:auto;">
+    					<ul class="timeline timeline-horizontal">
+    						<li class="timeline-item">
+    							<div class="timeline-badge success"><i class="fa fa-check"></i></div>
+    							<div class="timeline-panel">
+    								<div class="timeline-heading">
+    									<h4 class="timeline-title">Mussum ipsum cacilds 1</h4>
+    									<p><small class="text-muted"> 09/12/2017 às 9:42 </small></p>
+    								</div>
+    							</div>
+    						</li>
+    						<li class="timeline-item">
+    							<div class="timeline-badge success"><i class="fa fa-check"></i></div>
+    							<div class="timeline-panel">
+    								<div class="timeline-heading">
+    									<h4 class="timeline-title">Mussum ipsum cacilds 2</h4>
+    									<p><small class="text-muted"> 10/12/2017 às 11:30 </small></p>
+    								</div>
+    							</div>
+    						</li>
+    						<li class="timeline-item">
+    							<div class="timeline-badge primary"><i class=""></i></div>
+    							<div class="timeline-panel">
+    								<div class="timeline-heading">
+    									<h4 class="timeline-title">Mussum ipsum cacilds 3</h4>
+    									<p><small class="text-muted"><i class="glyphicon glyphicon-time"></i> - </small></p>
+    								</div>
+    							</div>
+    						</li>
+    						<li class="timeline-item">
+    							<div class="timeline-badge"><i class=""></i></div>
+    							<div class="timeline-panel">
+    								<div class="timeline-heading">
+    									<h4 class="timeline-title">Mussum ipsum cacilds 4</h4>
+    									<p><small class="text-muted"><i class="glyphicon glyphicon-time"></i> - </small></p>
+    								</div>
+    							</div>
+    						</li>
+    						<li class="timeline-item">
+    							<div class="timeline-badge"><i class=""></i></div>
+    							<div class="timeline-panel">
+    								<div class="timeline-heading">
+    									<h4 class="timeline-title">Mussum ipsum cacilds 5</h4>
+    									<p><small class="text-muted"><i class="glyphicon glyphicon-time"></i> - </small></p>
+    								</div>
+    							</div>
+    						</li>
+    						<li class="timeline-item">
+    							<div class="timeline-badge"><i class=""></i></div>
+    							<div class="timeline-panel">
+    								<div class="timeline-heading">
+    									<h4 class="timeline-title">Mussum ipsum cacilds 6</h4>
+    									<p><small class="text-muted"><i class="glyphicon glyphicon-time"></i> - </small></p>
+    								</div>
+    							</div>
+    						</li>
+    					</ul>
+    				</div>
+    				</div>
+			    </div>
+
           <div class="row table-estagios">
-            <div class="offset-lg-1 col-lg-10 table-title">
-              <h3 class="bg-gray"> Todos os estágios </h3>
+            <div class="offset-lg-1 col-lg-10 table-title bg-gray">
+              <h3> Todos os estágios </h3>
             </div>
-            <div class="offset-lg-1 col-lg-10">
+            <div class="offset-lg-1 col-lg-10" style="padding: 0;">
               <table class="table table-bordered">
                 <thead>
                   <tr>

@@ -1,9 +1,6 @@
 <?php
 
-require_once 'CrudInterface.php';
-require_once 'Usuario.php';
-//require_once 'connect.php';
-
+require_once(dirname(__FILE__) . '/Usuario.php');
 /**
  * Representação de um usuário para o sistema.
  *
@@ -125,100 +122,4 @@ class Funcionario extends Usuario {
         $this->_campus = $_campus;
         return $this;
     }
-
-    public function create() {
-        parent::create();
-        $conexao = Conexao::getConnection();
-        if ($conexao) {
-            $pstmt = $conexao->prepare("INSERT INTO funcionario (siape, nome, bool_po, bool_oe, bool_ce, bool_sra, bool_root, formacao, privilegio, usuario_email, campus_cnpj) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-            try {
-                $conexao->beginTransaction();
-                $pstmt->execute(array($this->_siape, $this->_nome, (int)$this->_po, (int)$this->_oe, (int)$this->_ce, (int)$this->_sra, (int)$this->_root, $this->_formacao, (int)$this->_privilegio, parent::getlogin(), $this->_campus->getcnpj()));
-                $conexao->commit();
-                return "Funcionario cadastrado com sucesso";
-            } catch (PDOExecption $e) {
-                $conexao->rollback();
-                #return "Error!: " . $e->getMessage() . "</br>";
-                return "Erro ao salvar no banco de dados, tente novamente";
-            }
-        } else {
-            return "Erro ao conectar com o banco de dados, tente novamente";
-        }
-    }
-
-    public static function read($key, $limite, Usuario $user) {
-        $conexao = Conexao::getConnection();
-        if ($conexao) {
-            if ($limite == 0) {
-                if ($key == NULL) {
-                    $pstmt = $conexao->prepare("SELECT * FROM funcionario");
-                } else {
-                    $pstmt = $conexao->prepare("SELECT * FROM funcionario WHERE siape LIKE :siape");
-                    $pstmt->bindParam(':siape', $key);
-                }
-            } else {
-                if ($key == NULL) {
-                    $pstmt = $conexao->prepare("SELECT * FROM funcionario LIMIT :limite");
-                } else {
-                    $pstmt = $conexao->prepare("SELECT * FROM funcionario WHERE siape LIKE :siape LIMIT :limite");
-                    $pstmt->bindParam(':siape', $key);
-                }
-                $pstmt->bindParam(':limite', $limite, PDO::PARAM_INT);
-            }
-            try {
-                $pstmt->execute();
-                $cont = 0;
-                $result = [];
-                while ($row = $pstmt->fetch()) {
-                    $result[$cont] = new Funcionario($user->getlogin(), $user->getsenha(), $user->gettipo(), $row["siape"], $row["nome"], boolval($row["bool_po"]), boolval($row["bool_oe"]), boolval($row["bool_ce"]), boolval($row["bool_sra"]), boolval($row["bool_root"]), $row["formacao"], boolval($row["privilegio"]), Campus::read($row["campus_cnpj"], 1));
-                    $cont++;
-                }
-                return $result;
-            } catch (PDOExecption $e) {
-                #return "Error!: " . $e->getMessage() . "</br>";
-                return "Erro ao consultar o banco de dados, tente novamente";
-            }
-        } else {
-            return "Erro ao conectar com o banco de dados, tente novamente";
-        }
-    }
-
-    public function update() {
-        $conexao = Conexao::getConnection();
-        if ($conexao) {
-            $pstmt = $conexao->prepare("UPDATE Funcionario SET siape=?, nome=?, bool_po=?, bool_oe=?, bool_ce=?, bool_sra=?, bool_root=?, formacao=?, privilegio=?, campus_cnpj=? where siape = ?");
-            try {
-                $conexao->beginTransaction();
-                $pstmt->execute(array($this->_siape, $this->_nome, (int)$this->_po, (int)$this->_oe, (int)$this->_ce, (int)$this->_sra, (int)$this->_root, $this->_formacao, (int)$this->_privilegio, parent::getlogin(), $this->_campus->getcnpj(), $this->_siape));
-                $conexao->commit();
-                return parent::update();
-            } catch (PDOExecption $e) {
-                $conexao->rollback();
-                #return "Error!: " . $e->getMessage() . "</br>";
-                return "Erro ao salvar no banco de dados, tente novamente";
-            }
-        } else {
-            return "Erro ao conectar com o banco de dados, tente novamente";
-        }
-    }
-
-    public function delete() {
-        $conexao = Conexao::getConnection();
-        if ($conexao) {
-            $pstmt = $conexao->prepare("DELETE from funcionario WHERE siape LIKE ?");
-            try {
-                $conexao->beginTransaction();
-                $pstmt->execute(array($this->_siape));
-                $conexao->commit();
-                return parent::delete();
-            } catch (PDOExecption $e) {
-                $conexao->rollback();
-                #return "Error!: " . $e->getMessage() . "</br>";
-                return "Erro ao deletar no banco de dados, tente novamente";
-            }
-        } else {
-            return "Erro ao conectar com o banco de dados, tente novamente";
-        }
-    }
-
 }

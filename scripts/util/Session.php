@@ -15,10 +15,23 @@ class Session{
     public function setUsuario($usuario){
         $_SESSION['is_func'] = (get_class($usuario) == 'Funcionario');
         $_SESSION['usuario'] = $usuario;
+        $_SESSION['errors'] = array();
     }
 
     public function getUsuario(){
         return $_SESSION['usuario'];
+    }
+
+    public function isAluno(){
+        return !$_SESSION['is_func'];
+    }
+
+    public function isUsuario(){
+
+    /*Retorna true caso o usuário logado seja funcionário*/
+    public function isFuncionario(){
+
+        return $_SESSION['is_func'];
     }
 
     public function ispo(){
@@ -44,8 +57,12 @@ class Session{
     public function isLogged(){
         return isset($_SESSION['usuario']);
     }
-    public function pushError($description){
-        array_push($_SESSION['errors'], $description);
+
+    public function pushError($description, $type = 'normal'){
+        if(!isset($_SESSION['errors'][$type]))
+            $_SESSION['errors'][$type] = array();
+
+        array_push($_SESSION['errors'][$type], $description);
     }
 
     public function hasError(){
@@ -54,5 +71,18 @@ class Session{
 
     public function getErrors(){
         return $_SESSION['errors'];
+    }
+
+    public function clearErrors(){
+        $_SESSION['errors'] = array();
+    }
+
+    public function printErrors(){
+        foreach($_SESSION['errors'] as $type => $descriptions){
+            echo "Error type: <b>$type</b> :<br>";
+            foreach($descriptions as $description){
+                echo "<p style='margin-left:12px;'>Descrição: <span style='color:red;'>$description</span></p>";
+            } 
+        }
     }
 }

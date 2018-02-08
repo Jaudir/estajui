@@ -267,6 +267,8 @@ insert into status (descricao) values ("Aguardando correção do relatório de e
 insert into status (descricao) values ("Relatório de estágio aprovado. Aguardando que o estudante encaminhe o relatório de estágio para a Coordenadoria de Extensão");
 insert into status (descricao) values ("Relatório Final de Estágio e Declaração de Conclusão do Estágio enviados à Secretaria");
 insert into status (descricao) values ("Estágio concluído");
+insert into status (descricao) values ("Convênio de empresa aprovado");
+insert into status (descricao) values ("Convênio de empresa reprovado");
 
 -- Adicionando dados pra testar
 
@@ -333,3 +335,7 @@ INSERT INTO oferece_curso VALUES (3, 'Diurno', 3, 10727655000462);
 INSERT INTO oferece_curso VALUES (4, 'Diurno', 4, 10727655000462);
 INSERT INTO oferece_curso VALUES (5, 'Diurno', 5, 10727655000462);
 INSERT INTO oferece_curso VALUES (6, 'Diurno', 6, 10727655000462);
+
+-- ESTAGIO
+INSERT INTO `estagio`(`bool_aprovado`, `bool_obrigatorio`, `periodo`, `serie`, `modulo`, `integ_ano`, `integ_semestre`, `dependencias`, `justificativa`, `endereco_tc`, `endereco_pe`, `aluno_cpf`, `empresa_cnpj`, `curso_id`, `po_siape`, `status_codigo`) VALUES (true, true, 4, 4, 6, 6, 6, "none", "Formar", "none", "none", 12345678100, 1, 1, 12345, 1);
+
