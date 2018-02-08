@@ -1,4 +1,34 @@
 <!DOCTYPE html>
+<?php
+	session_start();
+	
+	//session_destroy();
+	//session_unset();
+	
+	//var_dump($_SESSION);
+?>
+
+<script>
+	function mensagemSalvamento() {	
+		
+		if(<?php if(isset($_SESSION['erros'])) echo 0; else echo 1; ?>) {
+			
+			return ;
+		}
+		if(<?php if(isset($_SESSION['erros']) && $_SESSION['erros'] == 0) echo 1; else echo 0; ?>) {
+			window.alert("O usuário foi salvo no BD!");
+			return ;
+		}
+		else {
+			var msg;
+			var i;
+			window.alert('<?php if (isset($_SESSION['mensagensErro'])) {foreach($_SESSION['mensagensErro'] as &$msg) echo $msg . " "; unset($msg); } ?>');
+			return ;
+		}
+		
+		<?php unset($_SESSION['erros']);	unset($_SESSION['mensagensErro']); unset($_SESSION['pau1']); unset($_SESSION['pau12']); unset($_SESSION['curso'])?>
+	}
+</script>
 <html>
   <head>
     <meta charset="utf-8">
@@ -7,7 +37,7 @@
     <link rel="stylesheet" href="../css/icons/css/font-awesome.min.css">
     <link rel="stylesheet" href="../css/main.css">
   </head>
-  <body>
+  <body onload = "mensagemSalvamento()">
     <div class="container-home container-fluid">
       <nav class="navbar navbar-expand-lg navbar-light nav-menu">
         <a class="navbar-brand" href="#">

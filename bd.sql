@@ -303,7 +303,11 @@ INSERT INTO `campus`(`cnpj`, `telefone`, `endereco_id`) VALUES (10727655000462, 
 
 -- CURSO
 INSERT INTO `curso`(`id`, `nome`, `turno`, `campus_cnpj`) VALUES (1, 'Ciência da Computação', 'Diurno', 10727655000462);
-INSERT INTO `curso`(`id`, `nome`, `turno`, `campus_cnpj`) VALUES (2, 'Engenharia Química', 'Noturno', 10727655000462);
+INSERT INTO `curso`(`id`, `nome`, `turno`, `campus_cnpj`) VALUES (2, 'Engenharia Química', 'Diurno', 10727655000462);
+INSERT INTO curso VALUES (3, 'Técnico em Informática', 'Diurno', 10727655000462);
+INSERT INTO curso VALUES (4, 'Técnico em Química', 'Diurno', 10727655000462);
+INSERT INTO curso VALUES (5, 'Técnico em Eletrotécnica', 'Noturno', 10727655000462);
+INSERT INTO curso VALUES (6, 'Técnico em Segurança do Trabalho', 'Noturno', 10727655000462);
 
 -- FUNCIONARIO
 INSERT INTO `funcionario`(`siape`, `nome`, `bool_po`, `bool_oe`, `bool_ce`, `bool_sra`, `bool_root`, `formacao`, `privilegio`, `usuario_email`, `campus_cnpj`) VALUES (12345, 'jhonson Teacher', 1, 1, 1, 1, 1, 'ticher', 1, 'email@email10.com', 10727655000462);
@@ -322,4 +326,10 @@ INSERT INTO `empresa`(`cnpj`, `nome`, `telefone`, `fax`, `nregistro`, `conselhof
 INSERT INTO `empresa`(`cnpj`, `nome`, `telefone`, `fax`, `nregistro`, `conselhofiscal`, `endereco_id`, `conveniada`) VALUES (00021, 'Microsoft', 12345566, 12312431, 31231, 'Conselho', 5, 0);
 INSERT INTO `empresa`(`cnpj`, `nome`, `telefone`, `fax`, `nregistro`, `conselhofiscal`, `endereco_id`, `conveniada`) VALUES (00031, 'BLIZZ2', 12345566, 12312431, 31231, 'Conselho', 5, 0);
 
--- CAMPUS
+-- OFERTA DE CURSO
+INSERT INTO oferece_curso VALUES (1, 'Diurno', 1, 10727655000462);
+INSERT INTO oferece_curso VALUES (2, 'Diurno', 2, 10727655000462);
+INSERT INTO oferece_curso VALUES (3, 'Diurno', 3, 10727655000462);
+INSERT INTO oferece_curso VALUES (4, 'Diurno', 4, 10727655000462);
+INSERT INTO oferece_curso VALUES (5, 'Diurno', 5, 10727655000462);
+INSERT INTO oferece_curso VALUES (6, 'Diurno', 6, 10727655000462);

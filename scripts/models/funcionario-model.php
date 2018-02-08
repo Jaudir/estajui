@@ -10,7 +10,7 @@ require_once('MainModel.php');
 class FuncionarioModel extends MainModel{
 	
 	///Se a senha estiver NULL, cria uma aleatória
-    public function cadastrar($funcionario){
+    public function cadastrar($funcionario, $cursos){
 		$this->loader->loadUtil('funcao-geraSenha');
 		$this->loader->loadDAO('Usuario');
 		
@@ -36,6 +36,7 @@ class FuncionarioModel extends MainModel{
 				if(!$verif) {
 					echo "<br>Ali!";
 					print_r($pstmt->errorInfo());
+					$_SESSION['pau12'] = $pstmt->errorInfo();
 					return false;
 				}
 			}
@@ -48,7 +49,7 @@ class FuncionarioModel extends MainModel{
 							$funcionario->isroot(), $funcionario->getformacao(), $funcionario->isprivilegio(), $funcionario->getlogin(), 10727655000462));
             if(!$verif) {
 					
-				print_r($pstmt->errorInfo());
+				$_SESSION['pau1'] = $pstmt->errorInfo();
 				return false;
 			}
 				
@@ -58,7 +59,70 @@ class FuncionarioModel extends MainModel{
 							$funcionario->isce() . '<br>' .	$funcionario->issra() . '<br>' . $funcionario->isroot() . '<br>' . $funcionario->getformacao() . 
 							'<br>' . $funcionario->isprivilegio() . '<br>' . $funcionario->getlogin() . '<br>' . 10727655000462;*/
 			
+			if(isset($cursos)) {
+				
+				foreach($cursos as $i => $c) {
+					$_SESSION['curso'] = $c;
+					if(strcmp($c, "cienciadacomputacao") == 0) {
+						$pstmt = $this->conn->prepare("INSERT INTO leciona (po_siape, oferece_curso_id) VALUES(?,?)");
+						$verif = $pstmt->execute(array($funcionario->getsiape(), 1));
+						if(!$verif) {
+							$_SESSION['pau10'] = $pstmt->errorInfo();
+							return false;
+						}
+					}
+					
+					if(strcmp($c,"engenhariaquimica") == 0) {
+						$pstmt = $this->conn->prepare("INSERT INTO leciona (po_siape, oferece_curso_id) VALUES(?,?)");
+						$verif = $pstmt->execute(array($funcionario->getsiape(), 2));
+						if(!$verif) {
+							$_SESSION['pau20'] = $pstmt->errorInfo();
+							return false;
+						}
+					}
+					
+					if(strcmp($c,"tecnicoeminformatica") == 0) {
+						$pstmt = $this->conn->prepare("INSERT INTO leciona (po_siape, oferece_curso_id) VALUES(?,?)");
+						$verif = $pstmt->execute(array($funcionario->getsiape(), 3));
+						if(!$verif) {
+							$_SESSION['pau30'] = $pstmt->errorInfo();
+							return false;
+						}
+					}
+					
+					if(strcmp($c,"tecnicoemquimica") == 0) {
+						$pstmt = $this->conn->prepare("INSERT INTO leciona (po_siape, oferece_curso_id) VALUES(?,?)");
+						$verif = $pstmt->execute(array($funcionario->getsiape(), 4));
+						$_SESSION['pau39'] = "Inseriu";
+						if(!$verif) {
+							$_SESSION['pau40'] = $pstmt->errorInfo();
+							return false;
+						}
+					}
+					
+					if(strcmp($c,"tecnicoemeletrotecnica") == 0) {
+						$pstmt = $this->conn->prepare("INSERT INTO leciona (po_siape, oferece_curso_id) VALUES(?,?)");
+						$verif = $pstmt->execute(array($funcionario->getsiape(), 5));
+						if(!$verif) {
+							$_SESSION['pau50'] = $pstmt->errorInfo();
+							return false;
+						}
+					}
+					
+					if(strcmp($c,"tecnicoemsegurancadotrabalho") == 0) {
+						$pstmt = $this->conn->prepare("INSERT INTO leciona (po_siape, oferece_curso_id) VALUES(?,?)");
+						$verif = $pstmt->execute(array($funcionario->getsiape(), 6));
+						if(!$verif) {
+							$_SESSION['pau60'] = $pstmt->errorInfo(); 
+							return false;
+						}
+					}
+				}
+			}
+			
             return $this->conn->commit();
+			
+			
         } catch (PDOException $e) {
             $this->conn->rollback();
             return false;
