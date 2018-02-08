@@ -1,6 +1,6 @@
 <?php
 
-require_once 'CrudInterface.php';
+require_once(dirname(__FILE__) . '/CrudInterface.php');
 
 /**
  * Representação de um usuário para o sistema.

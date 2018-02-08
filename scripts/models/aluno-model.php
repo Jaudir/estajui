@@ -31,13 +31,15 @@ class AlunoModel extends MainModel
 	public function recuperar($aluno)
 	{
 		try {
-            $pstmt = $this->conn->prepare("SELECT * FROM aluno JOIN endereco ON endereco.id=aluno.endereco_id JOIN usuario ON aluno.usuaio_email=usuario.email WHERE aluno.cpf=?");
-            $pstmt->execute($aluno->getcpf());
-			$res = $pstmt->fetchAll();
+            $pstmt = $this->conn->prepare("SELECT * FROM aluno JOIN endereco ON endereco.id=aluno.endereco_id JOIN usuario ON aluno.usuario_email=usuario.email WHERE aluno.cpf=?");
+            $v = $pstmt->execute(array($aluno->getcpf()));
+            $res = $pstmt->fetchAll();
 			
 			if(count($res)==0)
 				return false;
-			
+
+            $res = $res[0];
+
 			$endereco = new Endereco($res['id'], $res['logradouro'], $res['bairro'], $res['numero'], $res['complemento'], $res['cidade'], $res['uf'], $res['cep']);
 			$aluno = new Aluno($res['usuario_email'], $res['senha'], $res['tipo'], $res['cpf'], $res['nome'], $res['data_nasc'], $res['rg_num'], $res['rg_orgao'],
 							   $res['estado_civil'], $res['sexo'], $res['telefone'], $res['celular'], $res['nome_pai'], $res['nome_mae'], $res['cidade_natal'],
@@ -45,6 +47,7 @@ class AlunoModel extends MainModel
 			
 			return $aluno;
         } catch (PDOExecption $e) {
+            Log::logPDOError($e, true);
             $this->conn->rollback();
             return false;
         }	
@@ -53,22 +56,25 @@ class AlunoModel extends MainModel
 	public function atualizar($aluno)
 	{
 		try {
+            $endereco = $aluno->endereco;
+
 			$pstmt = $this->conn->prepare("UPDATE usuario SET senha=? WHERE email=?");
-			$pstmt->execute($aluno->getsenha(), $aluno->getemail());
+			$pstmt->execute(array($aluno->getsenha(), $aluno->getlogin()));
 			
 			$pstmt = $this->conn->prepare("UPDATE endereco SET logradouro=?, bairro=?, numero=?, complemento=?, cidade=?, uf=?, cep=? WHERE id=?");
-			$pstmt->execute($endereco->getlogradouro(), $endereco->getbairro(), $endereco->getnumero(), $endereco->getcomplemento(), $endereco->getcidade(), $endereco->getuf(), 
-							$endereco->getcep(), $endereco->getid());
+			$pstmt->execute(array($endereco->getlogradouro(), $endereco->getbairro(), $endereco->getnumero(), $endereco->getcomplemento(), $endereco->getcidade(), $endereco->getuf(), 
+							$endereco->getcep(), $endereco->getid()));
 			
-            $pstmt = $this->conn->prepare("UPDATE aluno SET nome=?, rg_orgao=?, estado_civil=?, sexo=?, telefone=?, celular=?, nome_pai=?, nome_mae=?, cidade_natal=?, estado_natal=?,
+            $pstmt = $this->conn->prepare("UPDATE aluno SET nome=?, rg_orgao=?, estado_civil=?, sexo=?, telefone=?, celular=?, nome_pai=?, nome_mae=?, cidade_natal=?, estado_natal=?
 										  WHERE cpf=?");
-            $pstmt->execute($aluno->getnome(), $aluno->getrg_orgao(), $aluno->getestado_civil(), $aluno->getsexo(), $aluno->gettelefone(), $aluno->getcelular(), $aluno->getnome_pai(),
-							$aluno->getnome_mae(), $aluno->getcidade_natal(), $aluno->getestado_natal(), $aluno->getcpf());
-			
+            $pstmt->execute(array($aluno->getnome(), $aluno->getrg_orgao(), $aluno->getestado_civil(), $aluno->getsexo(), $aluno->gettelefone(), $aluno->getcelular(), $aluno->getnome_pai(),
+							$aluno->getnome_mae(), $aluno->getcidade_natal(), $aluno->getestado_natal(), $aluno->getcpf()));
         } catch (PDOExecption $e) {
+            Log::logPDOError($e, true);
             $this->conn->rollback();
             return false;
-        }	
+        }
+        return true;
 	}
 	
     public function VerificaLoginCadastrado($email)

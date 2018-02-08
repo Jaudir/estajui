@@ -1,13 +1,13 @@
 <?php
 
-require_once 'Usuario.php';
-require_once 'Endereco.php';
+require_once(dirname(__FILE__) . '/Usuario.php');
+require_once(dirname(__FILE__) . '/Endereco.php');
 /**
  * Description of Discente
  *
  * @author gabriel Lucas
  */
-class Aluno extends Usuario implements CrudInterface {
+class Aluno extends Usuario{
 
     private $_cpf;
     private $_nome;
@@ -180,6 +180,11 @@ class Aluno extends Usuario implements CrudInterface {
 
     public function setendereco_id($_endereco_id) {
         $this->_endereco_id = $_endereco_id;
+        return $this;
+    }
+
+    public function setendereco($_endereco){
+        $this->endereco = $_endereco;
         return $this;
     }
 }
