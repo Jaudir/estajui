@@ -5,6 +5,7 @@ class Log{
             echo "Error: " . $string . "<br>";
         }
     }
+
     public static function logPDOError($pdoEx, $echo = false){
         if($echo){
             echo "Date and time: " . $date = date('m/d/Y h:i:s a', time()) . "<br>";

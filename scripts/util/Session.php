@@ -27,6 +27,10 @@ class Session{
     }
 
     public function isUsuario(){
+
+    /*Retorna true caso o usuário logado seja funcionário*/
+    public function isFuncionario(){
+
         return $_SESSION['is_func'];
     }
 
@@ -57,6 +61,7 @@ class Session{
     public function pushError($description, $type = 'normal'){
         if(!isset($_SESSION['errors'][$type]))
             $_SESSION['errors'][$type] = array();
+
         array_push($_SESSION['errors'][$type], $description);
     }
 

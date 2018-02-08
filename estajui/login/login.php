@@ -9,13 +9,11 @@
   <body>
 
     <div class="container-fluid bg-green fullscreen">
-      <div class="row">
-        <div class="col-sm-12" style="text-align:center; margin-top: 60px">
+      <div class="row align-items-center fullscreen" style="display: flex;">
+        <div class="col-md-12 img-logo">
           <img src="../../assets/img/logo.png" alt="Estajui">
         </div>
-      </div>
-      <div class="row align-items-center fullscreen" style="margin-top: -113px;">
-        <div class="col-md-4 content-login">
+        <div class="col-md-4 offset-md-4 content-login">
           <form name="login">
             <div class="form-group">
               <label for="email">Email</label>
