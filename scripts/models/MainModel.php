@@ -13,8 +13,11 @@ class MainModel{
             $dbname = $DB['NAME'];
             $username = $DB['USERNAME'];
             $password = $DB['PASSWORD'];
-
+            
             $this->conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
+
+            //atributos
+            $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         }catch(PDOException $ex){
             echo "Model não pode se conectar ao banco de dados: " . $ex->getMessage() . '<br>';
             print_r($DB);
@@ -22,21 +25,5 @@ class MainModel{
         }
 
         return true;
-    }
-
-    public function listarEstagiosEmpresa($cnpj){
-        $st = $this->conn->prepare("select * from estagio where empresa_cnpj = $cnpj");
-        if(!$st->execute()){
-            return false;
-        }
-        return $st->fetchAll();
-    }
-
-    public function listarAlunosEstagio($aluno_cpf){
-        $st = $this->conn->prepare("select * from aluno where cpf = $aluno_cpf");
-        if(!$st->execute()){
-            return false;
-        }
-        return $st->fetchAll();
     }
 }

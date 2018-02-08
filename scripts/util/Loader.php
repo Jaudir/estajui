@@ -31,7 +31,7 @@ class Loader{
     }
     
     public function loadDAO($daoFile){
-        require_once($daosDir . $daoFile . '.php');
+        require_once($this->daosDir . $daoFile . '.php');
     
         //não instancia a classe
         return true;
