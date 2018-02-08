@@ -129,12 +129,12 @@
                         <h6>Telefone do responsável: </h6> <p><?php echo $empresa['resp_tel']?></p> <br>
                         <h6>Email: </h6> <p><?php echo $empresa['resp_email']?></p> <br>
                         <h6>Cargo: </h6> <p><?php echo $empresa['resp_cargo']?></p> <br>
-                        <h6>Logradouro: </h6> <p><?php echo $empresa['logradouro']?></p>
-                        <h6>Número: </h6> <p><?php echo $empresa['numero']?></p>
-                        <h6>Sala: </h6> <p><?php "Não tem sala"?></p>
-                        <h6>Bairro: </h6> <p><?php echo $empresa['bairro']?></p>
-                        <h6>Cidade: </h6> <p><?php echo $empresa['cidade']?></p>
-                        <h6>Estado: </h6> <p><?php echo $empresa['estado']?></p>
+                        <h6>Logradouro: </h6> <p><?php echo $empresa['logradouro']?></p> <br>
+                        <h6>Número: </h6> <p><?php echo $empresa['numero']?></p> <br>
+                        <h6>Sala: </h6> <p><?php echo "Não tem sala"?></p> <br>
+                        <h6>Bairro: </h6> <p><?php echo $empresa['bairro']?></p><br>
+                        <h6>Cidade: </h6> <p><?php echo $empresa['cidade']?></p><br>
+                        <h6>Estado: </h6> <p><?php echo $empresa['estado']?></p><br>
                         <h6>CEP: </h6> <p><?php echo $empresa['cep']?></p>
                         </div>
                       </button>
@@ -169,12 +169,12 @@
                   <div class="form-group">
                     <div class="custom-controls-stacked d-block my-3" style="margin-top: 10px;">
                       <label class="custom-control custom-radio">
-                        <input id="radioStacked1" name="veredito" type="radio" class="custom-control-input" required>
+                        <input id="radioStacked1" name="aprova" type="radio" class="custom-control-input" required>
                         <span class="custom-control-indicator"></span>
                         <span class="custom-control-description">Aprovado</span>
                       </label>
                       <label class="custom-control custom-radio" style="margin-left: 20px;">
-                        <input id="radioStacked2" name="veredito" type="radio" class="custom-control-input" required>
+                        <input id="radioStacked2" name="reprova" type="radio" class="custom-control-input" required>
                         <span class="custom-control-indicator"></span>
                         <span class="custom-control-description">Reprovado</span>
                       </label>
