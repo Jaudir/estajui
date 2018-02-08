@@ -1,5 +1,4 @@
 <?php
-
 class Log{
     public static function LogError($string, $echo = false){
         if($echo){

@@ -15,14 +15,22 @@ class Session{
     public function setUsuario($usuario){
         $_SESSION['is_func'] = (get_class($usuario) == 'Funcionario');
         $_SESSION['usuario'] = $usuario;
+        $_SESSION['errors'] = array();
     }
 
     public function getUsuario(){
         return $_SESSION['usuario'];
     }
 
+    public function isAluno(){
+        return !$_SESSION['is_func'];
+    }
+
+    public function isUsuario(){
+
     /*Retorna true caso o usuário logado seja funcionário*/
     public function isFuncionario(){
+
         return $_SESSION['is_func'];
     }
 
@@ -63,6 +71,10 @@ class Session{
 
     public function getErrors(){
         return $_SESSION['errors'];
+    }
+
+    public function clearErrors(){
+        $_SESSION['errors'] = array();
     }
 
     public function printErrors(){
