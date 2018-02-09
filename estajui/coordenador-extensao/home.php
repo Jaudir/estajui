@@ -1,5 +1,7 @@
 <?php
   require_once('../../scripts/controllers/coordenador-extensao/load-home.php');
+  
+  $errosExibir = $session->getErrors('normal');
 ?>
 <!DOCTYPE html>
 <html>
@@ -7,14 +9,14 @@
     <meta charset="utf-8">
     <title>Página inicial | Coordenação de Extensão </title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
-    <link rel="stylesheet" href="../../assets/css/icons/css/font-awesome.min.css">
-    <link rel="stylesheet" href="../../assets/css/main.css">
+    <link rel="stylesheet" href="<?php echo base_url();?>/assets/css/icons/css/font-awesome.min.css">
+    <link rel="stylesheet" href="<?php echo base_url();?>/assets/css/main.css">
   </head>
   <body>
     <div class="container-home container-fluid fullscreen">
       <nav class="navbar navbar-expand-lg navbar-light nav-menu">
         <a class="navbar-brand" href="#">
-          <img src="../../assets/img/LOGO.PNG" height="42" class="d-inline-block align-top" alt="">
+          <img src="<?php echo base_url();?>/assets/img/LOGO.PNG" height="42" class="d-inline-block align-top" alt="">
         </a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
@@ -182,7 +184,7 @@
                     <div class="row">
                       <div class="col-md-12">
                         <label for="justificativa">Justificativa</label>
-                        <textarea name="justificativa" rows="3" class="form-control" required></textarea>
+                        <textarea placeholder="Só será usada em caso de reprovação." name="justificativa" rows="3" class="form-control" required></textarea>
                       </div>
                     </div>
                   </div>
@@ -255,6 +257,18 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
     <script>
       $(function(){
+        <?php
+          if($errosExibir != null):  
+        ?>
+          <?php
+            $msg = ''; 
+            foreach($errosExibir as $erro){
+              $msg = $msg . '\n' . $erro;
+            }
+          ?>
+        alert('Erro:\n<?php echo $msg?>');
+        <?php endif?>
+
         $('.empresaModalToggle').click(function(){
           $('#ecnpj').val($(this).find('.cnpj').html());
           $('#empresaDadosInModal').html($(this).children('.empresaDados').html());

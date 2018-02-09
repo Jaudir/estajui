@@ -17,6 +17,7 @@ create table endereco(
 create table empresa (
 	cnpj numeric(14) primary key,
 	nome varchar(40),
+	razao_social varchar(100),
 	telefone numeric(11),
 	fax numeric(10),
 	nregistro numeric(8), 
@@ -159,6 +160,8 @@ create table modifica_status(
 create table notificacao(
 	id int auto_increment primary key,
 	lida char,
+	temJustificativa bool,
+	justificativa varchar(500),
 	modifica_status_id int,
 	foreign key(modifica_status_id) references modifica_status(id)
 );

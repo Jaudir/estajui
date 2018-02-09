@@ -14,11 +14,7 @@
     <div class="container-fluid">
       <nav class="navbar navbar-expand-lg navbar-light nav-menu">
         <a class="navbar-brand" href="#">
-<<<<<<< HEAD
           <img src="../../assets/img/logo.png" height="42" class="d-inline-block align-top" alt="">
-=======
-          <img src="../img/LOGO.PNG" height="42" class="d-inline-block align-top" alt="">
->>>>>>> upstream/master
         </a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>

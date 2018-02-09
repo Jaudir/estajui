@@ -26,11 +26,8 @@ class Session{
         return !$_SESSION['is_func'];
     }
 
-    public function isUsuario(){
-
     /*Retorna true caso o usuário logado seja funcionário*/
     public function isFuncionario(){
-
         return $_SESSION['is_func'];
     }
 
@@ -69,8 +66,13 @@ class Session{
         return (count($_SESSION['erros']) > 0);
     }
 
-    public function getErrors(){
-        return $_SESSION['errors'];
+    public function getErrors($type){
+        if(isset($_SESSION['errors'][$type])){
+            $err = $_SESSION['errors'][$type];
+            unset($_SESSION['errors'][$type]);
+            return $err;
+        }
+        return null;
     }
 
     public function clearErrors(){

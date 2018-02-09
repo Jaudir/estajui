@@ -6,7 +6,14 @@ require_once(dirname(__FILE__) . '/../util/Loader.php');
 $loader = new Loader($configs);
 
 /*Carregamentos iniciais*/
+
 $loader->loadUtil('Log');
+$loader->loadDao('Usuario');
+$loader->loadDao('Funcionario');
+$loader->loadDao('Aluno');
+
+//faz com que todas as mensagens de erro log sejam printadas na tela
+Log::setIsDebugging(true);
 
 function base_url(){
     global $configs;
@@ -25,21 +32,5 @@ function getSession(){
 
     $session =  $loader->loadUtil('Session', 'Session');
     $session->start();
-    return $session;
-}
-
-/* Verifica se o usuário está logado com a permissão requerida
-    caso não esteja logado ou não tenha permissão redreciona para a página de login
-    caso tenha a permissão irá retornar a variável de sessao
-*/
-function checkPermission($required){
-    $session = getSession();
-
-    if(!$session->isLogged())
-        redirect(base_url() . '/index.php');
-
-    if($session->getPermissao() != $required)
-        redirect(base_url() . '/index.php');
-
     return $session;
 }

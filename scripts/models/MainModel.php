@@ -19,11 +19,14 @@ class MainModel{
             //atributos
             $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         }catch(PDOException $ex){
-            echo "Model não pode se conectar ao banco de dados: " . $ex->getMessage() . '<br>';
-            print_r($DB);
+            Log::LogPDOError($ex);
             return false;
         }
 
         return true;
+    }
+
+    public function getLastError(){
+        return $this->conn->errorInfo();
     }
 }
