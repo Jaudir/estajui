@@ -171,12 +171,12 @@
                   <div class="form-group">
                     <div class="custom-controls-stacked d-block my-3" style="margin-top: 10px;">
                       <label class="custom-control custom-radio">
-                        <input id="radioStacked1" name="aprova" type="radio" class="custom-control-input" required>
+                        <input id="radioStacked1" name="veredito" value="1" type="radio" class="custom-control-input" required>
                         <span class="custom-control-indicator"></span>
                         <span class="custom-control-description">Aprovado</span>
                       </label>
                       <label class="custom-control custom-radio" style="margin-left: 20px;">
-                        <input id="radioStacked2" name="reprova" type="radio" class="custom-control-input" required>
+                        <input id="radioStacked2" name="veredito" value="0" type="radio" class="custom-control-input" required>
                         <span class="custom-control-indicator"></span>
                         <span class="custom-control-description">Reprovado</span>
                       </label>
