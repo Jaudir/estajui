@@ -16,8 +16,8 @@ class Log{
         if(self::$isDebugging){
             echo "Date and time: " . $date = date('m/d/Y h:i:s a', time()) . "<br>";
             echo "Message: ". $pdoEx->getMessage() . "<br>";
-            echo "File: " . $pdoEx->getFile() . " at line " . $pdoEc->getLine() . "<br>";
-            echo "Traceback: " . $pdoEx->getTraceString() . " <br>";
+            echo "File: " . $pdoEx->getFile() . " at line " . $pdoEx->getLine() . "<br>";
+            echo "Traceback: " . $pdoEx->getTraceAsString() . " <br>";
         }
     }
 }

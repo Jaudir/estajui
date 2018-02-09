@@ -26,7 +26,7 @@
           <ul class="nav-content navbar-nav">
             <li>
               <span class="navbar-text">
-                <?php echo "PEGAR NOME DA SESSÃO"; ?>
+                <?php echo $session->getUsuario()->getnome(); ?>
               </span>
             </li>
             <li class="nav-item">
@@ -166,7 +166,7 @@
                       <!---->
                   </div>
                 </div>
-                <form name="convenio" id="empresaForm" method="post" action="<?php echo $configs['BASE_URL'] . '/scripts/controllers/coordenador-extensao/pre-cadastrar-empresa.php'?>">
+                <form name="convenio" id="empresaForm" method="post" action="<?php echo base_url() . '/scripts/controllers/coordenador-extensao/validar-cadastro-empresa.php'?>">
                   <input type="hidden" id="ecnpj" name="cnpj" value="">
                   <div class="form-group">
                     <div class="custom-controls-stacked d-block my-3" style="margin-top: 10px;">

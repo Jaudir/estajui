@@ -24,7 +24,7 @@ create table empresa (
 	conselhofiscal varchar(30), 
 	endereco_id int,
 	conveniada bool,
-	foreign key(endereco_id) references endereco(id)
+	foreign key(endereco_id) references endereco(id) on delete cascade
 );
 
 create table responsavel(

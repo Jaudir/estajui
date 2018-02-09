@@ -195,7 +195,7 @@ class FuncionarioModel extends MainModel{
     public function removerCadastroEmpresa($cnpj){
         try{
             $this->conn->exec("delete from empresa where cnpj = $cnpj");
-            //remover endereço aqui
+            //remover endereço aqui(delete deve ser on cascade)
         }catch(PDOException $ex){
             Log::LogPDOError($ex);
             return false;
@@ -220,7 +220,7 @@ class FuncionarioModel extends MainModel{
                 FROM empresa 
                 INNER JOIN endereco ON endereco.id = empresa.endereco_id 
                 LEFT JOIN responsavel ON responsavel.empresa_cnpj = empresa.cnpj
-                WHERE conveniada = -1');
+                WHERE conveniada = 0');
             $st->execute();
             return $st->fetchAll();
         }catch(PDOException $ex){
