@@ -1,5 +1,5 @@
 <?php
-require_once $_SERVER['DOCUMENT_ROOT']."/estajui/scripts/controllers/LoginController.php";
+require_once $_SERVER['DOCUMENT_ROOT'] . "/estajui/scripts/controllers/LoginController.php";
 ?>
 <!DOCTYPE html>
 <html>
@@ -20,6 +20,9 @@ require_once $_SERVER['DOCUMENT_ROOT']."/estajui/scripts/controllers/LoginContro
             <div class="row align-items-center fullscreen" style="margin-top: -113px;">
                 <div class="col-md-4 content-login">
                     <form name="login" method="post">
+                        <?php if ($session->hasError("login")) { ?>
+                            <span class="error"><?php echo $session->getErrors("login")[0];  ?></span>
+                        <?php } ?>
                         <div class="form-group">
                             <label for="email">Email</label>
                             <input type="email" class="form-control" id="email" name="email" aria-describedby="emailHelp" placeholder="Digite seu email">

@@ -21,10 +21,10 @@ class MainModel {
 
             $this->conn = $database->getConnection();
         } catch (PDOException $ex) {
-//            return "Model não pode se conectar ao banco de dados: " . $ex->getMessage() . '<br>';
-            return 1;
+            echo "Model não pode se conectar ao banco de dados: " . $ex->getMessage() . '<br>';
+            return false;
         }
-        return 0;
+        return true;
     }
 
 }

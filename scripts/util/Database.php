@@ -5,14 +5,14 @@
  *
  * @author gabriel Lucas
  */
-class Databsae {
+class Database {
 
     private static $servername = "localhost";
     private static $username = "projeto_estajui";
     private static $password = "est*826491735";
     private static $dbname = "estajui";
     private static $db = null;
-    
+
     public static function getServername() {
         return self::$servername;
     }
@@ -31,24 +31,20 @@ class Databsae {
 
     public static function setServername($servername) {
         self::$servername = $servername;
-        return self;
     }
 
     public static function setUsername($username) {
         self::$username = $username;
-        return self;
     }
 
     public static function setPassword($password) {
         self::$password = $password;
-        return self;
     }
 
     public static function setDbname($dbname) {
         self::$dbname = $dbname;
-        return self;
     }
-    
+
     /**
      * Gerador de coneção
      * 
@@ -60,7 +56,7 @@ class Databsae {
     public static function getConnection() {
         if (is_null(self::$db)) {
             try {
-                $conn = new PDO("mysql:host=".self::$servername.";dbname=".self::$dbname, self::$username, self::$password);
+                $conn = new PDO("mysql:host=" . self::$servername . ";dbname=" . self::$dbname, self::$username, self::$password);
                 $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
                 return $conn;
             } catch (PDOException $e) {

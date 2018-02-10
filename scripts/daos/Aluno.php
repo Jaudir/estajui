@@ -1,6 +1,6 @@
 <?php
-require_once $_SERVER['DOCUMENT_ROOT'] . '/estajui/scripts/dao/Usuario.php';
-require_once $_SERVER['DOCUMENT_ROOT'] . '/estajui/scripts/dao/Endereco.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/estajui/scripts/daos/Usuario.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/estajui/scripts/daos/Endereco.php';
 
 /**
  * Description of Discente

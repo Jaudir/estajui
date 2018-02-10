@@ -1,14 +1,14 @@
 <?php
 
 require_once('MainModel.php');
-require_once $_SERVER['DOCUMENT_ROOT'] . "/estajui/scripts/dao/Endereco.php";
+require_once $_SERVER['DOCUMENT_ROOT'] . "/estajui/scripts/daos/Endereco.php";
 
 class EnderecoModel extends MainModel {
 
     private $_tabela = "endereco";
 
     public function create(Endereco $endereco) {
-        $pstmt = $this->conn->prepare("INSERT INTO " . $this->$_tabela . " (logradouro, bairro, numero, complemento, cidade, uf, cep) VALUES(?, ?, ?, ?, ?, ?, ?)");
+        $pstmt = $this->conn->prepare("INSERT INTO " . $this->_tabela . " (logradouro, bairro, numero, complemento, cidade, uf, cep) VALUES(?, ?, ?, ?, ?, ?, ?)");
         try {
             $this->conn->beginTransaction();
             $pstmt->execute(array($endereco->getlogradouro(), $endereco->getbairro(), $endereco->getnumero(), $endereco->getcomplemento(), $endereco->getcidade(), $endereco->getuf(), $endereco->getcep()));
@@ -22,19 +22,19 @@ class EnderecoModel extends MainModel {
         }
     }
 
-    public static function read($id, $limite) {
+    public function read($id, $limite) {
         if ($limite == 0) {
             if ($id == NULL) {
-                $pstmt = $this->conn->prepare("SELECT * FROM " . $this->$_tabela . "");
+                $pstmt = $this->conn->prepare("SELECT * FROM " . $this->_tabela . "");
             } else {
-                $pstmt = $this->conn->prepare("SELECT * FROM " . $this->$_tabela . " WHERE id LIKE :id");
+                $pstmt = $this->conn->prepare("SELECT * FROM " . $this->_tabela . " WHERE id LIKE :id");
                 $pstmt->bindParam(':id', $id);
             }
         } else {
             if ($id == NULL) {
-                $pstmt = $this->conn->prepare("SELECT * FROM " . $this->$_tabela . " LIMIT :limite");
+                $pstmt = $this->conn->prepare("SELECT * FROM " . $this->_tabela . " LIMIT :limite");
             } else {
-                $pstmt = $this->conn->prepare("SELECT * FROM " . $this->$_tabela . " WHERE id LIKE :id LIMIT :limite");
+                $pstmt = $this->conn->prepare("SELECT * FROM " . $this->_tabela . " WHERE id LIKE :id LIMIT :limite");
                 $pstmt->bindParam(':id', $id);
             }
             $pstmt->bindParam(':limite', $limite, PDO::PARAM_INT);
@@ -55,7 +55,7 @@ class EnderecoModel extends MainModel {
     }
 
     public function update(Endereco $endereco) {
-        $pstmt = $this->conn->prepare("UPDATE " . $this->$_tabela . " SET logradouro=?, bairro=?, numero=?, complemento=?, cidade=?, uf=?, cep=? WHERE id = ?");
+        $pstmt = $this->conn->prepare("UPDATE " . $this->_tabela . " SET logradouro=?, bairro=?, numero=?, complemento=?, cidade=?, uf=?, cep=? WHERE id = ?");
         try {
             $this->conn->beginTransaction();
             $pstmt->execute(array($endereco->getlogradouro(), $endereco->getbairro(), $endereco->getnumero(), $endereco->getcomplemento(), $endereco->getcidade(), $endereco->getuf(), $endereco->getcep(), $endereco->getid()));
@@ -69,7 +69,7 @@ class EnderecoModel extends MainModel {
     }
 
     public function delete(Endereco $endereco) {
-        $pstmt = $this->conn->prepare("DELETE from " . $this->$_tabela . " WHERE id LIKE ?");
+        $pstmt = $this->conn->prepare("DELETE from " . $this->_tabela . " WHERE id LIKE ?");
         try {
             $this->conn->beginTransaction();
             $pstmt->execute(array($endereco->getid()));

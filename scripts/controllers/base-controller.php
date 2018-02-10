@@ -2,14 +2,17 @@
 
 require_once(dirname(__FILE__) . '/configs.php');
 require_once(dirname(__FILE__) . '/../util/Loader.php');
-require_once $_SERVER['DOCUMENT_ROOT'] . "/estajui/scripts/dao/Usuario.php";
-require_once $_SERVER['DOCUMENT_ROOT'] . "/estajui/scripts/dao/Aluno.php";
-require_once $_SERVER['DOCUMENT_ROOT'] . "/estajui/scripts/dao/Funcionario.php";
+require_once $_SERVER['DOCUMENT_ROOT'] . "/estajui/scripts/daos/Usuario.php";
+require_once $_SERVER['DOCUMENT_ROOT'] . "/estajui/scripts/daos/Aluno.php";
+require_once $_SERVER['DOCUMENT_ROOT'] . "/estajui/scripts/daos/Funcionario.php";
 
 $loader = new Loader($configs);
 
 /* Carregamentos iniciais */
 $loader->loadUtil('Log');
+$loader->loadDAO('Usuario');
+$loader->loadDAO('Aluno');
+$loader->loadDAO('Funcionario');
 
 function base_url() {
     global $configs;

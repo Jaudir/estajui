@@ -1,14 +1,14 @@
 <?php
 
 require_once('MainModel.php');
-require_once $_SERVER['DOCUMENT_ROOT'] . "/estajui/scripts/dao/Usuario.php";
+require_once $_SERVER['DOCUMENT_ROOT'] . "/estajui/scripts/daos/Usuario.php";
 
 class UsuarioModel extends MainModel {
 
     private $_tabela = "usuario";
 
     public function create(Usuario $user) {
-        $pstmt = $this->conn->prepare("INSERT INTO " . $this->$_tabela . " (email, senha, tipo) VALUES(?,?, ?)");
+        $pstmt = $this->conn->prepare("INSERT INTO " . $this->_tabela . " (email, senha, tipo) VALUES(?,?, ?)");
         try {
             $this->conn->execute(array($user->getlogin(), $user->getsenha(), $user->gettipo()));
             $this->conn->commit();
@@ -23,16 +23,16 @@ class UsuarioModel extends MainModel {
     public function read($email, $limite) {
         if ($limite == 0) {
             if ($email == null) {
-                $pstmt = $this->conn->prepare("SELECT * FROM " . $this->$_tabela . "");
+                $pstmt = $this->conn->prepare("SELECT * FROM " . $this->_tabela . "");
             } else {
-                $pstmt = $this->conn->prepare("SELECT * FROM " . $this->$_tabela . " WHERE email LIKE :email");
+                $pstmt = $this->conn->prepare("SELECT * FROM " . $this->_tabela . " WHERE email LIKE :email");
                 $pstmt->bindParam(':email', $email);
             }
         } else {
             if ($email == null) {
-                $pstmt = $this->conn->prepare("SELECT * FROM " . $this->$_tabela . " LIMIT :limite");
+                $pstmt = $this->conn->prepare("SELECT * FROM " . $this->_tabela . " LIMIT :limite");
             } else {
-                $pstmt = $this->conn->prepare("SELECT * FROM " . $this->$_tabela . " WHERE email LIKE :email LIMIT :limite");
+                $pstmt = $this->conn->prepare("SELECT * FROM " . $this->_tabela . " WHERE email LIKE :email LIMIT :limite");
                 $pstmt->bindParam(':email', $email);
             }
             $pstmt->bindParam(':limite', $limite, PDO::PARAM_INT);
@@ -53,7 +53,7 @@ class UsuarioModel extends MainModel {
     }
 
     public function update(Usuario $user) {
-        $pstmt = $this->conn->prepare("UPDATE " . $this->$_tabela . " SET email=?, senha=?, tipo=? where email = ?");
+        $pstmt = $this->conn->prepare("UPDATE " . $this->_tabela . " SET email=?, senha=?, tipo=? where email = ?");
         try {
             $this->conn->beginTransaction();
             $pstmt->execute(array($user->getlogin(), $user->getsenha(), $user->gettipo(), $user->getlogin()));
@@ -67,7 +67,7 @@ class UsuarioModel extends MainModel {
     }
 
     public function delete(Usuario $user) {
-        $pstmt = $this->conn->prepare("DELETE from " . $this->$_tabela . " WHERE email LIKE ?");
+        $pstmt = $this->conn->prepare("DELETE from " . $this->_tabela . " WHERE email LIKE ?");
         try {
             $this->conn->beginTransaction();
             $pstmt->execute(array($user->getlogin()));
@@ -91,10 +91,10 @@ class UsuarioModel extends MainModel {
      * @return Usuario||false Login válido (Usuario), ou não (false)
      * @access public
      */
-    public static function validate($login, $senha) {
+    public function validate($login, $senha) {
         /* @var $alunoModel type */
-        $alunoModel = $this->loadModel("AlunoModel", "AlunoModel");
-        $funcionarioModel = $this->loadModel("FuncionarioModel","FuncionarioModel");
+        $alunoModel = $this->loader->loadModel("AlunoModel", "AlunoModel");
+        $funcionarioModel = $this->loader->loadModel("FuncionarioModel","FuncionarioModel");
         if ($alunoModel != NULL && $funcionarioModel != NULL) {
             $user = $this->read($login, 1);
             if (is_array($user)) {
@@ -122,7 +122,7 @@ class UsuarioModel extends MainModel {
 
     public function VerificaLoginCadastrado($email) {
         try {
-            $pstmt = $this->conn->prepare("SELECT id from " . $this->$_tabela . " WHERE email LIKE :email");
+            $pstmt = $this->conn->prepare("SELECT id from " . $this->_tabela . " WHERE email LIKE :email");
             $pstmt->bindParam(':email', $email);
             $pstmt->execute();
             if ($pstmt->fetch() == null) {

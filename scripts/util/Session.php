@@ -22,18 +22,6 @@ class Session{
         return $_SESSION['usuario'];
     }
 
-    public function isAluno(){
-        return !$_SESSION['is_func'];
-    }
-
-    public function isUsuario(){
-
-    /*Retorna true caso o usuário logado seja funcionário*/
-    public function isFuncionario(){
-
-        return $_SESSION['is_func'];
-    }
-
     public function ispo(){
         return ($_SESSION['is_func'] && $_SESSION['usuario']->ispo());
     }
