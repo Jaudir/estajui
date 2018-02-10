@@ -283,9 +283,9 @@ insert into status (descricao) values ("Convênio de empresa reprovado");
 -- Adicionando dados pra testar
 
 -- USUARIO
-INSERT INTO `usuario`(`email`, `senha`, `tipo`) VALUES ('email@email1.com', '123456', 1234);
-INSERT INTO `usuario`(`email`, `senha`, `tipo`) VALUES ('email@email2.com', '123457', 1234);
-INSERT INTO `usuario`(`email`, `senha`, `tipo`) VALUES ('email@email3.com', '123458', 1234);
+INSERT INTO `usuario`(`email`, `senha`, `tipo`) VALUES ('email@email1.com', '$2y$10$.I8yC7gyhBhM9c/Hz6OwmOpKKv5RUh2Biv2unfH2NmC8qEeCBZb4q', 1234);
+INSERT INTO `usuario`(`email`, `senha`, `tipo`) VALUES ('email@email2.com', '$2y$10$L.b6nHytXubZTvvlQn0rXuAnRPmVzzMhr9IWQj9CPDRmWTyuY2NMq', 1234);
+INSERT INTO `usuario`(`email`, `senha`, `tipo`) VALUES ('email@email3.com', '$2y$10$.ve.AkL7PFt31bKretrbZe7bTpDZQXS6uvQnw9Gbf6qleuSaasu4m', 1234);
 
 -- USUARIOS(para alunos)
 INSERT INTO `usuario`(`email`, `senha`, `tipo`) VALUES ('email@email10.com', '01', 1);

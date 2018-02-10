@@ -1,13 +1,10 @@
 <?php
-
-require_once(dirname(__FILE__) . '/CrudInterface.php');
-
 /**
  * Representação de um usuário para o sistema.
  *
  * @author gabriel Lucas
  */
-class Usuario implements CrudInterface {
+class Usuario {
 
     /**
      * O e-mail do usuário para logar no sistema (chave primária).
@@ -18,8 +15,7 @@ class Usuario implements CrudInterface {
      * @access private
      */
     private $_login;
-    private $_login_confirmacao;
-    private $_senha_confirmacao;
+
     /**
      *  A senha (hash) do usuário para logar no sistema.
      *
@@ -139,20 +135,6 @@ class Usuario implements CrudInterface {
         return $this;
     }
 
-    public function setlogin_confirmacao($_login_confirmacao){
-      $this->_login_confirmacao = $_login_confirmacao;
-    }
-    public function getlogin_confirmacao(){
-      return $this->_login_confirmacao;
-    }
-
-    public function setsenha_confirmacao($_senha_confirmacao){
-      $this->_senha_confirmacao = $_senha_confirmacao;
-    }
-    public function getsenha_confirmacao(){
-      return $this->_senha_confirmacao;
-    }
-
     /**
      * Gerador de hashes
      *
@@ -169,25 +151,6 @@ class Usuario implements CrudInterface {
             'cost' => 10,
         ];
         return password_hash($senha, PASSWORD_DEFAULT, $options);
-    }
-
-    /**
-     * Validador de login
-     *
-     * Compara os valores passados com o usuário, e se forem iguais (válidos) o usuário pode logar no sistema.
-     *
-     * @param string $login O login (e-mail) digitado
-     * @param string $senha A senha digitada (não o hash)
-     *
-     * @return Usuario Login válido (Usuario), ou não (NULL)
-     * @access public
-     */
-    public static function validate($login, $senha) {
-        $user = Usuario::read($login, 1)[0];
-        if ($login == $user->getlogin() && password_verify($senha, $user->getsenha())) {
-            return $user;
-        }
-        return NULL;
     }
 
 }

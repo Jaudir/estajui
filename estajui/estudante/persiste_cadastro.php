@@ -1,6 +1,6 @@
 <?php
 
-require_once $_SERVER['DOCUMENT_ROOT'].'/estajui/models/Usuario.php';
+require_once $_SERVER['DOCUMENT_ROOT'].'/estajui/scripts/daos/Usuario.php';
 require_once $_SERVER['DOCUMENT_ROOT'].'/estajui/util/String.php';
 require_once $_SERVER['DOCUMENT_ROOT'].'/estajui/util/connect.php';
 

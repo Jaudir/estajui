@@ -1,3 +1,4 @@
 <?php
-header("Location: http://localhost/estajui/login/login.html");
+chdir(__DIR__);
+header("Location: http://" . $_SERVER['SERVER_NAME'] . "/estajui/estajui/login.php");
 die();

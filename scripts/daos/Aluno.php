@@ -1,13 +1,13 @@
 <?php
+require_once $_SERVER['DOCUMENT_ROOT'] . '/estajui/scripts/daos/Usuario.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/estajui/scripts/daos/Endereco.php';
 
-require_once(dirname(__FILE__) . '/Usuario.php');
-require_once(dirname(__FILE__) . '/Endereco.php');
 /**
  * Description of Discente
  *
  * @author gabriel Lucas
  */
-class Aluno extends Usuario{
+class Aluno extends Usuario {
 
     private $_cpf;
     private $_nome;
@@ -23,12 +23,10 @@ class Aluno extends Usuario{
     private $_cidade_natal;
     private $_estado_natal;
     private $_acesso;
-    private $_endereco_id;
-    public $endereco;
+    private $_endereco;
 
-    public function __construct($login, $senha, $tipo, $_cpf, $_nome, $_data_nasc, $_rg_num, $_rg_orgao, $_estado_civil, $_sexo, $_telefone, $_celular, $_nome_pai, $_nome_mae, $_cidade_natal, $_estado_natal, $_acesso, $endereco) {
+    public function __construct($login, $senha, $tipo, $_cpf, $_nome, $_data_nasc, $_rg_num, $_rg_orgao, $_estado_civil, $_sexo, $_telefone, $_celular, $_nome_pai, $_nome_mae, $_cidade_natal, $_estado_natal, $_acesso, $_endereco) {
         parent::__construct($login, $senha, $tipo);
-        $this->endereco = $endereco;
         $this->_cpf = $_cpf;
         $this->_nome = $_nome;
         $this->_data_nasc = $_data_nasc;
@@ -42,6 +40,48 @@ class Aluno extends Usuario{
         $this->_nome_mae = $_nome_mae;
         $this->_cidade_natal = $_cidade_natal;
         $this->_estado_natal = $_estado_natal;
+        $this->_acesso = $_acesso;
+        $this->_endereco = $_endereco;
+    }
+
+    public static function fromDataBase($login, $senha, $tipo, $_cpf, $_nome, $_datat_nasc, $_rg_num, $_rg_orgao, $_estado_civil, $_sexo, $_telefone, $_celular, $_nome_pai, $_nome_mae, $_cidade_natal, $_estado_natal, $_acesso, $_endereco) {
+        $instance = new self($login, $senha, $tipo);
+        $instance->setcpf($_cpf);
+        $instance->setnome($setnome);
+        $instance->setdatat_nasc($_datat_nasc);
+        $instance->setrg_num($_rg_num);
+        $instance->setrg_orgao($_rg_orgao);
+        $instance->setestado_civil($_estado_civil);
+        $instance->setsexo($_sexo);
+        $instance->settelefone($_telefone);
+        $instance->setcelular($_celular);
+        $instance->setnome_pai($_nome_pai);
+        $instance->setnome_mae($_nome_mae);
+        $instance->setcidade_natal($_cidade_natal);
+        $instance->setestado_natal($_estado_natal);
+        $instance->setacesso($_acesso);
+        $instance->setendereco($_endereco);
+        return $instance;
+    }
+
+    //Gambiarra para fazer um construtor  de acordo com a necessidade
+    public static function fromController($login, $senha, $tipo, $_cpf, $_nome, $_datat_nasc, $_rg_num, $_rg_orgao, $_estado_civil, $_sexo, $_telefone, $_celular, $_nome_pai, $_nome_mae, $_cidade_natal, $_estado_natal) {
+        $instance = new self($login, $senha, $tipo);
+        $instance->setcpf($_cpf);
+        $instance->setnome($setnome);
+        $instance->setdatat_nasc($_datat_nasc);
+        $instance->setrg_num($_rg_num);
+        $instance->setrg_orgao($_rg_orgao);
+        $instance->setestado_civil($_estado_civil);
+        $instance->setsexo($_sexo);
+        $instance->settelefone($_telefone);
+        $instance->setcelular($_celular);
+        $instance->setnome_pai($_nome_pai);
+        $instance->setnome_mae($_nome_mae);
+        $instance->setcidade_natal($_cidade_natal);
+        $instance->setestado_natal($_estado_natal);
+        $instance->setendereco($_endereco);
+        return $instance;
     }
 
     public function getcpf() {
@@ -52,8 +92,8 @@ class Aluno extends Usuario{
         return $this->_nome;
     }
 
-    public function getdata_nasc() {
-        return $this->_data_nasc;
+    public function getdatat_nasc() {
+        return $this->_datat_nasc;
     }
 
     public function getrg_num() {
@@ -101,11 +141,16 @@ class Aluno extends Usuario{
     }
 
     public function getendereco() {
-        return $this->endereco;
+        return $this->_endereco;
     }
 
-    public function getendereco_id() {
-        return $this->_endereco_id;
+    public function getusuario_email() {
+        return $this->usuario_email;
+    }
+
+    public function setusuario_email($_usuario_email) {
+        $this->usuario_email = $_usuario_email;
+        return $this;
     }
 
     public function setcpf($_cpf) {
@@ -118,8 +163,8 @@ class Aluno extends Usuario{
         return $this;
     }
 
-    public function setdata_nasc($_data_nasc) {
-        $this->_data_nasc = $_data_nasc;
+    public function setdatat_nasc($_datat_nasc) {
+        $this->_datat_nasc = $_datat_nasc;
         return $this;
     }
 
@@ -178,13 +223,9 @@ class Aluno extends Usuario{
         return $this;
     }
 
-    public function setendereco_id($_endereco_id) {
-        $this->_endereco_id = $_endereco_id;
+    public function setendereco($_endereco) {
+        $this->_endereco = $_endereco;
         return $this;
     }
 
-    public function setendereco($_endereco){
-        $this->endereco = $_endereco;
-        return $this;
-    }
 }

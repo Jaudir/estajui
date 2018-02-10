@@ -16,6 +16,7 @@ class UsuarioModel extends MainModel {
             return 2;
         }
     }
+    
     public function read($email, $limite) {
         if ($limite == 0) {
             if ($email == null) {
@@ -60,6 +61,7 @@ class UsuarioModel extends MainModel {
             return 2;
         }
     }
+    
     public function delete(Usuario $user) {
         $pstmt = $this->conn->prepare("DELETE from " . $this->_tabela . " WHERE email LIKE ?");
         try {
@@ -73,6 +75,7 @@ class UsuarioModel extends MainModel {
             return 2;
         }
     }
+    
     /**
      * Validador de login
      *
@@ -84,10 +87,10 @@ class UsuarioModel extends MainModel {
      * @return Usuario||false Login válido (Usuario), ou não (false)
      * @access public
      */
-    public static function validate($login, $senha) {
+    public function validate($login, $senha) {
         /* @var $alunoModel type */
-        $alunoModel = $this->loadModel("AlunoModel", "AlunoModel");
-        $funcionarioModel = $this->loadModel("FuncionarioModel","FuncionarioModel");
+        $alunoModel = $this->loader->loadModel("AlunoModel", "AlunoModel");
+        $funcionarioModel = $this->loader->loadModel("FuncionarioModel","FuncionarioModel");
         if ($alunoModel != NULL && $funcionarioModel != NULL) {
             $user = $this->read($login, 1);
             if (is_array($user)) {
@@ -112,6 +115,7 @@ class UsuarioModel extends MainModel {
             return false;
         }
     }
+    
     public function VerificaLoginCadastrado($email) {
         try {
             $pstmt = $this->conn->prepare("SELECT id from " . $this->_tabela . " WHERE email LIKE :email");

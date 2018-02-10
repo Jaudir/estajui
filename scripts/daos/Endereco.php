@@ -1,10 +1,11 @@
 <?php
+
 /**
  * Description of Endereco
  *
  * @author gabriel Lucas
  */
-class Endereco implements CrudInterface{
+class Endereco {
 
     private $_id;
     private $_logradouro;
@@ -14,6 +15,7 @@ class Endereco implements CrudInterface{
     private $_cidade;
     private $_uf;
     private $_cep;
+    private static $_tabela = "endereco";
 
     public function __construct($_id, $_logradouro, $_bairro, $_numero, $_complemento, $_cidade, $_uf, $_cep) {
         $this->_id = $_id;
@@ -97,4 +99,5 @@ class Endereco implements CrudInterface{
         $this->_cep = $_cep;
         return $this;
     }
+
 }
