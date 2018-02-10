@@ -1,6 +1,6 @@
 <?php
 
-require_once(dirname(__FILE__) . '/../base_controller.php');
+require_once(dirname(__FILE__) . '/../base-controller.php');
 
 $session = getSession();
 
@@ -15,4 +15,3 @@ if(isset($_POST['c']) && isset($_POST['senha']) && isset($_POST['senha2'])){
 }else{
     $session->pushError('Dados inválidos!');
 }
-retirect(base_url() . '/estajui/login/redefine-senha.php');

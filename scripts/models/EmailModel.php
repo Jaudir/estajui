@@ -49,7 +49,7 @@ class EmailModel extends MainModel{
     //busca o usuário associado ao código
     public function verificarUsuarioCodigo($code){
         try{
-            $stmt = $this->conn->prepare('SELECT usuario.* FROM verificar JOIN usuario on verificar.email = usuario.email where code = :code');
+            $stmt = $this->conn->prepare('SELECT usuario.* FROM verificar JOIN usuario on verificar.email = usuario.email where codigo = :code');
             $stmt->bindParam(':code', $code);
             $stmt->execute();
             $result = $stmt->fetchAll();
@@ -71,6 +71,7 @@ class EmailModel extends MainModel{
             $pstmt->bindParam(':codigo', $code);
             $pstmt->execute();
             if(count($pstmt->fetchAll()) == 0) return false;
+
             $pstmt = $this->conn->prepare("SELECT id from verificar WHERE codigo LIKE :codigo AND verificado LIKE :verificado");
             $verificado = 1;
             $pstmt->bindParam(':codigo', $code);
@@ -78,7 +79,7 @@ class EmailModel extends MainModel{
             $pstmt->execute();
             if(count($pstmt->fetchAll())!=0) return false;
 
-            $pstmt = $this->conn->prepare("SELECT usuario.* FROM verificar INNER JOIN usuario ON usuario.email = verificar.email WHERE verificar.code = :codigo");
+            $pstmt = $this->conn->prepare("SELECT usuario.* FROM verificar INNER JOIN usuario ON usuario.email = verificar.email WHERE verificar.codigo = :codigo");
             $pstmt->bindParam(':codigo', $code);
             $pstmt->execute();
             $usuario = $pstmt->fetchAll();
@@ -91,6 +92,7 @@ class EmailModel extends MainModel{
 
             $usuario = $usuario[0];
         } catch (PDOExecption $e){
+            Log::LogPDOError($e);
             return false;
         }
 
@@ -98,11 +100,12 @@ class EmailModel extends MainModel{
             $this->conn->beginTransaction();
             $pstmt = $this->conn->prepare("UPDATE verificar SET verificado  = ? WHERE codigo = ? AND verificado = ?");
             $pstmt->execute(array(1,$code,0));// 0 == não verificado
-            $pstmt = $this->conn->prepare("UPDATE usuario SET senha LIKE ? WHERE email LIKE ?");
+            $pstmt = $this->conn->prepare("UPDATE usuario SET senha = ? WHERE email = ?");
             $pstmt->execute(array($senha, $usuario['email']));
             $this->conn->commit();
             return true;
         } catch (PDOExecption $e) {
+            Log::LogPDOError($e);
             $this->conn->rollback();
             return false;
         }

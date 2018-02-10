@@ -1,29 +1,28 @@
 <!DOCTYPE html>
 <?php
-    require_once(dirname(__FILE__) . '/scripts/controllers/verificar-codigo.php');
+    require_once(dirname(__FILE__) . '/../../scripts/controllers/login/verificar-codigo.php');
 ?>
 <html>
 
 <head>
-    <title>Redifinir senha</title>
+    <title>Redefinir senha</title>
 </head>
 
 <body>
-    <?php if($session->hasErrors()):?>
+    <?php if($session->hasError()):?>
 
     <h3><?php echo $session->printErrors();?></h3>
 
-    <?php elseif($session->hasValues()):?>
-    
-    <h3><?php echo $session->getValues('resultado')[0];?></h3>
-
     <?php else:?>
-    <form action="<?php echo base_url() . '/scripts/controllers/login/recuperar-senha.php'?>" method="POST">
+    
+    <form action="<?php echo base_url() . '/estajui/login/redefine-resultado.php'?>" method="POST">
         Email: <?php echo $usuario->getlogin()?><br>
         Nova senha:<br>
-        <input type="password" name="novaSenha"><br>
+        <input type="password" name="senha"><br>
         Repetir senha:<br>
-        <input type="password" name="novaSenha2"><br>
+        <input type="password" name="senha2"><br>
+        Codigo:<br>
+        <input type="text" name="c" value="<?php echo $_GET['c']?>"><br>
         <input type="submit" value="Confirmar">
     </form>
 

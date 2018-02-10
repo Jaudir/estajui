@@ -110,7 +110,7 @@ require_once('../../scripts/controllers/base-controller.php');
       $('#recuperarSenha').click(function(){
         $.ajax({
           type: "POST",
-          url: '<?php echo base_url() . '/scripts/controllers/login/recuperar-senha.php'?>',
+          url: '<?php echo base_url() . '/scripts/controllers/login/criar-codigo-redefinicao.php'?>',
           data: {
             email: $('#emailRec').val()
           },

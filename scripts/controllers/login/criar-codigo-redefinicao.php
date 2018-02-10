@@ -14,16 +14,21 @@ if(isset($_POST['email'])){
     $amodel = $loader->loadModel('AlunoModel', 'AlunoModel');
     $emodel = $loader->loadModel('EmailModel', 'EmailModel');
 
-    $usuario = $umodel->read($_POST['email']);
+    $usuario = $umodel->read($_POST['email'], 1);
+
+    if($usuario){
+        $usuario = $usuario[0];
+    }
 
     //carregar o aluno(tipo = 1) ou funcionário(tipo = 2) por que a tabela usuário não tem o nome do usuario :////
-    if($usuario->getTipo() == 1){
+    /*if($usuario->getTipo() == 1){
         $usuario = $amodel->readbyusuario($usuario);
     }else{
         $usuario = $fmodel->readbyusuario($usuario);
-    }
+    }*/
 
-    $email = Email::criarEmailRecuperarSenha($configs['email_estajui'], $configs['responsavel_estajui'], $usuario->getlogin(), $usuario->getnome());
+    $email = Email::criarEmailRecuperarSenha($configs['email_estajui'], $configs['responsavel_estajui'], $usuario->getlogin(), 'nome teste');
+    
     if($emodel->emitirCodigoConfirmacao($usuario, $email)){
         if($email->enviarEmail()){
             echo "Email de redefinição enviado!";

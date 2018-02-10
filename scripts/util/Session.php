@@ -89,8 +89,10 @@ class Session{
         array_push($_SESSION['errors'][$type], $description);
     }
 
-    public function hasError(){
-        return (count($_SESSION['erros']) > 0);
+    public function hasError($type = null){
+        if($type == null)
+            return (count($_SESSION['errors']) > 0);
+        return (isset($_SESSION['errors'][$type]) && count($_SESSION['errors'][$type]) > 0);
     }
 
     public function getErrors($type){
