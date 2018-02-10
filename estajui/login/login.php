@@ -1,4 +1,7 @@
 <!DOCTYPE html>
+<?php
+require_once('../../scripts/controllers/base-controller.php');
+?>
 <html>
   <head>
     <meta charset="utf-8">
@@ -55,7 +58,7 @@
                 <form name="recup-senha">
                   <div class="form-group">
                     <label for="email">Email</label>
-                    <input type="email" class="form-control" id="email" name="email" aria-describedby="emailHelp" placeholder="Digite seu email">
+                    <input type="email" class="form-control" id="emailRec" name="email" aria-describedby="emailHelp" placeholder="Digite seu email">
                     <small id="emailHelp" class="form-text text-muted">Forneça seu e-mail cadastrado para receber o link de redefinição de senha.</small>
 
                   </div>
@@ -63,7 +66,7 @@
               </div>
               <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Sair</button>
-                <button type="button" class="btn btn-primary">Confirmar</button>
+                <button type="button" id="recuperarSenha" class="btn btn-primary">Confirmar</button>
               </div>
             </div>
           </div>
@@ -99,9 +102,30 @@
 
 
     <!-- SCRIPTS -->
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.2.0.min.js" integrity="sha256-JAW99MJVpJBGcbzEuXk4Az05s/XyDdBomFqNlM3ic+I=" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
-
+    <script>
+    $(function(){
+      $('#recuperarSenha').click(function(){
+        $.ajax({
+          type: "POST",
+          url: '<?php echo base_url() . '/scripts/controllers/login/recuperar-senha.php'?>',
+          data: {
+            email: $('#emailRec').val()
+          },
+          error: function(jqXHR, textStatus, errorThrown){
+            alert('Falha ao contatar o servidor!');
+          },
+          success: function(data, textStatus, jqXHR){
+            if(textStatus == 'success'){
+              alert(data);
+            }
+          }
+          }
+        );
+      });
+    });
+    </script>
   </body>
 </html>
