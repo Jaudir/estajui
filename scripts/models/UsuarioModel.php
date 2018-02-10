@@ -99,6 +99,7 @@ class UsuarioModel extends MainModel {
                         if ($user[0]->gettipo() == 1) {
                             return $alunoModel->readbyusuario($user[0], 1)[0];
                         } elseif ($user[0]->gettipo() == 2) {
+                            var_dump($funcionarioModel->readbyusuario($user[0], 1));
                             return $funcionarioModel->readbyusuario($user[0], 1)[0];
                         } else {
                             return false;

@@ -3,15 +3,24 @@
 require_once $_SERVER['DOCUMENT_ROOT'] . "/estajui/scripts/controllers/base-controller.php";
 
 $session = getSession();
-if (isset($_POST["email"]) && isset($_POST["senha"])) {
-    $email = $_POST["email"];
-    $senha = $_POST["senha"];
-    $usuarioModel = $loader->loadModel("UsuarioModel", "UsuarioModel");
-    $result = $usuarioModel->validate($email, $senha);
-    if (is_a($result, "Aluno") || is_a($result, "Funcionario")) {
-        $session->setUsuario($result);
+if (isset($_POST["btn-logar"])) {
+    if (!empty($_POST["email"]) && !empty($_POST["senha"])) {
+        $email = $_POST["email"];
+        $senha = $_POST["senha"];
+        $usuarioModel = $loader->loadModel("UsuarioModel", "UsuarioModel");
+        $result = $usuarioModel->validate($email, $senha);
+        if (is_a($result, "Aluno") || is_a($result, "Funcionario")) {
+            $session->setUsuario($result);
+        } else {
+            $session->pushError("Login inválido, tente novamente!", "login");
+        }
     } else {
-        $session->pushError("Login inválido, tente novamente!", "login");
+        if (empty($_POST["email"])) {
+            $session->pushError("Digite o seu email!", "login");
+        }
+        if (empty($_POST["senha"])) {
+            $session->pushError("Digite a sua senha!", "login");
+        }
     }
 }
 if ($session->isLogged()) {

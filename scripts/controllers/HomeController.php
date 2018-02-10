@@ -11,9 +11,11 @@ if (!$session->isLogged()) {
     redirect("login.php");
 }
 $usuario = $session->getUsuario();
-if (is_a($usuario, "Aluno"))
+if (is_a($usuario, "Aluno")) {
+    $loader->loadModel("EstagioModel","EstagioModel");
     $titulo = "Estudante";
-elseif (is_a($usuario, "Funcionario")) {
+//    $estagios = 
+} elseif (is_a($usuario, "Funcionario")) {
     $titulo = "Funcionario";
 } else {
     redirect("login.php");
