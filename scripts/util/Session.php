@@ -46,6 +46,14 @@ class Session{
         return isset($_SESSION['usuario']);
     }
 
+    public function isAluno(){
+        return !$_SESSION['is_func'];
+    }
+
+    public function isFuncionario(){
+        return $_SESSION['is_func'];
+    }
+
     public function pushError($description, $type = 'normal'){
         if(!isset($_SESSION['errors'][$type]))
             $_SESSION['errors'][$type] = array();

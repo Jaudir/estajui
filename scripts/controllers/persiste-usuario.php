@@ -91,7 +91,7 @@ if(1)
 	//$SESSION['pau2'] = "E passou...";
 	//echo "<br>".$funcionario->isroot();
 
-	$model = $loader->loadModel('funcionario-model', 'FuncionarioModel');
+	$model = $loader->loadModel('FuncionarioModel', 'FuncionarioModel');
 	if($model != null){
 		if(!$model->cadastrar($funcionario, $cursos)){
 			$_SESSION['mensagensErro'][$_SESSION['erros']] = "Problema ao salvar! Erro no BD ou e-mail já cadastrado!";

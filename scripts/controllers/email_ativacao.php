@@ -6,7 +6,7 @@ require_once('base-controller.php');
 session_start();
 
 if(isset($_GET['code'])){
- $model = loadModel('email-model', 'EmailModel');
+ $model = loadModel('EmailModel', 'EmailModel');
  if ($model != null) {
     if($model->validarCodigoConfirmacao($_GET['code'])){
         $_SESSION['validacao_sucesso'] = true;// MENSAGEM = Conta ativada com sucesso!

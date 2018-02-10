@@ -11,7 +11,6 @@ class FuncionarioModel extends MainModel {
     public function cadastrar($funcionario, $cursos) {
         $this->loader->loadUtil('funcao-geraSenha');
         $this->loader->loadDAO('Usuario');
-
         try {
             ///Sempre cadastra no Campus Montes Claros!
             $this->conn->beginTransaction();
@@ -31,27 +30,19 @@ class FuncionarioModel extends MainModel {
                     return false;
                 }
             }
-
-
-
             $pstmt = $this->conn->prepare("INSERT INTO funcionario (siape, nome, bool_po, bool_oe, bool_ce, bool_sra, bool_root, formacao, privilegio, 
 							usuario_email, campus_cnpj) VALUES(?,?,?,?,?,?,?,?,?,?,?)");
             $verif = $pstmt->execute(array($funcionario->getsiape(), $funcionario->getnome(), $funcionario->ispo(), $funcionario->isoe(), $funcionario->isce(), $funcionario->issra(),
                 $funcionario->isroot(), $funcionario->getformacao(), $funcionario->isprivilegio(), $funcionario->getlogin(), 10727655000462));
             if (!$verif) {
-
                 $_SESSION['pau1'] = $pstmt->errorInfo();
                 return false;
             }
-
-
             /* echo "\n".$pstmt->queryString."\n";
               echo $funcionario->getsiape() . '<br>' . $funcionario->getnome() . '<br>' . $funcionario->ispo() . '<br>' . $funcionario->isoe() . '<br>' .
               $funcionario->isce() . '<br>' .	$funcionario->issra() . '<br>' . $funcionario->isroot() . '<br>' . $funcionario->getformacao() .
               '<br>' . $funcionario->isprivilegio() . '<br>' . $funcionario->getlogin() . '<br>' . 10727655000462; */
-
             if (isset($cursos)) {
-
                 foreach ($cursos as $i => $c) {
                     $_SESSION['curso'] = $c;
                     if (strcmp($c, "cienciadacomputacao") == 0) {
@@ -62,7 +53,6 @@ class FuncionarioModel extends MainModel {
                             return false;
                         }
                     }
-
                     if (strcmp($c, "engenhariaquimica") == 0) {
                         $pstmt = $this->conn->prepare("INSERT INTO leciona (po_siape, oferece_curso_id) VALUES(?,?)");
                         $verif = $pstmt->execute(array($funcionario->getsiape(), 2));
@@ -71,7 +61,6 @@ class FuncionarioModel extends MainModel {
                             return false;
                         }
                     }
-
                     if (strcmp($c, "tecnicoeminformatica") == 0) {
                         $pstmt = $this->conn->prepare("INSERT INTO leciona (po_siape, oferece_curso_id) VALUES(?,?)");
                         $verif = $pstmt->execute(array($funcionario->getsiape(), 3));
@@ -80,7 +69,6 @@ class FuncionarioModel extends MainModel {
                             return false;
                         }
                     }
-
                     if (strcmp($c, "tecnicoemquimica") == 0) {
                         $pstmt = $this->conn->prepare("INSERT INTO leciona (po_siape, oferece_curso_id) VALUES(?,?)");
                         $verif = $pstmt->execute(array($funcionario->getsiape(), 4));
@@ -90,7 +78,6 @@ class FuncionarioModel extends MainModel {
                             return false;
                         }
                     }
-
                     if (strcmp($c, "tecnicoemeletrotecnica") == 0) {
                         $pstmt = $this->conn->prepare("INSERT INTO leciona (po_siape, oferece_curso_id) VALUES(?,?)");
                         $verif = $pstmt->execute(array($funcionario->getsiape(), 5));
@@ -99,7 +86,6 @@ class FuncionarioModel extends MainModel {
                             return false;
                         }
                     }
-
                     if (strcmp($c, "tecnicoemsegurancadotrabalho") == 0) {
                         $pstmt = $this->conn->prepare("INSERT INTO leciona (po_siape, oferece_curso_id) VALUES(?,?)");
                         $verif = $pstmt->execute(array($funcionario->getsiape(), 6));
@@ -110,7 +96,6 @@ class FuncionarioModel extends MainModel {
                     }
                 }
             }
-
             return $this->conn->commit();
         } catch (PDOException $e) {
             $this->conn->rollback();
