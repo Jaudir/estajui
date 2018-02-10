@@ -1,29 +1,30 @@
 <?php
 
-class MainModel{
+require_once $_SERVER['DOCUMENT_ROOT'] . "/estajui/scripts/util/Database.php";
+require_once $_SERVER['DOCUMENT_ROOT'] . "/estajui/scripts/util/Loader.php";
+
+class MainModel {
+
     protected $conn;
     protected $loader;
 
     //chamar quando o model é instanciado, return false em caso de falha
-    public function init($DB, $loader){
-        try{
+    public function init($DB, Loader $loader) {
+        try {
             $this->loader = $loader;
-            
-            $servername = $DB['SERVER'];
-            $dbname = $DB['NAME'];
-            $username = $DB['USERNAME'];
-            $password = $DB['PASSWORD'];
-            
-            $this->conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
+            $database = new Database();
 
-            //atributos
-            $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        }catch(PDOException $ex){
-            echo "Model não pode se conectar ao banco de dados: " . $ex->getMessage() . '<br>';
-            print_r($DB);
-            return false;
+            $database->setServername($DB['SERVER']);
+            $database->setUsername($DB['USERNAME']);
+            $database->setPassword($DB['PASSWORD']);
+            $database->setDbname($DB['NAME']);
+
+            $this->conn = $database->getConnection();
+        } catch (PDOException $ex) {
+//            return "Model não pode se conectar ao banco de dados: " . $ex->getMessage() . '<br>';
+            return 1;
         }
-
-        return true;
+        return 0;
     }
+
 }
