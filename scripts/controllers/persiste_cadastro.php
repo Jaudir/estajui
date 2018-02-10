@@ -10,11 +10,9 @@ if (isset($_POST['cadastrar'])) {
 
     $session = getSession();
 
-    $endereco = new Endereco(null,LimpaString::limpar($_POST['logradouro']), LimpaString::limpar($_POST['bairro']), LimpaString::limpar($_POST['numero']),
-    LimpaString::limpar($_POST['complemento']), LimpaString::limpar($_POST['cidade']), LimpaString::limpar($_POST['uf']),
-    filter_var($_POST['cep'], FILTER_SANITIZE_NUMBER_INT));
+    $endereco = new Endereco(null, LimpaString::limpar($_POST['logradouro']), LimpaString::limpar($_POST['bairro']), LimpaString::limpar($_POST['numero']), LimpaString::limpar($_POST['complemento']), LimpaString::limpar($_POST['cidade']), LimpaString::limpar($_POST['uf']), filter_var($_POST['cep'], FILTER_SANITIZE_NUMBER_INT));
 
-    $aluno = new Aluno(null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null,$endereco);
+    $aluno = new Aluno(null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, $endereco);
 
     $aluno->setcpf(filter_var($_POST['cpf'], FILTER_SANITIZE_NUMBER_INT));
     $aluno->setnome(LimpaString::limpar($_POST['nome']));
@@ -45,7 +43,7 @@ if (isset($_POST['cadastrar'])) {
         unset($_SESSION['email_confirmacao']);
         $erros++;
     } else {
-        if (strcmp($aluno->getlogin(), $aluno->getlogin_confirmacao())!=0) {
+        if (strcmp($aluno->getlogin(), $aluno->getlogin_confirmacao()) != 0) {
             $_SESSION['email_erro2'] = "Os emails informados não são iguais.";
             unset($_SESSION['email']);
             unset($_SESSION['email_confirmacao']);
@@ -53,13 +51,13 @@ if (isset($_POST['cadastrar'])) {
         }
     }
 
-    if (strcmp($aluno->getsenha(), $aluno->getsenha_confirmacao())!=0) {
+    if (strcmp($aluno->getsenha(), $aluno->getsenha_confirmacao()) != 0) {
         $_SESSION['senha_erro1'] = "As senhas não iguais.";
         unset($_SESSION['senha']);
         unset($_SESSION['senha_confirmacao']);
         $erros++;
     } else {
-        if (strlen($aluno->getsenha())<8) {
+        if (strlen($aluno->getsenha()) < 8) {
             $_SESSION['senha_erro2'] = true;
             unset($_SESSION['senha']);
             unset($_SESSION['senha_confirmacao']);
@@ -68,18 +66,20 @@ if (isset($_POST['cadastrar'])) {
         }
     }
 
-    $model = $loader->loadModel('aluno-model', 'AlunoModel');
 
-    if($model->VerificaLoginCadastrado($aluno->getlogin())){
+    $usarioModel = $loader->loadModel('UsuarioModel', 'UsuarioModel');
+    $model = $loader->loadModel('AlunoModel', 'AlunoModel');
+
+    if ($usarioModel->VerificaLoginCadastrado($aluno->getlogin())) {
         $_SESSION['email_cadastrado'] = true;
         $erros++;
     }
 
 
-    if ($model != null  && $erros == 0) {
-        if ($model->cadastrar($aluno)) {
+    if ($model != null && $erros == 0) {
+        if ($model->create($aluno)) {
             $email = Email::sendEmailAluno($aluno->getlogin());
-            $modelEmail = loadModel('email-model', 'EmailModel');
+            $modelEmail = loadModel('EmailModel', 'EmailModel');
             $modelEmail->emitirCodigoConfirmacao($aluno, $email);
             redirect(base_url() . '/estajui/login/login.php');
         } else {

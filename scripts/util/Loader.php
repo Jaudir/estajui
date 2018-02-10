@@ -18,7 +18,7 @@ class Loader{
     }
 
     public function loadModel($modelFile, $modelClassName){
-        require_once($this->modelsDir . $modelFile . '.php');
+        require_once($this->modelsDir . $modelFile . '.php');;
     
         //instancia o model
         $M = new $modelClassName;

@@ -1,3 +1,6 @@
+<?php
+require_once $_SERVER['DOCUMENT_ROOT'] . "/estajui/scripts/controllers/LoginController.php";
+?>
 <!DOCTYPE html>
 <html>
     <head>
@@ -16,14 +19,17 @@
             </div>
             <div class="row align-items-center fullscreen" style="margin-top: -113px;">
                 <div class="col-md-4 content-login">
-                    <form name="login">
+                    <form name="login" method="post">
+                        <?php if ($session->hasError("login")) { ?>
+                            <span class="error"><?php echo $session->getErrors("login")[0];  ?></span>
+                        <?php } ?>
                         <div class="form-group">
                             <label for="email">Email</label>
                             <input type="email" class="form-control" id="email" name="email" aria-describedby="emailHelp" placeholder="Digite seu email">
                         </div>
                         <div class="form-group">
                             <label for="senha">Senha</label>
-                            <input type="senha" class="form-control" id="senha" name="senha" placeholder="Digite sua senha">
+                            <input type="password" class="form-control" id="senha" name="senha" placeholder="Digite sua senha">
                         </div>
                         <div class="links-login">
                             <!--<a href=#>Recuperar senha</a> <br>-->
@@ -81,7 +87,7 @@
                                 </button>
                             </div>
                             <div class="modal-body">
-                                <form name="recup-senha">
+                                <form name="recup-senha" method="postx">
                                     <div class="form-group">
                                         <label for="email">Email</label>
                                         <input type="email" class="form-control" id="email" name="email" aria-describedby="emailHelp" placeholder="Digite seu email">
