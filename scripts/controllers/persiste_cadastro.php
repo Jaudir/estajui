@@ -78,7 +78,9 @@ if (isset($_POST['cadastrar'])) {
 
     if ($model != null  && $erros == 0) {
         if ($model->cadastrar($aluno)) {
-            $email = Email::sendEmailAluno($aluno->getlogin());
+            $email = new Email();
+            $email->criarEmailAluno('wadson.ayres@gmail.com');
+            $email->enviarEmail();
             $modelEmail = loadModel('email-model', 'EmailModel');
             $modelEmail->emitirCodigoConfirmacao($aluno, $email);
             redirect(base_url() . '/estajui/login/login.php');

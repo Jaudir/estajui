@@ -43,6 +43,4 @@ class Email{
         return $this->codigo;
     }
  }
- $x = new Email();
- $x->criarEmailAluno('wadson.ayres@gmail.com');
- $x->enviarEmail();
+
