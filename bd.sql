@@ -54,10 +54,7 @@ create table campus(
 
 create table curso(
 	id int auto_increment primary key,
-	nome varchar(40),
-	turno varchar(10),
-	campus_cnpj numeric(14),
-	foreign key(campus_cnpj) references campus(cnpj)
+	nome varchar(40)
 );
 
 create table status(
@@ -304,8 +301,13 @@ INSERT INTO `aluno`(`cpf`, `nome`, `data_nasc`, `rg_num`, `rg_orgao`, `estado_ci
 INSERT INTO `campus`(`cnpj`, `telefone`, `endereco_id`) VALUES (10727655000462, 3821034141, 10000);
 
 -- CURSO
-INSERT INTO `curso`(`id`, `nome`, `turno`, `campus_cnpj`) VALUES (1, 'Ciência da Computação', 'Diurno', 10727655000462);
-INSERT INTO `curso`(`id`, `nome`, `turno`, `campus_cnpj`) VALUES (2, 'Engenharia Química', 'Noturno', 10727655000462);
+INSERT INTO `curso`(`nome`) VALUES ('Ciência da Computação');
+INSERT INTO `curso`(`nome`) VALUES ('Engenharia Química');
+
+--OFERECE_CURSO
+
+INSERT INTO `oferece_curso`(`turno`, `campus_cnpj`, `curso_id`) VALUES ('Integral', 10727655000462, 1);
+INSERT INTO `oferece_curso`(`turno`, `campus_cnpj`, `curso_id`) VALUES ('Integral', 10727655000462, 2);
 
 -- FUNCIONARIO
 INSERT INTO `funcionario`(`siape`, `nome`, `bool_po`, `bool_oe`, `bool_ce`, `bool_sra`, `bool_root`, `formacao`, `privilegio`, `usuario_email`, `campus_cnpj`) VALUES (12345, 'jhonson Teacher', 1, 1, 1, 1, 1, 'ticher', 1, 'email@email10.com', 10727655000462);
