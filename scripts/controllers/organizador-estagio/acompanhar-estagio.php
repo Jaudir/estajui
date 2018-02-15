@@ -7,13 +7,12 @@
  
  require_once(dirname(__FILE__) . '/../base-controller.php');
 
-$loader->loadDao('Aluno');
+$loader->loadDao('OrganizadorDeEstagio');
 //$session = getSession();
 
 if(/*$session->isAluno()*/ 1){
 	if (isset($_GET['oe_cpf'])) {
         //$session->clearErrors();
-        // Criar o objeto aluno com as informações da sessão
         //$aluno = $session->getUsuario('usuario');
 		$model = $loader->loadModel('AlunoModel', 'AlunoModel');
 		//$aluno = $model->read($aluno->getcpf(),1)[0];

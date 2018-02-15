@@ -13,6 +13,7 @@ $loader->loadDao('Aluno');
 //$session = getSession();
 
 if(/*$session->isAluno()*/ 1){
+	echo "00000001<br/>";
 	if (isset($_GET['aluno_cpf'])) {
         //$session->clearErrors();
         // Criar o objeto aluno com as informações da sessão
