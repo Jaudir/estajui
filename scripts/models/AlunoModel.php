@@ -17,7 +17,7 @@ class AlunoModel extends MainModel {
                 $pstmt->execute(array($aluno->getcpf(), $aluno->getnome(), $aluno->getdata_nasc(), $aluno->getrg_num(), $aluno->getrg_orgao(), $aluno->getestado_civil(), $aluno->getsexo(), $aluno->gettelefone(), $aluno->getcelular(), $aluno->getnome_pai(), $aluno->getnome_mae(), $aluno->getcidade_natal(), $aluno->getestado_natal(), (int) $aluno->getacesso(), $aluno->getendereco()->getid()));
                 $this->conn->commit();
                 return 0;
-            } catch (PDOExecption $e) {
+            } catch (PDOException $e) {
                 $this->conn->rollback();
                 #return "Error!: " . $e->getMessage() . "</br>";
                 return 2;
@@ -55,7 +55,7 @@ class AlunoModel extends MainModel {
                 $cont++;
             }
             return $result;
-        } catch (PDOExecption $e) {
+        } catch (PDOException $e) {
             #return "Error!: " . $e->getMessage() . "</br>";
             return 2;
         }
@@ -107,7 +107,7 @@ class AlunoModel extends MainModel {
             $this->conn->commit();
             $usuarioModel = $this->loader->loadModel("UsuarioModel", "UsuarioModel");
             return $usuarioModel->update($aluno);
-        } catch (PDOExecption $e) {
+        } catch (PDOException $e) {
             $this->conn->rollback();
             #return "Error!: " . $e->getMessage() . "</br>";
             return 2;
@@ -122,7 +122,7 @@ class AlunoModel extends MainModel {
             $this->conn->commit();
             $usuarioModel = $this->loader->loadModel("UsuarioModel", "UsuarioModel");
             return $usuarioModel->delete($aluno);
-        } catch (PDOExecption $e) {
+        } catch (PDOException $e) {
             $this->conn->rollback();
             #return "Error!: " . $e->getMessage() . "</br>";
             return 2;
@@ -146,7 +146,7 @@ class AlunoModel extends MainModel {
 
             $this->conn->commit();
             return true;
-        } catch (PDOExecption $e) {
+        } catch (PDOException $e) {
             $this->conn->rollback();
             return false;
         }
@@ -167,7 +167,7 @@ class AlunoModel extends MainModel {
             $aluno = new Aluno($res['usuario_email'], $res['senha'], $res['tipo'], $res['cpf'], $res['nome'], $res['data_nasc'], $res['rg_num'], $res['rg_orgao'], $res['estado_civil'], $res['sexo'], $res['telefone'], $res['celular'], $res['nome_pai'], $res['nome_mae'], $res['cidade_natal'], $res['estado_natal'], $res['acesso'], $endereco);
 
             return $aluno;
-        } catch (PDOExecption $e) {
+        } catch (PDOException $e) {
             Log::logPDOError($e, true);
             $this->conn->rollback();
             return false;
@@ -189,7 +189,7 @@ class AlunoModel extends MainModel {
 										  WHERE cpf=?");
             $pstmt->execute(array($aluno->getnome(), $aluno->getrg_orgao(), $aluno->getestado_civil(), $aluno->getsexo(), $aluno->gettelefone(), $aluno->getcelular(), $aluno->getnome_pai(),
                 $aluno->getnome_mae(), $aluno->getcidade_natal(), $aluno->getestado_natal(), $aluno->getcpf()));
-        } catch (PDOExecption $e) {
+        } catch (PDOException $e) {
             Log::logPDOError($e, true);
             $this->conn->rollback();
             return false;
@@ -206,9 +206,58 @@ class AlunoModel extends MainModel {
                 return false;
             }
             return true;
-        } catch (PDOExecption $e) {
+        } catch (PDOException $e) {
             return false;
         }
     }
+	
+	public function visualizarEstagios($aluno){
+		try {
+            $pstmt = $this->conn->prepare("SELECT p.data_ini, em.nome AS nome_em, f.nome AS nome_f, s.descricao FROM plano_estagio AS p "
+			."JOIN estagio AS es ON p.estagio_id = es.id "
+			."JOIN funcionario AS f ON es.po_siape = f.siape "
+			."JOIN empresa AS em ON es.empresa_cnpj = em.cnpj "
+			."JOIN status AS s ON es.status_codigo = s.codigo "
+			."WHERE es.aluno_cpf=?");
+            $v = $pstmt->execute(array($aluno->getcpf()));
+            $res = $pstmt->fetchAll();
+
+            if (count($res) == 0)
+                return false;
+			
+			$listaEstagios = array();
+			
+            foreach ($res as $linha) {
+				$this->loader->loadDao('PlanoDeEstagio');
+				$estagio = new Estagio(null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null);
+				
+				$plano_estagio = new PlanoDeEstagio(null,null,null,null,null,null,null,null,null,null,null,null,null,null);
+				$plano_estagio->set_data_inicio($linha['data_ini']);
+				
+				$empresa = new Empresa(null,null,null,null,null,null,null,null);
+				$empresa->set_nome($linha['nome_em']);
+				
+				$funcionario = new Funcionario(null,null,null,null,null,null,null,null,null,null,null,null,null);
+				$funcionario->setnome($linha['nome_f']);
+				
+				$status = new Status(null, null);
+				$status->set_descricao($linha['descricao']);
+				
+				$estagio->setempresa($empresa);
+				$estagio->setfuncionario($funcionario);
+				$estagio->setstatus($status);
+				
+				$estagio->setpe($plano_estagio);
+				
+				$listaEstagios[] = $estagio;
+			}
+            
+            return $listaEstagios;
+        } catch (PDOException $e) {
+            Log::logPDOError($e, true);
+            $this->conn->rollback();
+            return false;
+        }
+	}	
 
 }
