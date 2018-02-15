@@ -11,14 +11,14 @@ $loader->loadDao('Aluno');
 //$session = getSession();
 
 if(/*$session->isAluno()*/ 1){
-	if (isset($_GET['aluno_cpf'])) {
+	if (isset($_GET['oe_cpf'])) {
         //$session->clearErrors();
         // Criar o objeto aluno com as informações da sessão
         //$aluno = $session->getUsuario('usuario');
 		$model = $loader->loadModel('AlunoModel', 'AlunoModel');
 		//$aluno = $model->read($aluno->getcpf(),1)[0];
 		$aluno = new Aluno(null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
-		$aluno->setcpf($_GET['aluno_cpf']);
+		$aluno->setcpf($_GET['oe_cpf']);
 		
 		$listaEstagios = $model->visualizarEstagios($aluno);
 		if ($listaEstagios != false){
