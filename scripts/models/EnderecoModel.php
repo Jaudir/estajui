@@ -12,8 +12,9 @@ class EnderecoModel extends MainModel {
         try {
             $this->conn->beginTransaction();
             $pstmt->execute(array($endereco->getlogradouro(), $endereco->getbairro(), $endereco->getnumero(), $endereco->getcomplemento(), $endereco->getcidade(), $endereco->getuf(), $endereco->getcep()));
+            $id = $this->conn->lastInsertId();
             $this->conn->commit();
-            $endereco->setid($this->conn->lastInsertId());
+            $endereco->setid($id);
             return 0;
         } catch (PDOExecption $e) {
             $this->conn->rollback();

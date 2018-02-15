@@ -1,4 +1,9 @@
 <!DOCTYPE html>
+<?php
+
+require_once('../../scripts/controllers/base-controller.php');
+
+?>
 <html>
   <head>
     <meta charset="utf-8">
@@ -31,7 +36,7 @@
               <h3>Informe os dados do estágio</h3>
             </div>
           </div>
-          <form class="container" id="needs-validation" novalidate>
+          <form class="container" id="needs-validation" method="post" action="<?php echo base_url() . '/scripts/controllers/estudante/cadastrar-estagio.php'?>" novalidate>
             <div class="row">
               <div class="col-md-12 form-sub-title">
                 <h3>Dados da empresa</h3>
@@ -55,120 +60,120 @@
               <div class="row">
                   <div class="col-md-6 mb-3">
                     <label for="validationCustom03">Nome fantasia</label>
-                    <input type="text" class="form-control" id="validationCustom03" required>
+                    <input name="nome_fantasia" type="text" class="form-control" id="validationCustom03" required>
                     <div class="invalid-feedback">
                       Por favor, informe um nome válido.
                     </div>
                   </div>
                   <div class="col-md-6 mb-3">
                     <label for="cnpj">CNPJ</label>
-                    <input type="text" class="form-control" id="cnpj" required>
+                    <input name="cnpj" type="text" class="form-control" id="cnpj" required>
                     <div class="invalid-feedback">
                       Por favor, informe um CNPJ válido.
                     </div>
                   </div>
                   <div class="col-md-12 mb-3">
                     <label for="validationCustom04">Razão Social</label>
-                    <input type="text" class="form-control" id="validationCustom04" required>
+                    <input name="razao_social" type="text" class="form-control" id="validationCustom04" required>
                     <div class="invalid-feedback">
                       Por favor, informe a razão social.
                     </div>
                   </div>
                   <div class="col-md-8 mb-3">
                     <label for="validationCustom11">Logradouro</label>
-                    <input type="text" class="form-control" id="validationCustom11" placeholder="Rua, Av., etc." required>
+                    <input name="logradouro" type="text" class="form-control" id="validationCustom11" placeholder="Rua, Av., etc." required>
                     <div class="invalid-feedback">
                       Preencha este campo.
                     </div>
                   </div>
                   <div class="col-md-4 mb-2">
                     <label for="validationCustom13">Número</label>
-                    <input type="text" class="form-control" id="validationCustom13" required>
+                    <input name="numero" type="text" class="form-control" id="validationCustom13" required>
                     <div class="invalid-feedback">
                       Preencha este campo.
                     </div>
                   </div>
                   <div class="col-md-6 mb-2">
                     <label for="validationCustom12">Bairro</label>
-                    <input type="text" class="form-control" id="validationCustom12" required>
+                    <input name="bairro" type="text" class="form-control" id="validationCustom12" required>
                     <div class="invalid-feedback">
                       Preencha este campo.
                     </div>
                   </div>
                   <div class="col-md-3 mb-3">
                     <label for="validationCustom15">Sala</label>
-                    <input type="text" class="form-control" id="validationCustom15">
+                    <input name="sala" type="text" class="form-control" id="validationCustom15">
                   </div>
                   <div class="col-md-3 mb-2">
                     <label for="cep">CEP</label>
-                    <input type="text" class="form-control" id="cep" required>
+                    <input name="cep" type="text" class="form-control" id="cep" required>
                     <div class="invalid-feedback">
                       Por favor, informe um CEP válido.
                     </div>
                   </div>
                   <div class="col-md-6 mb-2">
                     <label for="validationCustom16">Cidade</label>
-                    <input type="text" class="form-control" id="validationCustom16" required>
+                    <input name="cidade" type="text" class="form-control" id="validationCustom16" required>
                     <div class="invalid-feedback">
                       Preencha este campo.
                     </div>
                   </div>
                   <div class="col-md-6 mb-2">
                     <label for="validationCustom17">Estado</label>
-                    <select class="form-control" required>
-                      <option>Minas Gerais</option>
-                      <option>Bahia</option>
+                    <select name="estado" class="form-control" required>
+                      <option value="MG">Minas Gerais</option>
+                      <option value="BA">Bahia</option>
                     </select>
                   </div>
                   <div class="col-md-6 mb-2">
                     <label for="telefone">Telefone</label>
-                    <input type="text" class="form-control" id="telefone" placeholder="(DD) 9999-9999" required>
+                    <input name="telefone" type="text" class="form-control" id="telefone" placeholder="(DD) 9999-9999" required>
                     <div class="invalid-feedback">
                       Preencha este campo.
                     </div>
                   </div>
                   <div class="col-md-6 mb-3">
                     <label for="validationCustom18">FAX</label>
-                    <input type="text" class="form-control" id="validationCustom18">
+                    <input name="fax" type="text" class="form-control" id="validationCustom18">
                   </div>
                   <div class="col-md-6 mb-2">
                     <label for="validationCustom20">Nº de registro</label>
-                    <input type="text" class="form-control" id="validationCustom20" required>
+                    <input name="nregistro" type="text" class="form-control" id="validationCustom20" required>
                     <div class="invalid-feedback">
                       Preencha este campo.
                     </div>
                   </div>
                   <div class="col-md-6 mb-3">
                     <label for="validationCustom21">Conselho de fiscalização</label>
-                    <input type="text" class="form-control" id="validationCustom21" required>
+                    <input name="conselhofiscal" type="text" class="form-control" id="validationCustom21" required>
                     <div class="invalid-feedback">
                       Preencha este campo.
                     </div>
                   </div>
                   <div class="col-md-6 mb-2">
                     <label for="validationCustom22">Nome do responsável</label>
-                    <input type="text" class="form-control" id="validationCustom22" required>
+                    <input name="nome_responsavel" type="text" class="form-control" id="validationCustom22" required>
                     <div class="invalid-feedback">
                       Preencha este campo.
                     </div>
                   </div>
                   <div class="col-md-6 mb-3">
                     <label for="tel-resp">Telefone do responsável</label>
-                    <input type="text" class="form-control" id="tel-resp" placeholder="(DD) 9999-9999" required>
+                    <input name="telefone_responsavel" type="text" class="form-control" id="tel-resp" placeholder="(DD) 9999-9999" required>
                     <div class="invalid-feedback">
                       Preencha este campo.
                     </div>
                   </div>
                   <div class="col-md-6 mb-2">
                     <label for="validationCustom24">Email</label>
-                    <input type="text" class="form-control" id="validationCustom24" required>
+                    <input name="email_responsavel" type="text" class="form-control" id="validationCustom24" required>
                     <div class="invalid-feedback">
                       Preencha este campo.
                     </div>
                   </div>
                   <div class="col-md-6 mb-3">
                     <label for="validationCustom25">Cargo ocupado</label>
-                    <input type="text" class="form-control" id="validationCustom25" required>
+                    <input name="cargo_responsavel" type="text" class="form-control" id="validationCustom25" required>
                     <div class="invalid-feedback">
                       Preencha este campo.
                     </div>
@@ -184,21 +189,21 @@
               <div class="row" id="secao-supervisor">
                   <div class="col-md-12 mb-3">
                     <label for="validationCustom26">Nome do supervisor</label>
-                    <input type="text" class="form-control" id="validationCustom26" required>
+                    <input name="nome_supervisor" type="text" class="form-control" id="validationCustom26" required>
                     <div class="invalid-feedback">
                       Por favor, informe um nome válido.
                     </div>
                   </div>
                   <div class="col-md-6 mb-3">
                     <label for="validationCustom27">Habilitação profissional</label>
-                    <input type="text" class="form-control" id="validationCustom27" required>
+                    <input name="habilitacao" type="text" class="form-control" id="validationCustom27" required>
                     <div class="invalid-feedback">
                       Por favor, preencha este campo.
                     </div>
                   </div>
                   <div class="col-md-6 mb-3">
                     <label for="validationCustom28">Cargo</label>
-                    <input type="text" class="form-control" id="validationCustom28" required>
+                    <input name="cargo" type="text" class="form-control" id="validationCustom28" required>
                     <div class="invalid-feedback">
                       Por favor, preencha este campo.
                     </div>
@@ -214,14 +219,14 @@
                 <div class="row">
                     <div class="col-md-6 mb-3">
                       <label for="validationCustom29">Setor/Unidade</label>
-                      <input type="text" class="form-control" id="validationCustom29" required>
+                      <input name="setor" type="text" class="form-control" id="validationCustom29" required>
                       <div class="invalid-feedback">
                         Por favor, preencha este campo.
                       </div>
                     </div>
                     <div class="col-md-3 mb-3">
                       <label for="validationCustom30">Data de início</label>
-                      <input type="date" class="form-control" id="validationCustom30" required>
+                      <input name="data_inicio" type="date" class="form-control" id="validationCustom30" required>
                       <div class="invalid-feedback">
                         Por favor, preencha este campo.
                       </div>
@@ -232,7 +237,7 @@
 
                     <div class="col-md-3 mb-3">
                       <label for="validationCustom31">Data de término</label>
-                      <input type="date" class="form-control" id="validationCustom31" required>
+                      <input name="data_termino" type="date" class="form-control" id="validationCustom31" required>
                       <div class="invalid-feedback">
                         Por favor, preencha este campo.
                       </div>
@@ -243,7 +248,7 @@
 
                     <div class="col-md-12 mb-3">
                       <label for="validationCustom32">Atividades principais a serem desenvolvidas: </label>
-                      <textarea name="ativ-text" rows="6" class="form-control" id="validationCustom32" required>
+                      <textarea name="atividades" rows="6" class="form-control" id="validationCustom32" required>
                       </textarea>
                       <div class="invalid-feedback">
                         Por favor, preencha este campo.
@@ -252,7 +257,7 @@
 
                     <div class="col-md-6 mb-2">
                       <label for="validationCustom33">Ínicio da jornada de trabalho:</label>
-                      <input type="text" class="form-control" id="validationCustom33" placeholder="HH:mm" required>
+                      <input name="inicio_jornada" type="text" class="form-control" id="validationCustom33" placeholder="HH:mm" required>
                       <div class="invalid-feedback">
                         Por favor, preencha este campo.
                       </div>
@@ -262,7 +267,7 @@
                     </div>
                     <div class="col-md-6 mb-2">
                       <label for="validationCustom34">Término da jornada de trabalho</label>
-                      <input type="text" class="form-control" id="validationCustom34" placeholder="HH:mm" required>
+                      <input name="termino_jornada" type="text" class="form-control" id="validationCustom34" placeholder="HH:mm" required>
                       <div class="invalid-feedback">
                         Por favor, preencha este campo.
                       </div>
@@ -273,7 +278,7 @@
 
                     <div class="col-md-12 mb-2">
                       <label for="validationCustom35">Total de horas semanais:</label>
-                      <input type="text" class="form-control" id="validationCustom35" placeholder="HH:mm" required>
+                      <input name="horas_semanais" type="text" class="form-control" id="validationCustom35" placeholder="HH:mm" required>
                       <div class="invalid-feedback">
                         Por favor, preencha este campo.
                       </div>
@@ -285,7 +290,7 @@
               </section>
               <div class="row">
                 <div class="col-md-12" style="margin-top: 30px;">
-                  <button class="btn btn-success" type="submit">Cadastrar</button>
+                  <button id="cadastrar" class="btn btn-success" type="submit">Cadastrar</button>
                   <button class="btn btn-danger" type="submit">Cancelar</button>
                 </div>
               </div>
@@ -305,7 +310,13 @@
                 form.classList.add('was-validated');
               }, false);
             }, false);
-          })();
+          }
+          
+          $('#cadastrar').click(function(){
+            ('#needs-validation').submit();
+          });
+          
+          )();
           </script>
         </div>
       </div>

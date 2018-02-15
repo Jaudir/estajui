@@ -33,4 +33,9 @@ class MainModel {
     public function getLastError(){
         return $this->conn->errorInfo();
     }
+
+    public function getLastId(){
+        $stmt = $this->conn->query("SELECT LAST_INSERT_ID()");
+        return $stmt->fetchColumn();
+    }
 }
