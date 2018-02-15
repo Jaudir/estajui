@@ -257,7 +257,7 @@ class FuncionarioModel extends MainModel {
             if ($siape == NULL) {
                 $pstmt = $this->conn->prepare("SELECT * FROM " . $this->_tabela . "");
             } else {
-                $pstmt = $this->conn->prepare("SELECT * FROM " . $this->_tabela . " WHERE siape LIKE :siape");
+                $pstmt = $this->conn->prepare("SELECT * FROM " . $this->_tabela . " WHERE siape LIKE :siape");///Recomendo que seja = ao invés de LIKE
                 $pstmt->bindParam(':siape', $siape);
             }
         } else {
@@ -293,7 +293,7 @@ class FuncionarioModel extends MainModel {
             if ($key == NULL) {
                 $pstmt = $this->conn->prepare("SELECT * FROM " . $this->_tabela . "");
             } else {
-                $pstmt = $this->conn->prepare("SELECT * FROM " . $this->_tabela . " WHERE usuario_email LIKE :usuario_email");
+                $pstmt = $this->conn->prepare("SELECT * FROM " . $this->_tabela . " WHERE usuario_email LIKE :usuario_email"); ///Recomendo que seja = ao invés de LIKE
                 $pstmt->bindParam(':usuario_email', $key);
             }
         } else {

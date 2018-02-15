@@ -23,25 +23,32 @@ class UsuarioModel extends MainModel {
                 $pstmt = $this->conn->prepare("SELECT * FROM " . $this->_tabela . "");
             } else {
                 $pstmt = $this->conn->prepare("SELECT * FROM " . $this->_tabela . " WHERE email LIKE :email");
-                $pstmt->bindParam(':email', $email);
+				$emailAux = "%".$email."%";
+                $pstmt->bindParam(':email', $emailAux);
             }
         } else {
             if ($email == null) {
                 $pstmt = $this->conn->prepare("SELECT * FROM " . $this->_tabela . " LIMIT :limite");
             } else {
                 $pstmt = $this->conn->prepare("SELECT * FROM " . $this->_tabela . " WHERE email LIKE :email LIMIT :limite");
-                $pstmt->bindParam(':email', $email);
+				$emailAux = "%".$email."%";
+                $pstmt->bindParam(':email',  $emailAux);
             }
             $pstmt->bindParam(':limite', $limite, PDO::PARAM_INT);
         }
         try {
             $pstmt->execute();
             $cont = 0;
-            $result = [];
+            //$result = [];
+			$result = array();
             while ($row = $pstmt->fetch()) {
-                $result[$cont] = new Usuario($row["email"], $row["senha"], $row["tipo"]);
+				$u = new Usuario($row["email"], $row["senha"], $row["tipo"]);
+				array_push($result, $u);
+                //$result[$cont] = new Usuario($row["email"], $row["senha"], $row["tipo"]);
+				
                 $cont++;
             }
+			
             return $result;
         } catch (PDOExecption $e) {
             #return "Error!: " . $e->getMessage() . "</br>";
