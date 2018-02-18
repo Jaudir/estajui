@@ -13,27 +13,6 @@ require_once(dirname(__FILE__) . '/../base-controller.php');
 
 $session = getSession();
 
-$session->setUsuario(
-    new Aluno(
-        'email@email10.com', 
-        '123', 
-        1, 
-        '1231231', 
-        'teste', 
-        null, 
-        null, 
-        null, 
-        null, 
-        null, 
-        null, 
-        null, 
-        null, 
-        null, 
-        null, 
-        null,
-        null,
-        null));
-
 if($session->isAluno()){
     //carregar daos
     $loader->loadDAO('Empresa');
@@ -45,9 +24,6 @@ if($session->isAluno()){
 
     //carregar models
     $planoModel = $loader->loadModel('PlanoEstagioModel', 'PlanoEstagioModel');
-    
-    //validar dados aqui ...
-    $_POST['estagio'] = 1;
 
     //preenchendo models
     $endereco = new Endereco(-1, $_POST['logradouro'], $_POST['bairro'], $_POST['numero'], null, $_POST['cidade'], null, $_POST['cep']);
@@ -65,5 +41,4 @@ if($session->isAluno()){
 }else{
     $session->pushError('Você não é um aluno, não é possível criar estágios!');
 }
-//redirect(base_url() . '/estajui/estudante/cadastrar-dados-estagios.php');
-$session->printErrors();
+redirect(base_url() . '/estajui/estudante/cadastrar-dados-estagio.php');
