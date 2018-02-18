@@ -317,7 +317,7 @@ $session->setUsuario(
           // Example starter JavaScript for disabling form submissions if there are invalid fields
           $(function() {
           <?php if($session->hasValues('resultado')):?>
-            alert('Dados cadastrado!');
+            alert(<?php echo $session->getValues('resultdado')[0]?>);
           <?php endif;?>
 
             window.addEventListener('load', function() {
