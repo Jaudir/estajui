@@ -7,9 +7,11 @@
 	//require_once $_SERVER['DOCUMENT_ROOT'] . '/estajui/scripts/daos/Funcionario.php';
 	//require_once $_SERVER['DOCUMENT_ROOT'] . '/estajui/scripts/daos/OfereceCurso.php';
 	//session_start();
-	//session_destroy();
-	//session_unset();
 	session_start();
+	//session_unset();
+	//session_destroy();
+	
+	
 	//var_dump($_SESSION);
 	
 ?>
@@ -44,24 +46,97 @@
 		document.getElementById("ministraAulas").style.display = "hidden";
 	}
 	
-	function preencherDados(id) {
-		window.alert(id);
-		<?php 
-			if(isset($_SESSION["funcionarios"]) && isset($_SESSION["leciona"])) {
-					$funcionarios = $_SESSION["funcionarios"];
-					$leciona = $_SESSION["leciona"];
-			}
-						
-			$id = "<script>document.write(id)</script>";
-			echo "Id: " . $id;
-		?>
-		texto = '<?php echo $funcionarios[$id]->getnome(); ?>';
-		//document.getElementById("email").value = texto;
-		window.alert(texto) ;
+	function preencherDados(posicao) {
+		var idClicado = "nome"+posicao;
+		
+		document.getElementById("nome").value = document.getElementById(idClicado).innerHTML;
+		
+		idClicado = "siape"+posicao;
+		document.getElementById("siape").value = document.getElementById(idClicado).innerHTML;
+		document.getElementById("idUsuario").value = document.getElementById(idClicado).innerHTML;
+		
+		idClicado = "email"+posicao;
+		document.getElementById("email").value = document.getElementById(idClicado).innerHTML;
+		document.getElementById("confirmEmail").value = document.getElementById(idClicado).innerHTML;
 		
 		
-		//onClick='preencherDados()'
+		
+		idClicado = "CComp"+posicao;
+		if (document.getElementById(idClicado) != null) 
+			document.getElementById("CComp").checked = true;
+		else
+			document.getElementById("CComp").checked = false;
+		
+		idClicado = "EQuim"+posicao;
+		if (document.getElementById(idClicado) != null) 
+			document.getElementById("EQuim").checked = true;
+		else
+			document.getElementById("EQuim").checked = false;
+		
+		idClicado = "TecInf"+posicao;
+		if (document.getElementById(idClicado) != null) 
+			document.getElementById("TecInf").checked = true;
+		else
+			document.getElementById("TecInf").checked = false;
+		
+		idClicado = "TecQuim"+posicao;
+		if (document.getElementById(idClicado) != null) 
+			document.getElementById("TecQuim").checked = true;
+		else
+			document.getElementById("TecQuim").checked = false;
+		
+		idClicado = "TecElet"+posicao;
+		if (document.getElementById(idClicado) != null) 
+			document.getElementById("TecElet").checked = true;
+		else
+			document.getElementById("TecElet").checked = false;
+		
+		idClicado = "PO"+posicao;
+		if (document.getElementById(idClicado) != null && document.getElementById(idClicado).innerHTML != "") 
+			document.getElementById("PO").checked = true;
+		else
+			document.getElementById("PO").checked = false;
+		
+		idClicado = "CE"+posicao;
+		if (document.getElementById(idClicado) != null && document.getElementById(idClicado).innerHTML != "") 
+			document.getElementById("CE").checked = true;
+		else
+			document.getElementById("CE").checked = false;
+		
+		idClicado = "SRA"+posicao;
+		if (document.getElementById(idClicado) != null && document.getElementById(idClicado).innerHTML != "") 
+			document.getElementById("SRA").checked = true;
+		else
+			document.getElementById("SRA").checked = false;
+		
+		idClicado = "OE"+posicao;
+		if (document.getElementById(idClicado) != null && document.getElementById(idClicado).innerHTML != "") 
+			document.getElementById("OE").checked = true;
+		else
+			document.getElementById("OE").checked = false;
+		
+		window.alert(document.getElementById("idUsuario").value);
 	}
+	
+	function Cancelar() {
+		document.getElementById("nome").value = "";
+		document.getElementById("siape").value = "";
+		document.getElementById("email").value = "";
+		document.getElementById("confirmEmail").value = "";
+		document.getElementById("idUsuario").value = "";
+		document.getElementById("CComp").checked = false;
+		document.getElementById("EQuim").checked = false;
+		document.getElementById("TecInf").checked = false;
+		document.getElementById("TecQuim").checked = false;
+		document.getElementById("TecElet").checked = false;
+		document.getElementById("PO").checked = false;
+		document.getElementById("CE").checked = false;
+		document.getElementById("SRA").checked = false;
+		document.getElementById("OE").checked = false;
+		
+		window.alert(document.getElementById("idUsuario").value);
+	}
+	
 </script>
 <html>
   <head>
@@ -167,7 +242,15 @@
                       Por favor, informe um e-mail válido.
                     </div>
 					
-					<input type="hidden" name="idUsuario" id="idUsuario" value="<?php if(isset($_SESSION['idAlteracao'])) echo $_SESSION['idAlteracao']; else echo ""; ?>"></input>
+					<!-- !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!     Se vazio, é um novo usuário  -->
+					<input type="hidden" name="idUsuario" id="idUsuario" value=""></input>
+					
+					
+					
+					
+					
+					<!-- !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!       -->
+					
 					
                   </div>
                 </div>
@@ -233,7 +316,8 @@
                 <div class="row">
                   <div class="col-md-12" style="margin-top: 30px;">
                     <button class="btn btn-success" type="submit" name="cadastrar">Cadastrar</button>
-                    <button class="btn btn-danger" type="submit" name="cancelar">Cancelar</button>
+                    <!--<button class="btn btn-danger" type="submit" name="cancelar" onClick="cancelar()">Cancelar</button>-->
+					<button class="btn btn-danger" type = "button" name="cancelar" onClick="Cancelar()">Cancelar</button>
                   </div>
                 </div>
               </form>
@@ -291,26 +375,40 @@
 							$leciona = $_SESSION["leciona"];
 							
 							$cont = 0;
+							
 							foreach($funcionarios as $funcionario) {
+								$lecionaAux = array();
 								echo "<tr>";
-								echo "<td>" . $funcionario->getnome() . "</td>";
-								echo "<td>" . $funcionario->getlogin() . "</td>";
-								echo "<td>" . $funcionario->getsiape() . "</td>";
+								echo "<td id='nome".$cont."'>" . $funcionario->getnome() . "</td>";
+								echo "<td id='email".$cont."'>" . $funcionario->getlogin() . "</td>";
+								echo "<td id='siape".$cont."'>" . $funcionario->getsiape() . "</td>";
 								echo "<td>";
 								foreach($leciona as $l) {
 									if($l->getfuncionario()->getlogin() == $funcionario->getlogin()) {
-										echo $l->getoferececurso()->getcurso()->get_nome() . "<br><br>";
+										if ($l->getoferececurso()->getcurso()->get_id() == 1) echo "<span id='CComp" . $cont . "'>";
+										if ($l->getoferececurso()->getcurso()->get_id() == 2) echo "<span id='EQuim" . $cont . "'>";
+										if ($l->getoferececurso()->getcurso()->get_id() == 3) echo "<span id='TecInf" . $cont . "'>";
+										if ($l->getoferececurso()->getcurso()->get_id() == 4) echo "<span id='TecQuim" . $cont . "'>";
+										if ($l->getoferececurso()->getcurso()->get_id() == 5) echo "<span id='TecElet" . $cont . "'>";
+										
+										echo $l->getoferececurso()->getcurso()->get_nome() . "</span><br><br>";
+										array_push($lecionaAux, $l);
 									}
 								}
 								echo "</td>";
 								echo "<td>";
-								echo ($funcionario->ispo() ? "Prof. Orient.<br><br>" : "") ;
-								echo ($funcionario->isoe() ? "Org. Est.<br><br>" : "");
-								echo ($funcionario->isce() ? "Coord. Ext.<br><br>" : "");
-								echo ($funcionario->issra() ? "SRA" : "");
+								echo "<span id='PO" . $cont . "'>" . ($funcionario->ispo() ? "Prof. Orient.<br><br>" : "")  . "</span>";
+								echo "<span id='OE" . $cont . "'>" .($funcionario->isoe() ? "Org. Est.<br><br>" : "") . "</span>";
+								echo "<span id='CE" . $cont . "'>" .($funcionario->isce() ? "Coord. Ext.<br><br>" : "") . "</span>";
+								echo "<span id='SRA" . $cont . "'>" .($funcionario->issra() ? "SRA" : "") . "</span>";
 								echo "</td>";
 								
-								echo  "<td class='center red'> <a href='#' onClick='preencherDados(" .  $cont . ")'> <i class='fa fa-pencil'></i> </a> </td>";
+								
+								//$link = "?cont=" . $cont . "&nome=".$funcionario->getnome()."&siape=".$funcionario->getsiape."&email=".$funcionario->getlogin();
+								//$link .= http_build_query($lecionaAux);
+								//$link .= "&po=" . $
+								
+								echo  "<td class='center red' > <a> <i class='fa fa-pencil' onClick='preencherDados(".(string)$cont.")'></i> </a> </td>";
                     				echo "<td class='center red'><a href='#'> <i class='fa fa-trash'></i> </a></td>";
                     				echo "</tr>";
 								$cont++;
@@ -465,6 +563,10 @@
         </div>
     </div>
     <!-- SCRIPTS -->
+	<script>
+	
+	</script>
+	
     <script src="../../assets/js/jquery-1.9.0.min.js" type="text/javascript" charset="utf-8"></script>
     <script src="../../assets/js/jquery.maskedinput.js" type="text/javascript"></script>
     <script src="../../assets/js/masks.js" type="text/javascript"></script>

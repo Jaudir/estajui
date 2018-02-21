@@ -55,6 +55,21 @@ class UsuarioModel extends MainModel {
             return false;
         }
     }
+	
+	public function updateSenha(Usuario $user) {
+        $pstmt = $this->conn->prepare("UPDATE " . $this->_tabela . " SET senha=? where email = ?");
+        try {
+            $this->conn->beginTransaction();
+            $pstmt->execute(array($user->getsenha(), $user->getlogin()));
+            $this->conn->commit();
+            return 0;
+        } catch (PDOExecption $e) {
+            $this->conn->rollback();
+            #return "Error!: " . $e->getMessage() . "</br>";
+            return 2;
+        }
+    }
+	
     public function update(Usuario $user) {
         $pstmt = $this->conn->prepare("UPDATE " . $this->_tabela . " SET email=?, senha=?, tipo=? where email = ?");
         try {

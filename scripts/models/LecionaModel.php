@@ -49,5 +49,34 @@ class LecionaModel extends MainModel {
             return false;
         }
     }
+	
+	public function deletePorFuncionario(Funcionario $funcionario) {
+        $pstmt = $this->conn->prepare("DELETE from " . $this->_tabela . " WHERE po_siape = ?");
+        try {
+            $this->conn->beginTransaction();
+            $pstmt->execute(array($funcionario->getsiape()));
+            $this->conn->commit();
+            return 0;
+        } catch (PDOExecption $e) {
+            $this->conn->rollback();
+            #return "Error!: " . $e->getMessage() . "</br>";
+            return 2;
+        }
+    }
+	
+	public function create(Leciona $leciona) {
+        $pstmt = $this->conn->prepare("INSERT INTO " . $this->_tabela . " (po_siape, oferece_curso_id) VALUES(?,?)");
+        try {
+			$this->conn->beginTransaction();
+            $pstmt->execute(array($leciona->getfuncionario()->getsiape(), $leciona->getoferececurso()->getid()));
+            $this->conn->commit();
+            return 0;
+        } catch (PDOExecption $e) {
+            $this->conn->rollback();
+            #return "Error!: " . $e->getMessage() . "</br>";
+            return 2;
+        }
+    }
+	
 }
 

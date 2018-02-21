@@ -355,7 +355,22 @@ class FuncionarioModel extends MainModel {
             return 2;
         }
     }
-
+	
+	public function updatePermissoes($funcionario) {
+		 $pstmt = $this->conn->prepare("UPDATE " . $this->_tabela . " SET bool_po=?, bool_oe=?, bool_ce=?, bool_sra=?, bool_root=?, privilegio=? WHERE siape = ?");
+        try {
+            $this->conn->beginTransaction();
+            $pstmt->execute(array((int) $funcionario->ispo(), (int) $funcionario->isoe(), (int) $funcionario->isce(), (int) $funcionario->issra(), (int) $funcionario->isroot(), (int) $funcionario->isprivilegio(), $funcionario->getsiape()));
+            $this->conn->commit();
+            $usuarioModel = $this->loader->loadModel("UsuarioModel", "UsuarioModel");
+            return $usuarioModel->update($funcionario);
+        } catch (PDOExecption $e) {
+            $this->conn->rollback();
+            #return "Error!: " . $e->getMessage() . "</br>";
+            return 2;
+        }
+	}
+	
     public function update(Funcionario $funcionario) {
         $pstmt = $this->conn->prepare("UPDATE " . $this->_tabela . " SET siape=?, nome=?, bool_po=?, bool_oe=?, bool_ce=?, bool_sra=?, bool_root=?, formacao=?, privilegio=?, campus_cnpj=? WHERE siape = ?");
         try {
