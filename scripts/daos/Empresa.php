@@ -12,6 +12,7 @@ class Empresa {
 
     private $_cnpj;
     private $_nome;
+    private $_razao_social;
     private $_telefone;
     private $_fax;
     private $_nregistro;
@@ -19,10 +20,11 @@ class Empresa {
     private $_endereco;
     private $_responsavel;
 
-    public function __construct($_cnpj, $_nome, $_telefone, $_fax, $_nregistro, $_conselhofiscal, $_endereco, $_responsavel) {
+    public function __construct($_cnpj, $_nome, $_telefone,$_razao_social, $_fax, $_nregistro, $_conselhofiscal, $_endereco, $_responsavel) {
         $this->_cnpj = $_cnpj;
         $this->_nome = $_nome;
         $this->_telefone = $_telefone;
+        $this->_razao_social = $_razao_social;
         $this->_fax = $_fax;
         $this->_nregistro = $_nregistro;
         $this->_conselhofiscal = $_conselhofiscal;
@@ -32,6 +34,13 @@ class Empresa {
 
     public function get_cnpj() {
         return $this->_cnpj;
+    }
+
+    public function get_razao_social(){
+        return $this->_razao_social;
+    }
+    public function set_razao_social($_razao_social){
+        $this->_razao_social = $_razao_social;
     }
 
     public function get_nome() {
