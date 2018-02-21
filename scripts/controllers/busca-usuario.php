@@ -6,6 +6,7 @@ $session = getSession();
 $_SESSION["funcionarios"] = null;
 $_SESSION["leciona"] = null;
 
+var_dump($_POST);
 ///Comentar quando não for teste:
 if(1)
 ///Descomentar quando não for teste
@@ -13,9 +14,9 @@ if(1)
 {
 	if (isset($_POST['buscar']) && strcmp($_POST['campoBusca'], "") != 0) {
 	//carregar arquivo da pasta util e model para cadastrar o aluno
-		echo "Oi1";
+		//echo "Oi1";
 		$loader->loadUtil('String');
-		$loader->loadDao('Funcionario');	
+		//$loader->loadDao('Funcionario');	
 		//var_dump($_POST);
 		
 		///Buscar por e-mail
@@ -47,7 +48,7 @@ if(1)
 			//var_dump($funcionarios);
 			
 			foreach ($funcionarios as $funcionario) {
-				var_dump($funcionario);
+				//var_dump($funcionario);
 				echo "<br>";
 			}
 			
@@ -72,9 +73,51 @@ if(1)
 		
 		///Buscar por nome
 		if(isset($_POST['tipoBusca']) && $_POST['tipoBusca'] == "nome"){
+			
+			$_SESSION['erros'] = 0;
+			$_SESSION['mensagensErro'] = array();///Vetor que indica a presença de erros;
+			
+			$loader->loadDao('Usuario');
+			$loader->loadDao('Funcionario');
+			$loader->loadDao('Leciona');
+			$loader->loadDao('OfereceCurso');
+			
+			$leciona = array();
+			$funcionarios = array();
+			
+			///Carregando dados para as variáveis
+			$usuarioModel = $loader->loadModel('UsuarioModel','UsuarioModel');
+			$funcionarioModel = $loader->loadModel('FuncionarioModel','FuncionarioModel');
+			$lecionaModel = $loader->loadModel('LecionaModel','LecionaModel');
+			$ofereceCursoModel = $loader->loadModel('OfereceCursoModel','OfereceCursoModel');
+			
+			
+			$funcionarios = $funcionarioModel->readbynome($_POST['campoBusca'],0) ;
+			if ($funcionarios == 2) {
+				$_SESSION['mensagensErro'][$_SESSION['erros']] = "Problema ao buscar dados!";
+				$_SESSION['erros']++;
+				redirect(base_url() . '/estajui/coordenador-extensao/usuarios.php');
+			}
+			
+			echo "<br><br><br>Funcionarios<br><br><br>";
+			var_dump($funcionarios);
+			
+			foreach($funcionarios as $funcionario) {
+				//echo "Objeto da classe: " . get_class($funcionario);
+				$siapeAux = $funcionario->getsiape();
+				$lecionaAux = $lecionaModel->read($siapeAux,0);
+				
+				foreach($lecionaAux as $value)
+					array_push($leciona, $value);
+			}
+			
+			//echo "<br><br><br>Leciona<br><br><br>";
+			//var_dump($leciona);
 			$_SESSION["funcionarios"] = null;
 			$_SESSION["leciona"] = null;
 			
+			$_SESSION["funcionarios"] = $funcionarios;
+			$_SESSION["leciona"] = $leciona;
 			
 		}
 	}
@@ -83,7 +126,7 @@ if(1)
 		
 		if(isset($_POST['buscar']) && strcmp($_POST['campoBusca'], "") == 0) ///Busca Vazia
 		{
-				echo "Oi2";
+				//echo "Oi2";
 				$loader->loadUtil('String');
 				$loader->loadDao('Funcionario');	
 				

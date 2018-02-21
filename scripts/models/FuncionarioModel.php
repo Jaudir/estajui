@@ -286,6 +286,43 @@ class FuncionarioModel extends MainModel {
             return 2;
         }
     }
+	
+	public function readbynome($nome, $limite) {
+		 if ($limite == 0) {
+	            if ($nome == NULL) {
+	                $pstmt = $this->conn->prepare("SELECT * FROM " . $this->_tabela . "");
+	            } else {
+	                $pstmt = $this->conn->prepare("SELECT * FROM " . $this->_tabela . " WHERE nome LIKE :nome");
+					$nomeAux = "%".$nome."%";
+	                $pstmt->bindParam(':nome', $nomeAux);
+	            }
+	        } else {
+	            if ($nome == NULL) {
+	                $pstmt = $this->conn->prepare("SELECT * FROM " . $this->_tabela . " LIMIT :limite");
+	            } else {
+	                $pstmt = $this->conn->prepare("SELECT * FROM " . $this->_tabela . " WHERE nome LIKE :nome LIMIT :limite");
+					$nomeAux = "%".$nome."%";
+	                $pstmt->bindParam(':nome', $nomeAux);
+	            }
+	            $pstmt->bindParam(':limite', $limite, PDO::PARAM_INT);
+	        }
+	        try {
+	            $pstmt->execute();
+	            $cont = 0;
+	            $result = [];
+	            while ($row = $pstmt->fetch()) {
+	                $usuarioModel = $this->loader->loadModel("UsuarioModel", "UsuarioModel");
+	                $campusModel = $this->loader->loadModel("CampusModel", "CampusModel");
+	                $user = $usuarioModel->read($row["usuario_email"], 1)[0];
+	                $result[$cont] = new Funcionario($user->getlogin(), $user->getsenha(), $user->gettipo(), $row["siape"], $row["nome"], boolval($row["bool_po"]), boolval($row["bool_oe"]), boolval($row["bool_ce"]), boolval($row["bool_sra"]), boolval($row["bool_root"]), $row["formacao"], boolval($row["privilegio"]), $campusModel->read($row["campus_cnpj"], 1)[0]);
+	                $cont++;
+	            }
+	            return $result;
+	        } catch (PDOExecption $e) {
+	            #return "Error!: " . $e->getMessage() . "</br>";
+	            return 2;
+	        }
+	}
 
     public function readbyusuario(Usuario $user, $limite) {
         $key = $user->getlogin();
