@@ -50,4 +50,8 @@ class EstagioModel extends MainModel {
 			return false;
 		}
 	}
+	public function cadastrarDadosEstagioeEmpresa(){
+
+
+	}
 }
