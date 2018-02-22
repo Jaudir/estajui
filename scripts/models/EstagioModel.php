@@ -63,11 +63,11 @@ class EstagioModel extends MainModel {
 
 				$pstmt = $this->conn->prepare("INSERT INTO empresa (cnpj,nome, razao_social,fax,telefone,nregistro,conselhofiscal,
 				conveniada,endereco_id) VALUES(?,?, ?,?,?,?,?,?,?)");
-				$pstmt->execute(array($empresa->get_cnpj(),$empresa->get_nome(),$empresa->get_razao_social(),$empresa->get_fax(),
+				$pstmt->execute(array($empresa->get_cnpj(),$empresa->get_nome(),$empresa->get_razao_social(),$empresa->get_fax()
 				,$empresa->get_telefone(),$empresa->get_nregistro(),$empresa->get_conselhofiscal(),false,$endereco->getid()));
 				
-				$pstmt = $this->conn->prepare("INSERT INTO responsavel (email, nome, telefone, cargo, empresa_cnpj,aprovado) values(? ,?,?,?,?,?)";
-				$pstmt->execute(array($responsavel->get_email(), $responsavel->get_nome(), $responsavel->get_cargo(), $empresa->get_cnpj(),false); 
+				$pstmt = $this->conn->prepare("INSERT INTO responsavel (email, nome, telefone, cargo, empresa_cnpj,aprovado) values(? ,?,?,?,?,?)");
+				$pstmt->execute(array($responsavel->get_email(), $responsavel->get_nome(), $responsavel->get_cargo(), $empresa->get_cnpj(),false)); 
 				
 				$pstmt = $this->conn->prepare("INSERT INTO supervisor (nome, cargo, habilitacao, empresa_cnpj) VALUES(?,?, ?,?)");
 				$pstmt->execute(array($supervisor->get_nome(),$supervisor->get_cargo(),$supervisor->get_habilitacao(),$empresa->get_cnpj()));
@@ -93,7 +93,7 @@ class EstagioModel extends MainModel {
 				$supervisor->set_id($this->conn->lastInsertId());
 
 				$pstmt = $this->conn->prepare("INSERT INTO supervisiona (estagio_id,supervisor_id) VALUES(?,?)");
-				$pstmt->execute(array($supervisor->get_id,$supervisor->get_estagio()));
+				$pstmt->execute(array($supervisor->get_id,$planoDeEstagio->get_estagio()));
 				
 				$pstmt = $this->conn->prepare("INSERT INTO plano_estagio (estagio_id,setor_unidade,data_ini, data_fim, atividades,hora_inicio1,
 				 hora_fim1, total_horas, empresa_cnpj) VALUES(?,?, ?,?,?,?,?,?,?)");

@@ -39,8 +39,8 @@ class Supervisor {
         return $this->_cargo;
     }
 
-    public function get_habilitação() {
-        return $this->_habilitação;
+    public function get_habilitacao() {
+        return $this->_habilitacao;
     }
 
     public function get_empresa() {
