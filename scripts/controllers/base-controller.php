@@ -2,9 +2,6 @@
 
 require_once(dirname(__FILE__) . '/configs.php');
 require_once(dirname(__FILE__) . '/../util/Loader.php');
-require_once $_SERVER['DOCUMENT_ROOT'] . "/estajui/scripts/daos/Usuario.php";
-require_once $_SERVER['DOCUMENT_ROOT'] . "/estajui/scripts/daos/Aluno.php";
-require_once $_SERVER['DOCUMENT_ROOT'] . "/estajui/scripts/daos/Funcionario.php";
 
 $loader = new Loader($configs);
 

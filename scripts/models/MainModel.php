@@ -9,9 +9,10 @@ class MainModel {
     protected $loader;
 
     //chamar quando o model é instanciado, return false em caso de falha
-    public function init($DB, Loader $loader) {
+    public function init($DB, $loader) {
         try {
             $this->loader = $loader;
+
             $database = new Database();
 
             $database->setServername($DB['SERVER']);

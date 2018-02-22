@@ -2,8 +2,9 @@
 
 require_once(dirname(__FILE__) . '/MainModel.php');
 
-/* Trata as tabelas status, modifica_status e notificacao */
+/* Trata as tabelas: status, modifica_status e notificacao */
 class StatusModel extends MainModel{
+    //id dos status no BD
     public static $PARECER_SEC = 1;
     public static $ESTAGIO_DEF = 2;
     public static $AGURDANDO_DEF = 3;
