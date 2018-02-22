@@ -1,7 +1,7 @@
 <?php
 
 require_once(dirname(__FILE__) . '/base-controller.php');
-if (isset($_POST['cadastrar'])) {
+if (true) {
     $session = getSession();
 	if(!$session->isAluno())
 		redirect(base_url() . '/estajui/login/login.php');
@@ -10,17 +10,16 @@ if (isset($_POST['cadastrar'])) {
 	$loader->loadDao('Curso');
 	$loader->loadDao('Campus');
     $loader->loadDao('Estagio');
-    $loader->loadDao('Email');
+    #$loader->loadDao('Email');
 	$cursoModel = $loader->loadModel('curso-model','CursoModel');
 	$campusModel = $loader->loadModel('campus-model','CampusModel');
 	$estagioModel = $loader->loadModel('estagio-model','EstagioModel');
+	$modificacaoModel = $loader->loadModel('modifica-status-model','ModificaStatusModel');
 	
 	$curso = new Curso(null, $_POST['curso_nome'], null);
-	$curso = $cursoModel->recuperarPorNome($curso);
+	$curso = $cursoModel->
 	$obrigatorio = 0;
-	
 	$aluno = $session->getUsuario();
-	
 	if (isset($_POST['obrigatorio']))
 		$obrigatorio = 1;
 	$estagio = new Estagio(null, 0, $obrigatorio, null, null, null, null, null, null, null, null, $aluno->getcpf(), null, $curso, 0);
@@ -66,6 +65,8 @@ if (isset($_POST['cadastrar'])) {
 
     if ($model != null  && $erros == 0) {
         if ($estagioModel->salvar($estagio)) {
+			//Gerar notificação
+			
             redirect(base_url() . '/estajui/login/login.php');
         } else {
             $_SESSION['erros_cadastro'] = true;
@@ -74,7 +75,7 @@ if (isset($_POST['cadastrar'])) {
     } else {
         $_SESSION['erro_bd'] = true;
         redirect(base_url() . '/estajui/login/cadastro.php');
-    		}
+    }
 	} else {
     	redirect(base_url() . '/estajui/login/cadastro.php');
 }

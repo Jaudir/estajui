@@ -23,18 +23,20 @@ class CursoModel extends MainModel
 	public function recuperarPorCampus($campus)
 	{
 		try {
-            $pstmt = $this->conn->prepare("SELECT * FROM curso WHERE id=(SELECT curso_id FROM oferece WHERE campus_cnpj=?)");
-            $pstmt->execute($campus->getcnpj());
-			$res = $pstmt1->fetchAll();
+			$this->loader->loadDAO('Curso');
+			
+            $pstmt = $this->conn->prepare("SELECT curso.id, nome FROM curso JOIN oferece_curso ON oferece_curso.curso_id=curso.id WHERE campus_cnpj=?");
+            $pstmt->execute(array($campus->getcnpj()));
+			$res = $pstmt->fetchAll();
 			
 			if(count($res)==0)
 				return false;
 			
 			$cursos = array();
 			foreach($res as $curso)
-				$cursos->array_push(new Curso($curso['id'], $curso['nome'],  $campus));
+				$cursos[] = new Curso($curso['id'], $curso['nome'],  $campus);
 			
-			return $curso;
+			return $cursos;
         } catch (PDOExecption $e) {
             $this->conn->rollback();
             return false;

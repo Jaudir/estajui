@@ -28,6 +28,7 @@ class Session{
 
     public function isUsuario(){
 
+	}
     /*Retorna true caso o usuário logado seja funcionário*/
     public function isFuncionario(){
 

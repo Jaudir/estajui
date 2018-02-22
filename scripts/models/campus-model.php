@@ -26,6 +26,8 @@ class CampusModel extends MainModel
 	public function recuperar($campus)
 	{
 		try {
+			$this->loader->loadDAO('Endereco');
+			
             $pstmt = $this->conn->prepare("SELECT * FROM campus JOIN endereco ON endereco.id=campus.endereco_id WHERE campus.cnpj=?");
             $pstmt->execute($campus->getcnpj());
 			$res = $pstmt->fetchAll();
@@ -45,15 +47,19 @@ class CampusModel extends MainModel
 	
 	public function recuperarTodos(){
 		try{
+			$this->loader->loadDAO('Endereco');
+			$this->loader->loadDAO('Campus');
+			
 			$pstmt = $this->conn->prepare("SELECT * FROM campus JOIN endereco ON campus.endereco_id=endereco.id");
 			$pstmt->execute();
 			$res = $pstmt->fetchAll();
 			
 			$campi = array();
 			foreach($res as $campus){
-				$endereco = new Endereco($campus['id'], $campus['logradouro'], $campus['bairro'], $campus['numero'], $campus['complemento'], $campus['cidade'], $campus['uf'], $campus['cep']);
+				$endereco = new Endereco($campus['id'], $campus['logradouro'], $campus['bairro'], $campus['numero'], $campus['complemento'], $campus['cidade'], 
+										 $campus['uf'], $campus['cep']);
 				$c = new Campus($campus['cnpj'], $campus['telefone'], $endereco);
-				$campi->array_push($c);
+				$campi[] = $c;
 			}
 			
 			return $campi;

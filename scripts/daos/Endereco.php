@@ -4,7 +4,7 @@
  *
  * @author gabriel Lucas
  */
-class Endereco implements CrudInterface{
+class Endereco {
 
     private $_id;
     private $_logradouro;

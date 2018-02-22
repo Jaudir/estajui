@@ -1,13 +1,11 @@
 <?php
 
-require_once 'CrudInterface.php';
-
 /**
  * Description of Estagio
  *
  * @author gabriel Lucas
  */
-class Estagio implements CrudInterface {
+class Estagio {
     
     private $_id;
     private $_aprovado;
@@ -97,10 +95,6 @@ class Estagio implements CrudInterface {
 	
 	public function getempresa(){
 		return $this->$_empresa;
-	}
-	
-	public function getaluno(){
-		return $this->$_aluno;
 	}
 	
 	public function getaluno(){
