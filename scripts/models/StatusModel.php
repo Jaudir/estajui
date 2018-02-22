@@ -1,50 +1,87 @@
 <?php
-require_once $_SERVER['DOCUMENT_ROOT'] . '/estajui/scripts/daos/Estagio.php';
 
-/**
- * Description of Apolice
- *
- * @author gabriel Lucas
- */
-class Apolice {
-    
-    private $_numero;
-    private $_seguradora;
-    private $_estagio;
-    
-    public function __construct($_numero, $_seguradora, $_estagio) {
-        $this->_numero = $_numero;
-        $this->_seguradora = $_seguradora;
-        $this->_estagio = $_estagio;
+require_once('MainModel.php');
+require_once $_SERVER['DOCUMENT_ROOT'] . "/estajui/scripts/daos/Status.php";
+
+class StatusModel extends MainModel {
+
+    private $_tabela = "status";
+
+    public function create(Status $status) {
+        $pstmt = $this->conn->prepare("INSERT INTO " . $this->_tabela . " (descricao, bitmap_usuarios_alvo) VALUES(?, ?)");
+        try {
+            $this->conn->beginTransaction();
+            $pstmt->execute(array($status->getdescricao(), $status->get_usuarios_alvo()));
+            $id = $this->conn->lastInsertId();
+            $this->conn->commit();
+            return $id;
+        } catch (PDOExecption $e) {
+            $this->conn->rollback();
+            #return "Error!: " . $e->getMessage() . "</br>";
+            return 2;
+        }
     }
 
-    public function get_numero() {
-        return $this->_numero;
+    public function read($codigo, $limite) {
+        if ($limite == 0) {
+            if ($codigo == NULL) {
+                $pstmt = $this->conn->prepare("SELECT * FROM " . $this->_tabela . "");
+            } else {
+                $pstmt = $this->conn->prepare("SELECT * FROM " . $this->_tabela . " WHERE codigo LIKE :codigo");
+                $pstmt->bindParam(':codigo', $codigo);
+            }
+        } else {
+            if ($codigo == NULL) {
+                $pstmt = $this->conn->prepare("SELECT * FROM " . $this->_tabela . " LIMIT :limite");
+            } else {
+                $pstmt = $this->conn->prepare("SELECT * FROM " . $this->_tabela . " WHERE codigo LIKE :codigo LIMIT :limite");
+                $pstmt->bindParam(':codigo', $codigo);
+            }
+            $pstmt->bindParam(':limite', $limite, PDO::PARAM_INT);
+        }
+        try {
+            $this->conn->beginTransaction();
+            $pstmt->execute();
+            $this->conn->commit();
+            $cont = 0;
+            $result = [];
+            while ($row = $pstmt->fetch()) {
+                $result[$cont] = new Status($row["codigo"], $row["descricao"], $row["bitmap_usuarios_alvos"]);
+                $cont++;
+            }
+            return $result;
+        } catch (PDOExecption $e) {
+            #return "Error!: " . $e->getMessage() . "</br>";
+            return 2;
+        }
     }
 
-    public function get_seguradora() {
-        return $this->_seguradora;
+    public function update(Status $status) {
+        $pstmt = $this->conn->prepare("UPDATE " . $this->$_tabela . " SET descricao=?, bitmap_usuarios_alvo=? WHERE codigo = ?");
+        try {
+            $this->conn->beginTransaction();
+            $pstmt->execute(array($status->getdescricao(), $status->get_usuarios_alvo(), $status->getcodigo()));
+            $this->conn->commit();
+            return 0;
+        } catch (PDOExecption $e) {
+            $this->conn->rollback();
+            #return "Error!: " . $e->getMessage() . "</br>";
+            return 2;
+        }
     }
 
-    public function get_estagio() {
-        return $this->_estagio;
+    public function delete(Status $status) {
+        $pstmt = $this->conn->prepare("DELETE from " . $this->$_tabela . " WHERE codigo = ?");
+        try {
+            $this->conn->beginTransaction();
+            $pstmt->execute(array($status->getcodigo()));
+            $this->conn->commit();
+            return 0;
+        } catch (PDOExecption $e) {
+            $this->conn->rollback();
+            #return "Error!: " . $e->getMessage() . "</br>";
+            return 2;
+        }
     }
 
-    public function set_numero($_numero) {
-        $this->_numero = $_numero;
-        return $this;
-    }
-
-    public function set_seguradora($_seguradora) {
-        $this->_seguradora = $_seguradora;
-        return $this;
-    }
-
-    public function set_estagio($_estagio) {
-        $this->_estagio = $_estagio;
-        return $this;
-    }
-
-
-    
 }

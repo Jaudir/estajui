@@ -17,6 +17,8 @@ class Estagio {
     private $_id;
     private $_aprovado;
     private $_obrigatorio;
+    private $_apolice;
+    private $_supervisor;
     private $_periodo;
     private $_serie;
     private $_modulo;
@@ -33,10 +35,12 @@ class Estagio {
     private $_status;
     private $_pe;
     
-    public function __construct($_id, $_aprovado, $_obrigatorio, $_periodo, $_serie, $_modulo, $_ano, $_semestre, $_dependencias, $_justificativa, $_endereco_tc, $_endereco_pe, $_empresa, $_aluno, $_funcionario, $_curso, $_status, $_pe) {
+    public function __construct($_id, $_aprovado, $_obrigatorio, $_apolice, $_supervisor, $_periodo, $_serie, $_modulo, $_ano, $_semestre, $_dependencias, $_justificativa, $_endereco_tc, $_endereco_pe, $_empresa, $_aluno, $_funcionario, $_curso, $_status, $_pe) {
         $this->_id = $_id;
         $this->_aprovado = $_aprovado;
         $this->_obrigatorio = $_obrigatorio;
+        $this->_apolice = $_apolice;
+        $this->_supervisor = $_supervisor;
         $this->_periodo = $_periodo;
         $this->_serie = $_serie;
         $this->_modulo = $_modulo;
@@ -213,6 +217,24 @@ class Estagio {
 
     public function setpe($_pe) {
         $this->_pe = $_pe;
+        return $this;
+    }
+
+    public function getapolice() {
+        return $this->_apolice;
+    }
+
+    public function setapolice($_apolice) {
+        $this->_apolice = $_apolice;
+        return $this;
+    }
+
+    public function getsupervisor() {
+        return $this->_supervisor;
+    }
+
+    public function setsupervisor($_supervisor) {
+        $this->_supervisor = $_supervisor;
         return $this;
     }
 

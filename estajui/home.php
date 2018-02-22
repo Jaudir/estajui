@@ -1,6 +1,5 @@
 <?php
 require_once $_SERVER['DOCUMENT_ROOT'] . "/estajui/scripts/controllers/HomeController.php";
-redirect("secretaria/home.html#solicitacaoEstagio");
 ?>
 <!DOCTYPE html>
 <html>

@@ -12,7 +12,7 @@ if (!$session->isLogged()) {
 }
 $usuario = $session->getUsuario();
 if (is_a($usuario, "Aluno")) {
-    $loader->loadModel("EstagioModel","EstagioModel");
+//    $loader->loadModel("EstagioModel","EstagioModel");
     $titulo = "Estudante";
 //    $estagios = 
 } elseif (is_a($usuario, "Funcionario")) {

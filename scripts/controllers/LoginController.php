@@ -9,8 +9,13 @@ if (isset($_POST["btn-logar"])) {
         $senha = $_POST["senha"];
         $usuarioModel = $loader->loadModel("UsuarioModel", "UsuarioModel");
         $result = $usuarioModel->validate($email, $senha);
-        if (is_a($result, "Aluno") || is_a($result, "Funcionario")) {
+        if (is_a($result, "Funcionario")) {
             $session->setUsuario($result);
+        } elseif (is_a($result, "Aluno")) {
+            if ($result->getacesso)
+                $session->setUsuario($result);
+            else
+                $session->pushError("Verifique seu email!", "login");
         } else {
             $session->pushError("Login inválido, tente novamente!", "login");
         }

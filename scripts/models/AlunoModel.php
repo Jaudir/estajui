@@ -11,10 +11,10 @@ class AlunoModel extends MainModel {
         $usuarioModel = $this->loader->loadModel("UsuarioModel", "UsuarioModel");
         $result = $usuarioModel->create($aluno);
         if ($result) {
-            $pstmt = $this->conn->prepare("INSERT INTO " . $this->_tabela . " (cpf, nome, data_nasc, rg_num, rg_orgao, estado_civil, sexo, telefone, celular, nome_pai, nome_mae, cidade_natal, estado_natal, acesso, endereco_id) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,)");
+            $pstmt = $this->conn->prepare("INSERT INTO " . $this->_tabela . " (cpf, nome, data_nasc, rg_num, rg_orgao, estado_civil, sexo, telefone, celular, nome_pai, nome_mae, cidade_natal, estado_natal, endereco_id) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
             try {
                 $this->conn->beginTransaction();
-                $pstmt->execute(array($aluno->getcpf(), $aluno->getnome(), $aluno->getdata_nasc(), $aluno->getrg_num(), $aluno->getrg_orgao(), $aluno->getestado_civil(), $aluno->getsexo(), $aluno->gettelefone(), $aluno->getcelular(), $aluno->getnome_pai(), $aluno->getnome_mae(), $aluno->getcidade_natal(), $aluno->getestado_natal(), (int) $aluno->getacesso(), $aluno->getendereco()->getid()));
+                $pstmt->execute(array($aluno->getcpf(), $aluno->getnome(), $aluno->getdata_nasc(), $aluno->getrg_num(), $aluno->getrg_orgao(), $aluno->getestado_civil(), $aluno->getsexo(), $aluno->gettelefone(), $aluno->getcelular(), $aluno->getnome_pai(), $aluno->getnome_mae(), $aluno->getcidade_natal(), $aluno->getestado_natal(), $aluno->getendereco()->getid()));
                 $this->conn->commit();
                 return 0;
             } catch (PDOExecption $e) {
@@ -27,7 +27,7 @@ class AlunoModel extends MainModel {
         }
     }
 
-    public function read($cpf) {
+    public function read($cpf, $limite) {
         if ($limite == 0) {
             if ($cpf == NULL) {
                 $pstmt = $this->conn->prepare("SELECT * FROM " . $this->_tabela . "");
@@ -58,6 +58,13 @@ class AlunoModel extends MainModel {
         } catch (PDOExecption $e) {
             #return "Error!: " . $e->getMessage() . "</br>";
             return 2;
+        }
+    }
+
+    public function getCursos(Aluno $aluno) {
+        if ($this->conn) {
+            $pstmt = $this->conn->prepare("SELECT * FROM aluno_estuda_curso WHERE aluno_cpf LIKE :aluno_cpf");
+            $pstmt->bindParam(':aluno_cpf', $aluno->getcpf());
         }
     }
 
@@ -100,7 +107,7 @@ class AlunoModel extends MainModel {
     }
 
     public function update(Aluno $aluno) {
-        $pstmt = $this->conn->prepare("UPDATE " . $aluno->$_tabela . " SET cpf=?, nome=?, data_nasc=?, rg_num=?, rg_orgao=?, estado_civil=?, sexo=?, telefone=?, celular=?, nome_pai=?, nome_mae=?, cidade_natal=?, estado_natal=?, acesso=?, endereco_id=? WHERE cpf = ?");
+        $pstmt = $this->conn->prepare("UPDATE " . $this->$_tabela . " SET cpf=?, nome=?, data_nasc=?, rg_num=?, rg_orgao=?, estado_civil=?, sexo=?, telefone=?, celular=?, nome_pai=?, nome_mae=?, cidade_natal=?, estado_natal=?, acesso=?, endereco_id=? WHERE cpf = ?");
         try {
             $this->conn->beginTransaction();
             $pstmt->execute(array($aluno->getcpf(), $aluno->getnome(), $aluno->getdata_nasc(), $aluno->getrg_num(), $aluno->getrg_orgao(), $aluno->getestado_civil(), $aluno->getsexo(), $aluno->gettelefone(), $aluno->getcelular(), $aluno->getnome_pai(), $aluno->getnome_mae(), $aluno->getcidade_natal(), $aluno->getestado_natal(), (int) $aluno->getacesso(), $aluno->getendereco()->getid(), $aluno->getcpf()));
@@ -115,7 +122,7 @@ class AlunoModel extends MainModel {
     }
 
     public function delete(Aluno $aluno) {
-        $pstmt = $this->conn->prepare("DELETE from " . $aluno->$_tabela . " WHERE cpf LIKE ?");
+        $pstmt = $this->conn->prepare("DELETE from " . $this->$_tabela . " WHERE cpf LIKE ?");
         try {
             $this->conn->beginTransaction();
             $pstmt->execute(array($aluno->getcpf()));

@@ -7,6 +7,7 @@ class UsuarioModel extends MainModel {
     public function create(Usuario $user) {
         $pstmt = $this->conn->prepare("INSERT INTO " . $this->_tabela . " (email, senha, tipo) VALUES(?,?, ?)");
         try {
+            $this->conn->beginTransaction();
             $this->conn->execute(array($user->getlogin(), $user->getsenha(), $user->gettipo()));
             $this->conn->commit();
             return 0;
@@ -48,6 +49,7 @@ class UsuarioModel extends MainModel {
             return false;
         }
     }
+    
     public function update(Usuario $user) {
         $pstmt = $this->conn->prepare("UPDATE " . $this->_tabela . " SET email=?, senha=?, tipo=? where email = ?");
         try {
@@ -99,7 +101,6 @@ class UsuarioModel extends MainModel {
                         if ($user[0]->gettipo() == 1) {
                             return $alunoModel->readbyusuario($user[0], 1)[0];
                         } elseif ($user[0]->gettipo() == 2) {
-                            var_dump($funcionarioModel->readbyusuario($user[0], 1));
                             return $funcionarioModel->readbyusuario($user[0], 1)[0];
                         } else {
                             return false;
