@@ -1,12 +1,21 @@
 <!DOCTYPE html>
 <?php
-	session_start();
 	
-	//session_destroy();
+	//require_once $_SERVER['DOCUMENT_ROOT'] . '/estajui/scripts/controllers/busca-usuario.php';
+	require_once $_SERVER['DOCUMENT_ROOT'] . '/estajui/scripts/daos/Leciona.php';
+	//require_once $_SERVER['DOCUMENT_ROOT'] . '/estajui/scripts/daos/Usuario.php';
+	//require_once $_SERVER['DOCUMENT_ROOT'] . '/estajui/scripts/daos/Funcionario.php';
+	//require_once $_SERVER['DOCUMENT_ROOT'] . '/estajui/scripts/daos/OfereceCurso.php';
+	//session_start();
+	session_start();
 	//session_unset();
+	//session_destroy();
+	
 	
 	//var_dump($_SESSION);
+	
 ?>
+
 
 <script>
 	function mensagemSalvamento() {	
@@ -28,6 +37,106 @@
 		
 		<?php unset($_SESSION['erros']);	unset($_SESSION['mensagensErro']); unset($_SESSION['pau1']); unset($_SESSION['pau12']); unset($_SESSION['curso'])?>
 	}
+	
+	function ocultarCursos() {
+		document.getElementById("ministraAulas").style.display = "hidden";
+	}
+	
+	function mostrarCursos() {
+		document.getElementById("ministraAulas").style.display = "hidden";
+	}
+	
+	function preencherDados(posicao) {
+		var idClicado = "nome"+posicao;
+		
+		document.getElementById("nome").value = document.getElementById(idClicado).innerHTML;
+		
+		idClicado = "siape"+posicao;
+		document.getElementById("siape").value = document.getElementById(idClicado).innerHTML;
+		document.getElementById("idUsuario").value = document.getElementById(idClicado).innerHTML;
+		
+		idClicado = "email"+posicao;
+		document.getElementById("email").value = document.getElementById(idClicado).innerHTML;
+		document.getElementById("confirmEmail").value = document.getElementById(idClicado).innerHTML;
+		
+		
+		
+		idClicado = "CComp"+posicao;
+		if (document.getElementById(idClicado) != null) 
+			document.getElementById("CComp").checked = true;
+		else
+			document.getElementById("CComp").checked = false;
+		
+		idClicado = "EQuim"+posicao;
+		if (document.getElementById(idClicado) != null) 
+			document.getElementById("EQuim").checked = true;
+		else
+			document.getElementById("EQuim").checked = false;
+		
+		idClicado = "TecInf"+posicao;
+		if (document.getElementById(idClicado) != null) 
+			document.getElementById("TecInf").checked = true;
+		else
+			document.getElementById("TecInf").checked = false;
+		
+		idClicado = "TecQuim"+posicao;
+		if (document.getElementById(idClicado) != null) 
+			document.getElementById("TecQuim").checked = true;
+		else
+			document.getElementById("TecQuim").checked = false;
+		
+		idClicado = "TecElet"+posicao;
+		if (document.getElementById(idClicado) != null) 
+			document.getElementById("TecElet").checked = true;
+		else
+			document.getElementById("TecElet").checked = false;
+		
+		idClicado = "PO"+posicao;
+		if (document.getElementById(idClicado) != null && document.getElementById(idClicado).innerHTML != "") 
+			document.getElementById("PO").checked = true;
+		else
+			document.getElementById("PO").checked = false;
+		
+		idClicado = "CE"+posicao;
+		if (document.getElementById(idClicado) != null && document.getElementById(idClicado).innerHTML != "") 
+			document.getElementById("CE").checked = true;
+		else
+			document.getElementById("CE").checked = false;
+		
+		idClicado = "SRA"+posicao;
+		if (document.getElementById(idClicado) != null && document.getElementById(idClicado).innerHTML != "") 
+			document.getElementById("SRA").checked = true;
+		else
+			document.getElementById("SRA").checked = false;
+		
+		idClicado = "OE"+posicao;
+		if (document.getElementById(idClicado) != null && document.getElementById(idClicado).innerHTML != "") 
+			document.getElementById("OE").checked = true;
+		else
+			document.getElementById("OE").checked = false;
+		
+		window.alert(document.getElementById("idUsuario").value);
+	}
+	
+	function Cancelar() {
+		document.getElementById("nome").value = "";
+		document.getElementById("siape").value = "";
+		document.getElementById("email").value = "";
+		document.getElementById("confirmEmail").value = "";
+		document.getElementById("idUsuario").value = "";
+		document.getElementById("CComp").checked = false;
+		document.getElementById("EQuim").checked = false;
+		document.getElementById("TecInf").checked = false;
+		document.getElementById("TecQuim").checked = false;
+		document.getElementById("TecElet").checked = false;
+		document.getElementById("PO").checked = false;
+		document.getElementById("CE").checked = false;
+		document.getElementById("SRA").checked = false;
+		document.getElementById("OE").checked = false;
+		
+		window.alert(document.getElementById("idUsuario").value);
+	}
+	
 </script>
 <html>
   <head>
@@ -47,7 +156,7 @@
           <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
-
+			
           <ul class="nav-content navbar-nav">
             <li>
               <span class="navbar-text">
@@ -94,7 +203,7 @@
                 <div class="row">
                   <div class="col-md-12 mb-3">
                     <label for="validationCustom01">Nome completo</label>
-                    <input type="text" class="form-control" id="validationCustom01" required type="text" name="nome">
+                    <input type="text" class="form-control" id="nome" id="validationCustom01" required type="text" name="nome" >
                     <div class="invalid-feedback">
                       Por favor, informe o nome completo.
                     </div>
@@ -103,7 +212,7 @@
                 <div class="row">
                     <div class="col-md-6 mb-3">
                       <label for="validationCustom03">SIAPE</label>
-                      <input type="text" class="form-control" id="validationCustom03" placeholder="" required type="number" name="siape">
+                      <input type="text" class="form-control" id="siape" id="validationCustom03" placeholder="" required type="number" name="siape" >
 
                       <div class="invalid-feedback">
                         Por favor, informe este campo.
@@ -111,56 +220,67 @@
                     </div>
                     <div class="col-md-6 mb-2">
                       <label>Vínculo</label>
-                      <select class="form-control" required name="vinculo">
+                      <select class="form-control" required name="vinculo" name="vinculo"  id="vinculo">
                         <option value="">...</option>
-                        <option>Docente</option>
-                        <option>Técnico administrativo</option>
+                        <option onClick="mostrarCursos()">Docente</option>
+                        <option onClick="ocultarCursos()">Técnico administrativo</option>
                       </select>
                     </div>
                 </div>
                 <div class="row">
                   <div class="col-md-6 mb-3">
                     <label for="validationCustom05">Email</label>
-                    <input type="text" class="form-control" id="validationCustom05" placeholder="" required type="email" name="email">
+                    <input type="text" class="form-control" id="email" id="validationCustom05" placeholder="" required type="email" name="email">
                     <div class="invalid-feedback">
                       Por favor, informe um e-mail válido.
                     </div>
                   </div>
                   <div class="col-md-6 mb-2">
                     <label>Confirmação de email</label>
-                    <input type="text" class="form-control" id="validationCustom06" placeholder="" required type="confirmEmail" name="confirmEmail">
+                    <input type="text" class="form-control" id="confirmEmail" id="validationCustom06" placeholder="" required type="confirmEmail" name="confirmEmail">
                     <div class="invalid-feedback">
                       Por favor, informe um e-mail válido.
                     </div>
+					
+					<!-- !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!     Se vazio, é um novo usuário  -->
+					<input type="hidden" name="idUsuario" id="idUsuario" value=""></input>
+					
+					
+					
+					
+					
+					<!-- !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!       -->
+					
+					
                   </div>
                 </div>
-                <div class="row">
-                  <div class="col-md-12">
+                <div class="row" id="ministraAulas">
+                  <div class="col-md-12" id="ministraAulas">
                     <h6>Caso seja docente, marque os cursos em que ele ministra aulas:</h6>
                   </div>
                   <div class="col-md-12 mb-2">
                     <label class="custom-control custom-checkbox">
-                      <input type="checkbox" class="custom-control-input" name="CComp">
+                      <input type="checkbox" id="CComp" class="custom-control-input" name="CComp" >
                       <span class="custom-control-indicator"></span>
                       <span class="custom-control-description">Ciência da Computação</span>
                     </label>
                     <label class="custom-control custom-checkbox">
-                      <input type="checkbox" class="custom-control-input" name="EQuim">
+                      <input type="checkbox" id="EQuim" class="custom-control-input" name="EQuim" >
                       <span class="custom-control-indicator"></span>
                       <span class="custom-control-description">Engenharia Química</span>
                     </label>
                     <label class="custom-control custom-checkbox">
-                      <input type="checkbox" class="custom-control-input" name="TecInf">
+                      <input type="checkbox" id="TecInf" class="custom-control-input" name="TecInf">
                       <span class="custom-control-indicator"></span>
                       <span class="custom-control-description">Técnico em Informática</span>
                     </label>
                     <label class="custom-control custom-checkbox">
-                      <input type="checkbox" class="custom-control-input" name="TecQuim">
+                      <input type="checkbox" id="TecQuim" class="custom-control-input" name="TecQuim">
                       <span class="custom-control-indicator"></span>
                       <span class="custom-control-description">Técnico em Química</span>
                     </label>
                     <label class="custom-control custom-checkbox">
-                      <input type="checkbox" class="custom-control-input" name="TecElet">
+                      <input type="checkbox" id="TecElet" class="custom-control-input" name="TecElet" >
                       <span class="custom-control-indicator"></span>
                       <span class="custom-control-description">Técnico em Eletrotécnica</span>
                     </label>
@@ -172,22 +292,22 @@
                   </div>
                   <div class="col-md-12 mb-2">
                     <label class="custom-control custom-checkbox">
-                      <input type="checkbox" class="custom-control-input" name="PO">
+                      <input type="checkbox" id="PO" class="custom-control-input" name="PO">
                       <span class="custom-control-indicator"></span>
                       <span class="custom-control-description">Professor Orientador</span>
                     </label>
                     <label class="custom-control custom-checkbox">
-                      <input type="checkbox" class="custom-control-input" name="CE">
+                      <input type="checkbox" id="CE" class="custom-control-input" name="CE" >
                       <span class="custom-control-indicator"></span>
                       <span class="custom-control-description">Coordenador de Extensão</span>
                     </label>
                     <label class="custom-control custom-checkbox">
-                      <input type="checkbox" class="custom-control-input" name="SRA">
+                      <input type="checkbox" id="SRA" class="custom-control-input" name="SRA">
                       <span class="custom-control-indicator"></span>
                       <span class="custom-control-description">Secretaria</span>
                     </label>
                     <label class="custom-control custom-checkbox">
-                      <input type="checkbox" class="custom-control-input" name="OE">
+                      <input type="checkbox" id="OE" class="custom-control-input" name="OE">
                       <span class="custom-control-indicator"></span>
                       <span class="custom-control-description">Organizador de Estágio</span>
                     </label>
@@ -196,7 +316,8 @@
                 <div class="row">
                   <div class="col-md-12" style="margin-top: 30px;">
                     <button class="btn btn-success" type="submit" name="cadastrar">Cadastrar</button>
-                    <button class="btn btn-danger" type="submit" name="cancelar">Cancelar</button>
+                    <!--<button class="btn btn-danger" type="submit" name="cancelar" onClick="cancelar()">Cancelar</button>-->
+					<button class="btn btn-danger" type = "button" name="cancelar" onClick="Cancelar()">Cancelar</button>
                   </div>
                 </div>
               </form>
@@ -219,6 +340,16 @@
               </script>
             </div>
           </div>
+		  
+		  <form method="POST" action="../../scripts/controllers/busca-usuario.php">
+		  		  <label>Informe o texto de busca: </label>
+				  <input type="text" name="campoBusca"> <br>
+				  <input type="radio" name="tipoBusca" value="email">E-mail</input><br>
+				  <input type="radio" name="tipoBusca" value="nome">Nome</input><br>
+				  <button class="btn btn-success" type="submit" name="buscar">Buscar</button>
+		  </form>
+		  
+		  
           <div class="row table-usuarios">
             <div class="offset-lg-1 col-lg-10 table-title">
               <h3 class="bg-gray"> Todos os usuários </h3>
@@ -230,7 +361,7 @@
                     <th scope="col">Nome</th>
                     <th scope="col">Email</th>
                     <th scope="col">Siape</th>
-                    <th scope="col">Vínculo</td>
+                    <!--<th scope="col">Vínculo</td>-->
                     <th scope="col">Curso</th>
                     <th scope="col">Permissões</th>
                     <th scope="col">Editar</th>
@@ -238,7 +369,53 @@
                   </tr>
                 </thead>
                 <tbody>
-                  <tr>
+					<?php
+						if(isset($_SESSION["funcionarios"]) && isset($_SESSION["leciona"])) {
+							$funcionarios = $_SESSION["funcionarios"];
+							$leciona = $_SESSION["leciona"];
+							
+							$cont = 0;
+							
+							foreach($funcionarios as $funcionario) {
+								$lecionaAux = array();
+								echo "<tr>";
+								echo "<td id='nome".$cont."'>" . $funcionario->getnome() . "</td>";
+								echo "<td id='email".$cont."'>" . $funcionario->getlogin() . "</td>";
+								echo "<td id='siape".$cont."'>" . $funcionario->getsiape() . "</td>";
+								echo "<td>";
+								foreach($leciona as $l) {
+									if($l->getfuncionario()->getlogin() == $funcionario->getlogin()) {
+										if ($l->getoferececurso()->getcurso()->get_id() == 1) echo "<span id='CComp" . $cont . "'>";
+										if ($l->getoferececurso()->getcurso()->get_id() == 2) echo "<span id='EQuim" . $cont . "'>";
+										if ($l->getoferececurso()->getcurso()->get_id() == 3) echo "<span id='TecInf" . $cont . "'>";
+										if ($l->getoferececurso()->getcurso()->get_id() == 4) echo "<span id='TecQuim" . $cont . "'>";
+										if ($l->getoferececurso()->getcurso()->get_id() == 5) echo "<span id='TecElet" . $cont . "'>";
+										
+										echo $l->getoferececurso()->getcurso()->get_nome() . "</span><br><br>";
+										array_push($lecionaAux, $l);
+									}
+								}
+								echo "</td>";
+								echo "<td>";
+								echo "<span id='PO" . $cont . "'>" . ($funcionario->ispo() ? "Prof. Orient.<br><br>" : "")  . "</span>";
+								echo "<span id='OE" . $cont . "'>" .($funcionario->isoe() ? "Org. Est.<br><br>" : "") . "</span>";
+								echo "<span id='CE" . $cont . "'>" .($funcionario->isce() ? "Coord. Ext.<br><br>" : "") . "</span>";
+								echo "<span id='SRA" . $cont . "'>" .($funcionario->issra() ? "SRA" : "") . "</span>";
+								echo "</td>";
+								
+								
+								//$link = "?cont=" . $cont . "&nome=".$funcionario->getnome()."&siape=".$funcionario->getsiape."&email=".$funcionario->getlogin();
+								//$link .= http_build_query($lecionaAux);
+								//$link .= "&po=" . $
+								
+								echo  "<td class='center red' > <a> <i class='fa fa-pencil' onClick='preencherDados(".(string)$cont.")'></i> </a> </td>";
+                    				echo "<td class='center red'><a href='#'> <i class='fa fa-trash'></i> </a></td>";
+                    				echo "</tr>";
+								$cont++;
+							}
+						}
+					?>
+                  <!--<tr>
                     <td>Lúcio Dutra</td>
                     <td>lucinho@ifnmg.edu.br</td>
                     <td>123456</td>
@@ -261,7 +438,7 @@
                       <a href="#"> <i class="fa fa-pencil"></i> </a>
                     </td>
                     <td class="center red"><a href="#"> <i class="fa fa-trash"></i> </a></td>
-                  </tr>
+                  </tr>-->
 
                 </tbody>
               </table>
@@ -386,6 +563,10 @@
         </div>
     </div>
     <!-- SCRIPTS -->
+	<script>
+	
+	</script>
+	
     <script src="../../assets/js/jquery-1.9.0.min.js" type="text/javascript" charset="utf-8"></script>
     <script src="../../assets/js/jquery.maskedinput.js" type="text/javascript"></script>
     <script src="../../assets/js/masks.js" type="text/javascript"></script>

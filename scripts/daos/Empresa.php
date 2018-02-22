@@ -12,26 +12,39 @@ class Empresa {
 
     private $_cnpj;
     private $_nome;
+    private $_razao_social;
     private $_telefone;
     private $_fax;
     private $_nregistro;
     private $_conselhofiscal;
     private $_endereco;
     private $_responsavel;
+    private $_conveniada;
+    private $_razaosocial;
 
-    public function __construct($_cnpj, $_nome, $_telefone, $_fax, $_nregistro, $_conselhofiscal, $_endereco, $_responsavel) {
+    public function __construct($_cnpj, $_nome, $_telefone, $_fax, $_nregistro, $_conselhofiscal, $_endereco, $_responsavel, $_conveniada, $_razaosocial) {
         $this->_cnpj = $_cnpj;
         $this->_nome = $_nome;
         $this->_telefone = $_telefone;
+        $this->_razao_social = $_razao_social;
         $this->_fax = $_fax;
         $this->_nregistro = $_nregistro;
         $this->_conselhofiscal = $_conselhofiscal;
         $this->_endereco = $_endereco;
         $this->_responsavel = $_responsavel;
+        $this->_conveniada = $_conveniada;
+        $this->_razaosocial = $_razaosocial;
     }
 
     public function get_cnpj() {
         return $this->_cnpj;
+    }
+
+    public function get_razao_social(){
+        return $this->_razao_social;
+    }
+    public function set_razao_social($_razao_social){
+        $this->_razao_social = $_razao_social;
     }
 
     public function get_nome() {
@@ -102,4 +115,21 @@ class Empresa {
         return $this;
     }
 
+    public function set_conveniada($_conveniada){
+        $this->_razaosocial = $_razaosocial;
+        return $this;
+    }
+
+    public function get_conveniada(){
+        return $this->_conveniada;
+    }
+
+    public function set_razaosocial($_razaosocial){
+        $this->_razaosocial = $_razaosocial;
+        return $this;
+    }
+
+    public function get_razaosocial(){
+        return $this->_razaosocial;
+    }
 }
