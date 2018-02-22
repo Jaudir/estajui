@@ -49,27 +49,33 @@ class Supervisor {
 
     public function set_id($_id) {
         $this->_id = $_id;
-        return $this;
+        
     }
 
     public function set_nome($_nome) {
         $this->_nome = $_nome;
-        return $this;
+        
     }
 
     public function set_cargo($_cargo) {
         $this->_cargo = $_cargo;
-        return $this;
+        
     }
 
+<<<<<<< HEAD
     public function set_habilitacao($_habilitacao) {
         $this->_habilitacao = $_habilitacao;
         return $this;
+=======
+    public function set_habilitação($_habilitação) {
+        $this->_habilitação = $_habilitação;
+        
+>>>>>>> caso_uso_5
     }
 
     public function set_empresa($_empresa) {
         $this->_empresa = $_empresa;
-        return $this;
+        
     }
 
 

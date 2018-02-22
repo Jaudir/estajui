@@ -15,14 +15,6 @@ $(document)
                             search: cnpj
                         },
                         dataType: "json",
-
-                        error: function (jqXHR, textStatus, errorThrown, data) {
-
-                            console.log(jqXHR);
-                            console.log(textStatus);
-                            console.log(errorThrown);
-
-                        },
                         statusCode: {
                             200: function (data) {
                                 if (data['erro']) {
@@ -33,6 +25,7 @@ $(document)
                                         value: '1'
                                     }).appendTo('form');
                                 } else {
+                                    console.log(data);
                                     $("[name='nome_fantasia'").val(data['nome_fantasia']);
                                     $("[name='cnpj'").val(data['cnpj']);
                                     $("[name='razao_social'").val(data['razao_social']);
@@ -51,6 +44,9 @@ $(document)
                                     $("[name='email'").val(data['email']);
                                     $("[name='cargo_ocupado'").val(data['cargo_ocupado']);
                                     $("[name='uf'").val(data['uf']);
+
+                                   
+
                                 }
                             }
                         }

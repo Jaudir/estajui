@@ -97,6 +97,7 @@ class EmpresaModel extends MainModel{
             $result = [];
             while ($row = $pstmt->fetch()) {
                 $result[$cont++] = new Empresa($row["cnpj"],$row["empresanome"],$row["empresatelefone"],$row["razao_social"],$row["fax"],$row["nregistro"],$row["conselhofiscal"],null,null);
+               
                 $result[$cont++] = new Responsavel($row["email"], $row["responsavelnome"], $row["responsaveltelefone"], $row["cargo"], null);
                 $result[$cont++] = new Endereco(null,$row["logradouro"],$row["bairro"],$row["numero"],$row["complemento"],$row["cidade"],$row["uf"],$row["cep"],$row["sala"]);
             }
