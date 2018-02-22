@@ -385,6 +385,58 @@ class FuncionarioModel extends MainModel {
             return 2;
         }
     }
+	// a função recebe o array $palavras_chave
+	public function visualizarEstagios($palavras_chave){
+		try {
+            $pstmt = $this->conn->prepare("SELECT aluno.nome AS nome_aluno, resp.nome AS nome_resp, p.data_ini, p.data_fim, f.nome AS nome_f, em.nome AS nome_em FROM plano_estagio AS p "
+			."JOIN estagio AS es ON p.estagio_id = es.id "
+			."JOIN aluno ON aluno.cpf = es.aluno_cpf "
+			."JOIN orienta_estagio AS oriest ON es.id = oriest.estagio_id "
+			."JOIN funcionario AS f ON oriest.po_siape = f.siape "
+			."JOIN empresa AS em ON es.empresa_cnpj = em.cnpj "
+			."JOIN responsavel AS resp ON resp.empresa_cnpj = em.cnpj "
+			."JOIN "
+			."WHERE em.nome LIKE '%?%' AND resp.nome LIKE '%?%' AND aluno.nome LIKE '%?%' AND p.data_ini >= '?' OR p.data_fim <= '?'");
+            $v = $pstmt->execute($palavras_chave, $tipo_de_usuario);
+            $res = $pstmt->fetchAll();
+
+            if (count($res) == 0)
+                return false;
+			
+			$listaEstagios = array();
+			
+            foreach ($res as $linha) {
+				$this->loader->loadDao('PlanoDeEstagio');
+				
+				$plano_estagio = new PlanoDeEstagio(null,null,null,null,null,null,null,null,null,null,null,null,null,null);
+				$plano_estagio->set_data_inicio($linha['data_ini']);
+				$plano_estagio->set_data_fim($linha['data_fim']);
+				
+				$empresa = new Empresa(null,null,null,null,null,null,null,null);
+				$empresa->set_nome($linha['nome_em']);
+				
+				$po = new Funcionario(null,null,null,null,null,null,null,null,null,null,null,null,null);
+				$po->setnome($linha['nome_f']);
+				
+				$aluno = new Aluno(null, null, null, null, $res['nome_aluno'], null, null, null, null, null, null, null, null, null, null, null, null, null)
+				
+				$estagio = new Estagio(null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null);
+				
+				$estagio->setempresa($empresa);
+				$estagio->setfuncionario($po);
+				
+				$estagio->setpe($plano_estagio);
+				
+				$listaEstagios[] = $estagio;
+			}
+            
+            return $listaEstagios;
+        } catch (PDOException $e) {
+            Log::logPDOError($e, true);
+            $this->conn->rollback();
+            return false;
+        }
+	}
 
 }
 
