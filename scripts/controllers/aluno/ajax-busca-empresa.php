@@ -10,11 +10,11 @@ if(isset($_POST['search'])){
     
     if($resultado == null)
         $saida['erro'] = 'Empresa nao cadastrada.';
-    else{
+    else
+        {
+        
         $saida['cnpj'] = $resultado[0]->get_cnpj();
-
         $saida['nome_fantasia'] = $resultado[0]->get_nome();
-
         $saida['telefone'] = $resultado[0]->get_telefone();
 
         $saida['fax'] = $resultado[0]->get_fax();

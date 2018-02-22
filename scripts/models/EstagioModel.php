@@ -50,19 +50,60 @@ class EstagioModel extends MainModel {
 			return false;
 		}
 	}
-	public function cadastrarDadosEstagioeEmpresa($supervisor, $estagio, $planoDeEstagio,$empresa){
-        try {
-            $this->conn->beginTransaction();
-            $pstmt = $this->conn->prepare("INSERT INTO ".$supervisor.get_tabela()." (nome, cargo, habilitacao, empresa_cnpj) VALUES(?,?, ?,?)");
-			$pstmt->execute(array($supervisor->get_nome(),$supervisor->get_cargo(),$supervisor->get_habilitacao(),$supervisor->get_empresa()));
-			$supervisor->set_id($this->conn->lastInsertId());
-			$pstmt = $this->conn->prepare("INSERT INTO ".$planoDeEstagio.get_tabela()." (estagio_id,setor_unidade,data_ini, data_fim, atividades,hora_inicio1, hora_fim1, total_horas, empresa_cnpj) VALUES(?,?, ?,?)");
-			$pstmt->execute(array($estagio->get_id(),$planoDeEstagio->get_setor_unidade(),$planoDeEstagio->get_data_inicio(),$planoDeEstagio->get_data_fim(),$planoDeEstagio->get_atividades,$planoDeEstagio->get_hora_inicio1(),$planoDeEstagio->get_data_fim1(),$planoDeEstagio->get_total_horas(),$empresa->get_id()));
-            $this->conn->commit();
-            return true;
-        } catch (PDOException $e) {
-            $this->conn->rollback();
-            return false;
-        }	
+	public function cadastrarDadosEstagio($supervisor, $endereco, $planoDeEstagio,$empresa, $novo){
+		if($novo == true){
+			
+			try{
+				$this->conn->beginTransaction();
+				$pstmt = $this->conn->prepare("INSERT INTO endereco (logradouro, bairro, numero, complemento, cidade, uf, cep) 
+				VALUES(?, ?, ?, ?, ?, ?, ?)");
+				$pstmt->execute(array($endereco->getlogradouro(), $endereco->getbairro(), $endereco->getnumero(), $endereco->getcomplemento(), 
+				$endereco->getcidade(), $endereco->getuf(), $endereco->getcep()));
+				$endereco->setid($this->conn->lastInsertId());
+
+				$pstmt = $this->conn->prepare("INSERT INTO empresa (cnpj,nome, razao_social,fax,telefone,nregistro,conselhofiscal,
+				conveniada,endereco_id) VALUES(?,?, ?,?,?,?,?,?,?)");
+				$pstmt->execute(array($empresa->get_cnpj(),$empresa->get_nome(),$empresa->get_razao_social(),$empresa->get_fax(),
+				,$empresa->get_telefone(),$empresa->get_nregistro(),$empresa->get_conselhofiscal(),false,$endereco->getid()));
+				
+				$pstmt = $this->conn->prepare("INSERT INTO responsavel (email, nome, telefone, cargo, empresa_cnpj,aprovado) values(? ,?,?,?,?,?)";
+				$pstmt->execute(array($responsavel->get_email(), $responsavel->get_nome(), $responsavel->get_cargo(), $empresa->get_cnpj(),false); 
+				
+				$pstmt = $this->conn->prepare("INSERT INTO supervisor (nome, cargo, habilitacao, empresa_cnpj) VALUES(?,?, ?,?)");
+				$pstmt->execute(array($supervisor->get_nome(),$supervisor->get_cargo(),$supervisor->get_habilitacao(),$empresa->get_cnpj()));
+				$supervisor->set_id($this->conn->lastInsertId());
+
+				$pstmt = $this->conn->prepare("INSERT INTO supervisiona (estagio_id,supervisor_id) VALUES(?,?)");
+				$pstmt->execute(array($supervisor->get_id,$supervisor->get_estagio()));
+				
+				$pstmt = $this->conn->prepare("INSERT INTO plano_estagio (estagio_id,setor_unidade,data_ini, data_fim, atividades,hora_inicio1,
+				 hora_fim1, total_horas, empresa_cnpj) VALUES(?,?, ?,?,?,?,?,?,?)");
+				$pstmt->execute(array($planoDeEstagio->get_estagio(),$planoDeEstagio->get_setor_unidade(),$planoDeEstagio->get_data_inicio(),$planoDeEstagio->get_data_fim(),$planoDeEstagio->get_atividades,$planoDeEstagio->get_hora_inicio1(),$planoDeEstagio->get_data_fim1(),$planoDeEstagio->get_total_horas(),$empresa->get_cnpj()));
+				$this->conn->commit();
+			}catch(PDOException $e){
+				$this->conn->rollback();
+				return false;
+			}
+		}else{
+			try {
+				
+				$this->conn->beginTransaction();
+				$pstmt = $this->conn->prepare("INSERT INTO supervisor (nome, cargo, habilitacao, empresa_cnpj) VALUES(?,?, ?,?)");
+				$pstmt->execute(array($supervisor->get_nome(),$supervisor->get_cargo(),$supervisor->get_habilitacao(),$empresa->get_cnpj()));
+				$supervisor->set_id($this->conn->lastInsertId());
+
+				$pstmt = $this->conn->prepare("INSERT INTO supervisiona (estagio_id,supervisor_id) VALUES(?,?)");
+				$pstmt->execute(array($supervisor->get_id,$supervisor->get_estagio()));
+				
+				$pstmt = $this->conn->prepare("INSERT INTO plano_estagio (estagio_id,setor_unidade,data_ini, data_fim, atividades,hora_inicio1,
+				 hora_fim1, total_horas, empresa_cnpj) VALUES(?,?, ?,?,?,?,?,?,?)");
+				$pstmt->execute(array($planoDeEstagio->get_estagio(),$planoDeEstagio->get_setor_unidade(),$planoDeEstagio->get_data_inicio(),$planoDeEstagio->get_data_fim(),$planoDeEstagio->get_atividades,$planoDeEstagio->get_hora_inicio1(),$planoDeEstagio->get_data_fim1(),$planoDeEstagio->get_total_horas(),$empresa->get_cnpj()));
+				$this->conn->commit();
+				return true;
+			} catch (PDOException $e) {
+				$this->conn->rollback();
+				return false;
+			}	
+		}
 	}	 	
 }

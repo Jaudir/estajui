@@ -10,6 +10,8 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/estajui/scripts/daos/Endereco.php';
  */
 class Empresa {
 
+
+    private $_id;
     private $_cnpj;
     private $_nome;
     private $_razao_social;
@@ -32,6 +34,14 @@ class Empresa {
         $this->_responsavel = $_responsavel;
     }
 
+    public function get_id() {
+        return $this->_id;
+    }
+    
+    public function set_id( $_id) {
+        $this->_id = $_id;
+    }
+    
     public function get_cnpj() {
         return $this->_cnpj;
     }
