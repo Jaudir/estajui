@@ -10,6 +10,7 @@ create table endereco(
 	numero int,
 	complemento varchar(10),
 	cidade varchar(30),
+	sala varchar(30),
 	uf char(2),
 	cep numeric(8)
 );

@@ -23,6 +23,10 @@ class Supervisor {
         $this->_empresa = $_empresa;
     }
 
+    public function get_tabela(){
+        return "supervisor";
+    }
+
     public function get_id() {
         return $this->_id;
     }

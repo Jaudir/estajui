@@ -10,7 +10,7 @@ if (isset($_POST['cadastrar'])) {
 
     $session = getSession();
 
-    $endereco = new Endereco(null, LimpaString::limpar($_POST['logradouro']), LimpaString::limpar($_POST['bairro']), LimpaString::limpar($_POST['numero']), LimpaString::limpar($_POST['complemento']), LimpaString::limpar($_POST['cidade']), LimpaString::limpar($_POST['uf']), filter_var($_POST['cep'], FILTER_SANITIZE_NUMBER_INT));
+    $endereco = new Endereco(null, LimpaString::limpar($_POST['logradouro']), LimpaString::limpar($_POST['bairro']), LimpaString::limpar($_POST['numero']), LimpaString::limpar($_POST['complemento']), LimpaString::limpar($_POST['cidade']), LimpaString::limpar($_POST['uf']), filter_var($_POST['cep'], FILTER_SANITIZE_NUMBER_INT),null);
 
     $aluno = new Aluno(null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, $endereco);
 
@@ -76,19 +76,14 @@ if (isset($_POST['cadastrar'])) {
     }
 
 
-<<<<<<< HEAD
-    if ($model != null && $erros == 0) {
-        if ($model->create($aluno)) {
-            $email = Email::sendEmailAluno($aluno->getlogin());
-            $modelEmail = loadModel('EmailModel', 'EmailModel');
-=======
+  
     if ($model != null  && $erros == 0) {
         if ($model->cadastrar($aluno)) {
             $email = new Email();
             $email->criarEmailAluno('wadson.ayres@gmail.com');
             $email->enviarEmail();
             $modelEmail = loadModel('email-model', 'EmailModel');
->>>>>>> master
+
             $modelEmail->emitirCodigoConfirmacao($aluno, $email);
             redirect(base_url() . '/estajui/login/login.php');
         } else {

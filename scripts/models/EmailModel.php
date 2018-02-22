@@ -16,7 +16,7 @@ class EmailModel extends MainModel{
         }
     }
 
-<<<<<<< HEAD
+<<<<<<<HEAD
     public function validarCodigoConfirmacao($code){
 
         try{
@@ -161,7 +161,5 @@ class EmailModel extends MainModel{
         }
     }
 <<<<<<< HEAD
-=======
 
->>>>>>> e1fa80302a1b25822d8e8bf927a39a841d4e581e
 }

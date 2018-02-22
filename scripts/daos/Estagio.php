@@ -57,6 +57,10 @@ class Estagio {
         $this->_pe = $_pe;
     }
     
+
+    public function get_tabela(){
+            return "estagio";
+    }
     public function getid() {
         return $this->_id;
     }
