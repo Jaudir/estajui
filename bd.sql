@@ -56,10 +56,7 @@ create table campus(
 
 create table curso(
 	id int auto_increment primary key,
-	nome varchar(40),
-	turno varchar(10),
-	campus_cnpj numeric(14),
-	foreign key(campus_cnpj) references campus(cnpj)
+	nome varchar(40)
 );
 
 create table status(
@@ -331,12 +328,23 @@ INSERT INTO `endereco`(`id`, `logradouro`, `bairro`, `numero`, `complemento`, `c
 INSERT INTO `campus`(`cnpj`, `telefone`, `endereco_id`) VALUES (10727655000462, 3821034141, 11);
 
 -- CURSO
-INSERT INTO `curso`(`id`, `nome`, `turno`, `campus_cnpj`) VALUES (1, 'Ciência da Computação', 'Diurno', 10727655000462);
-INSERT INTO `curso`(`id`, `nome`, `turno`, `campus_cnpj`) VALUES (2, 'Engenharia Química', 'Diurno', 10727655000462);
-INSERT INTO curso VALUES (3, 'Técnico em Informática', 'Diurno', 10727655000462);
-INSERT INTO curso VALUES (4, 'Técnico em Química', 'Diurno', 10727655000462);
-INSERT INTO curso VALUES (5, 'Técnico em Eletrotécnica', 'Noturno', 10727655000462);
-INSERT INTO curso VALUES (6, 'Técnico em Segurança do Trabalho', 'Noturno', 10727655000462);
+INSERT INTO `curso`(`id`, `nome`) VALUES (1, 'Ciência da Computação');
+INSERT INTO `curso`(`id`, `nome`) VALUES (2, 'Ciência da Computação');
+INSERT INTO `curso`(`id`, `nome`) VALUES (3, 'Engenharia Química');
+INSERT INTO `curso`(`id`, `nome`) VALUES (4, 'Técnico em Informática');
+INSERT INTO `curso`(`id`, `nome`) VALUES (5, 'Técnico em Química');
+INSERT INTO `curso`(`id`, `nome`) VALUES (6, 'Técnico em Eletrotécnica');
+INSERT INTO `curso`(`id`, `nome`) VALUES (7, 'Técnico em Segurança do Trabalho');
+
+--OFERECE_CURSO
+
+INSERT INTO `oferece_curso`(`turno`, `campus_cnpj`, `curso_id`) VALUES ('Integral', 10727655000462, 1);
+INSERT INTO `oferece_curso`(`turno`, `campus_cnpj`, `curso_id`) VALUES ('Integral', 10727655000462, 2);
+INSERT INTO `oferece_curso`(`turno`, `campus_cnpj`, `curso_id`) VALUES ('Diurno', 10727655000462, 3);
+INSERT INTO `oferece_curso`(`turno`, `campus_cnpj`, `curso_id`) VALUES ('Diurno', 10727655000462, 4);
+INSERT INTO `oferece_curso`(`turno`, `campus_cnpj`, `curso_id`) VALUES ('Noturno', 10727655000462, 5);
+INSERT INTO `oferece_curso`(`turno`, `campus_cnpj`, `curso_id`) VALUES ('Noturno', 10727655000462, 6);
+INSERT INTO `oferece_curso`(`turno`, `campus_cnpj`, `curso_id`) VALUES ('Noturno', 10727655000462, 7);
 
 -- FUNCIONARIO
 INSERT INTO `funcionario`(`siape`, `nome`, `bool_po`, `bool_oe`, `bool_ce`, `bool_sra`, `bool_root`, `formacao`, `privilegio`, `usuario_email`, `campus_cnpj`) VALUES (000000001, 'Professor1', 1, 0, 0, 0, 0, 'ticher', 1, 'funcionario1@funcionario.com', 10727655000462);
