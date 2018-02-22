@@ -142,6 +142,7 @@ class UsuarioModel extends MainModel {
     public function VerificaLoginCadastrado($email) {
         try {
             $pstmt = $this->conn->prepare("SELECT id from " . $this->_tabela . " WHERE email LIKE :email");
+            $pstmt = $this->conn->prepare("SELECT email from " . $this->_tabela . " WHERE email LIKE :email");
             $pstmt->bindParam(':email', $email);
             $pstmt->execute();
             if ($pstmt->fetch() == null) {
