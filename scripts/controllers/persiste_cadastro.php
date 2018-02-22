@@ -82,7 +82,7 @@ if (isset($_POST['cadastrar'])) {
             $email = new Email();
             $email->criarEmailAluno('wadson.ayres@gmail.com');
             $email->enviarEmail();
-            $modelEmail = loadModel('EmailModel', 'EmailModel');
+            $modelEmail =$loader->loadModel('EmailModel', 'EmailModel');
 
             $modelEmail->emitirCodigoConfirmacao($aluno, $email);
             redirect(base_url() . '/estajui/login.php');
