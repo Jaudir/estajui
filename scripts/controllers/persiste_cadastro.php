@@ -76,20 +76,14 @@ if (isset($_POST['cadastrar'])) {
     }
 
 
-<<<<<<< Updated upstream
   
-=======
->>>>>>> Stashed changes
     if ($model != null  && $erros == 0) {
         if ($model->cadastrar($aluno)) {
             $email = new Email();
             $email->criarEmailAluno('wadson.ayres@gmail.com');
             $email->enviarEmail();
-            $modelEmail = loadModel('email-model', 'EmailModel');
-<<<<<<< Updated upstream
+            $modelEmail = loadModel('EmailModel', 'EmailModel');
 
-=======
->>>>>>> Stashed changes
             $modelEmail->emitirCodigoConfirmacao($aluno, $email);
             redirect(base_url() . '/estajui/login.php');
         } else {
