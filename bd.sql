@@ -260,6 +260,13 @@ create table organiza (
 	foreign key(oferece_curso_id) references oferece_curso(id)
 );
 
+create table verificar(
+	id int(11)  primary key  NOT NULL auto_increment,
+	email varchar(50)  not null,
+	codigo varchar(50) unique not null,
+	verificado int not null
+);
+
 insert into status (descricao) values ("Aguardando parecer da secretaria");
 insert into status (descricao) values ("Estágio deferido pela secretaria");
 insert into status (descricao) values ("Aguardando definição do Professor orientador");

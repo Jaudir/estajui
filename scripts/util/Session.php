@@ -16,6 +16,7 @@ class Session{
         $_SESSION['is_func'] = (get_class($usuario) == 'Funcionario');
         $_SESSION['usuario'] = $usuario;
         $_SESSION['errors'] = array();
+        $_SESSION['values'] = array();
     }
 
     public function getUsuario(){
@@ -55,6 +56,32 @@ class Session{
         return isset($_SESSION['usuario']);
     }
 
+    public function pushValue($value, $key){
+        if(!isset($_SESSION['values'][$key]))
+            $_SESSION['values'][$key] = array();
+
+        array_push($_SESSION['values'][$key], $value);
+    }
+
+    public function getValues($key){
+        if(isset($_SESSION['values'][$key])){
+            $v =  $_SESSION['values'][$key];
+            unset($_SESSION['values'][$key]);
+            return $v;
+        }
+        return null;
+    }
+
+    public function hasValues($key = null){
+        if($key == null)
+            return count($_SESSION['values']) > 0;
+        return isset($_SESSION['values'][$key]) && count($_SESSION['values'][$key]) > 0;
+    }
+
+    public function clearValues(){
+        $_SESSION['values'] = array();
+    }
+
     public function pushError($description, $type = 'normal'){
         if(!isset($_SESSION['errors'][$type]))
             $_SESSION['errors'][$type] = array();
@@ -62,8 +89,10 @@ class Session{
         array_push($_SESSION['errors'][$type], $description);
     }
 
-    public function hasError(){
-        return (count($_SESSION['erros']) > 0);
+    public function hasError($type = null){
+        if($type == null)
+            return (count($_SESSION['errors']) > 0);
+        return (isset($_SESSION['errors'][$type]) && count($_SESSION['errors'][$type]) > 0);
     }
 
     public function getErrors($type){
