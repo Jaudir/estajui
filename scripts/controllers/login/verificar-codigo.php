@@ -10,10 +10,8 @@ $usuario = null;
 if(isset($_GET['c'])){
     $email = $loader->loadModel('EmailModel', 'EmailModel');
 
-    $usuario = $email->verificarUsuarioCodigo($_GET['c']);
-
-    if(!$usuario){
-        $session->pushError('O código foi expirado e não é mais válido!');
+    if($email->verificarValidadeCodigo($_GET['c'], EmailModel::$CODIGO_RECUPERACAO) == false){
+        $session->pushError('O código foi expirado e/ou não é mais válido!');
     }
 }else{
     $session->pushError('Código inválido!');

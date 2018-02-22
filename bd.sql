@@ -264,7 +264,9 @@ create table verificar(
 	id int(11)  primary key  NOT NULL auto_increment,
 	email varchar(50)  not null,
 	codigo varchar(50) unique not null,
-	verificado int not null
+	verificado int not null,
+	data_geracao datetime,
+	tipo int	--Tipo: 0 para confirmação de email, 1 para recuperação
 );
 
 insert into status (descricao) values ("Aguardando parecer da secretaria");
