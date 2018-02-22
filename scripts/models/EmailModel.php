@@ -16,6 +16,7 @@ class EmailModel extends MainModel{
         }
     }
 
+<<<<<<< HEAD
     public function validarCodigoConfirmacao($code){
 
         try{
@@ -93,11 +94,47 @@ class EmailModel extends MainModel{
             $usuario = $usuario[0];
         } catch (PDOExecption $e){
             Log::LogPDOError($e);
+=======
+<<<<<<< HEAD:scripts/models/EmailModel.php
+    public function validarCodigoConfirmacao($code, $email) {
+
+        try {
+            $pstmt = $this->conn->prepare("SELECT id from verificar WHERE codigo LIKE :codigo ANd email LIKE :email");
+            $pstmt->bindParam(':codigo', $code);
+            $pstmt->bindParam(':email', $email);
+            $pstmt->execute();
+            if ($pstmt->fetch() == null)
+                return false;
+            $pstmt = $this->conn->prepare("SELECT id from verificar WHERE codigo LIKE :codigo AND verificado LIKE :verificado ANd email LIKE :email");
+            $verificado = 1;
+            $pstmt->bindParam(':codigo', $code);
+            $pstmt->bindParam(':verificado', $verificado);
+=======
+    public function validarCodigoConfirmacao($code,$email){
+
+        try{
+            $pstmt = $this->conn->prepare("SELECT id from verificar WHERE codigo LIKE :codigo ANd email LIKE :email");
+            $pstmt->bindParam(':codigo', $code);
+            $pstmt->bindParam(':email', $email);
+            $pstmt->execute(); 
+            if($pstmt->fetch() == null) return false;
+            $pstmt = $this->conn->prepare("SELECT id from verificar WHERE codigo LIKE :codigo AND verificado LIKE :verificado ANd email LIKE :email");
+            $verificado = 1;
+            $pstmt->bindParam(':codigo', $code);
+            $pstmt->bindParam(':verificado',$verificado);
+>>>>>>> master:scripts/models/email-model.php
+            $pstmt->bindParam(':email', $email);
+            $pstmt->execute();
+            if ($pstmt->fetch() != null)
+                return false;
+        } catch (PDOExecption $e) {
+>>>>>>> e1fa80302a1b25822d8e8bf927a39a841d4e581e
             return false;
         }
 
         try {
             $this->conn->beginTransaction();
+<<<<<<< HEAD
             $pstmt = $this->conn->prepare("UPDATE verificar SET verificado  = ? WHERE codigo = ? AND verificado = ?");
             $pstmt->execute(array(1,$code,0));// 0 == não verificado
             $pstmt = $this->conn->prepare("UPDATE usuario SET senha = ? WHERE email = ?");
@@ -106,8 +143,25 @@ class EmailModel extends MainModel{
             return true;
         } catch (PDOExecption $e) {
             Log::LogPDOError($e);
+=======
+            $pstmt = $this->conn->prepare("UPDATE verificar SET verificado  = ? WHERE codigo = ? AND verificado = ? AND email = ?");
+<<<<<<< HEAD:scripts/models/EmailModel.php
+            $pstmt->execute(array(1, $code, 0, $email)); // 0 == não verificado
+            $this->conn->commit();
+            return true;
+=======
+            $pstmt->execute(array(1,$code,0, $email));// 0 == não verificado
+             $this->conn->commit();
+             return true;
+>>>>>>> master:scripts/models/email-model.php
+        } catch (PDOExecption $e) {
+>>>>>>> e1fa80302a1b25822d8e8bf927a39a841d4e581e
             $this->conn->rollback();
             return false;
         }
     }
+<<<<<<< HEAD
+=======
+
+>>>>>>> e1fa80302a1b25822d8e8bf927a39a841d4e581e
 }

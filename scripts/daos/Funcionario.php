@@ -1,6 +1,8 @@
 <?php
 
-require_once(dirname(__FILE__) . '/Usuario.php');
+require_once $_SERVER['DOCUMENT_ROOT'] . '/estajui/scripts/daos/Usuario.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/estajui/scripts/daos/Campus.php';
+
 /**
  * Representação de um usuário para o sistema.
  *
@@ -18,6 +20,7 @@ class Funcionario extends Usuario {
     private $_formacao;
     private $_privilegio;
     private $_campus;
+    private static $_tabela = "funcionario";
 
     public function __construct($login, $senha, $tipo, $_siape, $_nome, $_po, $_oe, $_ce, $_sra, $_root, $_formacao, $_privilegio, $_campus) {
         parent::__construct($login, $senha, $tipo);
@@ -122,4 +125,5 @@ class Funcionario extends Usuario {
         $this->_campus = $_campus;
         return $this;
     }
+
 }

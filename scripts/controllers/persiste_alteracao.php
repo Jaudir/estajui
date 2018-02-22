@@ -14,8 +14,8 @@ if($session->isAluno()){
 		//Recuperar Aluno
 		$aluno = $session->getUsuario('usuario');
 
-		$model = $loader->loadModel('aluno-model', 'AlunoModel');
-		$aluno = $model->recuperar($aluno);
+		$model = $loader->loadModel('AlunoModel', 'AlunoModel');
+		$aluno = $model->read($aluno->getcpf(),1)[0];
 
 		if (isset($_POST['nome']))
 			$aluno->setnome(LimpaString::limpar($_POST['nome']));
@@ -71,15 +71,17 @@ if($session->isAluno()){
 				$erros++;
 			}
 		}
-
-		if($model->VerificaLoginCadastrado($aluno->getlogin())){
+                
+                $usarioModel = $loader->loadModel('UsuarioModel', 'UsuarioModel');
+                        
+		if($usarioModel->VerificaLoginCadastrado($aluno->getlogin())){
 			$session->pushError(true, 'email_cadastrado');
 			$erros++;
 		}
 
 
 		if ($model != null && $erros == 0) {
-			if ($model->atualizar($aluno)) {
+			if ($model->update($aluno)) {
 			} else {
 				$session->pushError(true, 'erros_cadastro');
 			}
