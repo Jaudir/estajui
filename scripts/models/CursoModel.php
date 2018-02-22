@@ -3,7 +3,9 @@
 require_once(dirname(__FILE__) . '/MainModel.php');
 
 class CursoModel extends MainModel{
-    public function getCursoAluno($aluno){
+  private $_tabela = "curso";
+  
+  public function getCursoAluno($aluno){
         try{
             $this->loader->loadDAO('Curso');
 
@@ -25,5 +27,40 @@ class CursoModel extends MainModel{
             return false;
         }
         return false;
+    }
+	 
+	 public function read($id, $limite) {
+        $this->loader->loadDAO('Curso');
+        if ($limite == 0) {
+            if ($id == null) {
+                $pstmt = $this->conn->prepare("SELECT * FROM " . $this->_tabela . "");
+            } else {
+                $pstmt = $this->conn->prepare("SELECT * FROM " . $this->_tabela . " WHERE id = :id");
+                $pstmt->bindParam(':id', $id);
+            }
+        } else {
+            if ($id == null) {
+                $pstmt = $this->conn->prepare("SELECT * FROM " . $this->_tabela . " LIMIT :limite");
+            } else {
+                $pstmt = $this->conn->prepare("SELECT * FROM " . $this->_tabela . " WHERE id = :id LIMIT :limite");
+                $pstmt->bindParam(':id', $id);
+            }
+            $pstmt->bindParam(':limite', $limite, PDO::PARAM_INT);
+        }
+        try {
+            $pstmt->execute();
+            $cont = 0;
+            $result = [];
+			
+			$campusModel = $this->loader->loadModel("CampusModel", "CampusModel");
+            while ($row = $pstmt->fetch()) {		 
+                $result[$cont] = new Curso($row["id"], $row["nome"],$row["turno"],$campusModel->read($row["campus_cnpj"], 1)[0]);
+                $cont++;
+            }
+            return $result;
+        } catch (PDOExecption $e) {
+            #return "Error!: " . $e->getMessage() . "</br>";
+            return false;
+        }
     }
 }

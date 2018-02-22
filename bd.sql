@@ -260,6 +260,13 @@ create table organiza (
 	foreign key(oferece_curso_id) references oferece_curso(id)
 );
 
+create table supervisiona (
+	estagio_id int primary key,
+	supervisor_id int,
+	foreign key(estagio_id) references estagio(id),
+	foreign key(supervisor_id) references supervisor(id)
+);
+
 create table verificar(
 	id int(11)  primary key  NOT NULL auto_increment,
 	email varchar(50)  not null,
@@ -282,36 +289,45 @@ insert into status (descricao) values ("Convênio de empresa reprovado");
 
 -- Adicionando dados pra testar
 
--- USUARIO
-INSERT INTO `usuario`(`email`, `senha`, `tipo`) VALUES ('email@email1.com', '$2y$10$.I8yC7gyhBhM9c/Hz6OwmOpKKv5RUh2Biv2unfH2NmC8qEeCBZb4q', 1234);
-INSERT INTO `usuario`(`email`, `senha`, `tipo`) VALUES ('email@email2.com', '$2y$10$L.b6nHytXubZTvvlQn0rXuAnRPmVzzMhr9IWQj9CPDRmWTyuY2NMq', 1234);
-INSERT INTO `usuario`(`email`, `senha`, `tipo`) VALUES ('email@email3.com', '$2y$10$.ve.AkL7PFt31bKretrbZe7bTpDZQXS6uvQnw9Gbf6qleuSaasu4m', 1234);
-
--- USUARIOS(para alunos)
-INSERT INTO `usuario`(`email`, `senha`, `tipo`) VALUES ('email@email10.com', '01', 1);
-INSERT INTO `usuario`(`email`, `senha`, `tipo`) VALUES ('email@email20.com', '10', 1);
-INSERT INTO `usuario`(`email`, `senha`, `tipo`) VALUES ('email@email30.com', '11', 1);
-INSERT INTO `usuario`(`email`, `senha`, `tipo`) VALUES ('email@email40.com', '100', 1);
-INSERT INTO `usuario`(`email`, `senha`, `tipo`) VALUES ('email@email50.com', '101', 1);
+-- USUARIO (para alunos) a senha é "senha"
+INSERT INTO `usuario`(`email`, `senha`, `tipo`) VALUES ('aluno0@aluno.com', '$2y$10$89a178NmXg.4XRDj5KB1h.ZRYnsN3CockVltOQvrkRRnAsx2KPqjW', 1);
+INSERT INTO `usuario`(`email`, `senha`, `tipo`) VALUES ('aluno1@aluno.com', '$2y$10$89a178NmXg.4XRDj5KB1h.ZRYnsN3CockVltOQvrkRRnAsx2KPqjW', 1);
+INSERT INTO `usuario`(`email`, `senha`, `tipo`) VALUES ('aluno2@aluno.com', '$2y$10$89a178NmXg.4XRDj5KB1h.ZRYnsN3CockVltOQvrkRRnAsx2KPqjW', 1);
+INSERT INTO `usuario`(`email`, `senha`, `tipo`) VALUES ('aluno3@aluno.com', '$2y$10$89a178NmXg.4XRDj5KB1h.ZRYnsN3CockVltOQvrkRRnAsx2KPqjW', 1);
 
 -- ENDEREÇO
-INSERT INTO `endereco`(`id`, `logradouro`, `bairro`, `numero`, `complemento`, `cidade`, `uf`, `cep`) VALUES (1, 'Logradouro', 'Bairro1', '200', 'Chaplin', 'MOC HELL', 'MG', '12345678');
-INSERT INTO `endereco`(`id`, `logradouro`, `bairro`, `numero`, `complemento`, `cidade`, `uf`, `cep`) VALUES (2, 'Logradouro', 'Bairro2', '300', 'Chaplin', 'MOC HELL', 'MG', '12345678');
-INSERT INTO `endereco`(`id`, `logradouro`, `bairro`, `numero`, `complemento`, `cidade`, `uf`, `cep`) VALUES (3, 'Logradouro', 'Bairro3', '400', 'Chaplin', 'MOC HELL', 'MG', '12345678');
-INSERT INTO `endereco`(`id`, `logradouro`, `bairro`, `numero`, `complemento`, `cidade`, `uf`, `cep`) VALUES (4, 'Logradouro', 'Bairro4', '500', 'Chaplin', 'MOC HELL', 'MG', '12345678');
-INSERT INTO `endereco`(`id`, `logradouro`, `bairro`, `numero`, `complemento`, `cidade`, `uf`, `cep`) VALUES (5, 'Logradouro', 'Bairro5', '600', 'Chaplin', 'MOC HELL', 'MG', '12345678');
-INSERT INTO `endereco`(`id`, `logradouro`, `bairro`, `numero`, `complemento`, `cidade`, `uf`, `cep`) VALUES(10000, 'Rua', 'Village do Lago I', 300, '-', 'Montes Claros', 'MG', '39404058');
-
+INSERT INTO `endereco`(`id`, `logradouro`, `bairro`, `numero`, `complemento`, `cidade`, `uf`, `cep`) VALUES (1, 'Logradouro', 'Bairro', '000', 'comp', 'Montes Claros', 'MG', '12345678');
+INSERT INTO `endereco`(`id`, `logradouro`, `bairro`, `numero`, `complemento`, `cidade`, `uf`, `cep`) VALUES (2, 'Logradouro', 'Bairro', '000', 'comp', 'Montes Claros', 'MG', '12345678');
+INSERT INTO `endereco`(`id`, `logradouro`, `bairro`, `numero`, `complemento`, `cidade`, `uf`, `cep`) VALUES (3, 'Logradouro', 'Bairro', '000', 'comp', 'Montes Claros', 'MG', '12345678');
+INSERT INTO `endereco`(`id`, `logradouro`, `bairro`, `numero`, `complemento`, `cidade`, `uf`, `cep`) VALUES (4, 'Logradouro', 'Bairro', '000', 'comp', 'Montes Claros', 'MG', '12345678');
 
 -- ALUNO
-INSERT INTO `aluno`(`cpf`, `nome`, `data_nasc`, `rg_num`, `rg_orgao`, `estado_civil`, `sexo`, `telefone`, `celular`, `nome_pai`, `nome_mae`, `cidade_natal`, `estado_natal`, `acesso`, `usuario_email`, `endereco_id`) VALUES (12345678900,'Joao Da Silva Neto','2000-01-30','123456789012345','SSP','solteiro','masculino',00000000011, 00000000011,'Joao Pai','Joao Mae','MOC HELL','MG', 1,'email@email10.com', 1);
-INSERT INTO `aluno`(`cpf`, `nome`, `data_nasc`, `rg_num`, `rg_orgao`, `estado_civil`, `sexo`, `telefone`, `celular`, `nome_pai`, `nome_mae`, `cidade_natal`, `estado_natal`, `acesso`, `usuario_email`, `endereco_id`) VALUES (12345678901,'Tiao Da Silva Neto','2000-03-30','123456789012345','SSP','solteiro','masculino',00000000011, 00000000011,'Tiao Pai','Tiao Mae','MOC HELL','MG', 1,'email@email20.com', 2);
-INSERT INTO `aluno`(`cpf`, `nome`, `data_nasc`, `rg_num`, `rg_orgao`, `estado_civil`, `sexo`, `telefone`, `celular`, `nome_pai`, `nome_mae`, `cidade_natal`, `estado_natal`, `acesso`, `usuario_email`, `endereco_id`) VALUES (12345678910,'Piao Da Silva Neto','2000-02-27','123456789012345','SSP','solteiro','masculino',00000000011, 00000000011,'Piao Pai','Piao Mae','MOC HELL','MG', 1,'email@email30.com', 3);
-INSERT INTO `aluno`(`cpf`, `nome`, `data_nasc`, `rg_num`, `rg_orgao`, `estado_civil`, `sexo`, `telefone`, `celular`, `nome_pai`, `nome_mae`, `cidade_natal`, `estado_natal`, `acesso`, `usuario_email`, `endereco_id`) VALUES (12345678911,'Nana Da Silva Neto','2000-04-30','123456789012345','SSP','solteiro','masculino',00000000011, 00000000011,'Nana Pai','Nana Mae','MOC HELL','MG', 1,'email@email40.com', 4);
-INSERT INTO `aluno`(`cpf`, `nome`, `data_nasc`, `rg_num`, `rg_orgao`, `estado_civil`, `sexo`, `telefone`, `celular`, `nome_pai`, `nome_mae`, `cidade_natal`, `estado_natal`, `acesso`, `usuario_email`, `endereco_id`) VALUES (12345678100,'Diana Da Silva Neto','2000-05-30','123456789012345','SSP','solteiro','masculino',00000000011, 00000000011,'Diana Pai','Diana Mae','MOC HELL','MG', 1,'email@email50.com', 5);
+INSERT INTO `aluno`(`cpf`, `nome`, `data_nasc`, `rg_num`, `rg_orgao`, `estado_civil`, `sexo`, `telefone`, `celular`, `nome_pai`, `nome_mae`, `cidade_natal`, `estado_natal`, `acesso`, `usuario_email`, `endereco_id`) VALUES (00000000001,'Nome de um aluno 1','2000-01-30','123456789012345','SSP','solteiro','masculino',00000000011, 00000000011,'Joao Pai','Joao Mae','MOC HELL','MG', 1,'aluno0@aluno.com', 1);
+INSERT INTO `aluno`(`cpf`, `nome`, `data_nasc`, `rg_num`, `rg_orgao`, `estado_civil`, `sexo`, `telefone`, `celular`, `nome_pai`, `nome_mae`, `cidade_natal`, `estado_natal`, `acesso`, `usuario_email`, `endereco_id`) VALUES (00000000002,'Nome de um aluno 2','2000-01-30','123456789012345','SSP','solteiro','masculino',00000000011, 00000000011,'Joao Pai','Joao Mae','MOC HELL','MG', 1,'aluno1@aluno.com', 2);
+INSERT INTO `aluno`(`cpf`, `nome`, `data_nasc`, `rg_num`, `rg_orgao`, `estado_civil`, `sexo`, `telefone`, `celular`, `nome_pai`, `nome_mae`, `cidade_natal`, `estado_natal`, `acesso`, `usuario_email`, `endereco_id`) VALUES (00000000003,'Nome de um aluno 3','2000-01-30','123456789012345','SSP','solteiro','masculino',00000000011, 00000000011,'Joao Pai','Joao Mae','MOC HELL','MG', 1,'aluno2@aluno.com', 3);
+INSERT INTO `aluno`(`cpf`, `nome`, `data_nasc`, `rg_num`, `rg_orgao`, `estado_civil`, `sexo`, `telefone`, `celular`, `nome_pai`, `nome_mae`, `cidade_natal`, `estado_natal`, `acesso`, `usuario_email`, `endereco_id`) VALUES (00000000004,'Nome de um aluno 4','2000-01-30','123456789012345','SSP','solteiro','masculino',00000000011, 00000000011,'Joao Pai','Joao Mae','MOC HELL','MG', 0,'aluno3@aluno.com', 4);
+
+-- USUARIOS(para funcionarios) a senha é "senha"
+INSERT INTO `usuario`(`email`, `senha`, `tipo`) VALUES ('funcionario1@funcionario.com', '$2y$10$89a178NmXg.4XRDj5KB1h.ZRYnsN3CockVltOQvrkRRnAsx2KPqjW', 2);
+INSERT INTO `usuario`(`email`, `senha`, `tipo`) VALUES ('funcionario2@funcionario.com', '$2y$10$89a178NmXg.4XRDj5KB1h.ZRYnsN3CockVltOQvrkRRnAsx2KPqjW', 2);
+INSERT INTO `usuario`(`email`, `senha`, `tipo`) VALUES ('funcionario3@funcionario.com', '$2y$10$89a178NmXg.4XRDj5KB1h.ZRYnsN3CockVltOQvrkRRnAsx2KPqjW', 2);
+INSERT INTO `usuario`(`email`, `senha`, `tipo`) VALUES ('funcionario4@funcionario.com', '$2y$10$89a178NmXg.4XRDj5KB1h.ZRYnsN3CockVltOQvrkRRnAsx2KPqjW', 2);
+INSERT INTO `usuario`(`email`, `senha`, `tipo`) VALUES ('funcionario5@funcionario.com', '$2y$10$89a178NmXg.4XRDj5KB1h.ZRYnsN3CockVltOQvrkRRnAsx2KPqjW', 2);
+INSERT INTO `usuario`(`email`, `senha`, `tipo`) VALUES ('funcionario6@funcionario.com', '$2y$10$89a178NmXg.4XRDj5KB1h.ZRYnsN3CockVltOQvrkRRnAsx2KPqjW', 2);
+
+-- ENDEREÇO
+INSERT INTO `endereco`(`id`, `logradouro`, `bairro`, `numero`, `complemento`, `cidade`, `uf`, `cep`) VALUES (5, 'Logradouro', 'Bairro1', '200', 'Chaplin', 'MOC HELL', 'MG', '12345678');
+INSERT INTO `endereco`(`id`, `logradouro`, `bairro`, `numero`, `complemento`, `cidade`, `uf`, `cep`) VALUES (6, 'Logradouro', 'Bairro2', '300', 'Chaplin', 'MOC HELL', 'MG', '12345678');
+INSERT INTO `endereco`(`id`, `logradouro`, `bairro`, `numero`, `complemento`, `cidade`, `uf`, `cep`) VALUES (7, 'Logradouro', 'Bairro3', '400', 'Chaplin', 'MOC HELL', 'MG', '12345678');
+INSERT INTO `endereco`(`id`, `logradouro`, `bairro`, `numero`, `complemento`, `cidade`, `uf`, `cep`) VALUES (8, 'Logradouro', 'Bairro4', '500', 'Chaplin', 'MOC HELL', 'MG', '12345678');
+INSERT INTO `endereco`(`id`, `logradouro`, `bairro`, `numero`, `complemento`, `cidade`, `uf`, `cep`) VALUES (9, 'Logradouro', 'Bairro5', '600', 'Chaplin', 'MOC HELL', 'MG', '12345678');
+INSERT INTO `endereco`(`id`, `logradouro`, `bairro`, `numero`, `complemento`, `cidade`, `uf`, `cep`) VALUES (10, 'Logradouro', 'Bairro5', '600', 'Chaplin', 'MOC HELL', 'MG', '12345678');
+INSERT INTO `endereco`(`id`, `logradouro`, `bairro`, `numero`, `complemento`, `cidade`, `uf`, `cep`) VALUES(11, 'Rua', 'Village do Lago I', 300, '-', 'Montes Claros', 'MG', '39404058');
+INSERT INTO `endereco`(`id`, `logradouro`, `bairro`, `numero`, `complemento`, `cidade`, `uf`, `cep`) VALUES (12, 'Logradouro', 'Bairro5', '600', 'Chaplin', 'MOC HELL', 'MG', '12345678');
+INSERT INTO `endereco`(`id`, `logradouro`, `bairro`, `numero`, `complemento`, `cidade`, `uf`, `cep`) VALUES (13, 'Logradouro', 'Bairro5', '600', 'Chaplin', 'MOC HELL', 'MG', '12345678');
 
 -- CAMPUS
-INSERT INTO `campus`(`cnpj`, `telefone`, `endereco_id`) VALUES (10727655000462, 3821034141, 10000);
+INSERT INTO `campus`(`cnpj`, `telefone`, `endereco_id`) VALUES (10727655000462, 3821034141, 11);
 
 -- CURSO
 INSERT INTO `curso`(`id`, `nome`, `turno`, `campus_cnpj`) VALUES (1, 'Ciência da Computação', 'Diurno', 10727655000462);
@@ -322,21 +338,22 @@ INSERT INTO curso VALUES (5, 'Técnico em Eletrotécnica', 'Noturno', 1072765500
 INSERT INTO curso VALUES (6, 'Técnico em Segurança do Trabalho', 'Noturno', 10727655000462);
 
 -- FUNCIONARIO
-INSERT INTO `funcionario`(`siape`, `nome`, `bool_po`, `bool_oe`, `bool_ce`, `bool_sra`, `bool_root`, `formacao`, `privilegio`, `usuario_email`, `campus_cnpj`) VALUES (12345, 'jhonson Teacher', 1, 1, 1, 1, 1, 'ticher', 1, 'email@email10.com', 10727655000462);
-INSERT INTO `funcionario`(`siape`, `nome`, `bool_po`, `bool_oe`, `bool_ce`, `bool_sra`, `bool_root`, `formacao`, `privilegio`, `usuario_email`, `campus_cnpj`) VALUES (12346, 'Good Teacher', 1, 1, 1, 1, 1, 'unknown', 1, 'email@email20.com', 10727655000462);
-INSERT INTO `funcionario`(`siape`, `nome`, `bool_po`, `bool_oe`, `bool_ce`, `bool_sra`, `bool_root`, `formacao`, `privilegio`, `usuario_email`, `campus_cnpj`) VALUES (12347, 'B4d T3@cHeR', 1, 1, 1, 1, 1, 'unknown', 1, 'email@email30.com', 10727655000462);
+INSERT INTO `funcionario`(`siape`, `nome`, `bool_po`, `bool_oe`, `bool_ce`, `bool_sra`, `bool_root`, `formacao`, `privilegio`, `usuario_email`, `campus_cnpj`) VALUES (000000001, 'Professor1', 1, 0, 0, 0, 0, 'ticher', 1, 'funcionario1@funcionario.com', 10727655000462);
+INSERT INTO `funcionario`(`siape`, `nome`, `bool_po`, `bool_oe`, `bool_ce`, `bool_sra`, `bool_root`, `formacao`, `privilegio`, `usuario_email`, `campus_cnpj`) VALUES (000000002, 'Professor2', 0, 1, 0, 0, 0, 'ticher', 1, 'funcionario1@funcionario.com', 10727655000462);
+INSERT INTO `funcionario`(`siape`, `nome`, `bool_po`, `bool_oe`, `bool_ce`, `bool_sra`, `bool_root`, `formacao`, `privilegio`, `usuario_email`, `campus_cnpj`) VALUES (000000003, 'Professor3', 0, 0, 1, 0, 0, 'ticher', 1, 'funcionario1@funcionario.com', 10727655000462);
+INSERT INTO `funcionario`(`siape`, `nome`, `bool_po`, `bool_oe`, `bool_ce`, `bool_sra`, `bool_root`, `formacao`, `privilegio`, `usuario_email`, `campus_cnpj`) VALUES (000000004, 'Professor4', 0, 0, 0, 1, 0, 'ticher', 1, 'funcionario1@funcionario.com', 10727655000462);
+INSERT INTO `funcionario`(`siape`, `nome`, `bool_po`, `bool_oe`, `bool_ce`, `bool_sra`, `bool_root`, `formacao`, `privilegio`, `usuario_email`, `campus_cnpj`) VALUES (000000005, 'Professor5', 0, 0, 0, 0, 1, 'ticher', 1, 'funcionario1@funcionario.com', 10727655000462);
+INSERT INTO `funcionario`(`siape`, `nome`, `bool_po`, `bool_oe`, `bool_ce`, `bool_sra`, `bool_root`, `formacao`, `privilegio`, `usuario_email`, `campus_cnpj`) VALUES (000000006, 'Professor6', 1, 1, 1, 1, 1, 'ticher', 1, 'funcionario1@funcionario.com', 10727655000462);
 
 -- ALUNO CURSO
-INSERT INTO `aluno_estuda_curso`(`matricula`, `semestre_inicio`, `ano_inicio`, `curso_id`, `aluno_cpf`) VALUES (12345, 1, 1990, 1, 12345678900);
-INSERT INTO `aluno_estuda_curso`(`matricula`, `semestre_inicio`, `ano_inicio`, `curso_id`, `aluno_cpf`) VALUES (12346, 2, 1990, 1, 12345678901);
-INSERT INTO `aluno_estuda_curso`(`matricula`, `semestre_inicio`, `ano_inicio`, `curso_id`, `aluno_cpf`) VALUES (12347, 2, 1990, 2, 12345678910);
-INSERT INTO `aluno_estuda_curso`(`matricula`, `semestre_inicio`, `ano_inicio`, `curso_id`, `aluno_cpf`) VALUES (12348, 2, 1990, 2, 12345678911);
-INSERT INTO `aluno_estuda_curso`(`matricula`, `semestre_inicio`, `ano_inicio`, `curso_id`, `aluno_cpf`) VALUES (12349, 1, 1990, 2, 12345678100);
+INSERT INTO `aluno_estuda_curso`(`matricula`, `semestre_inicio`, `ano_inicio`, `curso_id`, `aluno_cpf`) VALUES (1, 1, 1990, 1, 000000001);
+INSERT INTO `aluno_estuda_curso`(`matricula`, `semestre_inicio`, `ano_inicio`, `curso_id`, `aluno_cpf`) VALUES (2, 1, 1990, 2, 000000001);
+INSERT INTO `aluno_estuda_curso`(`matricula`, `semestre_inicio`, `ano_inicio`, `curso_id`, `aluno_cpf`) VALUES (3, 1, 1990, 5, 000000001);
+INSERT INTO `aluno_estuda_curso`(`matricula`, `semestre_inicio`, `ano_inicio`, `curso_id`, `aluno_cpf`) VALUES (4, 1, 1990, 1, 000000001);
 
 -- EMPRESA
-INSERT INTO `empresa`(`cnpj`, `nome`, `telefone`, `fax`, `nregistro`, `conselhofiscal`, `endereco_id`, `conveniada`) VALUES (00001, 'Google', 12345566, 12312431, 31231, 'Conselho', 5, 0);
-INSERT INTO `empresa`(`cnpj`, `nome`, `telefone`, `fax`, `nregistro`, `conselhofiscal`, `endereco_id`, `conveniada`) VALUES (00021, 'Microsoft', 12345566, 12312431, 31231, 'Conselho', 5, 0);
-INSERT INTO `empresa`(`cnpj`, `nome`, `telefone`, `fax`, `nregistro`, `conselhofiscal`, `endereco_id`, `conveniada`) VALUES (00031, 'BLIZZ2', 12345566, 12312431, 31231, 'Conselho', 5, 0);
+INSERT INTO `empresa`(`cnpj`, `nome`, `telefone`, `fax`, `nregistro`, `conselhofiscal`, `endereco_id`, `conveniada`) VALUES (00001, 'Google', 12345566, 12312431, 31231, 'Conselho', 12, 0);
+INSERT INTO `empresa`(`cnpj`, `nome`, `telefone`, `fax`, `nregistro`, `conselhofiscal`, `endereco_id`, `conveniada`) VALUES (00002, 'Microsoft', 12345566, 12312431, 31231, 'Conselho', 13, 1);
 
 -- OFERTA DE CURSO
 INSERT INTO oferece_curso VALUES (1, 'Diurno', 1, 10727655000462);
@@ -345,7 +362,3 @@ INSERT INTO oferece_curso VALUES (3, 'Diurno', 3, 10727655000462);
 INSERT INTO oferece_curso VALUES (4, 'Diurno', 4, 10727655000462);
 INSERT INTO oferece_curso VALUES (5, 'Diurno', 5, 10727655000462);
 INSERT INTO oferece_curso VALUES (6, 'Diurno', 6, 10727655000462);
-
--- ESTAGIO
-INSERT INTO `estagio`(`bool_aprovado`, `bool_obrigatorio`, `periodo`, `serie`, `modulo`, `integ_ano`, `integ_semestre`, `dependencias`, `justificativa`, `endereco_tc`, `endereco_pe`, `aluno_cpf`, `empresa_cnpj`, `curso_id`, `po_siape`, `status_codigo`) VALUES (true, true, 4, 4, 6, 6, 6, "none", "Formar", "none", "none", 12345678100, 1, 1, 12345, 1);
-

@@ -1,4 +1,11 @@
 <?php
+require_once $_SERVER['DOCUMENT_ROOT'] . '/estajui/scripts/daos/PlanoDeEstagio.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/estajui/scripts/daos/Empresa.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/estajui/scripts/daos/Aluno.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/estajui/scripts/daos/Funcionário.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/estajui/scripts/daos/Curso.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/estajui/scripts/daos/Status.php';
+
 /**
  * Description of Estagio
  *
