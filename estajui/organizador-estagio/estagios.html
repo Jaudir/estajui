@@ -2,7 +2,7 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <title>Relatórios | Coordenação de Extensão </title>
+    <title>Estágios | Organizador de Estágio </title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
     <link rel="stylesheet" href="../../assets/css/icons/css/font-awesome.min.css">
     <link rel="stylesheet" href="../../assets/css/main.css">
@@ -43,22 +43,10 @@
               <a class="nav-link active" href="#">Home</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#">Usuários</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">Empresas</a>
-            </li>
-            <li class="nav-item">
               <a class="nav-link" href="#">Professores</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#">Cursos</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">Campi</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">Relatórios</a>
+              <a class="nav-link" href="#">Estágios</a>
             </li>
           </ul>
         </div>
@@ -138,43 +126,15 @@
                   </tr>
                 </thead>
                 <tbody>
-                  <tr class="red">
+                  <tr class="green">
                     <th scope="row">1</th>
-                    <td>Solicitação de estágio aguardando deferimento.</td>
-                    <td>Igor Alberte Rodrigues</td>
-                    <td>22/11/2017</td>
-                    <td>Ciência da Computação</td>
-                    <td class="center">
-                      <button type="button" class="btn btn-link"
-                        data-toggle="modal" data-target="#solicitacaoEstagio">
-                        <i class="fa fa-pencil"></i>
-                      </button>
-                    </td>
-                    <td class="center"><a href="#"> <i class="fa fa-eye"></i> </a></td>
-                  </tr>
-                  <tr class="red">
-                    <th scope="row">2</th>
-                    <td>Aguardando documentos iniciais (FM, PE, TC).</td>
-                    <td>Fulano de tal</td>
-                    <td>15/11/2017</td>
-                    <td>Engenharia Química</td>
-                    <td class="center">
-                      <button type="button" class="btn btn-link"
-                        data-toggle="modal" data-target="#autorizacaoEstagio">
-                        <i class="fa fa-pencil"></i>
-                      </button>
-                    </td>
-                    <td class="center"><a href="#"> <i class="fa fa-eye"></i> </a></td>
-                  </tr>
-                  <tr class="red">
-                    <th scope="row">3</th>
                     <td>Aguardando documentos finais de estágio.</td>
                     <td>Siclano</td>
                     <td>10/07/2017</td>
                     <td>Ciência da Computação</td>
                     <td class="center">
                       <button type="button" class="btn btn-link"
-                        data-toggle="modal" data-target="#conclusaoEstagio">
+                        data-toggle="modal" data-target="#alterarOrientador">
                         <i class="fa fa-pencil"></i>
                       </button>
                     </td>
@@ -191,6 +151,56 @@
                   </tr>
                 </tbody>
               </table>
+            </div>
+          </div>
+          <!-- MODAL para alterar prof. Orientador -->
+          <div class="modal fade" id="alterarOrientador" tabindex="-1" role="dialog" aria-labelledby="alterarOrientadorTitle" aria-hidden="true">
+            <div class="modal-dialog modal-lg" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="alterarOrientadorTitle">Alterar Orientador</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                  <div class="row">
+                    <div class="col-md-12 dados-aluno">
+                      <h6>Nome: </h6> <p>Camila Rocha Lopes</p><br>
+                      <h6>Cpf: </h6> <p>014.727.846-50</p><br>
+                      <h6>Curso: </h6> <p>Ciência da Computação</p> <br>
+                      <h6>Orientador: </h6> <p>Lúcio Dutra</p> <br>
+                      <h6>Nome fantasia da empresa: </h6> <p>Lorem ipsum</p> <br>
+                      <h6>Setor/Unidade da empresa: </h6> <p>T.I.</p> <br>
+                      <h6>Supervisor: </h6> <p>Joaquim da Silva Júnior</p> <br>
+                      <h6>Telefone do supervisor: </h6> <p>38 3221-2011</p> <br>
+                      <h6>Habilitação profissional: </h6> <p>Cientista da computação</p> <br>
+                      <h6>Cargo: </h6> <p>Diretor de T.I.</p> <br>
+                      <h6>Principais atividdes a serem desenvolvidas: </h6>
+                      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p> <br>
+                      <h6>Data prevista para ínicio do estágio: </h6> <p>22/01/2006</p> <br>
+                      <h6>Data prevista para término do estágio: </h6> <p>23/10/2006</p> <br>
+                    </div>
+                  </div>
+                  <form name="dados-aluno">
+                    <div class="row">
+                      <div class="col-md-6 mb-2">
+                        <label for="validationCustom17">Professor Orientador</label>
+                        <select class="form-control" required>
+                          <option>...</option>
+                          <option>Lúcio Dutra</option>
+                          <option>Alberto Miranda</option>
+                          <option>Danilo Teixeira</option>
+                        </select>
+                      </div>
+                    </div>
+                  </form>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Sair</button>
+                  <button type="button" class="btn btn-primary">Confirmar</button>
+                </div>
+              </div>
             </div>
           </div>
         </div>
