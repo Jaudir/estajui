@@ -7,6 +7,8 @@ $loader = new Loader($configs);
 
 /*Carregamentos iniciais*/
 $loader->loadUtil('Log');
+$loader->loadDAO('Aluno');
+$loader->loadDAO('Funcionario');
 
 function base_url(){
     global $configs;

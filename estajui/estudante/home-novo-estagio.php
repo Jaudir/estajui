@@ -78,21 +78,20 @@ getSession();
                     <div class="form-group">
                       <div class="form-check">
                         <label class="form-check-label">
-                          <input class="form-check-input" type="radio" name="exampleRadios1" id="exampleRadios1" value="obrigatorio" checked>
+                          <input class="form-check-input" type="radio" name="ob" id="exampleRadios1" value="obrigatorio" checked>
                           Obrigatório
                         </label>
                       </div>
                       <div class="form-check">
                         <label class="form-check-label">
-                          <input class="form-check-input" type="radio" name="exampleRadios1" id="exampleRadios2" value="option2">
+                          <input class="form-check-input" type="radio" name="ob" id="exampleRadios2" value="nao">
                           Não obrigatório.
                         </label>
                       </div>
                     </div>
                     <div class="form-group">
                       <label>Campus</label>
-                      <select class="form-control" value="<?php if(!empty($_SESSION['campus_nome'])) echo  htmlspecialchars($_SESSION['campus_nome']);unset($_SESSION['campus_nome']); ?>" required>
-                        <option value="Teste">Teste</option>
+                      <select class="form-control" id="campus" value="<?php if(!empty($_SESSION['campus_nome'])) echo  htmlspecialchars($_SESSION['campus_nome']);unset($_SESSION['campus_nome']); ?>" required>
 						  <?php foreach($campi as $campus): ?>
 						<option value="<?php echo $campus->getcnpj(); ?>"><?php echo $campus->getendereco()->getcidade(); ?></option>
 						<?php endforeach;?> 
@@ -100,7 +99,7 @@ getSession();
                     </div>
                     <div class="form-group">
                       <label>Curso</label>
-                      <select class="form-control" id="cursos" value="<?php if(!empty($_SESSION['curso_nome'])) echo  htmlspecialchars($_SESSION['curso_nome']);unset($_SESSION['curso_nome']); ?>" required>
+                      <select class="form-control" name="curso_nome" id="cursos" value="<?php if(!empty($_SESSION['curso_nome'])) echo  htmlspecialchars($_SESSION['curso_nome']);unset($_SESSION['curso_nome']); ?>" required>
                        
                       </select>
                     </div>
@@ -146,48 +145,48 @@ getSession();
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
 	<script>
-		var options = {
-		<?php 
-		foreach($campi as $campus): 
-		?>
-			<?php echo $campus->getcnpj() ?> : 
-			{
-					<?php 
-						foreach($cursos[$campus->getcnpj()] as $curso): 
-					?>
-					<?php
-						echo "\"" . $curso->getnome() ."\" : \"" . $curso->getid() . "\",";
-					?>
-					<?php
-						endforeach;
-					?>
-			},
-		<?php 
-		endforeach;
-		?>
-		};
-		
-		console.log(options);
-		 $("#cursos").select(function(){
-			 alert($(this));
-		 	var $el = $(this);
-			 console.log($el);
-			$el.empty();
-			$.each(options[$el.val()], function(key,value) {
-			  $el.append($("<option></option>")
-				 .attr("value", value).text(key));
+		$(function(){
+			var options = {
+			<?php 
+			foreach($campi as $campus): 
+			?>
+				<?php echo $campus->getcnpj() ?> : 
+				{
+						<?php 
+							foreach($cursos[$campus->getcnpj()] as $curso): 
+						?>
+						<?php
+							echo "\"" . $curso->getnome() ."\" : \"" . $curso->getid() . "\",";
+						?>
+						<?php
+							endforeach;
+						?>
+				},
+			<?php 
+			endforeach;
+			?>
+			};
+
+			var updateCursos = function(campus){
+				$cursos = $('#cursos'); 
+
+				$cursos.empty();
+				$.each(options[campus.val()], function(key,value) {
+				  $cursos.append($("<option></option>")
+					 .attr("value", value).text(key));
+				});
+			} 
+
+			 $("#campus").change(function(){
+				updateCursos($(this));
+			 }); 
+
+			$('#confirmar').click(function(){
+				$('#novoestagio').submit();
 			});
-			 
-			 $('#cursos')
-          .find('option:nth-child(0)')
-          .prop('selected',true)
-          .trigger('change');
-		 }); 
-		
-		$('#confirmar').click(function(){
-			$('#novoestagio').submit();
+			
+			updateCursos($("#campus").first());
 		});
-		
 	</script>
   </body>
 </html>

@@ -17,13 +17,13 @@ if (true) {
 	$modificacaoModel = $loader->loadModel('modifica-status-model','ModificaStatusModel');
 	
 	$curso = new Curso(null, $_POST['curso_nome'], null);
-	$curso = $cursoModel->
-	$obrigatorio = 0;
+	//$curso = $cursoModel->
+	$ob = 0;
 	$aluno = $session->getUsuario();
-	if (isset($_POST['obrigatorio']))
-		$obrigatorio = 1;
-	$estagio = new Estagio(null, 0, $obrigatorio, null, null, null, null, null, null, null, null, $aluno->getcpf(), null, $curso, 0);
-	
+	if ($_POST['ob']=='obrigatorio')
+		$ob = 1;
+	$estagio = new Estagio(null, 0, $ob, null, null, null, null, null, null, null, null, null, null, $aluno->getcpf(), null, $curso, 0);
+	               
     $erros = 0;
 
     if (!filter_var($aluno->getlogin(), FILTER_VALIDATE_EMAIL)) {

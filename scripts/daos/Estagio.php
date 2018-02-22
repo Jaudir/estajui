@@ -26,23 +26,23 @@ class Estagio {
     private $_status;
 	
 	public function __construct($id, $aprovado, $obrigatorio, $periodo, $serie, $modulo, $ano, $semestre, $dependencias, $justificativa, $endereco_tc, $endereco_pe, $empresa, $aluno, $funcionario, $curso, $status){
-		$this->$_id = $id;
-		$this->$_aprovado = $aprovado;
-		$this->$_obrigatorio = $obrigatorio;
-		$this->$_periodo = $periodo;
-		$this->$_serie = $serie;
-		$this->$_modulo = $modulo;
-		$this->$_ano = $ano;
-		$this->$_semestre = $semestre;
-		$this->$_dependencias = $dependencias;
-		$this->$_justificativa = $justificativa;
-		$this->$_endereco_tc = $endereco_tc;
-		$this->$_endereco_pe = $endereco_pe;
-		$this->$_empresa = $empresa;
-		$this->$_aluno = $aluno;
-		$this->$_funcionario = $funcionario;
-		$this->$_curso = $curso;
-		$this->$_status = $status;
+		$this->_id = $id;
+		$this->_aprovado = $aprovado;
+		$this->_obrigatorio = $obrigatorio;
+		$this->_periodo = $periodo;
+		$this->_serie = $serie;
+		$this->_modulo = $modulo;
+		$this->_ano = $ano;
+		$this->_semestre = $semestre;
+		$this->_dependencias = $dependencias;
+		$this->_justificativa = $justificativa;
+		$this->_endereco_tc = $endereco_tc;
+		$this->_endereco_pe = $endereco_pe;
+		$this->_empresa = $empresa;
+		$this->_aluno = $aluno;
+		$this->_funcionario = $funcionario;
+		$this->_curso = $curso;
+		$this->_status = $status;
 	}
 	
 	public function getid(){
