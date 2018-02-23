@@ -13,6 +13,7 @@ create table endereco(
 	sala varchar(30),
 	uf char(2),
 	cep numeric(8)
+
 );
 
 create table empresa (

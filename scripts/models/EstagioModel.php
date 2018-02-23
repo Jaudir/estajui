@@ -35,7 +35,7 @@ class EstagioModel extends MainModel {
 			$apolice = new Apolice($res['ap_numero'], $res['seguradora'], null);
 			$status = new Status(null, $res['descricao']);
 			$datateste = $res['data_ini'];
-			$endereco = new Endereco(null, $res['logradouro'], $res['bairro'], $res['en_numero'], null, $res['cidade'], $res['uf'], $res['cep'],null);
+			$endereco = new Endereco(null, $res['logradouro'], $res['bairro'], $res['en_numero'], null, $res['cidade'], $res['uf'], $res['cep'],$null);
 			$empresa = new Empresa($res['cnpj'], $res['em_nome'], $res['telefone'], $res['fax'], $res['nregistro'], $res['conselhofiscal'], $endereco, null);
 			$planoDeEstagio = new PlanoDeEstagio(null, null, $res['atividades'], null, null, $res['data_ini'], $res['data_fim'], $res['hora_inicio1'], $res['hora_inicio2'], $res['hora_fim1'], $res['hora_fim2'], $res['total_horas'], null, null);
 			$supervisor = new Supervisor(null, $res['sor_nome'], $res['cargo'], $res['habilitacao'], null);
