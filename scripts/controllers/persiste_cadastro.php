@@ -80,7 +80,7 @@ if (isset($_POST['cadastrar'])) {
     if ($model != null  && $erros == 0) {
         if ($model->cadastrar($aluno)) {
             $email = new Email();
-            $email->criarEmailAluno('wadson.ayres@gmail.com');
+            $email->criarEmailAluno($aluno->getlogin());
             $email->enviarEmail();
             $modelEmail =$loader->loadModel('EmailModel', 'EmailModel');
 
