@@ -7,11 +7,10 @@ if (isset($_POST["btn-logar"])) {
     if (!empty($_POST["email"]) && !empty($_POST["senha"])) {
         $email = $_POST["email"];
         $senha = $_POST["senha"];
-        
-        if(!$usuarioModel = $loader->loadModel("UsuarioModel", "UsuarioModel"))
-                $session->pushError("Erro ao conectar no banco de dados, tente novamente!!", "login");
-        
-        if($result = $usuarioModel->validate($email, $senha))
+
+        if (!$usuarioModel = $loader->loadModel("UsuarioModel", "UsuarioModel"))
+            $session->pushError("Erro ao conectar no banco de dados, tente novamente!!", "login");
+        $result = $usuarioModel->validate($email, $senha);
         if (is_a($result, "Funcionario")) {
             $session->setUsuario($result);
         } elseif (is_a($result, "Aluno")) {

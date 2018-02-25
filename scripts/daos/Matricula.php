@@ -13,14 +13,14 @@ class Matricula {
     private $_matricula;
     private $_semestre_inicio;
     private $_ano_inicio;
-    private $_curso;
+    private $_oferta;
     private $_aluno;
 
-    public function __construct($_matricula, $_semestre_inicio, $_ano_inicio, $_curso, $_aluno) {
+    public function __construct($_matricula, $_semestre_inicio, $_ano_inicio, $_oferta, $_aluno) {
         $this->_matricula = $_matricula;
         $this->_semestre_inicio = $_semestre_inicio;
         $this->_ano_inicio = $_ano_inicio;
-        $this->_curso = $_curso;
+        $this->_oferta = $_oferta;
         $this->_aluno = $_aluno;
     }
 
@@ -36,8 +36,8 @@ class Matricula {
         return $this->_ano_inicio;
     }
 
-    public function getcurso() {
-        return $this->_curso;
+    public function getoferta() {
+        return $this->_oferta;
     }
 
     public function getaluno() {
@@ -59,8 +59,8 @@ class Matricula {
         return $this;
     }
 
-    public function setcurso($_curso) {
-        $this->_curso = $_curso;
+    public function setoferta($_oferta) {
+        $this->_oferta = $_oferta;
         return $this;
     }
 

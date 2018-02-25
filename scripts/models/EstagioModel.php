@@ -125,16 +125,16 @@ class EstagioModel extends MainModel {
     public function read($id, $limite) {
         if ($limite == 0) {
             if ($id == NULL) {
-                $pstmt = $this->conn->prepare("SELECT * FROM " . $this->_tabela . "");
+                $pstmt = $this->conn->prepare("SELECT * FROM " . $this->_tabela . " ORDER BY status_codigo ASC");
             } else {
-                $pstmt = $this->conn->prepare("SELECT * FROM " . $this->_tabela . " WHERE id LIKE :id");
+                $pstmt = $this->conn->prepare("SELECT * FROM " . $this->_tabela . " WHERE id = :id ORDER BY status_codigo ASC");
                 $pstmt->bindParam(':id', $id);
             }
         } else {
             if ($id == NULL) {
-                $pstmt = $this->conn->prepare("SELECT * FROM " . $this->_tabela . " LIMIT :limite");
+                $pstmt = $this->conn->prepare("SELECT * FROM " . $this->_tabela . " ORDER BY status_codigo ASC LIMIT :limite");
             } else {
-                $pstmt = $this->conn->prepare("SELECT * FROM " . $this->_tabela . " WHERE id LIKE :id LIMIT :limite");
+                $pstmt = $this->conn->prepare("SELECT * FROM " . $this->_tabela . " WHERE id = :id ORDER BY status_codigo ASC LIMIT :limite");
                 $pstmt->bindParam(':id', $id);
             }
             $pstmt->bindParam(':limite', $limite, PDO::PARAM_INT);
@@ -151,13 +151,13 @@ class EstagioModel extends MainModel {
                 $empresaModel = $this->loader->loadModel("EmpresaModel", "EmpresaModel");
                 $alunoModel = $this->loader->loadModel("AlunoModel", "AlunoModel");
                 $funcionarioModel = $this->loader->loadModel("FuncionarioModel", "FuncionarioModel");
-                $oferececursoModel = $this->loader->loadModel("OfereceCursoModel", "OfereceCursoModel");
+                $matriculaModel = $this->loader->loadModel("MatriculaModel", "MatriculaModel");
                 $statusModel = $this->loader->loadModel("StatusModel", "StatusModel");
                 $planodeestagioModel = $this->loader->loadModel("PlanoDeEstagioModel", "PlanoDeEstagioModel");
-                $result[$cont] = new Estagio($row["id"], boolval($row["bool_aprovado"]), boolval($row["bool_obrigatorio"]), null, null, $row["periodo"], $row["serie"], $row["modulo"], $row["integ_ano"], $row["integ_semestre"], $row["dependencias"], $row["justificativa"], $row["endereco_tc"], $row["endereco_pe"], $empresaModel->read($row["empresa_cnpj"], 1)[0], $alunoModel->read($row["aluno_cpf"], 1)[0], $funcionarioModel->read($row["po_siape"], 1)[0], $oferececursoModel->read($row["aluno_estuda_curso_matricula"], 1)[0], $statusModel->read($row["status_codigo"], 1)[0], null);
+                $result[$cont] = new Estagio($row["id"], boolval($row["bool_aprovado"]), boolval($row["bool_obrigatorio"]), null, null, $row["periodo"], $row["serie"], $row["modulo"], $row["integ_ano"], $row["integ_semestre"], $row["dependencias"], $row["justificativa"], $row["endereco_tc"], $row["endereco_pe"], $empresaModel->read($row["empresa_cnpj"], 1)[0], $alunoModel->read($row["aluno_cpf"], 1)[0], $funcionarioModel->read($row["po_siape"], 1)[0], $matriculaModel->read($row["aluno_estuda_curso_matricula"], 1)[0], $statusModel->read($row["status_codigo"], 1)[0], null);
                 $result[$cont]->setapolice($apoliceModel->readbyestagio($result[$cont], 1)[0]);
                 $result[$cont]->setpe($planodeestagioModel->read($result[$cont], 1)[0]);
-                $result[$cont]->setsupervisor($supervisorModel->read($result[$cont]->getempresa(), 1)[0]);
+                $result[$cont]->setsupervisor($supervisorModel->read($result[$cont]->getempresa()->getcnpj(), 1)[0]);
                 $cont++;
             }
             return $result;
@@ -170,18 +170,18 @@ class EstagioModel extends MainModel {
     public function readbyaluno(Aluno $aluno, $limite) {
         if ($limite == 0) {
             if ($aluno == NULL) {
-                $pstmt = $this->conn->prepare("SELECT * FROM " . $this->_tabela . "");
+                $pstmt = $this->conn->prepare("SELECT * FROM " . $this->_tabela . " ORDER BY status_codigo ASC");
             } else {
                 $key = $aluno->getcpf();
-                $pstmt = $this->conn->prepare("SELECT * FROM " . $this->_tabela . " WHERE aluno_cpf = :aluno_cpf");
+                $pstmt = $this->conn->prepare("SELECT * FROM " . $this->_tabela . " WHERE aluno_cpf = :aluno_cpf ORDER BY status_codigo ASC");
                 $pstmt->bindParam(':aluno_cpf', $key);
             }
         } else {
             if ($aluno == NULL) {
-                $pstmt = $this->conn->prepare("SELECT * FROM " . $this->_tabela . " LIMIT :limite");
+                $pstmt = $this->conn->prepare("SELECT * FROM " . $this->_tabela . " LIMIT :limite ORDER BY status_codigo ASC");
             } else {
                 $key = $aluno->getcpf();
-                $pstmt = $this->conn->prepare("SELECT * FROM " . $this->_tabela . " WHERE aluno_cpf = :aluno_cpf LIMIT :limite");
+                $pstmt = $this->conn->prepare("SELECT * FROM " . $this->_tabela . " WHERE aluno_cpf = :aluno_cpf LIMIT :limite ORDER BY status_codigo ASC");
                 $pstmt->bindParam(':aluno_cpf', $key);
             }
             $pstmt->bindParam(':limite', $limite, PDO::PARAM_INT);
@@ -197,10 +197,10 @@ class EstagioModel extends MainModel {
                 $supervisorModel = $this->loader->loadModel("SupervisorModel", "SupervisorModel");
                 $empresaModel = $this->loader->loadModel("EmpresaModel", "EmpresaModel");
                 $funcionarioModel = $this->loader->loadModel("FuncionarioModel", "FuncionarioModel");
-                $oferececursoModel = $this->loader->loadModel("OfereceCursoModel", "OfereceCursoModel");
+                $matriculaModel = $this->loader->loadModel("MatriculaModel", "MatriculaModel");
                 $statusModel = $this->loader->loadModel("StatusModel", "StatusModel");
                 $planodeestagioModel = $this->loader->loadModel("PlanoDeEstagioModel", "PlanoDeEstagioModel");
-                $result[$cont] = new Estagio($row["id"], boolval($row["bool_aprovado"]), boolval($row["bool_obrigatorio"]), null, null, $row["periodo"], $row["serie"], $row["modulo"], $row["integ_ano"], $row["integ_semestre"], $row["dependencias"], $row["justificativa"], $row["endereco_tc"], $row["endereco_pe"], $empresaModel->read($row["empresa_cnpj"], 1)[0], $aluno, $funcionarioModel->read($row["po_siape"], 1)[0], $oferececursoModel->read($row["aluno_estuda_curso_matricula"], 1)[0], $statusModel->read($row["status_codigo"], 1)[0], null);
+                $result[$cont] = new Estagio($row["id"], boolval($row["bool_aprovado"]), boolval($row["bool_obrigatorio"]), null, null, $row["periodo"], $row["serie"], $row["modulo"], $row["integ_ano"], $row["integ_semestre"], $row["dependencias"], $row["justificativa"], $row["endereco_tc"], $row["endereco_pe"], $empresaModel->read($row["empresa_cnpj"], 1)[0], $aluno, $funcionarioModel->read($row["po_siape"], 1)[0], $matriculaModel->read($row["aluno_estuda_curso_matricula"], 1)[0], $statusModel->read($row["status_codigo"], 1)[0], null);
                 $result[$cont]->setapolice($apoliceModel->readbyestagio($result[$cont], 1)[0]);
                 $result[$cont]->setpe($planodeestagioModel->read($result[$cont], 1)[0]);
                 $result[$cont]->setsupervisor($supervisorModel->read($result[$cont]->getempresa()->getcnpj(), 1)[0]);
@@ -214,10 +214,10 @@ class EstagioModel extends MainModel {
     }
 
     public function update(Estagio $estagio) {
-        $pstmt = $this->conn->prepare("UPDATE " . $this->$_tabela . " SET bool_aprovado = ? , bool_obrigatorio = ? , periodo = ? , serie = ? , modulo = ? , integ_ano = ? , integ_semestre = ? , dependencias = ? , justificativa = ? , endereco_tc = ? , enderece_pe = ? , aluno_cpf = ? , empresa_cnpj = ? , aluno_estuda_curso_matricula = ? , po_siape = ? , status_codigo = ? WHERE id = ?");
+        $pstmt = $this->conn->prepare("UPDATE " . $this->_tabela . " SET bool_aprovado = ? , bool_obrigatorio = ? , periodo = ? , serie = ? , modulo = ? , integ_ano = ? , integ_semestre = ? , dependencias = ? , justificativa = ? , endereco_tc = ? , endereco_pe = ? , aluno_cpf = ? , empresa_cnpj = ? , aluno_estuda_curso_matricula = ? , po_siape = ? , status_codigo = ? WHERE id = ?");
         try {
             $this->conn->beginTransaction();
-            $pstmt->execute(array((int) $estagio->getaprovado(), (int) $estagio->getobrigatorio(), $estagio->getperiodo(), $estagio->getserie(), $estagio->getmodulo(), $estagio->getano(), $estagio->getsemestre(), $estagio->getdependencias(), $estagio->getjustificativa(), $estagio->getendereco_tc(), $estagio->getendereco_pe(), $estagio->getaluno()->getcpf(), $estagio->getempresa()->getcnpj(), $estagio->getmatricula()->getid(), $estagio->getfuncionario()->getsiape(), $estagio->getstatus()->getcodigo(), $estagio->getid()));
+            $pstmt->execute(array((int) $estagio->getaprovado(), (int) $estagio->getobrigatorio(), $estagio->getperiodo(), $estagio->getserie(), $estagio->getmodulo(), $estagio->getano(), $estagio->getsemestre(), $estagio->getdependencias(), $estagio->getjustificativa(), $estagio->getendereco_tc(), $estagio->getendereco_pe(), $estagio->getaluno()->getcpf(), $estagio->getempresa()->getcnpj(), $estagio->getmatricula()->getmatricula(), $estagio->getfuncionario()->getsiape(), $estagio->getstatus()->getcodigo(), $estagio->getid()));
             $this->conn->commit();
             return 0;
         } catch (PDOExecption $e) {
@@ -228,7 +228,7 @@ class EstagioModel extends MainModel {
     }
 
     public function delete(Estagio $estagio) {
-        $pstmt = $this->conn->prepare("DELETE from " . $this->$_tabela . " WHERE id = ?");
+        $pstmt = $this->conn->prepare("DELETE from " . $this->_tabela . " WHERE id = ?");
         try {
             $this->conn->beginTransaction();
             $pstmt->execute(array($estagio->getid()));

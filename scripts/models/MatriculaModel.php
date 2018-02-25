@@ -8,10 +8,10 @@ class MatriculaModel extends MainModel {
     private $_tabela = "aluno_estuda_curso";
 
     public function create(Matricula $matricula) {
-        $pstmt = $this->conn->prepare("INSERT INTO " . $this->_tabela . " (matricula, semestre_inicio, ano_inicio, curso_id, aluno_cpf) VALUES(?, ?, ?, ?, ?)");
+        $pstmt = $this->conn->prepare("INSERT INTO " . $this->_tabela . " (matricula, semestre_inicio, ano_inicio, oferece_curso_id, aluno_cpf) VALUES(?, ?, ?, ?, ?)");
         try {
             $this->conn->beginTransaction();
-            $pstmt->execute(array($matricula->getmatricula(), $matricula->getsemestre_inicio(), $matricula->getano_inicio(), $matricula->getcurso()->getid(), $matricula->getaluno()->getcpf()));
+            $pstmt->execute(array($matricula->getmatricula(), $matricula->getsemestre_inicio(), $matricula->getano_inicio(), $matricula->oferta()->getid(), $matricula->getaluno()->getcpf()));
             $this->conn->commit();
             return 0;
         } catch (PDOExecption $e) {
@@ -45,9 +45,9 @@ class MatriculaModel extends MainModel {
             $cont = 0;
             $result = [];
             while ($row = $pstmt->fetch()) {
-                $cursoModel = $this->loader->loadModel("CursoModel", "CursoModel");
+                $oferececursoModel = $this->loader->loadModel("OfereceCursoModel", "OfereceCursoModel");
                 $alunoModel = $this->loader->loadModel("AlunoModel", "AlunoModel");
-                $result[$cont] = new Matricula($row["matricula"], $row["semestre_inicio"], $row["ano_inicio"], $cursoModel->read($row["curso_id"], 1)[0], $alunoModel->read($row["aluno_cpf"], 1)[0]);
+                $result[$cont] = new Matricula($row["matricula"], $row["semestre_inicio"], $row["ano_inicio"], $oferececursoModel->read($row["oferece_curso_id"], 1)[0], $alunoModel->read($row["aluno_cpf"], 1)[0]);
                 $cont++;
             }
             return $result;
@@ -81,8 +81,8 @@ class MatriculaModel extends MainModel {
             $cont = 0;
             $result = [];
             while ($row = $pstmt->fetch()) {
-                $cursoModel = $this->loader->loadModel("CursoModel", "CursoModel");
-                $result[$cont] = new Matricula($row["matricula"], $row["semestre_inicio"], $row["ano_inicio"], $cursoModel->read($row["curso_id"], 1)[0], $aluno);
+                $oferececursoModel = $this->loader->loadModel("OfereceCursoModel", "OfereceCursoModel");
+                $result[$cont] = new Matricula($row["matricula"], $row["semestre_inicio"], $row["ano_inicio"], $oferececursoModel->read($row["oferece_curso_id"], 1)[0], $aluno);
                 $cont++;
             }
             return $result;
@@ -128,10 +128,10 @@ class MatriculaModel extends MainModel {
     }
 
     public function update(Matricula $matricula) {
-        $pstmt = $this->conn->prepare("UPDATE " . $this->$_tabela . " SET matricula=?, semestre_inicio=?, ano_inicio=?, curso_id=?, aluno_cpf=? WHERE matricula = ?");
+        $pstmt = $this->conn->prepare("UPDATE " . $this->_tabela . " SET matricula=?, semestre_inicio=?, ano_inicio=?, oferece_curso_id=?, aluno_cpf=? WHERE matricula = ?");
         try {
             $this->conn->beginTransaction();
-            $pstmt->execute(array($matricula->getmatricula(), $matricula->getsemestre_inicio(), $matricula->getano_inicio(), $matricula->getcurso()->getid(), $matricula->getaluno()->getcpf(), $matricula->getmatricula()));
+            $pstmt->execute(array($matricula->getmatricula(), $matricula->getsemestre_inicio(), $matricula->getano_inicio(), $matricula->getoferta()->getid(), $matricula->getaluno()->getcpf(), $matricula->getmatricula()));
             $this->conn->commit();
             return 0;
         } catch (PDOExecption $e) {
@@ -142,7 +142,7 @@ class MatriculaModel extends MainModel {
     }
 
     public function delete(Matricula $matricula) {
-        $pstmt = $this->conn->prepare("DELETE from " . $this->$_tabela . " WHERE matricula LIKE ?");
+        $pstmt = $this->conn->prepare("DELETE from " . $this->_tabela . " WHERE matricula LIKE ?");
         try {
             $this->conn->beginTransaction();
             $pstmt->execute(array($matricula->getmatricula()));

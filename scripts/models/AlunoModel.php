@@ -50,8 +50,9 @@ class AlunoModel extends MainModel {
             $result = [];
             while ($row = $pstmt->fetch()) {
                 $usuarioModel = $this->loader->loadModel("UsuarioModel", "UsuarioModel");
+                $enderecoModel = $this->loader->loadModel("EnderecoModel", "EnderecoModel");
                 $user = $usuarioModel->read($row["usuario_email"], 1)[0];
-                $result[$cont] = new Aluno($user->getlogin(), $user->getsenha(), $user->gettipo(), $row["cpf"], $row["nome"], $row["data_nasc"], $row["rg_num"], $row["rg_orgao"], $row["estado_civil"], $row["sexo"], $row["telefone"], $row["celular"], $row["nome_pai"], $row["nome_mae"], $row["cidade_natal"], $row["estado_natal"], boolval($row["acesso"]), Endereco::read($row["endereco_id"], 1)[0]);
+                $result[$cont] = new Aluno($user->getlogin(), $user->getsenha(), $user->gettipo(), $row["cpf"], $row["nome"], $row["data_nasc"], $row["rg_num"], $row["rg_orgao"], $row["estado_civil"], $row["sexo"], $row["telefone"], $row["celular"], $row["nome_pai"], $row["nome_mae"], $row["cidade_natal"], $row["estado_natal"], boolval($row["acesso"]), $enderecoModel->read($row["endereco_id"], 1)[0]);
                 $cont++;
             }
             return $result;
