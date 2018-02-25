@@ -44,7 +44,7 @@ class EnderecoModel extends MainModel {
             $cont = 0;
             $result = [];
             while ($row = $pstmt->fetch()) {
-                $result[$cont] = new Endereco($row["id"], $row["logradouro"], $row["bairro"], $row["numero"], $row["complemento"], $row["cidade"], $row["uf"], $row["cep"]);
+                $result[$cont] = new Endereco($row["id"], $row["logradouro"], $row["bairro"], $row["numero"], $row["complemento"], $row["cidade"], $row["uf"], $row["cep"],null);
                 $cont++;
             }
             return $result;

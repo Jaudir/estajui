@@ -4,7 +4,12 @@
 class Session{
     public function start(){
         session_start();
-        $_SESSION['errors'] = array();
+
+        if(!isset($_SESSION['errors']))
+            $_SESSION['errors'] = array();
+
+        if(!isset($_SESSION['values']))
+            $_SESSION['values'] = array();
     }
 
     public function destroy(){
@@ -15,8 +20,6 @@ class Session{
     public function setUsuario($usuario){
         $_SESSION['is_func'] = (get_class($usuario) == 'Funcionario');
         $_SESSION['usuario'] = $usuario;
-        $_SESSION['errors'] = array();
-        $_SESSION['values'] = array();
     }
 
     public function getUsuario(){
@@ -65,7 +68,7 @@ class Session{
 
     public function getValues($key){
         if(isset($_SESSION['values'][$key])){
-            $v =  $_SESSION['values'][$key];
+            $v = $_SESSION['values'][$key];
             unset($_SESSION['values'][$key]);
             return $v;
         }
@@ -75,7 +78,7 @@ class Session{
     public function hasValues($key = null){
         if($key == null)
             return count($_SESSION['values']) > 0;
-        return isset($_SESSION['values'][$key]) && count($_SESSION['values'][$key]) > 0;
+        return isset($_SESSION['values'][$key]);
     }
 
     public function clearValues(){

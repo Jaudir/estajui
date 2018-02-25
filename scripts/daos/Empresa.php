@@ -10,6 +10,8 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/estajui/scripts/daos/Endereco.php';
  */
 class Empresa {
 
+
+    private $_id;
     private $_cnpj;
     private $_nome;
     private $_razao_social;
@@ -18,25 +20,45 @@ class Empresa {
     private $_nregistro;
     private $_conselhofiscal;
     private $_endereco;
+    private $_responsavel;
     private $_conveniada;
+    private $_razaosocial;
 
-    public function __construct($_cnpj, $_nome, $_razao_social, $_telefone, $_fax, $_nregistro, $_conselhofiscal, $_endereco, $_conveniada) {
+    public function __construct($_cnpj, $_nome, $_telefone, $_fax, $_nregistro, $_conselhofiscal, $_endereco, $_responsavel, $_conveniada, $_razaosocial) {
         $this->_cnpj = $_cnpj;
         $this->_nome = $_nome;
         $this->_razao_social = $_razao_social;
         $this->_telefone = $_telefone;
+        $this->_razao_social = $_razao_social;
         $this->_fax = $_fax;
         $this->_nregistro = $_nregistro;
         $this->_conselhofiscal = $_conselhofiscal;
         $this->_endereco = $_endereco;
+        $this->_responsavel = $_responsavel;
         $this->_conveniada = $_conveniada;
+        $this->_razaosocial = $_razaosocial;
     }
 
-    public function getcnpj() {
+    public function get_id() {
+        return $this->_id;
+    }
+    
+    public function set_id( $_id) {
+        $this->_id = $_id;
+    }
+    
+    public function get_cnpj() {
         return $this->_cnpj;
     }
 
-    public function getnome() {
+    public function get_razao_social(){
+        return $this->_razao_social;
+    }
+    public function set_razao_social($_razao_social){
+        $this->_razao_social = $_razao_social;
+    }
+
+    public function get_nome() {
         return $this->_nome;
     }
 
@@ -104,13 +126,21 @@ class Empresa {
         return $this;
     }
 
-    public function getconveniada() {
-        return $this->_conveniada;
-    }
-
-    public function setconveniada($_conveniada) {
-        $this->_conveniada = $_conveniada;
+    public function set_conveniada($_conveniada){
+        $this->_razaosocial = $_razaosocial;
         return $this;
     }
 
+    public function get_conveniada(){
+        return $this->_conveniada;
+    }
+
+    public function set_razaosocial($_razaosocial){
+        $this->_razaosocial = $_razaosocial;
+        return $this;
+    }
+
+    public function get_razaosocial(){
+        return $this->_razaosocial;
+    }
 }

@@ -1,249 +1,348 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="utf-8">
-        <title>Página inicial | Secretária </title>
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" crossorigin="anonymous">
-        <link rel="stylesheet" href="../../assets/css/icons/css/font-awesome.min.css">
-        <link rel="stylesheet" href="../../assets/css/main.css">
-    </head>
-    <body>
-        <div class="container-home container-fluid fullscreen">
-            <nav class="navbar navbar-expand-lg navbar-light nav-menu">
-                <a class="navbar-brand" href="#">
-                    <img src="../img/LOGO.PNG" height="42" class="d-inline-block align-top" alt="">
-                </a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+  <head>
+    <meta charset="utf-8">
+    <title>Página inicial | Secretária </title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
+    <link rel="stylesheet" href="../../assets/css/icons/css/font-awesome.min.css">
+    <link rel="stylesheet" href="../../assets/css/main.css">
+  </head>
+  <body>
+    <div class="container-home container-fluid fullscreen">
+      <nav class="navbar navbar-expand-lg navbar-light nav-menu">
+        <a class="navbar-brand" href="#">
+          <img src="../../assets/img/LOGO.PNG" height="42" class="d-inline-block align-top" alt="">
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
 
-                    <ul class="nav-content navbar-nav">
-                        <li>
-                            <span class="navbar-text">
-                                Fulaninho de Tal
-                            </span>
-                        </li>
-                        <li class="nav-item">
-                            <button type="button" class="btn btn-outline-light bt-sair">Sair</button>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#"><i class="fa fa-envelope fa-2x" aria-hidden="true"></i>
-                                <span class="notification"> 5 </span>
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-            </nav>
-
-            <div class="row fullscreen">
-                <div class="col-lg-2 left-menu">
-                    <ul class="nav flex-column">
-                        <li class="nav-item">
-                            <a class="nav-link active" href="#">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">Meus dados</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">Relatórios</a>
-                        </li>
-                    </ul>
-                </div>
-                <div class="col-lg-10 status-desc">
-                    <div class="row table-estagios">
-                        <div class="offset-lg-1 col-lg-10 table-title">
-                            <h3 class="bg-gray"> Todos os estágios </h3>
-                        </div>
-                        <div class="offset-lg-1 col-lg-10">
-                            <table class="table table-bordered">
-                                <thead>
-                                    <tr>
-                                        <th scope="col">#</th>
-                                        <th scope="col">Status</th>
-                                        <th scope="col">Data início</th>
-                                        <th scope="col">Curso</th>
-                                        <th scope="col">Editar</th>
-                                        <th scope="col">Ver</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr class="red">
-                                        <th scope="row">1</th>
-                                        <td>Solicitação de estágio aguardando deferimento.</td>
-                                        <td>22/11/2017</td>
-                                        <td>Ciência da Computação</td>
-                                        <td class="center">
-                                            <button type="button" class="btn btn-link"
-                                                    data-toggle="modal" data-target="#solicitacaoEstagio">
-                                                <i class="fa fa-pencil"></i>
-                                            </button>
-                                        </td>                    
-                                        <td class="center">
-                                            <a href="#">
-                                                <i class="fa fa-eye"></i> 
-                                            </a>
-                                        </td>
-                                    </tr>
-                                    <tr class="red">
-                                        <th scope="row">2</th>
-                                        <td>Aguardando entrega de documentos iniciais (FM, PE, TC).</td>
-                                        <td>15/11/2017</td>
-                                        <td>Engenharia Química</td>
-                                        <td class="center">
-                                            <button type="button" class="btn btn-link"
-                                                    data-toggle="modal" data-target="">
-                                                <i class="fa fa-pencil"></i>
-                                            </button>
-                                        </td>
-                                        <td class="center"><a href="#"> <i class="fa fa-eye"></i> </a></td>
-                                    </tr>
-                                    <tr class="red">
-                                        <th scope="row">3</th>
-                                        <td>Aguardando documentos finais de estágio.</td>
-                                        <td>10/07/2017</td>
-                                        <td>Ciência da Computação</td>
-                                        <td class="center">
-                                            <button type="button" class="btn btn-link"
-                                                    data-toggle="modal" data-target="">
-                                                <i class="fa fa-pencil"></i>
-                                            </button>
-                                        </td>
-                                        <td class="center"><a href="#"> <i class="fa fa-eye"></i> </a></td>
-                                    </tr>
-                                    <tr class="green">
-                                        <th scope="row">4</th>
-                                        <td>Concluído</td>
-                                        <td>01/09/2015</td>
-                                        <td>Técnico em informática</td>
-                                        <td class="center"><a href="#"> <i class="fa fa-pencil"></i> </a></td>
-                                        <td class="center"><a href="#"> <i class="fa fa-eye"></i> </a></td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-                <!-- Modal Recuperação de Senha -->
-                <div class="modal fade" id="solicitacaoEstagio" tabindex="-1" role="dialog" aria-labelledby="solicitacaoEstagioTitle" aria-hidden="true">
-                    <div class="modal-dialog modal-lg" role="document">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="solicitacaoEstagioTitle">Analisar conformidades</h5>
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
-                            </div>
-                            <form name="dados-aluno" method="post" action="../../scripts/controllers/secretaria/avaliaPE.php">
-                                <div class="modal-body">
-                                    <div class="row">
-                                        <div class="col-md-12 dados-aluno">
-                                            <h6>Nome: </h6> <p>Camila Rocha Lopes</p><br>
-                                            <h6>Cpf: </h6> <p>014.727.846-50</p><br>
-                                            <h6>Curso: </h6> <p>Ciência da Computação</p>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                <label for="matricula">Matrícula:</label>
-                                                <input type="text" name="matricula" class="form-control" placeholder="">
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                <label for="semestre">Aluno iniciou o curso em (Semestre/Ano):</label>
-                                                <input type="text" name="semestre" class="form-control" placeholder="s/AAAA">
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="form-group">
-                                        <div class="custom-controls-stacked">
-                                            <label class="custom-control custom-radio" style="margin-top: 10px;">
-                                                <input id="radioStacked3" name="matriculado" type="checkbox" class="custom-control-input">
-                                                <span class="custom-control-indicator"></span>
-                                                <span class="custom-control-description">Aluno está regularmente matriculado</span>
-                                            </label>
-                                            <div class="row">
-                                                <div class="col-md-4">
-                                                    <label for="serie">Série:</label>
-                                                    <input type="text" name="serie" class="form-control" placeholder="">
-                                                </div>
-                                                <div class="col-md-4">
-                                                    <label for="modulo">Módulo:</label>
-                                                    <input type="text" name="modulo" class="form-control" placeholder="">
-                                                </div>
-                                                <div class="col-md-4">
-                                                    <label for="periodo">Período:</label>
-                                                    <input type="text" name="periodo" class="form-control" placeholder="">
-                                                </div>
-                                            </div>
-                                            <label class="custom-control custom-radio">
-                                                <input id="radioStacked4" name="integralizado" type="checkbox" class="custom-control-input">
-                                                <span class="custom-control-indicator"></span>
-                                                <span class="custom-control-description">Aluno integralizou a carga horário do curso</span>
-                                            </label>
-                                            <div class="row">
-                                                <div class="col-md-6">
-                                                    <label for="integralizacao">Semestre/Ano de integralização</label>
-                                                    <input type="text" name="integralizacao" class="form-control" placeholder="s/AAAA">
-                                                </div>
-                                            </div>
-                                            <label class="custom-control custom-radio">
-                                                <input id="radioStacked5" name="emregime" type="checkbox" class="custom-control-input">
-                                                <span class="custom-control-indicator"></span>
-                                                <span class="custom-control-description">Aluno em regime de dependência</span>
-                                            </label>
-                                            <div class="row">
-                                                <div class="col-md-12">
-                                                    <label for="dependencias">Dependências</label>
-                                                    <textarea name="dependencias" rows="3" class="form-control" required>
-                                                    </textarea>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="form-group">
-                                        <div class="row">
-                                            <div class="col-md-12">
-                                                <h6>O aluno está apto para realizar o estágio?</h6>
-                                            </div>
-                                        </div>
-                                        <div class="custom-controls-stacked">
-                                            <label class="custom-control custom-radio" style="margin-top: 10px;">
-                                                <input id="radioStacked3" name="aptidao" value="1" type="radio" class="custom-control-input">
-                                                <span class="custom-control-indicator"></span>
-                                                <span class="custom-control-description">SIM</span>
-                                            </label>
-                                            <label class="custom-control custom-radio" style="margin-top: 3px;">
-                                                <input id="radioStacked5" name="aptidao" value="0" type="radio" class="custom-control-input">
-                                                <span class="custom-control-indicator"></span>
-                                                <span class="custom-control-description">NÃO</span>
-                                            </label>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-md-12">
-                                                <label for="justificativa">Justificativa</label>
-                                                <textarea name="justificativa" rows="3" class="form-control" required>
-                                                </textarea>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Sair</button>
-                                    <button type="submit" name="id" value="1" class="btn btn-primary">Confirmar</button>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </div>
+          <ul class="nav-content navbar-nav">
+            <li>
+              <span class="navbar-text">
+                Fulaninho de Tal
+              </span>
+            </li>
+            <li class="nav-item">
+              <button type="button" class="btn btn-outline-light bt-sair">Sair</button
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#"><i class="fa fa-envelope fa-2x" aria-hidden="true"></i>
+              <span class="notification"> 5 </span>
+              </a>
+            </li>
+          </ul>
         </div>
-        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" crossorigin="anonymous"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" crossorigin="anonymous"></script>
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" crossorigin="anonymous"></script>
-    </body>
+      </nav>
+
+      <div class="row fullscreen">
+        <div class="col-lg-2 left-menu">
+          <ul class="nav flex-column">
+            <li class="nav-item">
+              <a class="nav-link active" href="#">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Meus dados</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Relatórios</a>
+            </li>
+          </ul>
+        </div>
+        <div class="col-lg-10 status-desc">
+          <div class="row table-estagios">
+            <div class="offset-lg-1 col-lg-10 table-title">
+              <h3 class="bg-gray"> Todos os estágios </h3>
+            </div>
+            <div class="offset-lg-1 col-lg-10">
+              <table class="table table-bordered">
+                <thead>
+                  <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Status</th>
+                    <th scope="col">Nome</th>
+                    <th scope="col">Data início</th>
+                    <th scope="col">Curso</th>
+                    <th scope="col">Editar</td>
+                    <th scope="col">Ver</td>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr class="red">
+                    <th scope="row">1</th>
+                    <td>Solicitação de estágio aguardando deferimento.</td>
+                    <td>Igor Alberte Rodrigues</td>
+                    <td>22/11/2017</td>
+                    <td>Ciência da Computação</td>
+                    <td class="center">
+                      <button type="button" class="btn btn-link"
+                        data-toggle="modal" data-target="#solicitacaoEstagio">
+                        <i class="fa fa-pencil"></i>
+                      </button>
+                    </td>
+                    <td class="center"><a href="#"> <i class="fa fa-eye"></i> </a></td>
+                  </tr>
+                  <tr class="red">
+                    <th scope="row">2</th>
+                    <td>Aguardando documentos iniciais (FM, PE, TC).</td>
+                    <td>Fulano de tal</td>
+                    <td>15/11/2017</td>
+                    <td>Engenharia Química</td>
+                    <td class="center">
+                      <button type="button" class="btn btn-link"
+                        data-toggle="modal" data-target="#autorizacaoEstagio">
+                        <i class="fa fa-pencil"></i>
+                      </button>
+                    </td>
+                    <td class="center"><a href="#"> <i class="fa fa-eye"></i> </a></td>
+                  </tr>
+                  <tr class="red">
+                    <th scope="row">3</th>
+                    <td>Aguardando documentos finais de estágio.</td>
+                    <td>Siclano</td>
+                    <td>10/07/2017</td>
+                    <td>Ciência da Computação</td>
+                    <td class="center">
+                      <button type="button" class="btn btn-link"
+                        data-toggle="modal" data-target="#conclusaoEstagio">
+                        <i class="fa fa-pencil"></i>
+                      </button>
+                    </td>
+                    <td class="center"><a href="#"> <i class="fa fa-eye"></i> </a></td>
+                  </tr>
+                  <tr class="green">
+                    <th scope="row">4</th>
+                    <td>Concluído</td>
+                    <td>Beltrano</td>
+                    <td>01/09/2015</td>
+                    <td>Técnico em informática</td>
+                    <td class="center"><a href="#"> <i class="fa fa-pencil"></i> </a></td>
+                    <td class="center"><a href="#"> <i class="fa fa-eye"></i> </a></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        <!-- MODAL para solicitação de estágio -->
+        <div class="modal fade" id="solicitacaoEstagio" tabindex="-1" role="dialog" aria-labelledby="solicitacaoEstagioTitle" aria-hidden="true">
+          <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="solicitacaoEstagioTitle">Analisar conformidades</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <div class="row">
+                  <div class="col-md-12 dados-aluno">
+                    <h6>Nome: </h6> <p>Camila Rocha Lopes</p><br>
+                    <h6>Cpf: </h6> <p>014.727.846-50</p><br>
+                    <h6>Curso: </h6> <p>Ciência da Computação</p>
+                  </div>
+                </div>
+                <form name="dados-aluno">
+                  <div class="row">
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <label for="matricula">Matrícula:</label>
+                        <input type="text" name="matricula" class="form-control" placeholder="">
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <label for="semestre">Aluno iniciou o curso em (Semestre/Ano):</label>
+                        <input type="text" name="semestre" class="form-control" placeholder="s/AAAA">
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="form-group">
+                    <div class="custom-controls-stacked">
+                      <label class="custom-control custom-radio" style="margin-top: 10px;">
+                        <input id="radioStacked3" name="radio-stacked" type="radio" class="custom-control-input">
+                        <span class="custom-control-indicator"></span>
+                        <span class="custom-control-description">Aluno está regularmente matriculado</span>
+                      </label>
+                      <div class="row">
+                        <div class="col-md-4">
+                          <label for="serie">Série:</label>
+                          <input type="text" name="serie" class="form-control" placeholder="">
+                        </div>
+                        <div class="col-md-4">
+                          <label for="modulo">Módulo:</label>
+                          <input type="text" name="modulo" class="form-control" placeholder="">
+                        </div>
+                        <div class="col-md-4">
+                          <label for="periodo">Período:</label>
+                          <input type="text" name="periodo" class="form-control" placeholder="">
+                        </div>
+                      </div>
+                      <label class="custom-control custom-radio">
+                        <input id="radioStacked4" name="radio-stacked" type="radio" class="custom-control-input">
+                        <span class="custom-control-indicator"></span>
+                        <span class="custom-control-description">Aluno integralizou a carga horário do curso</span>
+                      </label>
+                      <div class="row">
+                        <div class="col-md-6">
+                          <label for="integralizacao">Semestre/Ano de integralização</label>
+                          <input type="text" name="integralizacao" class="form-control" placeholder="s/AAAA">
+                        </div>
+                      </div>
+                      <label class="custom-control custom-radio">
+                        <input id="radioStacked5" name="radio-stacked" type="radio" class="custom-control-input">
+                        <span class="custom-control-indicator"></span>
+                        <span class="custom-control-description">Aluno em regime de dependência</span>
+                      </label>
+                      <div class="row">
+                        <div class="col-md-12">
+                          <label for="dependencias">Dependências</label>
+                          <textarea name="dependencias" rows="3" class="form-control" required>
+                          </textarea>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="form-group">
+                    <div class="row">
+                      <div class="col-md-12">
+                        <h6>O aluno está apto para realizar o estágio?</h6>
+                      </div>
+                    </div>
+                    <div class="custom-controls-stacked">
+                      <label class="custom-control custom-radio" style="margin-top: 10px;">
+                        <input id="radioStacked3" name="radio-stacked" type="radio" class="custom-control-input">
+                        <span class="custom-control-indicator"></span>
+                        <span class="custom-control-description">SIM</span>
+                      </label>
+                      <label class="custom-control custom-radio" style="margin-top: 3px;">
+                        <input id="radioStacked5" name="radio-stacked" type="radio" class="custom-control-input">
+                        <span class="custom-control-indicator"></span>
+                        <span class="custom-control-description">NÃO</span>
+                      </label>
+                    </div>
+                    <div class="row">
+                      <div class="col-md-12">
+                        <label for="justificativa">Justificativa</label>
+                        <textarea name="justificativa" rows="3" class="form-control" required>
+                        </textarea>
+                      </div>
+                    </div>
+                  </div>
+                </form>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Sair</button>
+                <button type="button" class="btn btn-primary">Confirmar</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- MODAL autorizar o inicio do estágio -->
+        <div class="modal fade" id="autorizacaoEstagio" tabindex="-1" role="dialog" aria-labelledby="solicitacaoEstagioTitle" aria-hidden="true">
+          <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="solicitacaoEstagioTitle">Autorizar início do estágio</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <div class="row">
+                  <div class="col-md-12 dados-aluno">
+                    <h6>Nome: </h6> <p>Camila Rocha Lopes</p><br>
+                    <h6>Cpf: </h6> <p>014.727.846-50</p><br>
+                    <h6>Curso: </h6> <p>Ciência da Computação</p>
+                  </div>
+                </div>
+                <form name="">
+                  <div class="form-group">
+                    <div class="row">
+                      <div class="col-md-12">
+                        <h6>Os documentos para iniciar o
+                          estágio foram corretamente entregues pelo aluno?</h6>
+                      </div>
+                    </div>
+                    <div class="custom-controls-stacked">
+                      <label class="custom-control custom-radio" style="margin-top: 10px;">
+                        <input id="radioStacked6" name="radio-stacked" type="radio" class="custom-control-input">
+                        <span class="custom-control-indicator"></span>
+                        <span class="custom-control-description">SIM</span>
+                      </label>
+                      <label class="custom-control custom-radio" style="margin-top: 3px;">
+                        <input id="radioStacked7" name="radio-stacked" type="radio" class="custom-control-input">
+                        <span class="custom-control-indicator"></span>
+                        <span class="custom-control-description">NÃO</span>
+                      </label>
+                    </div>
+                    <div class="row">
+                      <div class="col-md-12">
+                        <label for="justificativa">Justificativa</label>
+                        <textarea name="justificativa" rows="3" class="form-control" required>
+                        </textarea>
+                      </div>
+                    </div>
+                  </div>
+                </form>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Sair</button>
+                <button type="button" class="btn btn-primary">Confirmar</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- MODAL registrar a conclusao do estágio -->
+        <div class="modal fade" id="conclusaoEstagio" tabindex="-1" role="dialog" aria-labelledby="solicitacaoEstagioTitle" aria-hidden="true">
+          <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="conclusaoEstagioTitle">Registrar a conclusão do estágio</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <div class="row">
+                  <div class="col-md-12 dados-aluno">
+                    <h6>Nome: </h6> <p>Camila Rocha Lopes</p><br>
+                    <h6>Cpf: </h6> <p>014.727.846-50</p><br>
+                    <h6>Curso: </h6> <p>Ciência da Computação</p>
+                  </div>
+                </div>
+                <form name="">
+                  <div class="form-group">
+                    <div class="row">
+                      <div class="col-md-12">
+                        <h6>Documentos finais de estágio devidamente recebidos e estágio concluído.</h6>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-md-6">
+                        <label for="horas">Horas contabilizadas:</label>
+                        <input type="time" name="horas" class="form-control" placeholder="">
+                      </div>
+                    </div>
+                  </div>
+                </form>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Sair</button>
+                <button type="button" class="btn btn-primary">Confirmar</button>
+              </div>
+            </div>
+          </div>
+        </div>
+    </div>
+
+
+
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
+  </body>
 </html>

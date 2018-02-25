@@ -12,14 +12,14 @@ class Supervisor {
     private $_id;
     private $_nome;
     private $_cargo;
-    private $_habilitação;
+    private $_habilitacao;
     private $_empresa;
     
-    function __construct($_id, $_nome, $_cargo, $_habilitação, $_empresa) {
+    function __construct($_id, $_nome, $_cargo, $_habilitacao, $_empresa) {
         $this->_id = $_id;
         $this->_nome = $_nome;
         $this->_cargo = $_cargo;
-        $this->_habilitação = $_habilitação;
+        $this->_habilitacao = $_habilitacao;
         $this->_empresa = $_empresa;
     }
 
@@ -45,27 +45,28 @@ class Supervisor {
 
     public function setid($_id) {
         $this->_id = $_id;
-        return $this;
+        
     }
 
     public function setnome($_nome) {
         $this->_nome = $_nome;
-        return $this;
+        
     }
 
     public function setcargo($_cargo) {
         $this->_cargo = $_cargo;
-        return $this;
+        
     }
 
     public function sethabilitação($_habilitação) {
         $this->_habilitação = $_habilitação;
-        return $this;
+        
+>>>>>>> caso_uso_5
     }
 
     public function setempresa($_empresa) {
         $this->_empresa = $_empresa;
-        return $this;
+        
     }
 
 

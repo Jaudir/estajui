@@ -10,8 +10,6 @@ class Curso {
     
     private $_id;
     private $_nome;
-    private $_turno;
-    private $_campus;
     
     public function __construct($_id, $_nome, $_turno, $_campus) {
         $this->_id = $_id;

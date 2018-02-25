@@ -1,18 +1,11 @@
 <?php
 
-require_once $_SERVER['DOCUMENT_ROOT'] . '/estajui/scripts/daos/PlanoDeEstagio.php';
-require_once $_SERVER['DOCUMENT_ROOT'] . '/estajui/scripts/daos/Empresa.php';
-require_once $_SERVER['DOCUMENT_ROOT'] . '/estajui/scripts/daos/Aluno.php';
-require_once $_SERVER['DOCUMENT_ROOT'] . '/estajui/scripts/daos/Funcionário.php';
-require_once $_SERVER['DOCUMENT_ROOT'] . '/estajui/scripts/daos/Curso.php';
-require_once $_SERVER['DOCUMENT_ROOT'] . '/estajui/scripts/daos/Status.php';
-
 /**
  * Description of Estagio
  *
  * @author gabriel Lucas
  */
-class Estagio {
+class Estagio{
     
     private $_id;
     private $_aprovado;
@@ -34,6 +27,8 @@ class Estagio {
     private $_curso;
     private $_status;
     private $_pe;
+	private $_apolice;
+	private $_supervisor;
     
     public function __construct($_id, $_aprovado, $_obrigatorio, $_apolice, $_supervisor, $_periodo, $_serie, $_modulo, $_ano, $_semestre, $_dependencias, $_justificativa, $_endereco_tc, $_endereco_pe, $_empresa, $_aluno, $_funcionario, $_curso, $_status, $_pe) {
         $this->_id = $_id;
@@ -58,6 +53,10 @@ class Estagio {
         $this->_pe = $_pe;
     }
     
+
+    public function get_tabela(){
+            return "estagio";
+    }
     public function getid() {
         return $this->_id;
     }
@@ -129,7 +128,14 @@ class Estagio {
     public function getpe() {
         return $this->_pe;
     }
+	
+	public function getapolice() {
+        return $this->_apolice;
+    }
 
+	public function getsupervisor() {
+        return $this->_supervisor;
+    }
     public function setid($_id) {
         $this->_id = $_id;
         return $this;

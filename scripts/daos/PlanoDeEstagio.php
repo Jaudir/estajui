@@ -8,7 +8,7 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/estajui/scripts/daos/Estagio.php';
  * @author gabriel Lucas
  */
 class PlanoDeEstagio {
-    
+    private $_setor_unidade;
     private $_estagio;
     private $_data_assinatura;
     private $_atividades;
@@ -24,7 +24,8 @@ class PlanoDeEstagio {
     private $_data_efetivacao;
     private $_comentarios;
     
-    public function __construct($_estagio, $_data_assinatura, $_atividades, $_remuneracao, $_vale_transporte, $_data_inicio, $_data_fim, $_hora_inicio1, $_hora_inicio2, $_hora_fim1, $_hora_fim2, $_total_horas, $_data_efetivacao, $_comentarios) {
+    public function __construct($_setor_unidade,$_estagio, $_data_assinatura, $_atividades, $_remuneracao, $_vale_transporte, $_data_inicio, $_data_fim, $_hora_inicio1, $_hora_inicio2, $_hora_fim1, $_hora_fim2, $_total_horas, $_data_efetivacao, $_comentarios) {
+        $this->_setor_unidade = $_setor_unidade;
         $this->_estagio = $_estagio;
         $this->_data_assinatura = $_data_assinatura;
         $this->_atividades = $_atividades;
