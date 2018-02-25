@@ -31,7 +31,7 @@ class PlanoDeEstagio {
         $this->_atividades = $_atividades;
         $this->_remuneracao = $_remuneracao;
         $this->_vale_transporte = $_vale_transporte;
-        $this->_data_inicio = $_data_inicio;
+        $this->setdata_inicio($_data_inicio);
         $this->_data_fim = $_data_fim;
         $this->_hora_inicio1 = $_hora_inicio1;
         $this->_hora_inicio2 = $_hora_inicio2;
@@ -124,7 +124,8 @@ class PlanoDeEstagio {
     }
 
     public function setdata_inicio($_data_inicio) {
-        $this->_data_inicio = $_data_inicio;
+        $date = new DateTime($_data_inicio);
+        $this->_data_inicio = $date->format('d/m/Y');;
         return $this;
     }
 

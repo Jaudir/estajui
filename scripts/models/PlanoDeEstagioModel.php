@@ -48,7 +48,7 @@ class PlanoDeEstagioModel extends MainModel {
             $result = [];
             while ($row = $pstmt->fetch()) {
                 $comentariopeModel = $this->loader->loadModel("ComentarioPEModel", "ComentarioPEModel");
-                $result[$cont] = new PlanoDeEstagio($estagio, $row["data_assinatura"], $row["atividades"], $row["remuneracao"], $row["vale_transporte"], $row["data_ini"], $row["data_fim"], $row["hora_inicio1"], $row["hora_inicio2"], $row["hora_fim1"], $row["hora_fim2"], $row["total_horas"], $row["data_efetivacao"], $comentariopeModel->readbyestagio($estagio, 0));
+                $result[$cont] = new PlanoDeEstagio($row["setor_unidade"], $estagio, $row["data_assinatura"], $row["atividades"], $row["remuneracao"], $row["vale_transporte"], $row["data_ini"], $row["data_fim"], $row["hora_inicio1"], $row["hora_inicio2"], $row["hora_fim1"], $row["hora_fim2"], $row["total_horas"], $row["data_efetivacao"], $comentariopeModel->readbyestagio($estagio, 0));
                 $cont++;
             }
             return $result;

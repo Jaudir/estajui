@@ -199,8 +199,50 @@ require_once $_SERVER['DOCUMENT_ROOT'] . "/estajui/scripts/controllers/HomeContr
                         <?php
                     } else {
                         ?>
-
                         <div class="col-lg-10 status-desc">
+                            <?php
+                            $cont = 1;
+                            foreach ($estagios as $estagio) {
+                                if ($estagio->getstatus()->getcodigo() == 6) {
+                                    ?>
+                                    <div class="row">
+                                        <div class="offset-lg-1 col-lg-10 status-desc-item bg-gray">
+                                            <h3> Estágio atual <?php echo $cont; ?> </h3>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="offset-lg-1 col-lg-10 status-desc-item" style="border-bottom: none;">
+                                            <h4>Status: </h4>
+                                            <p><?php echo $estagio->getstatus()->getdescricao(); ?></p>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="offset-lg-1 col-lg-10 status-desc-item">
+                                            <h4>Descrição: </h4>
+                                            <p>Os documentos iniciais do estágio foram entregues e validados, você pode iniciar o estágio como
+                                                estimado, após o término do estágio redija o relatório final como descrito no modelo e envie para
+                                                análise do orientador.
+                                            </p>
+                                            <form>
+                                                <div class="form-group">
+                                                    <label for="exampleFormControlFile1">Relatório final</label>
+                                                    <input type="file" class="form-control-file" id="exampleFormControlFile1">
+                                                    <small id="fileHelpBlock" class="form-text text-muted">
+                                                        O seu arquivo deve ter um tamanho máximo de X MB.
+                                                    </small>
+                                                </div>
+                                            </form>
+                                            <a href="#"><button type="button" class="btn btn-outline-success"
+                                                                style="padding: 10px; width: 100px;">Enviar</button>
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <div class="row" style="margin-bottom: 20px;"></div>
+                                    <?php
+                                }
+                                $cont++;
+                            }
+                            ?>
                             <div class="row table-estagios">
                                 <div class="offset-lg-1 col-lg-10 table-title bg-gray">
                                     <h3> Todos os estágios </h3>
@@ -224,10 +266,10 @@ require_once $_SERVER['DOCUMENT_ROOT'] . "/estajui/scripts/controllers/HomeContr
                                                 ?>
                                                 <tr>
                                                     <th scope="row"><?php echo $cont ?></th>
-                                                    <td>22/11/2017</td>
-                                                    <td>Padaria do Joaquim</td>
-                                                    <td>Solicitação de estágio deferida pela secretária.</td>
-                                                    <td>Ciência da Computação</td>
+                                                    <td><?php echo $estagio->getpe()->getdata_inicio() ?></td>
+                                                    <td><?php echo $estagio->getempresa()->getnome() ?></td>
+                                                    <td><?php echo $estagio->getstatus()->getdescricao() ?></td>
+                                                    <td><?php echo $estagio->getmatricula()->getcurso()->getnome() ?></td>
                                                     <td><a href="#"> <i class="fa fa-eye"></i> </a></td>
                                                 </tr>
                                                 <?php
