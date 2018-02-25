@@ -155,8 +155,7 @@
 					$hora04 = substr($le->getpe()->get_hora_fim2(), 11);
 					echo " as ".$hora04; ?> totalizando 
 					
-					<?php $hora04 = substr($le->getpe()->get_total_horas(), 11);
-					echo $hora04; ?> horas
+					<?php echo $le->getpe()->get_total_horas(); ?> horas
 					
 					
 					semanais</p> <br>
