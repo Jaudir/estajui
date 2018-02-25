@@ -11,11 +11,9 @@ class Curso {
     private $_id;
     private $_nome;
     
-    public function __construct($_id, $_nome, $_turno, $_campus) {
+    public function __construct($_id, $_nome) {
         $this->_id = $_id;
         $this->_nome = $_nome;
-        $this->_turno = $_turno;
-        $this->_campus = $_campus;
     }
 
     public function getid() {
@@ -24,14 +22,6 @@ class Curso {
 
     public function getnome() {
         return $this->_nome;
-    }
-
-    public function getturno() {
-        return $this->_turno;
-    }
-
-    public function getcampus() {
-        return $this->_campus;
     }
 
     public function setid($_id) {
@@ -43,17 +33,5 @@ class Curso {
         $this->_nome = $_nome;
         return $this;
     }
-
-    public function setturno($_turno) {
-        $this->_turno = $_turno;
-        return $this;
-    }
-
-    public function setcampus($_campus) {
-        $this->_campus = $_campus;
-        return $this;
-    }
-
-
     
 }

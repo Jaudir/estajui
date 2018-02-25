@@ -7,6 +7,7 @@ class Loader{
     private $daosDir;
     private $controllersDir;
     private $utilDir;
+    private $baseDir;
     private $DB;
 
     public function __construct($configs){
@@ -14,6 +15,7 @@ class Loader{
         $this->daosDir = dirname(__FILE__) . '/../daos/';
         $this->controllersDir = dirname(__FILE__) . '/../controllers/';
         $this->utilDir = dirname(__FILE__) . '/';
+        $this->baseDir = $configs['BASE_URL'];
         $this->DB = $configs['DB'];
     }
 

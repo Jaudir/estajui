@@ -5,7 +5,7 @@ require_once $_SERVER['DOCUMENT_ROOT'] . "/estajui/scripts/daos/Supervisor.php";
 
 class SupervisorModel extends MainModel {
 
-    private $_tabela = "tabela";
+    private $_tabela = "supervisor";
 
     public function create(Supervisor $supervisor) {
         $pstmt = $this->conn->prepare("INSERT INTO " . $this->_tabela . " (nome, cargo, habilitacao, empresa_cnpj) VALUES(?, ?, ?, ?)");

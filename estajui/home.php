@@ -111,86 +111,138 @@ require_once $_SERVER['DOCUMENT_ROOT'] . "/estajui/scripts/controllers/HomeContr
 
                     </ul>
                 </div>
-                <div class="col-lg-10 align-self-center center">
-                    <button type="button" class="btn btn-outline-success" data-toggle="modal" data-target="#modalNovoEstagio" style="padding: 25px;">Novo estágio</button>
+                <!--ROOT, CE-->
+                <?php
+                if (is_a($usuario, "Usuario")) {
+                    if (count($estagios) == 0) {
+                        ?>
+                        <div class="col-lg-10 align-self-center center">
+                            <button type="button" class="btn btn-outline-success" data-toggle="modal" data-target="#modalNovoEstagio" style="padding: 25px;">Novo estágio</button>
 
-                    <!-- Modal para solicitar um novo estágio -->
-                    <div class="modal fade" id="modalNovoEstagio" tabindex="-1" role="dialog" aria-labelledby="modalNovoEstagioTitle" aria-hidden="true">
-                        <div class="modal-dialog" role="document">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="modalNovoEstagioTitle">Solicitação de estágio</h5>
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
-                                </div>
-                                <div class="modal-body">
-                                    <form name="novo-estagio" style="text-align: left;">
-                                        <div class="form-group">
-                                            <div class="form-check">
-                                                <label class="form-check-label">
-                                                    <input class="form-check-input" type="radio" name="exampleRadios1" id="exampleRadios1" value="option1" checked>
-                                                    Obrigatório
-                                                </label>
-                                            </div>
-                                            <div class="form-check">
-                                                <label class="form-check-label">
-                                                    <input class="form-check-input" type="radio" name="exampleRadios1" id="exampleRadios2" value="option2">
-                                                    Não obrigatório.
-                                                </label>
-                                            </div>
+                            <!-- Modal para solicitar um novo estágio -->
+                            <div class="modal fade" id="modalNovoEstagio" tabindex="-1" role="dialog" aria-labelledby="modalNovoEstagioTitle" aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="modalNovoEstagioTitle">Solicitação de estágio</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
                                         </div>
-                                        <div class="form-group">
-                                            <label>Campus</label>
-                                            <select class="form-control" required>
-                                                <option>Montes Claros</option>
-                                                <option>Januária</option>
-                                            </select>
+                                        <div class="modal-body">
+                                            <form name="novo-estagio" style="text-align: left;">
+                                                <div class="form-group">
+                                                    <div class="form-check">
+                                                        <label class="form-check-label">
+                                                            <input class="form-check-input" type="radio" name="exampleRadios1" id="exampleRadios1" value="option1" checked>
+                                                            Obrigatório
+                                                        </label>
+                                                    </div>
+                                                    <div class="form-check">
+                                                        <label class="form-check-label">
+                                                            <input class="form-check-input" type="radio" name="exampleRadios1" id="exampleRadios2" value="option2">
+                                                            Não obrigatório.
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label>Campus</label>
+                                                    <select class="form-control" required>
+                                                        <option>Montes Claros</option>
+                                                        <option>Januária</option>
+                                                    </select>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label>Curso</label>
+                                                    <select class="form-control" required>
+                                                        <option>Ciência da Computação</option>
+                                                        <option>Engenharia Química</option>
+                                                        <option>Téc em informática</option>
+                                                    </select>
+                                                </div>
+                                                <div class="form-group">
+                                                    <div class="form-check">
+                                                        <label class="form-check-label">
+                                                            <input class="form-check-input" type="radio" name="exampleRadios" id="" value="option1" checked>
+                                                            Integral
+                                                        </label>
+                                                    </div>
+                                                    <div class="form-check">
+                                                        <label class="form-check-label">
+                                                            <input class="form-check-input" type="radio" name="exampleRadios" id="" value="option2">
+                                                            Matutino
+                                                        </label>
+                                                    </div>
+                                                    <div class="form-check">
+                                                        <label class="form-check-label">
+                                                            <input class="form-check-input" type="radio" name="exampleRadios" id="" value="option3">
+                                                            Vespertino
+                                                        </label>
+                                                    </div>
+                                                    <div class="form-check">
+                                                        <label class="form-check-label">
+                                                            <input class="form-check-input" type="radio" name="exampleRadios" id="" value="option4">
+                                                            Noturno
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                            </form>
                                         </div>
-                                        <div class="form-group">
-                                            <label>Curso</label>
-                                            <select class="form-control" required>
-                                                <option>Ciência da Computação</option>
-                                                <option>Engenharia Química</option>
-                                                <option>Téc em informática</option>
-                                            </select>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Sair</button>
+                                            <button type="button" class="btn btn-primary">Confirmar</button>
                                         </div>
-                                        <div class="form-group">
-                                            <div class="form-check">
-                                                <label class="form-check-label">
-                                                    <input class="form-check-input" type="radio" name="exampleRadios" id="" value="option1" checked>
-                                                    Integral
-                                                </label>
-                                            </div>
-                                            <div class="form-check">
-                                                <label class="form-check-label">
-                                                    <input class="form-check-input" type="radio" name="exampleRadios" id="" value="option2">
-                                                    Matutino
-                                                </label>
-                                            </div>
-                                            <div class="form-check">
-                                                <label class="form-check-label">
-                                                    <input class="form-check-input" type="radio" name="exampleRadios" id="" value="option3">
-                                                    Vespertino
-                                                </label>
-                                            </div>
-                                            <div class="form-check">
-                                                <label class="form-check-label">
-                                                    <input class="form-check-input" type="radio" name="exampleRadios" id="" value="option4">
-                                                    Noturno
-                                                </label>
-                                            </div>
-                                        </div>
-                                    </form>
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Sair</button>
-                                    <button type="button" class="btn btn-primary">Confirmar</button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                </div>
+                        <?php
+                    } else {
+                        ?>
+
+                        <div class="col-lg-10 status-desc">
+                            <div class="row table-estagios">
+                                <div class="offset-lg-1 col-lg-10 table-title bg-gray">
+                                    <h3> Todos os estágios </h3>
+                                </div>
+                                <div class="offset-lg-1 col-lg-10" style="padding: 0;">
+                                    <table class="table table-bordered">
+                                        <thead>
+                                            <tr>
+                                                <th scope="col">#</th>
+                                                <th scope="col">Data início</th>
+                                                <th scope="col">Empresa</th>
+                                                <th scope="col">Status</th>
+                                                <th scope="col">Curso</th>
+                                                <th scope="col">Ver</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <?php
+                                            $cont = 1;
+                                            foreach ($estagios as $estagio) {
+                                                ?>
+                                                <tr>
+                                                    <th scope="row"><?php echo $cont ?></th>
+                                                    <td>22/11/2017</td>
+                                                    <td>Padaria do Joaquim</td>
+                                                    <td>Solicitação de estágio deferida pela secretária.</td>
+                                                    <td>Ciência da Computação</td>
+                                                    <td><a href="#"> <i class="fa fa-eye"></i> </a></td>
+                                                </tr>
+                                                <?php
+                                                $cont++;
+                                            }
+                                            ?>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <?php
+                    }
+                }
+                ?>
             </div>
         </div>
         <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>

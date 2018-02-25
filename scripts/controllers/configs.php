@@ -4,7 +4,13 @@
 Este arquivo é incluido no controller base
 */
 
-$configs['BASE_URL'] = 'http://localhost/estajui';
+$url = $_SERVER['REQUEST_URI']; //returns the current URL
+$parts = explode('/',$url);
+$dir = $_SERVER['SERVER_NAME'];
+for ($i = 0; $i < count($parts) - 1; $i++) {
+ $dir .= $parts[$i] . "/";
+}
+$configs['BASE_URL'] = $dir;
 
 //envio de emails
 $configs['email_estajui'] = 'estajui@estajui.estajui';

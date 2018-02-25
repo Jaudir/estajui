@@ -10,11 +10,12 @@ if (isset($_GET["logoff"])) {
 if (!$session->isLogged()) {
     redirect("login.php");
 }
+$estagios = array();
 $usuario = $session->getUsuario();
 if (is_a($usuario, "Aluno")) {
-//    $loader->loadModel("EstagioModel","EstagioModel");
+    $estagiModel = $loader->loadModel("EstagioModel","EstagioModel");
     $titulo = "Estudante";
-//    $estagios = 
+    $estagios = $estagiModel->readbyaluno($usuario, 0);
 } elseif (is_a($usuario, "Funcionario")) {
     $titulo = "Funcionario";
 } else {

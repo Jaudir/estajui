@@ -53,20 +53,22 @@ class ApoliceModel extends MainModel {
         }
     }
 
-    public function readbyestagio($estagio_id) {
+    public function readbyestagio(Estagio $estagio, $limite) {
         if ($limite == 0) {
-            if ($estagio_id == NULL) {
+            if ($estagio == NULL) {
                 $pstmt = $this->conn->prepare("SELECT * FROM " . $this->_tabela . "");
             } else {
-                $pstmt = $this->conn->prepare("SELECT * FROM " . $this->_tabela . " WHERE estagio_id LIKE :estagio_id");
-                $pstmt->bindParam(':estagio_id', $estagio_id);
+                $key = $estagio->getid();
+                $pstmt = $this->conn->prepare("SELECT * FROM " . $this->_tabela . " WHERE estagio_id = :estagio_id");
+                $pstmt->bindParam(':estagio_id', $key);
             }
         } else {
-            if ($estagio_id == NULL) {
+            if ($estagio == NULL) {
                 $pstmt = $this->conn->prepare("SELECT * FROM " . $this->_tabela . " LIMIT :limite");
             } else {
-                $pstmt = $this->conn->prepare("SELECT * FROM " . $this->_tabela . " WHERE estagio_id LIKE :estagio_id LIMIT :limite");
-                $pstmt->bindParam(':estagio_id', $estagio_id);
+                $key = $estagio->getid();
+                $pstmt = $this->conn->prepare("SELECT * FROM " . $this->_tabela . " WHERE estagio_id = :estagio_id LIMIT :limite");
+                $pstmt->bindParam(':estagio_id', $key);
             }
             $pstmt->bindParam(':limite', $limite, PDO::PARAM_INT);
         }

@@ -62,15 +62,17 @@ class ComentarioPEModel extends MainModel {
             if ($estagio == NULL) {
                 $pstmt = $this->conn->prepare("SELECT * FROM " . $this->_tabela . "");
             } else {
+                $key = $estagio->getid();
                 $pstmt = $this->conn->prepare("SELECT * FROM " . $this->_tabela . " WHERE estagio_id = :estagio_id");
-                $pstmt->bindParam(':estagio_id', $estagio->getid());
+                $pstmt->bindParam(':estagio_id', $key);
             }
         } else {
             if ($estagio == NULL) {
                 $pstmt = $this->conn->prepare("SELECT * FROM " . $this->_tabela . " LIMIT :limite");
             } else {
+                $key = $estagio->getid();
                 $pstmt = $this->conn->prepare("SELECT * FROM " . $this->_tabela . " WHERE estagio_id = :estagio_id LIMIT :limite");
-                $pstmt->bindParam(':estagio_id', $estagio->getid());
+                $pstmt->bindParam(':estagio_id', $key);
             }
             $pstmt->bindParam(':limite', $limite, PDO::PARAM_INT);
         }
