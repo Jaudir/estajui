@@ -24,47 +24,47 @@ class ModificacaoStatus {
         $this->_usuario = $_usuario;
     }
 
-    public function get_id() {
+    public function getid() {
         return $this->_id;
     }
 
-    public function get_data() {
+    public function getdata() {
         return $this->_data;
     }
 
-    public function get_estagio() {
+    public function getestagio() {
         return $this->_estagio;
     }
 
-    public function get_status() {
+    public function getstatus() {
         return $this->_status;
     }
 
-    public function get_usuario() {
+    public function getusuario() {
         return $this->_usuario;
     }
 
-    public function set_id($_id) {
+    public function setid($_id) {
         $this->_id = $_id;
         return $this;
     }
 
-    public function set_data($_data) {
+    public function setdata($_data) {
         $this->_data = $_data;
         return $this;
     }
 
-    public function set_estagio($_estagio) {
+    public function setestagio($_estagio) {
         $this->_estagio = $_estagio;
         return $this;
     }
 
-    public function set_status($_status) {
+    public function setstatus($_status) {
         $this->_status = $_status;
         return $this;
     }
 
-    public function set_usuario($_usuario) {
+    public function setusuario($_usuario) {
         $this->_usuario = $_usuario;
         return $this;
     }

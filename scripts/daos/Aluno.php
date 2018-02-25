@@ -1,4 +1,5 @@
 <?php
+
 require_once $_SERVER['DOCUMENT_ROOT'] . '/estajui/scripts/daos/Usuario.php';
 require_once $_SERVER['DOCUMENT_ROOT'] . '/estajui/scripts/daos/Endereco.php';
 
@@ -86,6 +87,14 @@ class Aluno extends Usuario {
 
     public function getcpf() {
         return $this->_cpf;
+    }
+
+    public function getcpfformatado() {
+        $one = substr($this->_cpf, 0, 3);
+        $two = substr($this->_cpf, 3, 3);
+        $three = substr($this->_cpf, 6, 3);
+        $four = substr($this->_cpf, 9, 2);
+        return $one . "." . $two . "." . $three . "-" . $four;
     }
 
     public function getnome() {

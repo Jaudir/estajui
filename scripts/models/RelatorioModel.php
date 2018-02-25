@@ -1,17 +1,17 @@
 <?php
 
 require_once('MainModel.php');
-require_once $_SERVER['DOCUMENT_ROOT'] . "/estajui/scripts/daos/Supervisor.php";
+require_once $_SERVER['DOCUMENT_ROOT'] . "/estajui/scripts/daos/Relatorio.php";
 
-class SupervisorModel extends MainModel {
+class RelatorioModel extends MainModel {
 
-    private $_tabela = "supervisor";
+    private $_tabela = "relatorio";
 
-    public function create(Supervisor $supervisor) {
-        $pstmt = $this->conn->prepare("INSERT INTO " . $this->_tabela . " (nome, cargo, habilitacao, empresa_cnpj) VALUES(?, ?, ?, ?)");
+    public function create(Relatorio $relatorio) {
+        $pstmt = $this->conn->prepare("INSERT INTO " . $this->_tabela . " (endereco, data_envio, estagio_id) VALUES(?, ?, ?)");
         try {
             $this->conn->beginTransaction();
-            $pstmt->execute(array($supervisor->getnome(), $supervisor->getcargo(), $supervisor->gethabilitação(), $supervisor->getempresa()->getcnpj));
+            $pstmt->execute(array($relatorio->getarquivo(), $relatorio->getdata_envio(), $relatorio->getestagio()->getid()));
             $id = $this->conn->lastInsertId();
             $this->conn->commit();
             return $id;
@@ -46,8 +46,10 @@ class SupervisorModel extends MainModel {
             $cont = 0;
             $result = [];
             while ($row = $pstmt->fetch()) {
-                $empresaModel = $this->loader->loadModel("EmpresaModel", "EmpresaModel");
-                $result[$cont] = new Supervisor($row["id"], $row["nome"], $row["cargo"], $row["habilitacao"], $empresaModel->read($row["empresa_cnpj"], 1)[0]);
+                $estagioModel = $this->loader->loadModel("EstagioModel", "EstagioModel");
+                $comentariorelatorioModel = $this->loader->loadModel("ComentarioRelatorioModel", "ComentarioRelatorioModel");
+                $result[$cont] = new Relatorio($row["endereco"], $row["data_envio"], $estagioModel->read($row["estagio_id"], 1)[0], null);
+                $result[$cont]->setcomentarios($comentariorelatorioModel->read($this, 0));
                 $cont++;
             }
             return $result;
@@ -57,20 +59,20 @@ class SupervisorModel extends MainModel {
         }
     }
 
-    public function readbyempresa(Empresa $empresa, $limite) {
+    public function readbyestagio(Estagio $estagio, $limite) {
         if ($limite == 0) {
-            if ($empresa == NULL) {
+            if ($estagio == NULL) {
                 $pstmt = $this->conn->prepare("SELECT * FROM " . $this->_tabela . "");
             } else {
-                $pstmt = $this->conn->prepare("SELECT * FROM " . $this->_tabela . " WHERE empresa_cnpj = :empresa_cnpj");
-                $pstmt->bindParam(':empresa_cnpj', $empresa->getcnpj());
+                $pstmt = $this->conn->prepare("SELECT * FROM " . $this->_tabela . " WHERE estagio_id = :estagio_id");
+                $pstmt->bindParam(':estagio_id', $estagio->getid());
             }
         } else {
-            if ($empresa == NULL) {
+            if ($estagio == NULL) {
                 $pstmt = $this->conn->prepare("SELECT * FROM " . $this->_tabela . " LIMIT :limite");
             } else {
-                $pstmt = $this->conn->prepare("SELECT * FROM " . $this->_tabela . " WHERE empresa_cnpj = :empresa_cnpj LIMIT :limite");
-                $pstmt->bindParam(':empresa_cnpj', $empresa->getcnpj());
+                $pstmt = $this->conn->prepare("SELECT * FROM " . $this->_tabela . " WHERE estagio_id = :estagio_id LIMIT :limite");
+                $pstmt->bindParam(':estagio_id', $estagio->getid());
             }
             $pstmt->bindParam(':limite', $limite, PDO::PARAM_INT);
         }
@@ -81,7 +83,9 @@ class SupervisorModel extends MainModel {
             $cont = 0;
             $result = [];
             while ($row = $pstmt->fetch()) {
-                $result[$cont] = new Supervisor($row["id"], $row["nome"], $row["cargo"], $row["habilitacao"], $empresa);
+                $comentariorelatorioModel = $this->loader->loadModel("ComentarioRelatorioModel", "ComentarioRelatorioModel");
+                $result[$cont] = new Relatorio($row["id"], $row["endereco"], $row["data_envio"], $estagio, null);
+                $result[$cont]->setcomentarios($comentariorelatorioModel->read($this, 0));
                 $cont++;
             }
             return $result;
@@ -91,11 +95,11 @@ class SupervisorModel extends MainModel {
         }
     }
 
-    public function update(Supervisor $supervisor) {
-        $pstmt = $this->conn->prepare("UPDATE " . $this->$_tabela . " SET nome=?, cargo=?, habilitacao=?, empresa_cnpj=? WHERE id = ?");
+    public function update(Relatorio $relatorio) {
+        $pstmt = $this->conn->prepare("UPDATE " . $this->$_tabela . " SET endereco=?, data_envio=?, estagio_id=w WHERE id = ?");
         try {
             $this->conn->beginTransaction();
-            $pstmt->execute(array($supervisor->getnome(), $supervisor->getcargo(), $supervisor->gethabilitação(), $supervisor->getempresa()->getcnpj, $supervisor->getid()));
+            $pstmt->execute(array($relatorio->getarquivo(), $relatorio->getdata_envio(), $relatorio->getestagio()->getid(), $relatorio->getid()));
             $this->conn->commit();
             return 0;
         } catch (PDOExecption $e) {
@@ -105,11 +109,11 @@ class SupervisorModel extends MainModel {
         }
     }
 
-    public function delete(Supervisor $supervisor) {
+    public function delete(Relatorio $relatorio) {
         $pstmt = $this->conn->prepare("DELETE from " . $this->$_tabela . " WHERE id = ?");
         try {
             $this->conn->beginTransaction();
-            $pstmt->execute(array($supervisor->getid()));
+            $pstmt->execute(array($relatorio->getid()));
             $this->conn->commit();
             return 0;
         } catch (PDOExecption $e) {

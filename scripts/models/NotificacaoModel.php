@@ -1,41 +1,17 @@
 <?php
 
 require_once('MainModel.php');
-require_once $_SERVER['DOCUMENT_ROOT'] . "/estajui/scripts/daos/Curso.php";
+require_once $_SERVER['DOCUMENT_ROOT'] . "/estajui/scripts/daos/Notificacao.php";
 
-class CursoModel extends MainModel {
+class NotificacaoModel extends MainModel {
 
-    private $_tabela = "curso";
+    private $_tabela = "notificacao";
 
-    public function getCursoAluno($aluno) {
-        try {
-            $this->loader->loadDAO('Curso');
-
-            $stmt = $this->conn->prepare('SELECT curso.* FROM aluno JOIN aluno_estuda_curso ON aluno_estuda_curso.aluno_cpf=aluno.cpf JOIN curso ON curso.id=aluno_estuda_curso.cpf WHERE aluno.cpf = :cpf');
-            $stmt->execute(array(':cpf' => $aluno->getcpf()));
-
-            $cursos = $stmt->fetchAll();
-
-            $cursosObj = array();
-            if (count($cursos) > 0) {
-                foreach ($cursos as $curso) {
-                    array_push($cursosObj, new Curso($curso['id'], $curso['nome']));
-                }
-
-                return $cursosObj;
-            }
-        } catch (PDOException $ex) {
-            Log::LogPDOError($ex);
-            return false;
-        }
-        return false;
-    }
-
-    public function create(Curso $curso) {
-        $pstmt = $this->conn->prepare("INSERT INTO " . $this->_tabela . " (nome) VALUES(?)");
+    public function create(Notificacao $notificacao) {
+        $pstmt = $this->conn->prepare("INSERT INTO " . $this->_tabela . " (lida, temJustificativa, justificativa, modifica_status_id) VALUES(?, ?, ?, ?)");
         try {
             $this->conn->beginTransaction();
-            $pstmt->execute(array($curso->getnome()));
+            $pstmt->execute(array((int) $notificacao->getlida(), boolval($notificacao->getjustificativa()), $notificacao->getjustificativa(), $notificacao->getmodificacao_status()->getid()));
             $id = $this->conn->lastInsertId();
             $this->conn->commit();
             return $id;
@@ -51,14 +27,14 @@ class CursoModel extends MainModel {
             if ($id == NULL) {
                 $pstmt = $this->conn->prepare("SELECT * FROM " . $this->_tabela . "");
             } else {
-                $pstmt = $this->conn->prepare("SELECT * FROM " . $this->_tabela . " WHERE id = :id");
+                $pstmt = $this->conn->prepare("SELECT * FROM " . $this->_tabela . " WHERE id LIKE :id");
                 $pstmt->bindParam(':id', $id);
             }
         } else {
             if ($id == NULL) {
                 $pstmt = $this->conn->prepare("SELECT * FROM " . $this->_tabela . " LIMIT :limite");
             } else {
-                $pstmt = $this->conn->prepare("SELECT * FROM " . $this->_tabela . " WHERE id = :id LIMIT :limite");
+                $pstmt = $this->conn->prepare("SELECT * FROM " . $this->_tabela . " WHERE id LIKE :id LIMIT :limite");
                 $pstmt->bindParam(':id', $id);
             }
             $pstmt->bindParam(':limite', $limite, PDO::PARAM_INT);
@@ -70,8 +46,8 @@ class CursoModel extends MainModel {
             $cont = 0;
             $result = [];
             while ($row = $pstmt->fetch()) {
-                $campusModel = $this->loader->loadModel("CampusModel", "CampusModel");
-                $result[$cont] = new Curso($row["id"], $row["nome"]);
+                $modificastatusModel = $this->loader->loadModel("ModificacaoStatusModel", "ModificacaoStatusModel");
+                $result[$cont] = new Notificacao($row["id"], $row["lida"], $modificastatusModel->read($row["modifica_status_id"], 1)[0], $row["justificativa"]);
                 $cont++;
             }
             return $result;
@@ -81,11 +57,11 @@ class CursoModel extends MainModel {
         }
     }
 
-    public function update(Curso $curso) {
-        $pstmt = $this->conn->prepare("UPDATE " . $this->$_tabela . " SET nome=?, turno=?, campus_cnpj=? WHERE id = ?");
+    public function update(Notificacao $notificacao) {
+        $pstmt = $this->conn->prepare("UPDATE " . $this->$_tabela . " SET lida=?, temJustificativa=?, justificativa=?, modifica_status_id=? WHERE id = ?");
         try {
             $this->conn->beginTransaction();
-            $pstmt->execute(array($curso->getnome(), $curso->getturno(), $curso->getcampus()->getcnpj(), $curso->getid()));
+            $pstmt->execute(array($notificacao->getlida(), boolval($notificacao->getjustificativa()), $notificacao->getjustificativa(), $notificacao->getmodificacao_status()->getid()));
             $this->conn->commit();
             return 0;
         } catch (PDOExecption $e) {
@@ -95,11 +71,11 @@ class CursoModel extends MainModel {
         }
     }
 
-    public function delete(Curso $curso) {
+    public function delete(Notificacao $notificacao) {
         $pstmt = $this->conn->prepare("DELETE from " . $this->$_tabela . " WHERE id = ?");
         try {
             $this->conn->beginTransaction();
-            $pstmt->execute(array($curso->getid()));
+            $pstmt->execute(array($notificacao->getid()));
             $this->conn->commit();
             return 0;
         } catch (PDOExecption $e) {

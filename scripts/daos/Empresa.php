@@ -27,6 +27,7 @@ class Empresa {
     public function __construct($_cnpj, $_nome, $_telefone, $_fax, $_nregistro, $_conselhofiscal, $_endereco, $_responsavel, $_conveniada, $_razaosocial) {
         $this->_cnpj = $_cnpj;
         $this->_nome = $_nome;
+        $this->_razao_social = $_razao_social;
         $this->_telefone = $_telefone;
         $this->_razao_social = $_razao_social;
         $this->_fax = $_fax;
@@ -61,67 +62,67 @@ class Empresa {
         return $this->_nome;
     }
 
-    public function get_telefone() {
+    public function gettelefone() {
         return $this->_telefone;
     }
 
-    public function get_fax() {
+    public function getfax() {
         return $this->_fax;
     }
 
-    public function get_nregistro() {
+    public function getnregistro() {
         return $this->_nregistro;
     }
 
-    public function get_conselhofiscal() {
+    public function getconselhofiscal() {
         return $this->_conselhofiscal;
     }
 
-    public function get_endereco() {
+    public function getendereco() {
         return $this->_endereco;
     }
 
-    public function get_responsavel() {
-        return $this->_responsavel;
-    }
-
-    public function set_cnpj($_cnpj) {
+    public function setcnpj($_cnpj) {
         $this->_cnpj = $_cnpj;
         return $this;
     }
 
-    public function set_nome($_nome) {
+    public function setnome($_nome) {
         $this->_nome = $_nome;
         return $this;
     }
 
-    public function set_telefone($_telefone) {
+    public function settelefone($_telefone) {
         $this->_telefone = $_telefone;
         return $this;
     }
 
-    public function set_fax($_fax) {
+    public function setfax($_fax) {
         $this->_fax = $_fax;
         return $this;
     }
 
-    public function set_nregistro($_nregistro) {
+    public function setnregistro($_nregistro) {
         $this->_nregistro = $_nregistro;
         return $this;
     }
 
-    public function set_conselhofiscal($_conselhofiscal) {
+    public function setconselhofiscal($_conselhofiscal) {
         $this->_conselhofiscal = $_conselhofiscal;
         return $this;
     }
 
-    public function set_endereco($_endereco) {
+    public function setendereco($_endereco) {
         $this->_endereco = $_endereco;
         return $this;
     }
 
-    public function set_responsavel($_responsavel) {
-        $this->_responsavel = $_responsavel;
+    public function getrazao_social() {
+        return $this->_razao_social;
+    }
+
+    public function setrazao_social($_razao_social) {
+        $this->_razao_social = $_razao_social;
         return $this;
     }
 

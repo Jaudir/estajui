@@ -10,13 +10,33 @@ if (isset($_GET["logoff"])) {
 if (!$session->isLogged()) {
     redirect("login.php");
 }
+$estagios = array();
 $usuario = $session->getUsuario();
+$estagioModel = $loader->loadModel("EstagioModel", "EstagioModel");
 if (is_a($usuario, "Aluno")) {
-    $loader->loadModel("EstagioModel","EstagioModel");
     $titulo = "Estudante";
-//    $estagios = 
+    $estagios = $estagioModel->readbyaluno($usuario, 0);
+//    $cursoModel = $loader->loadModel('curso-model', 'CursoModel');
+//    $campusModel = $loader->loadModel('campus-model', 'CampusModel');
+//    $campi = $campusModel->recuperarTodos();
+//    $cursos = array();
+//    foreach ($campi as $campus)
+//        $cursos[$campus->getcnpj()] = $cursoModel->recuperarPorCampus($campus);
 } elseif (is_a($usuario, "Funcionario")) {
-    $titulo = "Funcionario";
+    if ($usuario->isroot()) {
+        $titulo = "Administrador";
+    } elseif ($usuario->isce()) {
+        $titulo = "Coordenador de extensão";
+    } elseif ($usuario->isoe()) {
+        $titulo = "Organizador de estagio";
+    } elseif ($usuario->issra()) {
+        $titulo = "Secretaria";
+        $estagios = $estagioModel->read(null, 0);
+    } elseif ($usuario->ispo()) {
+        $titulo = "Professor orientador";
+    } else {
+        $titulo = "Funcionario";
+    }
 } else {
     redirect("login.php");
 }

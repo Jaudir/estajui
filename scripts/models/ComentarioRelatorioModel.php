@@ -1,84 +1,157 @@
 <?php
-require_once $_SERVER['DOCUMENT_ROOT'] . '/estajui/scripts/daos/Estagio.php';
-require_once $_SERVER['DOCUMENT_ROOT'] . '/estajui/scripts/daos/Funcionario.php';
 
-/**
- * Description of ComentarioPE
- *
- * @author gabriel Lucas
- */
-class ComentarioPE {
-    
-    private $_id;
-    private $_data;
-    private $_descricao;
-    private $_correcao;
-    private $_funcionario;
-    private $_estagio;
-    
-    public function __construct($_id, $_data, $_descricao, $_correcao, $_funcionario, $_estagio) {
-        $this->_id = $_id;
-        $this->_data = $_data;
-        $this->_descricao = $_descricao;
-        $this->_correcao = $_correcao;
-        $this->_funcionario = $_funcionario;
-        $this->_estagio = $_estagio;
+require_once('MainModel.php');
+require_once $_SERVER['DOCUMENT_ROOT'] . "/estajui/scripts/daos/ComentarioRelatorio.php";
+
+class ComentarioRelatorioModel extends MainModel {
+
+    private $_tabela = "comentario_relatorio";
+
+    public function create(ComentarioRelatorio $comentario, $relatorio_id) {
+        $pstmt = $this->conn->prepare("INSERT INTO " . $this->_tabela . " (data, descricao, relatorio_id, po_siape) VALUES(?, ?, ?, ?)");
+        try {
+            $this->conn->beginTransaction();
+            $pstmt->execute(array($comentario->getdata(), $comentario->getdescricao(), $relatorio_id, $comentario->getfuncionario()->getsiape()));
+            $id = $this->conn->lastInsertId();
+            $this->conn->commit();
+            return $id;
+        } catch (PDOExecption $e) {
+            $this->conn->rollback();
+            #return "Error!: " . $e->getMessage() . "</br>";
+            return 2;
+        }
     }
 
-    public function get_id() {
-        return $this->_id;
+    public function read($id, $limite) {
+        if ($limite == 0) {
+            if ($id == NULL) {
+                $pstmt = $this->conn->prepare("SELECT * FROM " . $this->_tabela . "");
+            } else {
+                $pstmt = $this->conn->prepare("SELECT * FROM " . $this->_tabela . " WHERE id = :id");
+                $pstmt->bindParam(':id', $id);
+            }
+        } else {
+            if ($id == NULL) {
+                $pstmt = $this->conn->prepare("SELECT * FROM " . $this->_tabela . " LIMIT :limite");
+            } else {
+                $pstmt = $this->conn->prepare("SELECT * FROM " . $this->_tabela . " WHERE id = :id LIMIT :limite");
+                $pstmt->bindParam(':id', $id);
+            }
+            $pstmt->bindParam(':limite', $limite, PDO::PARAM_INT);
+        }
+        try {
+            $this->conn->beginTransaction();
+            $pstmt->execute();
+            $this->conn->commit();
+            $cont = 0;
+            $result = [];
+            while ($row = $pstmt->fetch()) {
+                $funcionarioModel = $this->loader->loadModel("FuncionarioModel", "FuncionarioModel");
+                $result[$cont] = new ComentarioRelatorio($row["id"], $row["data"], $row["descricao"], $funcionarioModel->read($row["po_siape"], 1)[0]);
+                $cont++;
+            }
+            return $result;
+        } catch (PDOExecption $e) {
+            #return "Error!: " . $e->getMessage() . "</br>";
+            return 2;
+        }
     }
 
-    public function get_data() {
-        return $this->_data;
+    public function readbyrelatorio(Relatorio $relatorio, $limite) {
+        if ($limite == 0) {
+            if ($relatorio == NULL) {
+                $pstmt = $this->conn->prepare("SELECT * FROM " . $this->_tabela . "");
+            } else {
+                $pstmt = $this->conn->prepare("SELECT * FROM " . $this->_tabela . " WHERE relatorio_id = :relatorio_id");
+                $pstmt->bindParam(':relatorio_id', $relatorio->getid());
+            }
+        } else {
+            if ($relatorio == NULL) {
+                $pstmt = $this->conn->prepare("SELECT * FROM " . $this->_tabela . " LIMIT :limite");
+            } else {
+                $pstmt = $this->conn->prepare("SELECT * FROM " . $this->_tabela . " WHERE relatorio_id = :relatorio_id LIMIT :limite");
+                $pstmt->bindParam(':relatorio_id', $relatorio->getid());
+            }
+            $pstmt->bindParam(':limite', $limite, PDO::PARAM_INT);
+        }
+        try {
+            $this->conn->beginTransaction();
+            $pstmt->execute();
+            $this->conn->commit();
+            $cont = 0;
+            $result = [];
+            while ($row = $pstmt->fetch()) {
+                $funcionarioModel = $this->loader->loadModel("FuncionarioModel", "FuncionarioModel");
+                $result[$cont] = new ComentarioPE($row["id"], $row["data"], $row["descricao"], $row["endereco_correcao"], $funcionarioModel->read($row["po_siape"], 1)[0]);
+                $cont++;
+            }
+            return $result;
+        } catch (PDOExecption $e) {
+            #return "Error!: " . $e->getMessage() . "</br>";
+            return 2;
+        }
     }
 
-    public function get_descricao() {
-        return $this->_descricao;
+    public function readbyfuncionario(Funcionario $funcionario, $limite) {
+        if ($limite == 0) {
+            if ($funcionario == NULL) {
+                $pstmt = $this->conn->prepare("SELECT * FROM " . $this->_tabela . "");
+            } else {
+                $pstmt = $this->conn->prepare("SELECT * FROM " . $this->_tabela . " WHERE po_siape = :po_siape");
+                $pstmt->bindParam(':po_siape', $funcionario->getsiape());
+            }
+        } else {
+            if ($funcionario == NULL) {
+                $pstmt = $this->conn->prepare("SELECT * FROM " . $this->_tabela . " LIMIT :limite");
+            } else {
+                $pstmt = $this->conn->prepare("SELECT * FROM " . $this->_tabela . " WHERE po_siape = :po_siape LIMIT :limite");
+                $pstmt->bindParam(':po_siape', $funcionario->getsiape());
+            }
+            $pstmt->bindParam(':limite', $limite, PDO::PARAM_INT);
+        }
+        try {
+            $this->conn->beginTransaction();
+            $pstmt->execute();
+            $this->conn->commit();
+            $cont = 0;
+            $result = [];
+            while ($row = $pstmt->fetch()) {
+                $result[$cont] = new ComentarioRelatorio($row["id"], $row["data"], $row["descricao"], $funcionario);
+                $cont++;
+            }
+            return $result;
+        } catch (PDOExecption $e) {
+            #return "Error!: " . $e->getMessage() . "</br>";
+            return 2;
+        }
     }
 
-    public function get_correcao() {
-        return $this->_correcao;
+    public function update(ComentarioRelatorio $comentario) {
+        $pstmt = $this->conn->prepare("UPDATE " . $this->$_tabela . " SET id=?, data=?, descricao=?, po_siape=? WHERE id = ?");
+        try {
+            $this->conn->beginTransaction();
+            $pstmt->execute(array($comentario->getid(), $comentario->getdata(), $comentario->getdescricao(), $comentario->getfuncionario()->getsiape(), $comentario->getid()));
+            $this->conn->commit();
+            return 0;
+        } catch (PDOExecption $e) {
+            $this->conn->rollback();
+            #return "Error!: " . $e->getMessage() . "</br>";
+            return 2;
+        }
     }
 
-    public function get_funcionario() {
-        return $this->_funcionario;
+    public function delete(ComentarioRelatorio $comentario) {
+        $pstmt = $this->conn->prepare("DELETE from " . $this->$_tabela . " WHERE id = ?");
+        try {
+            $this->conn->beginTransaction();
+            $pstmt->execute(array($comentario->getid()));
+            $this->conn->commit();
+            return 0;
+        } catch (PDOExecption $e) {
+            $this->conn->rollback();
+            #return "Error!: " . $e->getMessage() . "</br>";
+            return 2;
+        }
     }
 
-    public function get_estagio() {
-        return $this->_estagio;
-    }
-
-    public function set_id($_id) {
-        $this->_id = $_id;
-        return $this;
-    }
-
-    public function set_data($_data) {
-        $this->_data = $_data;
-        return $this;
-    }
-
-    public function set_descricao($_descricao) {
-        $this->_descricao = $_descricao;
-        return $this;
-    }
-
-    public function set_correcao($_correcao) {
-        $this->_correcao = $_correcao;
-        return $this;
-    }
-
-    public function set_funcionario($_funcionario) {
-        $this->_funcionario = $_funcionario;
-        return $this;
-    }
-
-    public function set_estagio($_estagio) {
-        $this->_estagio = $_estagio;
-        return $this;
-    }
-
-
-    
 }
