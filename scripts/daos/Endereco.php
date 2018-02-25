@@ -18,7 +18,7 @@ class Endereco {
     private $_sala;
     private static $_tabela = "endereco";
 
-    public function __construct($_id, $_logradouro, $_bairro, $_numero, $_complemento, $_cidade, $_uf, $_cep,$_sala) {
+    public function __construct($_id, $_logradouro, $_bairro, $_numero, $_complemento, $_cidade, $_uf, $_cep, $_sala) {
         $this->_id = $_id;
         $this->_logradouro = $_logradouro;
         $this->_bairro = $_bairro;
