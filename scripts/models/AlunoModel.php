@@ -211,15 +211,23 @@ class AlunoModel extends MainModel {
         }
     }
 	
-	public function visualizarEstagios($aluno){
+	public function visualizarEstagios($aluno_cpf){
 		try {
-            $pstmt = $this->conn->prepare("SELECT p.data_ini, em.nome AS nome_em, f.nome AS nome_f, s.descricao FROM plano_estagio AS p "
+            $pstmt = $this->conn->prepare("SELECT es.id AS estagio_id, es.bool_aprovado, es.bool_obrigatorio, s.descricao, ap.numero AS ap_numero, ap.seguradora, "
+			."sor.nome AS sor_nome, sor.habilitacao, sor.cargo, f.nome AS f_nome, f.formacao, p.data_ini, p.data_fim, "
+			."p.hora_inicio1, p.hora_inicio2, p.hora_fim1, p.hora_fim2, p.total_horas, p.atividades, em.nome AS em_nome, em.razao_social, "
+			."em.cnpj, en.logradouro, en.numero AS en_numero, en.bairro, en.cidade, en.uf, en.cep, em.telefone, "
+			."em.fax, em.nregistro, em.conselhofiscal FROM plano_estagio AS p "
 			."JOIN estagio AS es ON p.estagio_id = es.id "
+			."JOIN supervisiona AS sona ON es.id = sona.estagio_id "
+			."JOIN supervisor AS sor ON sona.supervisor_id = sor.id "
+			."JOIN apolice AS ap ON es.id = ap.estagio_id "
 			."JOIN funcionario AS f ON es.po_siape = f.siape "
 			."JOIN empresa AS em ON es.empresa_cnpj = em.cnpj "
+			."JOIN endereco AS en ON em.endereco_id = en.id "
 			."JOIN status AS s ON es.status_codigo = s.codigo "
 			."WHERE es.aluno_cpf=?");
-            $v = $pstmt->execute(array($aluno->getcpf()));
+            $v = $pstmt->execute(array($aluno_cpf));
             $res = $pstmt->fetchAll();
 
             if (count($res) == 0)
@@ -229,25 +237,16 @@ class AlunoModel extends MainModel {
 			
             foreach ($res as $linha) {
 				$this->loader->loadDao('PlanoDeEstagio');
-				$estagio = new Estagio(null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null);
-				
-				$plano_estagio = new PlanoDeEstagio(null,null,null,null,null,null,null,null,null,null,null,null,null,null);
-				$plano_estagio->set_data_inicio($linha['data_ini']);
-				
-				$empresa = new Empresa(null,null,null,null,null,null,null,null);
-				$empresa->set_nome($linha['nome_em']);
-				
-				$funcionario = new Funcionario(null,null,null,null,null,null,null,null,null,null,null,null,null);
-				$funcionario->setnome($linha['nome_f']);
-				
-				$status = new Status(null, null);
-				$status->set_descricao($linha['descricao']);
-				
-				$estagio->setempresa($empresa);
-				$estagio->setfuncionario($funcionario);
-				$estagio->setstatus($status);
-				
-				$estagio->setpe($plano_estagio);
+				$funcionario = new Funcionario(null, null, null, null, $linha['f_nome'], null, null, null, null, null, $linha['formacao'], null, null);
+				$apolice = new Apolice($linha['ap_numero'], $linha['seguradora'], null);
+				$status = new Status(null, $linha['descricao']);
+				$endereco = new Endereco(null, $linha['logradouro'], $linha['bairro'], $linha['en_numero'], null, $linha['cidade'], $linha['uf'], $linha['cep']);
+				$empresa = new Empresa($linha['cnpj'], $linha['em_nome'], $linha['telefone'], $linha['fax'], $linha['nregistro'], $linha['conselhofiscal'], $endereco, null);
+				$planoDeEstagio = new PlanoDeEstagio(null, null, $linha['atividades'], null, null, $linha['data_ini'], $linha['data_fim'], $linha['hora_inicio1'], $linha['hora_inicio2'], $linha['hora_fim1'], $linha['hora_fim2'], $linha['total_horas'], null, null);
+				$supervisor = new Supervisor(null, $linha['sor_nome'], $linha['cargo'], $linha['habilitacao'], null);
+				$estagio = new Estagio(null, $linha['bool_aprovado'], $linha['bool_obrigatorio'], null, null, null, null, null, null, null, null, null, $empresa, null, $funcionario, null, $status, $planoDeEstagio);
+				$estagio->setapolice($apolice);
+				$estagio->setsupervisor($supervisor);
 				
 				$listaEstagios[] = $estagio;
 			}
