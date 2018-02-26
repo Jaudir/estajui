@@ -38,7 +38,7 @@ class StatusModel extends MainModel{
                     ':modifica_status_id' => $id, 
                     ':temJustificativa' => $justificativa != null, 
                     ':justificativa' => $justificativa));
-
+                    
             $this->conn->commit();
         }catch(PDOException $ex){
             Log::LogPDOError($ex);

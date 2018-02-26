@@ -296,6 +296,13 @@ INSERT INTO usuario(`email`, `senha`, `tipo`) VALUES ('aluno1@aluno.com', '$2y$1
 INSERT INTO usuario(`email`, `senha`, `tipo`) VALUES ('aluno2@aluno.com', '$2y$10$89a178NmXg.4XRDj5KB1h.ZRYnsN3CockVltOQvrkRRnAsx2KPqjW', 1);
 INSERT INTO usuario(`email`, `senha`, `tipo`) VALUES ('aluno3@aluno.com', '$2y$10$89a178NmXg.4XRDj5KB1h.ZRYnsN3CockVltOQvrkRRnAsx2KPqjW', 1);
 
+-- USUARIO (para funcionários) a senha é "senha"
+INSERT INTO usuario(`email`, `senha`, `tipo`) VALUES ('funcionario0@funcionario.com', '$2y$10$89a178NmXg.4XRDj5KB1h.ZRYnsN3CockVltOQvrkRRnAsx2KPqjW', 2);
+INSERT INTO usuario(`email`, `senha`, `tipo`) VALUES ('funcionario1@funcionario.com', '$2y$10$89a178NmXg.4XRDj5KB1h.ZRYnsN3CockVltOQvrkRRnAsx2KPqjW', 2);
+INSERT INTO usuario(`email`, `senha`, `tipo`) VALUES ('funcionario2@funcionario.com', '$2y$10$89a178NmXg.4XRDj5KB1h.ZRYnsN3CockVltOQvrkRRnAsx2KPqjW', 2);
+INSERT INTO usuario(`email`, `senha`, `tipo`) VALUES ('funcionario3@funcionario.com', '$2y$10$89a178NmXg.4XRDj5KB1h.ZRYnsN3CockVltOQvrkRRnAsx2KPqjW', 2);
+
+
 -- ENDEREÇO
 INSERT INTO endereco(`id`, `logradouro`, `bairro`, `numero`, `complemento`, `cidade`, `uf`, `cep`) VALUES (1, 'Logradouro', 'Bairro', '000', 'comp', 'Montes Claros', 'MG', '12345678');
 INSERT INTO endereco(`id`, `logradouro`, `bairro`, `numero`, `complemento`, `cidade`, `uf`, `cep`) VALUES (2, 'Logradouro', 'Bairro', '000', 'comp', 'Montes Claros', 'MG', '12345678');

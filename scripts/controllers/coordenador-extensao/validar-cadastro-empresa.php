@@ -12,15 +12,12 @@ if($session->isce()){
         $justificativa = $_POST['justificativa'];
         $cnpj = $_POST['cnpj'];
 
+        $session->clearErrors();
         $model = $loader->loadModel('FuncionarioModel', 'FuncionarioModel');
         if($model != null){
             if(!$model->verificaPreCadastro($cnpj)){
                 //altera convênio e notifica alunos
-                if($model->alterarConvenio($veredito, $justificativa, $cnpj)){
-                    //remover cadastro da empresa
-                    if($veredito == -1)
-                        $model->removerCadastroEmpresa($cnpj);
-                }else{ 
+                if(!$model->alterarConvenio($veredito, $justificativa, $cnpj, $session->getUsuario())){
                     $session->pushError('Falha de comunicação com o servidor');
                 }
             }else{

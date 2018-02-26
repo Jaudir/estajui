@@ -6,9 +6,9 @@ $session = getSession();
 
 $session->setUsuario(
     new Funcionario(
-        "func@func", 
+        "funcionario0@funcionario.com", 
         "12345", 
-        5, 
+        2, 
         12345, 
         "Joao", 
         true, 

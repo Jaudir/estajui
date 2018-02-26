@@ -9,9 +9,6 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/estajui/scripts/daos/Endereco.php';
  * @author gabriel Lucas
  */
 class Empresa {
-
-
-    private $_id;
     private $_cnpj;
     private $_nome;
     private $_razao_social;
@@ -22,9 +19,8 @@ class Empresa {
     private $_endereco;
     private $_responsavel;
     private $_conveniada;
-    private $_razaosocial;
 
-    public function __construct($_cnpj, $_nome, $_telefone, $_fax, $_nregistro, $_conselhofiscal, $_endereco, $_responsavel, $_conveniada, $_razaosocial) {
+    public function __construct($_cnpj, $_nome, $_razao_social, $_telefone, $_fax, $_nregistro, $_conselhofiscal, $_endereco, $_responsavel, $_conveniada) {
         $this->_cnpj = $_cnpj;
         $this->_nome = $_nome;
         $this->_telefone = $_telefone;
@@ -35,15 +31,6 @@ class Empresa {
         $this->_endereco = $_endereco;
         $this->_responsavel = $_responsavel;
         $this->_conveniada = $_conveniada;
-        $this->_razaosocial = $_razaosocial;
-    }
-
-    public function get_id() {
-        return $this->_id;
-    }
-    
-    public function set_id( $_id) {
-        $this->_id = $_id;
     }
     
     public function get_cnpj() {
@@ -132,14 +119,5 @@ class Empresa {
 
     public function get_conveniada(){
         return $this->_conveniada;
-    }
-
-    public function set_razaosocial($_razaosocial){
-        $this->_razaosocial = $_razaosocial;
-        return $this;
-    }
-
-    public function get_razaosocial(){
-        return $this->_razaosocial;
     }
 }
