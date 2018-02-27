@@ -388,9 +388,9 @@ class FuncionarioModel extends MainModel {
 	// Campos de pesquisa: nome da empresa, nome do responsável, professor orientador ou aluno, entre data de início e de término
 	// Infos a serem retornadas: Nome do Estagiário, Data de Início, Término, PO, empresa
 	// a função recebe o array $palavras_chave
-	public function listarEstagios_oe($palavras_chave){
+	public function listarEstagios_oe($palavras_chave, $oe_siape){
 		try {
-            $pstmt = $this->conn->prepare("SELECT es.id AS estagio_id, aluno.cpf AS aluno_cpf, aluno.nome, pe.data_ini AS pe_data_ini, "
+            $pstmt = $this->conn->prepare("SELECT es.id AS estagio_id, aluno.cpf AS aluno_cpf, aluno.nome AS aluno_nome, pe.data_ini AS pe_data_ini, "
 			."pe.data_fim AS pe_data_fim, po.nome AS po_nome, em.nome AS em_nome FROM plano_estagio AS pe "
 			."JOIN estagio AS es ON es.id = pe.estagio_id "
 			."JOIN funcionario AS po ON po.siape = es.po_siape "
@@ -400,35 +400,39 @@ class FuncionarioModel extends MainModel {
 			."JOIN funcionario AS oe ON oe.siape = ocu.oe_siape "
 			."JOIN responsavel AS resp ON resp.empresa_cnpj = em.cnpj "
 			."JOIN aluno ON aluno.cpf = es.aluno_cpf "
-			."WHERE em.nome LIKE '%?%' AND resp.nome LIKE '%?%' AND aluno.nome LIKE '%?%' AND po.nome LIKE '%?%' AND (p.data_ini >= '?' OR p.data_fim <= '?')");
-            $v = $pstmt->execute($palavras_chave);
+			."WHERE oe.siape = ? AND em.nome LIKE ? AND resp.nome LIKE ? AND aluno.nome LIKE ? AND po.nome LIKE ? AND (pe.data_ini >= ? OR pe.data_fim <= ?)");
+            $termos = array();
+			$termos[] = $oe_siape;
+			foreach ($palavras_chave as $pal){
+				$termos[] = $pal;
+			}
+			$v = $pstmt->execute($termos);
             $res = $pstmt->fetchAll();
-
+			
             if (count($res) == 0)
                 return false;
 			
 			$listaEstagios = array();
-			
+			$this->loader->loadDao('PlanoDeEstagio');
             foreach ($res as $linha) {
-				$this->loader->loadDao('PlanoDeEstagio');
-				
 				$plano_estagio = new PlanoDeEstagio(null,null,null,null,null,null,null,null,null,null,null,null,null,null);
-				$plano_estagio->set_data_inicio($linha['data_ini']);
-				$plano_estagio->set_data_fim($linha['data_fim']);
+				$plano_estagio->set_data_inicio($linha['pe_data_ini']);
+				$plano_estagio->set_data_fim($linha['pe_data_fim']);
 				
 				$empresa = new Empresa(null,null,null,null,null,null,null,null);
-				$empresa->set_nome($linha['nome_em']);
+				$empresa->set_nome($linha['em_nome']);
 				
 				$po = new Funcionario(null,null,null,null,null,null,null,null,null,null,null,null,null);
-				$po->setnome($linha['nome_f']);
+				$po->setnome($linha['po_nome']);
 				
-				$aluno = new Aluno(null, null, null, null, $res['nome_aluno'], null, null, null, null, null, null, null, null, null, null, null, null, null)
+				$aluno = new Aluno(null, null, null, null, $linha['aluno_nome'], null, null, null, null, null, null, null, null, null, null, null, null, null);
+				
 				
 				$estagio = new Estagio(null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null);
 				
 				$estagio->setempresa($empresa);
 				$estagio->setfuncionario($po);
-				
+				$estagio->setaluno($aluno);				
 				$estagio->setpe($plano_estagio);
 				
 				$listaEstagios[] = $estagio;
