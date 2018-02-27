@@ -385,19 +385,23 @@ class FuncionarioModel extends MainModel {
             return 2;
         }
     }
+	// Campos de pesquisa: nome da empresa, nome do responsável, professor orientador ou aluno, entre data de início e de término
+	// Infos a serem retornadas: Nome do Estagiário, Data de Início, Término, PO, empresa
 	// a função recebe o array $palavras_chave
-	public function visualizarEstagios($palavras_chave){
+	public function listarEstagios_oe($palavras_chave){
 		try {
-            $pstmt = $this->conn->prepare("SELECT aluno.nome AS nome_aluno, resp.nome AS nome_resp, p.data_ini, p.data_fim, f.nome AS nome_f, em.nome AS nome_em FROM plano_estagio AS p "
-			."JOIN estagio AS es ON p.estagio_id = es.id "
-			."JOIN aluno ON aluno.cpf = es.aluno_cpf "
-			."JOIN orienta_estagio AS oriest ON es.id = oriest.estagio_id "
-			."JOIN funcionario AS f ON oriest.po_siape = f.siape "
-			."JOIN empresa AS em ON es.empresa_cnpj = em.cnpj "
+            $pstmt = $this->conn->prepare("SELECT es.id AS estagio_id, aluno.cpf AS aluno_cpf, aluno.nome, pe.data_ini AS pe_data_ini, "
+			."pe.data_fim AS pe_data_fim, po.nome AS po_nome, em.nome AS em_nome FROM plano_estagio AS pe "
+			."JOIN estagio AS es ON es.id = pe.estagio_id "
+			."JOIN funcionario AS po ON po.siape = es.po_siape "
+			."JOIN empresa AS em ON em.cnpj = es.empresa_cnpj "
+			."JOIN aluno_estuda_curso AS alescu ON alescu.matricula = es.aluno_estuda_curso_matricula "
+			."JOIN oferece_curso AS ocu ON ocu.id = alescu.oferece_curso_id "
+			."JOIN funcionario AS oe ON oe.siape = ocu.oe_siape "
 			."JOIN responsavel AS resp ON resp.empresa_cnpj = em.cnpj "
-			."JOIN "
-			."WHERE em.nome LIKE '%?%' AND resp.nome LIKE '%?%' AND aluno.nome LIKE '%?%' AND p.data_ini >= '?' OR p.data_fim <= '?'");
-            $v = $pstmt->execute($palavras_chave, $tipo_de_usuario);
+			."JOIN aluno ON aluno.cpf = es.aluno_cpf "
+			."WHERE em.nome LIKE '%?%' AND resp.nome LIKE '%?%' AND aluno.nome LIKE '%?%' AND po.nome LIKE '%?%' AND (p.data_ini >= '?' OR p.data_fim <= '?')");
+            $v = $pstmt->execute($palavras_chave);
             $res = $pstmt->fetchAll();
 
             if (count($res) == 0)
