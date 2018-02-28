@@ -61,15 +61,17 @@ class ResponsavelModel extends MainModel {
             if ($empresa == NULL) {
                 $pstmt = $this->conn->prepare("SELECT * FROM " . $this->_tabela . "");
             } else {
+                $key = $empresa->getcnpj();
                 $pstmt = $this->conn->prepare("SELECT * FROM " . $this->_tabela . " WHERE empresa_cnpj = :empresa_cnpj");
-                $pstmt->bindParam(':empresa_cnpj', $empresa->getcnpj());
+                $pstmt->bindParam(':empresa_cnpj', $key);
             }
         } else {
             if ($empresa == NULL) {
                 $pstmt = $this->conn->prepare("SELECT * FROM " . $this->_tabela . " LIMIT :limite");
             } else {
+                $key = $empresa->getcnpj();
                 $pstmt = $this->conn->prepare("SELECT * FROM " . $this->_tabela . " WHERE empresa_cnpj = :empresa_cnpj LIMIT :limite");
-                $pstmt->bindParam(':empresa_cnpj', $empresa->getcnpj());
+                $pstmt->bindParam(':empresa_cnpj', $key);
             }
             $pstmt->bindParam(':limite', $limite, PDO::PARAM_INT);
         }

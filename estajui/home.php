@@ -111,10 +111,10 @@ require_once $_SERVER['DOCUMENT_ROOT'] . "/estajui/scripts/controllers/HomeContr
 
                     </ul>
                 </div>
-                <!--Secretaria, CE-->
+                <!--Secretaria-->
                 <?php
                 if (is_a($usuario, "Funcionario")) {
-                    if ($usuario->issra() || $usuario->isce()) {
+                    if ($usuario->issra()) {
                         ?>
                         <div class="col-lg-10 status-desc">
                             <?php if ($session->hasError("error-validacao")) { ?>
@@ -207,13 +207,13 @@ require_once $_SERVER['DOCUMENT_ROOT'] . "/estajui/scripts/controllers/HomeContr
                                                         <div class="col-md-6">
                                                             <div class="form-group">
                                                                 <label for="matricula">Matrícula:</label>
-                                                                <input type="text" name="matricula" class="form-control" placeholder="" value="<?php if(!empty($estagio->getmatricula()->getmatricula()))  echo $estagio->getmatricula()->getmatricula(); ?>" required="required">
+                                                                <input type="text" name="matricula" class="form-control" placeholder="" value="<?php if (!empty($estagio->getmatricula()->getmatricula())) echo $estagio->getmatricula()->getmatricula(); ?>" required="required">
                                                             </div>
                                                         </div>
                                                         <div class="col-md-6">
                                                             <div class="form-group">
                                                                 <label for="semestre">Aluno iniciou o curso em (Semestre/Ano):</label>
-                                                                <input type="text" id="semestre" name="semestre" pattern="[1-2]\/(19[0-9][0-9]|2[0-9][0-9][0-9])" value="<?php if(!empty($estagio->getmatricula()->getsemestre_inicio()) && !empty($estagio->getmatricula()->getano_inicio()))  echo $estagio->getmatricula()->getsemestre_inicio()."/".$estagio->getmatricula()->getano_inicio(); ?>" class="form-control" placeholder="s/AAAA"  required="required">
+                                                                <input type="text" id="semestre" name="semestre" pattern="[1-2]\/(19[0-9][0-9]|2[0-9][0-9][0-9])" value="<?php if (!empty($estagio->getmatricula()->getsemestre_inicio()) && !empty($estagio->getmatricula()->getano_inicio())) echo $estagio->getmatricula()->getsemestre_inicio() . "/" . $estagio->getmatricula()->getano_inicio(); ?>" class="form-control" placeholder="s/AAAA"  required="required">
                                                             </div>
                                                         </div>
                                                     </div>
@@ -299,64 +299,66 @@ require_once $_SERVER['DOCUMENT_ROOT'] . "/estajui/scripts/controllers/HomeContr
                                     </div>
                                 </div>
                                 <?php
+                            } elseif ($estagio->getstatus()->getcodigo() == 5) {
+                                ?>
+                                <!-- MODAL autorizar o inicio do estágio -->
+                                <div class="modal fade" id="modal<?php echo $estagio->getid(); ?>" tabindex="-1" role="dialog" aria-labelledby="solicitacaoEstagioTitle" aria-hidden="true">
+                                    <div class="modal-dialog modal-lg" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="solicitacaoEstagioTitle">Autorizar início do estágio</h5>
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <form name="autorizacao-estadio" method="post" action="../scripts/controllers/secretaria/autorizaEstagio.php">
+                                                <div class="modal-body">
+                                                    <div class="row">
+                                                        <div class="col-md-12 dados-aluno">
+                                                            <h6>Nome: </h6> <p><?php echo $estagio->getaluno()->getnome() ?></p><br>
+                                                            <h6>Cpf: </h6> <p><?php echo $estagio->getaluno()->getcpfformatado(); ?></p><br>
+                                                            <h6>Curso: </h6> <p><?php echo $estagio->getmatricula()->getoferta()->getcurso()->getnome(); ?></p>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <div class="row">
+                                                            <div class="col-md-12">
+                                                                <h6>Os documentos para iniciar o
+                                                                    estágio foram corretamente entregues pelo aluno?</h6>
+                                                            </div>
+                                                        </div>
+                                                        <div class="custom-controls-stacked">
+                                                            <label class="custom-control custom-radio" style="margin-top: 10px;">
+                                                                <input id="entregue" name="entregue" value="1" type="radio" class="custom-control-input" required="required">
+                                                                <span class="custom-control-indicator"></span>
+                                                                <span class="custom-control-description">SIM</span>
+                                                            </label>
+                                                            <label class="custom-control custom-radio" style="margin-top: 3px;">
+                                                                <input id="entregue" name="entregue" value="0" type="radio" class="custom-control-input" required="required">
+                                                                <span class="custom-control-indicator"></span>
+                                                                <span class="custom-control-description">NÃO</span>
+                                                            </label>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="col-md-12">
+                                                                <label for="justificativa">Justificativa</label>
+                                                                <textarea name="justificativa" rows="3" class="form-control" required="required"></textarea>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Sair</button>
+                                                    <button type="submit" class="btn btn-primary">Confirmar</button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                                <?php
                             }
                         }
                         ?>
-                        <!-- MODAL autorizar o inicio do estágio -->
-                        <div class="modal fade" id="autorizacaoEstagio" tabindex="-1" role="dialog" aria-labelledby="solicitacaoEstagioTitle" aria-hidden="true">
-                            <div class="modal-dialog modal-lg" role="document">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h5 class="modal-title" id="solicitacaoEstagioTitle">Autorizar início do estágio</h5>
-                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                            <span aria-hidden="true">&times;</span>
-                                        </button>
-                                    </div>
-                                    <div class="modal-body">
-                                        <div class="row">
-                                            <div class="col-md-12 dados-aluno">
-                                                <h6>Nome: </h6> <p>Camila Rocha Lopes</p><br>
-                                                <h6>Cpf: </h6> <p>014.727.846-50</p><br>
-                                                <h6>Curso: </h6> <p>Ciência da Computação</p>
-                                            </div>
-                                        </div>
-                                        <form name="">
-                                            <div class="form-group">
-                                                <div class="row">
-                                                    <div class="col-md-12">
-                                                        <h6>Os documentos para iniciar o
-                                                            estágio foram corretamente entregues pelo aluno?</h6>
-                                                    </div>
-                                                </div>
-                                                <div class="custom-controls-stacked">
-                                                    <label class="custom-control custom-radio" style="margin-top: 10px;">
-                                                        <input id="radioStacked6" name="radio-stacked" type="radio" class="custom-control-input">
-                                                        <span class="custom-control-indicator"></span>
-                                                        <span class="custom-control-description">SIM</span>
-                                                    </label>
-                                                    <label class="custom-control custom-radio" style="margin-top: 3px;">
-                                                        <input id="radioStacked7" name="radio-stacked" type="radio" class="custom-control-input">
-                                                        <span class="custom-control-indicator"></span>
-                                                        <span class="custom-control-description">NÃO</span>
-                                                    </label>
-                                                </div>
-                                                <div class="row">
-                                                    <div class="col-md-12">
-                                                        <label for="justificativa">Justificativa</label>
-                                                        <textarea name="justificativa" rows="3" class="form-control" required>
-                                                        </textarea>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </form>
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Sair</button>
-                                        <button type="button" class="btn btn-primary">Confirmar</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
                         <!-- MODAL registrar a conclusao do estágio -->
                         <div class="modal fade" id="conclusaoEstagio" tabindex="-1" role="dialog" aria-labelledby="solicitacaoEstagioTitle" aria-hidden="true">
                             <div class="modal-dialog modal-lg" role="document">
@@ -440,7 +442,7 @@ require_once $_SERVER['DOCUMENT_ROOT'] . "/estajui/scripts/controllers/HomeContr
                                                     <label>Campus</label>
         <!--                                                    <select class="form-control" value="<?php if (!empty($_SESSION['campus_nome'])) echo htmlspecialchars($_SESSION['campus_nome']);unset($_SESSION['campus_nome']); ?>" required>
                                                     <?php foreach ($campi as $campus): ?>
-                                                                                                                                                                                                <option value="<?php echo $campus->getcnpj(); ?>"><?php echo $campus->endereco()->getcidade(); ?></option>
+                                                                                                                                                                                                                    <option value="<?php echo $campus->getcnpj(); ?>"><?php echo $campus->endereco()->getcidade(); ?></option>
                                                     <?php endforeach; ?> 
                                                     </select>-->
                                                 </div>

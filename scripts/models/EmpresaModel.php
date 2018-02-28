@@ -102,7 +102,9 @@ class EmpresaModel extends MainModel {
             $result = [];
             while ($row = $pstmt->fetch()) {
                 $enderecoModel = $this->loader->loadModel("EnderecoModel", "EnderecoModel");
-                $result[$cont] = new Empresa($row["cnpj"], $row["nome"], $row["razao_social"], $row["telefone"], $row["fax"], $row["nregistro"], $row["conselhofiscal"], $enderecoModel->read($row["endereco_id"], 1)[0], boolval($row["conveniada"]));
+                $responsavelModel = $this->loader->loadModel("ResponsavelModel", "ResponsavelModel");
+                $result[$cont] = new Empresa($row["cnpj"], $row["nome"], $row["telefone"], $row["fax"], $row["nregistro"], $row["conselhofiscal"], $enderecoModel->read($row["endereco_id"], 1)[0], null, boolval($row["conveniada"]), $row["razao_social"]);
+                $result[$cont]->setresponsavel($responsavelModel->readbyempresa($result[$cont], 1)[0]);
                 $cont++;
             }
             return $result;

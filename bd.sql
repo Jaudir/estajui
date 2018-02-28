@@ -426,6 +426,12 @@ VALUES
 (14, 14, 'seguradora13'),
 (15, 15, 'seguradora15');
 
+-- Responsavel
+INSERT INTO responsavel(email, nome, telefone,cargo, empresa_cnpj, aprovado)
+VALUES
+('responsavel1@email.com', 'Responsável1',00000000011 , 'cargo01', 1, 1),
+('responsavel2@email.com', 'Responsável2', 00000000011, 'cargo02', 2, 0);
+
 -- SUPERVISOR
 INSERT INTO supervisor(nome, cargo, habilitacao, empresa_cnpj)
 VALUES
