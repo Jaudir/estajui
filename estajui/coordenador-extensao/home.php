@@ -1,6 +1,6 @@
 <?php
   require_once('../../scripts/controllers/coordenador-extensao/load-home.php');
-  
+
   $errosExibir = $session->getErrors('normal');
 ?>
 <!DOCTYPE html>
@@ -198,6 +198,112 @@
           </div>
         </div>
 
+        <!-- Modal para aprovar o convênio da empresa -->
+        <div class="modal fade" id="aprovarConvenio" tabindex="-1" role="dialog" aria-labelledby="aprovarConvenioTitle" aria-hidden="true">
+          <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="aprovarConvenioTitle">Dados da empresa</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <div class="row">
+                  <div class="col-md-12 dados-aluno" id="empresaDadosInModal">
+                      <!---->
+                  </div>
+                </div>
+                <form name="convenio" id="empresaForm" method="post" action="<?php echo base_url() . '/scripts/controllers/coordenador-extensao/validar-cadastro-empresa.php'?>">
+                  <input type="hidden" id="ecnpj" name="cnpj" value="">
+                  <div class="form-group">
+                    <div class="custom-controls-stacked d-block my-3" style="margin-top: 10px;">
+                      <label class="custom-control custom-radio">
+                        <input id="radioStacked1" name="veredito" value="1" type="radio" class="custom-control-input" required>
+                        <span class="custom-control-indicator"></span>
+                        <span class="custom-control-description">Aprovado</span>
+                      </label>
+                      <label class="custom-control custom-radio" style="margin-left: 20px;">
+                        <input id="radioStacked2" name="veredito" value="0" type="radio" class="custom-control-input" required>
+                        <span class="custom-control-indicator"></span>
+                        <span class="custom-control-description">Reprovado</span>
+                      </label>
+                    </div>
+                    <div class="row">
+                      <div class="col-md-12">
+                        <label for="justificativa">Justificativa</label>
+                        <textarea placeholder="Só será usada em caso de reprovação." name="justificativa" rows="3" class="form-control" required></textarea>
+                      </div>
+                    </div>
+                  </div>
+                </form>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Sair</button>
+                <button type="button" id="enviarFormEmpresa" class="btn btn-primary">Confirmar</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Modal emitir parecer sobre documentos finais do Estágio -->
+        <div class="modal fade" id="aprovarDocumentosFinais" tabindex="-1" role="dialog" aria-labelledby="aprovarDocumentosFinaisTitle" aria-hidden="true">
+          <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="aprovarDocumentosFinaisTitle">Documentos Finais</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <div class="row">
+                  <div class="col-md-12 dados-aluno">
+                    <h6>Nome: </h6> <p>Joaquim da Silva</p><br>
+                    <h6>Matrícula: </h6> <p>XXXXXX</p><br>
+                    <h6>Curso: </h6> <p>Engenharia Química</p> <br>
+                    <h6>Obrigatoriedade: </h6> <p>Obrigatório</p> <br>
+                    <h6>Empresa: </h6> <p>Lorem ipsum</p> <br>
+                    <h6>CNPJ: </h6> <p>1029.02930.19303-00001</p> <br>
+                    <h6>Razão Social: </h6> <p>Dolor sit amet</p> <br>
+                  </div>
+                </div>
+                <form name="">
+                  <div class="form-group">
+                    <div class="row">
+                      <div class="col-md-12">
+                        <h6>Os documentos finais de estágio foram entregues corretamente?</h6>
+                      </div>
+                    </div>
+                    <div class="custom-controls-stacked d-block my-3" style="margin-top: 10px;">
+                      <label class="custom-control custom-radio">
+                        <input id="radioStacked1" name="veredito" value="1" type="radio" class="custom-control-input" required>
+                        <span class="custom-control-indicator"></span>
+                        <span class="custom-control-description">Sim</span>
+                      </label>
+                      <label class="custom-control custom-radio" style="margin-left: 20px;">
+                        <input id="radioStacked2" name="veredito" value="0" type="radio" class="custom-control-input" required>
+                        <span class="custom-control-indicator"></span>
+                        <span class="custom-control-description">Não</span>
+                      </label>
+                    </div>
+                    <div class="row">
+                      <div class="col-md-12">
+                        <label for="justificativa">Justificativa</label>
+                        <textarea placeholder="Só será usada em caso de reprovação." name="justificativa" rows="3" class="form-control" required></textarea>
+                      </div>
+                    </div>
+                  </div>
+                </form>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Sair</button>
+                <button type="button" class="btn btn-primary">Confirmar</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
         <!-- Modal para inserir ápolice de seguro -->
         <div class="modal fade" id="apoliceSeguro" tabindex="-1" role="dialog" aria-labelledby="apoliceSeguroTitle" aria-hidden="true">
           <div class="modal-dialog modal-lg" role="document">
@@ -258,10 +364,10 @@
     <script>
       $(function(){
         <?php
-          if($errosExibir != null):  
+          if($errosExibir != null):
         ?>
           <?php
-            $msg = ''; 
+            $msg = '';
             foreach($errosExibir as $erro){
               $msg = $msg . '\n' . $erro;
             }
