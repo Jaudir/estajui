@@ -4,7 +4,7 @@ require_once(dirname(__FILE__) . '/base-controller.php');
 
 $session = getSession();
 
-var_dump($_POST);
+//var_dump($_POST);
 
 ///Comentar quando não for teste:
 if(1)
@@ -55,6 +55,20 @@ if(1)
 	if($_POST['OE'] == "on")
 	$funcionario->setoe(1);
 	}
+	
+	$funcionario->setprivilegio(0);
+	if(isset($_POST['Privilegio'])) {
+		
+		if($_POST['Privilegio'] == "on")
+			$funcionario->setprivilegio(1);
+	}
+	
+	$funcionario->setformacao("");
+	if(isset($_POST['formacao'])) {
+		
+		$funcionario->setformacao($_POST['formacao']);
+	}
+	
 	$funcionario->setlogin(LimpaString::limpar($_POST['email']));
 	
 	if(isset($_POST['CComp']) && $_POST['CComp'] == "on")
@@ -74,26 +88,25 @@ if(1)
 	
 	if (!filter_var($_POST["email"], FILTER_VALIDATE_EMAIL) || !filter_var($_POST["confirmEmail"], FILTER_VALIDATE_EMAIL)) {
 		$_SESSION['mensagensErro'][$_SESSION['erros']] = "Os e-mails informados não são válidos!;";
-		$_SESSION['erros']++;
+		$_SESSION['erros'] = $_SESSION['erros']+1;
 		
-	} else {
-		if (strcmp($_POST["email"],$_POST["confirmEmail"])!=0) {
-			$_SESSION['mensagensErro'][$_SESSION['erros']] = "Problema com o e-mail! Verifique se o de confirmação é o mesmo e-mail.;";
-			$_SESSION['erros']++;
-			
-	}
+	}  
+	if (strcmp($_POST["email"],$_POST["confirmEmail"])!=0) {
+		$_SESSION['mensagensErro'][$_SESSION['erros']] = "Problema com o e-mail! Verifique se o de confirmação é o mesmo e-mail.;";
+		$_SESSION['erros'] = $_SESSION['erros']+1;
 	}
 
 	if($_SESSION['erros'] != 0) {
-		
+		echo "\n\n\nDEVERIA REDIRECIONAR\n\n\n";
 		redirect(base_url() . '/estajui/coordenador-extensao/usuarios.php');
+		//echo '<meta HTTP-EQUIV="Refresh" CONTENT=0; URL=base_url() . "/estajui/coordenador-extensao/usuarios.php">';
 	}
 	
 	$model = $loader->loadModel('FuncionarioModel', 'FuncionarioModel');
 	if($model != null){
 		if(!$model->cadastrar($funcionario, $cursos)){
 			$_SESSION['mensagensErro'][$_SESSION['erros']] = "Problema ao salvar! Erro no BD ou e-mail já cadastrado!";
-			$_SESSION['erros']++;
+			$_SESSION['erros'] = $_SESSION['erros']+1;
 			
 		}
 	}
@@ -150,6 +163,19 @@ else{
 				$funcionario->setoe(1);
 		}
 		
+		$funcionario->setprivilegio(0);
+		if(isset($_POST['Privilegio'])) {
+			
+			if($_POST['Privilegio'] == "on")
+				$funcionario->setprivilegio(1);
+		}
+		
+		$funcionario->setformacao("");
+		if(isset($_POST['formacao'])) {
+			
+			$funcionario->setformacao($_POST['formacao']);
+		}
+		
 		if(isset($_POST['CComp']) && $_POST['CComp'] == "on")
 			array_push($cursos,"cienciadacomputacao");
 		if(isset($_POST['EQuim']) && $_POST['EQuim'] == "on")
@@ -165,21 +191,28 @@ else{
 		$_SESSION['mensagensErro'] = array();///Vetor que indica a presença de erros;
 		
 		if($_SESSION['erros'] != 0) {
+			echo "\n\n\nDEVERIA REDIRECIONAR\n\n\n";
 			redirect(base_url() . '/estajui/coordenador-extensao/usuarios.php');
+			//echo '<meta HTTP-EQUIV="Refresh" CONTENT=0; URL=base_url() . "/estajui/coordenador-extensao/usuarios.php">';
 		}
 		
 		$lecionaModel = $loader->loadModel('LecionaModel', 'LecionaModel');
 		$ofereceCursoModel = $loader->loadModel('OfereceCursoModel', 'OfereceCursoModel');
 		
 		if($funcionarioModel->updatePermissoes($funcionario) == 2) {
-			
-			$_SESSION['mensagensErro'][$_SESSION['erros']] = "Problema atualizar informações!";
-			$_SESSION['erros']++;
+			$_SESSION['mensagensErro'][$_SESSION['erros']] = "Problema ao atualizar informações!";
+			$_SESSION['erros'] = $_SESSION['erros']+1;
+		}
+		
+		if($_SESSION['erros'] != 0) {
+			echo "\n\n\nDEVERIA REDIRECIONAR\n\n\n";
+			redirect(base_url() . '/estajui/coordenador-extensao/usuarios.php');
+			//echo '<meta HTTP-EQUIV="Refresh" CONTENT=0; URL=base_url() . "/estajui/coordenador-extensao/usuarios.php">';
 		}
 		
 		if ($lecionaModel->deletePorFuncionario($funcionario) != 0) { ///Apagando registros de disciplinas ministradas
-			$_SESSION['mensagensErro'][$_SESSION['erros']] = "Problema atualizar informações!";
-			$_SESSION['erros']++;
+			$_SESSION['mensagensErro'][$_SESSION['erros']] = "Problema ao atualizar informações!";
+			$_SESSION['erros'] = $_SESSION['erros']+1;
 		}
 		
 		foreach($cursos as $curso) {
@@ -187,8 +220,8 @@ else{
 				$oferta = $ofereceCursoModel->read(2, 1)[0];
 				$leciona = new Leciona($funcionario, $oferta);
 				if ($lecionaModel->create($leciona) == 2) {
-					$_SESSION['mensagensErro'][$_SESSION['erros']] = "Problema atualizar informações!";
-					$_SESSION['erros']++;
+					$_SESSION['mensagensErro'][$_SESSION['erros']] = "Problema ao atualizar informações!";
+					$_SESSION['erros'] = $_SESSION['erros']+1;
 				}
 			}
 			
@@ -196,8 +229,8 @@ else{
 				$oferta = $ofereceCursoModel->read(1, 1)[0];
 				$leciona = new Leciona($funcionario, $oferta);
 				if ($lecionaModel->create($leciona) == 2) {
-					$_SESSION['mensagensErro'][$_SESSION['erros']] = "Problema atualizar informações!";
-					$_SESSION['erros']++;
+					$_SESSION['mensagensErro'][$_SESSION['erros']] = "Problema ao atualizar informações!";
+					$_SESSION['erros'] = $_SESSION['erros']+1;
 				}
 			}
 			
@@ -205,8 +238,8 @@ else{
 				$oferta = $ofereceCursoModel->read(3, 1)[0];
 				$leciona = new Leciona($funcionario, $oferta);
 				if ($lecionaModel->create($leciona) == 2) {
-					$_SESSION['mensagensErro'][$_SESSION['erros']] = "Problema atualizar informações!";
-					$_SESSION['erros']++;
+					$_SESSION['mensagensErro'][$_SESSION['erros']] = "Problema ao atualizar informações!";
+					$_SESSION['erros'] = $_SESSION['erros']+1;
 				}
 			}
 			
@@ -215,7 +248,7 @@ else{
 				$leciona = new Leciona($funcionario, $oferta);
 				if ($lecionaModel->create($leciona) == 2) {
 					$_SESSION['mensagensErro'][$_SESSION['erros']] = "Problema atualizar informações!";
-					$_SESSION['erros']++;
+					$_SESSION['erros'] = $_SESSION['erros']+1;
 				}
 			}
 			
@@ -224,15 +257,17 @@ else{
 				$leciona = new Leciona($funcionario, $oferta);
 				if ($lecionaModel->create($leciona) == 2) {
 					$_SESSION['mensagensErro'][$_SESSION['erros']] = "Problema atualizar informações!";
-					$_SESSION['erros']++;
+					$_SESSION['erros'] = $_SESSION['erros']+1;
 				}
 			}
 			
 		}
 	}
 	
+}
+}
+
+
 	$_SESSION['funcionarios'] = null;
 	$_SESSION['leciona'] = null;
 	redirect(base_url() . '/estajui/coordenador-extensao/usuarios.php');
-}
-}

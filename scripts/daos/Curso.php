@@ -12,23 +12,23 @@ class Curso {
     private $_nome;
     
 	public function __construct($id, $nome){
-		$this->$_id = $id;
-		$this->$_nome = $nome;
+		$this->id = $id;
+		$this->nome = $nome;
 	}
 	
 	public function getid(){
-		return $this->$_id;
+		return $this->id;
 	}
 	
 	public function getnome(){
-		return $this->$_nome;
+		return $this->nome;
 	}
 	
 	public function setid($id){
-		$this->$_id = $id;
+		$this->id = $id;
 	}
 	
 	public function setnome($id){
-		$this->_id = $id;
+		$this->id = $id;
 	}
 }
