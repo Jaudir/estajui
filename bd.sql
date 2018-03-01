@@ -272,7 +272,7 @@ create table verificar(
 	codigo varchar(50) unique not null,
 	verificado int not null,
 	data_geracao datetime,
-	tipo int	--Tipo: 0 para confirmação de email, 1 para recuperação
+	tipo int -- Tipo: 0 para confirmação de email, 1 para recuperação
 );
 
 insert into status (descricao) values ("Aguardando parecer da secretaria");
