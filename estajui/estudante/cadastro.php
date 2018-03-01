@@ -33,6 +33,24 @@
           <div class="row form-title">
             <div class="col-md-12">
               <h3>Cadastro</h3>
+              <span class="error">
+                          <?php
+
+            if (!empty($_SESSION['erros_cadastro'])) {
+                echo " Erro ao inserir os dados: Verifique os dados informados e tente novamente!";
+                unset($_SESSION['erros_cadastro']);
+            }
+
+            ?></span>
+            <span class="error">
+                        <?php
+
+if (!empty($_SESSION['erro_bd'])) {
+    echo " Erro de conexão com o banco de dados";
+    unset($_SESSION['erro_bd']);
+}
+
+?></span>
             </div>
           </div>
           <form class="container" id="needs-validation" novalidate method="POST" action="../../scripts/controllers/persiste_cadastro.php">
