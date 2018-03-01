@@ -14,7 +14,8 @@ class SupervisorModel extends MainModel {
             $pstmt->execute(array($supervisor->getnome(), $supervisor->getcargo(), $supervisor->gethabilitação(), $supervisor->getempresa()->getcnpj));
             $id = $this->conn->lastInsertId();
             $this->conn->commit();
-            return $id;
+            $supervisor->setid($id);
+            return 0;
         } catch (PDOExecption $e) {
             $this->conn->rollback();
             #return "Error!: " . $e->getMessage() . "</br>";

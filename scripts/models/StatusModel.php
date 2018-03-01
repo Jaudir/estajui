@@ -54,7 +54,8 @@ class StatusModel extends MainModel {
             $pstmt->execute(array($status->getdescricao(), $status->get_usuarios_alvo()));
             $id = $this->conn->lastInsertId();
             $this->conn->commit();
-            return $id;
+            $status->setcodigo($id);
+            return 0;
         } catch (PDOExecption $e) {
             $this->conn->rollback();
             #return "Error!: " . $e->getMessage() . "</br>";

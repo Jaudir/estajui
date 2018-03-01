@@ -11,10 +11,11 @@ class NotificacaoModel extends MainModel {
         $pstmt = $this->conn->prepare("INSERT INTO " . $this->_tabela . " (lida, temJustificativa, justificativa, modifica_status_id) VALUES(?, ?, ?, ?)");
         try {
             $this->conn->beginTransaction();
-            $pstmt->execute(array((int) $notificacao->getlida(), boolval($notificacao->getjustificativa()), $notificacao->getjustificativa(), $notificacao->getmodificacao_status()->getid()));
+            $pstmt->execute(array((int) $notificacao->getlida(), (int)boolval($notificacao->getjustificativa()), $notificacao->getjustificativa(), $notificacao->getmodificacao_status()->getid()));
             $id = $this->conn->lastInsertId();
             $this->conn->commit();
-            return $id;
+            $notificacao->setid($id);
+            return 0;
         } catch (PDOExecption $e) {
             $this->conn->rollback();
             #return "Error!: " . $e->getMessage() . "</br>";

@@ -207,7 +207,7 @@ require_once $_SERVER['DOCUMENT_ROOT'] . "/estajui/scripts/controllers/HomeContr
                                                         <div class="col-md-6">
                                                             <div class="form-group">
                                                                 <label for="matricula">Matrícula:</label>
-                                                                <input type="text" name="matricula" class="form-control" placeholder="" value="<?php if (!empty($estagio->getmatricula()->getmatricula())) echo $estagio->getmatricula()->getmatricula(); ?>" required="required">
+                                                                <input type="text" name="matricula" pattern="^\d+$" class="form-control" placeholder="" value="<?php if (!empty($estagio->getmatricula()->getmatricula())) echo $estagio->getmatricula()->getmatricula(); ?>" required="required">
                                                             </div>
                                                         </div>
                                                         <div class="col-md-6">
@@ -312,6 +312,7 @@ require_once $_SERVER['DOCUMENT_ROOT'] . "/estajui/scripts/controllers/HomeContr
                                                 </button>
                                             </div>
                                             <form name="autorizacao-estadio" method="post" action="../scripts/controllers/secretaria/autorizaEstagio.php">
+                                                <input type="hidden" name="id" name="id" value="<?php echo $estagio->getid() ?>">
                                                 <div class="modal-body">
                                                     <div class="row">
                                                         <div class="col-md-12 dados-aluno">
@@ -342,7 +343,7 @@ require_once $_SERVER['DOCUMENT_ROOT'] . "/estajui/scripts/controllers/HomeContr
                                                         <div class="row">
                                                             <div class="col-md-12">
                                                                 <label for="justificativa">Justificativa</label>
-                                                                <textarea name="justificativa" rows="3" class="form-control" required="required"></textarea>
+                                                                <textarea name="justificativa" rows="3" class="form-control" ></textarea>
                                                             </div>
                                                         </div>
                                                     </div>

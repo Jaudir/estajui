@@ -14,7 +14,8 @@ class ModificacaoStatusModel extends MainModel {
             $pstmt->execute(array($modificacao->getdata(), $modificacao->getestagio()->getid(), $modificacao->getstatus()->getcodigo(), $modificacao->getusuario()->getlogin()));
             $id = $this->conn->lastInsertId();
             $this->conn->commit();
-            return $id;
+            $modificacao->setid($id);
+            return 0;
         } catch (PDOExecption $e) {
             $this->conn->rollback();
             #return "Error!: " . $e->getMessage() . "</br>";

@@ -114,7 +114,8 @@ class EstagioModel extends MainModel {
             $pstmt->execute(array((int) $estagio->getaprovado(), (int) $estagio->getobrigatorio(), $estagio->getperiodo(), $estagio->getserie(), $estagio->getmodulo(), $estagio->getano(), $estagio->getsemestre(), $estagio->getdependencias(), $estagio->getjustificativa(), $estagio->getendereco_tc(), $estagio->getendereco_pe(), $estagio->getaluno()->getcpf(), $estagio->getempresa()->getcnpj(), $estagio->getmatricula()->getid(), $estagio->getfuncionario()->getsiape(), $estagio->getstatus()->getcodigo()));
             $id = $this->conn->lastInsertId();
             $this->conn->commit();
-            return $id;
+            $estagio->setid($id);
+            return 0;
         } catch (PDOExecption $e) {
             $this->conn->rollback();
             #return "Error!: " . $e->getMessage() . "</br>";

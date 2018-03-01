@@ -38,7 +38,8 @@ class CursoModel extends MainModel {
             $pstmt->execute(array($curso->getnome()));
             $id = $this->conn->lastInsertId();
             $this->conn->commit();
-            return $id;
+            $curso->setid($id);
+            return 0;
         } catch (PDOExecption $e) {
             $this->conn->rollback();
             #return "Error!: " . $e->getMessage() . "</br>";

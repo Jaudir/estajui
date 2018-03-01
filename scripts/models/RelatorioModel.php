@@ -14,7 +14,8 @@ class RelatorioModel extends MainModel {
             $pstmt->execute(array($relatorio->getarquivo(), $relatorio->getdata_envio(), $relatorio->getestagio()->getid()));
             $id = $this->conn->lastInsertId();
             $this->conn->commit();
-            return $id;
+            $relatorio->setid($id);
+            return 0;
         } catch (PDOExecption $e) {
             $this->conn->rollback();
             #return "Error!: " . $e->getMessage() . "</br>";

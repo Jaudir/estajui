@@ -128,10 +128,24 @@ class MatriculaModel extends MainModel {
     }
 
     public function update(Matricula $matricula) {
+        $pstmt = $this->conn->prepare("UPDATE " . $this->_tabela . " SET semestre_inicio=?, ano_inicio=?, oferece_curso_id=?, aluno_cpf=? WHERE matricula = ?");
+        try {
+            $this->conn->beginTransaction();
+            $pstmt->execute(array($matricula->getsemestre_inicio(), $matricula->getano_inicio(), $matricula->getoferta()->getid(), $matricula->getaluno()->getcpf(), $matricula->getmatricula()));
+            $this->conn->commit();
+            return 0;
+        } catch (PDOExecption $e) {
+            $this->conn->rollback();
+            #return "Error!: " . $e->getMessage() . "</br>";
+            return 2;
+        }
+    }
+
+    public function updatematricula(Matricula $matricula, $matricula_anterior) {
         $pstmt = $this->conn->prepare("UPDATE " . $this->_tabela . " SET matricula=?, semestre_inicio=?, ano_inicio=?, oferece_curso_id=?, aluno_cpf=? WHERE matricula = ?");
         try {
             $this->conn->beginTransaction();
-            $pstmt->execute(array($matricula->getmatricula(), $matricula->getsemestre_inicio(), $matricula->getano_inicio(), $matricula->getoferta()->getid(), $matricula->getaluno()->getcpf(), $matricula->getmatricula()));
+            $pstmt->execute(array($matricula->getmatricula(), $matricula->getsemestre_inicio(), $matricula->getano_inicio(), $matricula->getoferta()->getid(), $matricula->getaluno()->getcpf(), $matricula_anterior));
             $this->conn->commit();
             return 0;
         } catch (PDOExecption $e) {

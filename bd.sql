@@ -150,7 +150,9 @@ create table estagio(
 	foreign key(po_siape) references funcionario(siape),
 	foreign key(aluno_cpf ) references aluno(cpf),
 	foreign key(empresa_cnpj) references empresa(cnpj),	
-	foreign key(aluno_estuda_curso_matricula) references aluno_estuda_curso(matricula),
+	foreign key(aluno_estuda_curso_matricula) references aluno_estuda_curso(matricula)
+        ON UPDATE CASCADE
+        ON DELETE CASCADE,
 	foreign key(status_codigo) references status(codigo)
 );
 
@@ -286,9 +288,11 @@ insert into status (descricao) values ("Início de Estágio Autorizado. Aguardan
 insert into status (descricao) values ("Aguardando correção do relatório de estágio");
 insert into status (descricao) values ("Relatório de estágio aprovado. Aguardando que o estudante encaminhe o relatório de estágio para a Coordenadoria de Extensão");
 insert into status (descricao) values ("Relatório Final de Estágio e Declaração de Conclusão do Estágio enviados à Secretaria");
-insert into status (descricao) values ("Estágio concluído");
 insert into status (descricao) values ("Convênio de empresa aprovado");
+insert into status (descricao) values ("Reentregar documentos do estágio na secretaria");
+insert into status (descricao) values ("Estágio concluído");
 insert into status (descricao) values ("Convênio de empresa reprovado");
+insert into status (descricao) values ("Estágio reprovado");
 
 -- Adicionando dados pra testar
 

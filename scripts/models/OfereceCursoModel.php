@@ -14,7 +14,8 @@ class OfereceCursoModel extends MainModel {
             $pstmt->execute(array($ofereceCurso->getturno(), $ofereceCurso->getcurso->getid(), $ofereceCurso->getcampus()->getcnpj(), $ofereceCurso->getfuncionario()->getsiape()));
             $id = $this->conn->lastInsertId();
             $this->conn->commit();
-            return $id;
+            $ofereceCurso->setid($id);
+            return 0;
         } catch (PDOExecption $e) {
             $this->conn->rollback();
             #return "Error!: " . $e->getMessage() . "</br>";

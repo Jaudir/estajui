@@ -14,7 +14,8 @@ class ComentarioPEModel extends MainModel {
             $pstmt->execute(array($comentario->getdata(), $comentario->getdescricao(), $comentario->getcorrecao(), $estagio_id, $comentario->getfuncionario()->getsiape()));
             $id = $this->conn->lastInsertId();
             $this->conn->commit();
-            return $id;
+            $comentario->setid($id);
+            return 0;
         } catch (PDOExecption $e) {
             $this->conn->rollback();
             #return "Error!: " . $e->getMessage() . "</br>";
