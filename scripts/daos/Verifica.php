@@ -8,7 +8,7 @@ class Verifica{
 	private $data_geracao;
     private $tipo;
     
-    public __construct($id, $email, $codigo, $verificado, $data_geracao, $tipo){
+    public function __construct($id, $email, $codigo, $verificado, $data_geracao, $tipo){
         setId($id);
         setEmail($email);
         setCodigo($codigo);

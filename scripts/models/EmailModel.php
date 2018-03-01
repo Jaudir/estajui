@@ -87,10 +87,8 @@ class EmailModel extends MainModel{
             $this->conn->beginTransaction();
             $pstmt = $this->conn->prepare("UPDATE verificar SET verificado  = ? WHERE codigo = ? AND verificado = ? AND email = ?");
             $pstmt->execute(array(1, $code, 0, $email)); // 0 == não verificado
-
-            $pstmt = $this->conn->prepare("UPDATE usuario SET verificado  = ? WHERE codigo = ? AND verificado = ? AND email = ?");
-            
-
+            $pstmt = $this->conn->prepare("UPDATE usuario SET acesso  = ? WERE email = ?");
+            $stmt ->execute(array(1,$email));          
             $this->conn->commit();
             return true;
         } catch (PDOExecption $e) {
