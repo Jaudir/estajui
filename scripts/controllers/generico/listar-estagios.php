@@ -70,7 +70,7 @@ if($session->isoe()){
 			echo "Nenhum resultado.<br/>";
 		}
 }else if($session->isce()){
-		echo "is ce!<br/>";
+		//echo "is ce!<br/>";
         $session->clearErrors();
         // Criar o objeto com as informações da sessão
         $ce = $session->getUsuario('usuario');
@@ -85,6 +85,9 @@ if($session->isoe()){
 		$palavras_chave[3] = "%".$palavras_chave[3]."%";
 		$listaEstagios = $model->listarEstagios_ce($palavras_chave);
 		if (is_array($listaEstagios)){
+			$arraui = array("nome"=>"carls", "Carlos"=>"10");
+			echo json_encode($arraui);
+			/*
 			foreach($listaEstagios as $le){
 				echo "Nome do estagiário: ".$le->getaluno()->getnome()."<br/>";
 				echo "Data de início: ".$le->getpe()->get_data_inicio()."<br/>";
@@ -92,11 +95,12 @@ if($session->isoe()){
 				echo "PO: ".$le->getfuncionario()->getnome()."<br/>";
 				echo "Empresa: ".$le->getempresa()->get_nome()."<br/>";
 			}
+			*/
 		} else {
 			echo "Nenhum resultado.<br/>";
 		}
 }else if($session->isAluno()){
-		echo "is aluno!<br/>";
+		//	echo "is aluno!<br/>";
         $session->clearErrors();
         // Criar o objeto com as informações da sessão
         $aluno = $session->getUsuario('usuario');
@@ -111,13 +115,14 @@ if($session->isoe()){
 		$palavras_chave[3] = "%".$palavras_chave[3]."%";
 		$listaEstagios = $model->listarEstagios($palavras_chave, $aluno->getcpf(), "aluno.cpf");
 		if (is_array($listaEstagios)){
-			foreach($listaEstagios as $le){
+			echo json_encode($listaEstagios);
+			/*foreach($listaEstagios as $le){
 				echo "Nome do estagiário: ".$le->getaluno()->getnome()."<br/>";
 				echo "Data de início: ".$le->getpe()->get_data_inicio()."<br/>";
 				echo "Data de término: ".$le->getpe()->get_data_fim()."<br/>";
 				echo "PO: ".$le->getfuncionario()->getnome()."<br/>";
 				echo "Empresa: ".$le->getempresa()->get_nome()."<br/>";
-			}
+			}*/
 		} else {
 			echo "Nenhum resultado.<br/>";
 		}
