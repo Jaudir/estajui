@@ -7,10 +7,6 @@
 require_once(dirname(__FILE__) . '/../base-controller.php');
 $session = getSession();
 
-$session->setUsuario(
-    new Aluno("aluno@aluno", "12345", 1, 4, "Igu", null, null, null, null, null, null, null, null, null, null, null, null, null)
-	);
-
 if($session->isAluno()){
         $session->clearErrors();
         // Criar o objeto aluno com as informações da sessão
