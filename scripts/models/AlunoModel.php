@@ -14,7 +14,7 @@ class AlunoModel extends MainModel {
             $pstmt = $this->conn->prepare("INSERT INTO " . $this->_tabela . " (cpf, nome, data_nasc, rg_num, rg_orgao, estado_civil, sexo, telefone, celular, nome_pai, nome_mae, cidade_natal, estado_natal, acesso, endereco_id) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,)");
             try {
                 $this->conn->beginTransaction();
-                $pstmt->execute(array($aluno->getcpf(), $aluno->getnome(), $aluno->getdata_nasc(), $aluno->getrg_num(), $aluno->getrg_orgao(), $aluno->getestado_civil(), $aluno->getsexo(), $aluno->gettelefone(), $aluno->getcelular(), $aluno->getnome_pai(), $aluno->getnome_mae(), $aluno->getcidade_natal(), $aluno->getestado_natal(), (int) $aluno->getacesso(), $aluno->getendereco()->getid()));
+                $pstmt->execute(array($aluno->getcpf(), $aluno->getnome(), $aluno->getdatat_nasc(), $aluno->getrg_num(), $aluno->getrg_orgao(), $aluno->getestado_civil(), $aluno->getsexo(), $aluno->gettelefone(), $aluno->getcelular(), $aluno->getnome_pai(), $aluno->getnome_mae(), $aluno->getcidade_natal(), $aluno->getestado_natal(), (int) $aluno->getacesso(), $aluno->getendereco()->getid()));
                 $this->conn->commit();
                 return 0;
             } catch (PDOException $e) {
@@ -103,7 +103,7 @@ class AlunoModel extends MainModel {
         $pstmt = $this->conn->prepare("UPDATE " . $aluno->$_tabela . " SET cpf=?, nome=?, data_nasc=?, rg_num=?, rg_orgao=?, estado_civil=?, sexo=?, telefone=?, celular=?, nome_pai=?, nome_mae=?, cidade_natal=?, estado_natal=?, acesso=?, endereco_id=? WHERE cpf = ?");
         try {
             $this->conn->beginTransaction();
-            $pstmt->execute(array($aluno->getcpf(), $aluno->getnome(), $aluno->getdata_nasc(), $aluno->getrg_num(), $aluno->getrg_orgao(), $aluno->getestado_civil(), $aluno->getsexo(), $aluno->gettelefone(), $aluno->getcelular(), $aluno->getnome_pai(), $aluno->getnome_mae(), $aluno->getcidade_natal(), $aluno->getestado_natal(), (int) $aluno->getacesso(), $aluno->getendereco()->getid(), $aluno->getcpf()));
+            $pstmt->execute(array($aluno->getcpf(), $aluno->getnome(), $aluno->getdatat_nasc(), $aluno->getrg_num(), $aluno->getrg_orgao(), $aluno->getestado_civil(), $aluno->getsexo(), $aluno->gettelefone(), $aluno->getcelular(), $aluno->getnome_pai(), $aluno->getnome_mae(), $aluno->getcidade_natal(), $aluno->getestado_natal(), (int) $aluno->getacesso(), $aluno->getendereco()->getid(), $aluno->getcpf()));
             $this->conn->commit();
             $usuarioModel = $this->loader->loadModel("UsuarioModel", "UsuarioModel");
             return $usuarioModel->update($aluno);
@@ -136,13 +136,12 @@ class AlunoModel extends MainModel {
             $pstmt->execute(array($aluno->getlogin(), Usuario::generateSenha($aluno->getsenha()), $aluno->gettipo()));
 
             $pstmt = $this->conn->prepare("INSERT INTO endereco (logradouro, bairro, numero, complemento, cidade, uf, cep) VALUES(?, ?, ?, ?, ?, ?, ?)");
-            $pstmt->execute(array($aluno->endereco->getlogradouro(), $aluno->endereco->getbairro(), $aluno->endereco->getnumero(), $aluno->endereco->getcomplemento(), $aluno->endereco->getcidade(), $aluno->endereco->getuf(), $aluno->endereco->getcep()));
-
-            $aluno->setendereco_id($this->conn->lastInsertId());
-
+            $pstmt->execute(array($aluno->getendereco()->getlogradouro(), $aluno->getendereco()->getbairro(), $aluno->getendereco()->getnumero(), $aluno->getendereco()->getcomplemento(), $aluno->getendereco()->getcidade(), $aluno->getendereco()->getuf(), $aluno->getendereco()->getcep()));
+            $endereco = $aluno->getendereco();
+            $endereco -> setid($this->conn->lastInsertId());
             $pstmt = $this->conn->prepare(" INSERT INTO aluno (nome, estado_natal, cidade_natal, data_nasc, nome_pai, nome_mae, estado_civil, sexo, rg_num, rg_orgao, cpf, telefone, celular, usuario_email, endereco_id) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
-            $pstmt->execute(array($aluno->getnome(), $aluno->getestado_natal(), $aluno->getcidade_natal(), $aluno->getdata_nasc(), $aluno->getnome_pai(), $aluno->getnome_mae(), $aluno->getestado_civil(), $aluno->getsexo(), $aluno->getrg_num(), $aluno->getrg_orgao(), $aluno->getcpf(), $aluno->gettelefone(), $aluno->getcelular()
-                , $aluno->getlogin(), $aluno->getendereco_id()));
+            $pstmt->execute(array($aluno->getnome(), $aluno->getestado_natal(), $aluno->getcidade_natal(), $aluno->getdatat_nasc(), $aluno->getnome_pai(), $aluno->getnome_mae(), $aluno->getestado_civil(), $aluno->getsexo(), $aluno->getrg_num(), $aluno->getrg_orgao(), $aluno->getcpf(), $aluno->gettelefone(), $aluno->getcelular()
+                , $aluno->getlogin(), $endereco->getid()));
 
             $this->conn->commit();
             return true;
@@ -163,7 +162,7 @@ class AlunoModel extends MainModel {
 
             $res = $res[0];
 
-            $endereco = new Endereco($res['id'], $res['logradouro'], $res['bairro'], $res['numero'], $res['complemento'], $res['cidade'], $res['uf'], $res['cep']);
+            $endereco = new Endereco($res['id'], $res['logradouro'], $res['bairro'], $res['numero'], $res['complemento'], $res['cidade'], $res['uf'], $res['cep'],null);
             $aluno = new Aluno($res['usuario_email'], $res['senha'], $res['tipo'], $res['cpf'], $res['nome'], $res['data_nasc'], $res['rg_num'], $res['rg_orgao'], $res['estado_civil'], $res['sexo'], $res['telefone'], $res['celular'], $res['nome_pai'], $res['nome_mae'], $res['cidade_natal'], $res['estado_natal'], $res['acesso'], $endereco);
 
             return $aluno;
@@ -176,7 +175,7 @@ class AlunoModel extends MainModel {
 
     public function atualizar($aluno) {
         try {
-            $endereco = $aluno->endereco;
+            $endereco = $aluno->getendereco();
 
             $pstmt = $this->conn->prepare("UPDATE usuario SET senha=? WHERE email=?");
             $pstmt->execute(array($aluno->getsenha(), $aluno->getlogin()));
@@ -199,7 +198,7 @@ class AlunoModel extends MainModel {
 
     public function VerificaLoginCadastrado($email) {
         try {
-            $pstmt = $this->conn->prepare("SELECT id from usuario WHERE email LIKE :email");
+            $pstmt = $this->conn->prepare("SELECT email from usuario WHERE email LIKE :email");
             $pstmt->bindParam(':email', $email);
             $pstmt->execute();
             if ($pstmt->fetch() == null) {
@@ -234,15 +233,18 @@ class AlunoModel extends MainModel {
                 return false;
 			
 			$listaEstagios = array();
-			
+            $this->loader->loadDao('PlanoDeEstagio');
+            $this->loader->loadDao('Apolice');
+            $this->loader->loadDao('Status');
+            $this->loader->loadDao('Empresa');
+            $this->loader->loadDao('Supervisor');
             foreach ($res as $linha) {
-				$this->loader->loadDao('PlanoDeEstagio');
 				$funcionario = new Funcionario(null, null, null, null, $linha['f_nome'], null, null, null, null, null, $linha['formacao'], null, null);
 				$apolice = new Apolice($linha['ap_numero'], $linha['seguradora'], null);
 				$status = new Status(null, $linha['descricao']);
-				$endereco = new Endereco(null, $linha['logradouro'], $linha['bairro'], $linha['en_numero'], null, $linha['cidade'], $linha['uf'], $linha['cep']);
-				$empresa = new Empresa($linha['cnpj'], $linha['em_nome'], $linha['telefone'], $linha['fax'], $linha['nregistro'], $linha['conselhofiscal'], $endereco, null);
-				$planoDeEstagio = new PlanoDeEstagio(null, null, $linha['atividades'], null, null, $linha['data_ini'], $linha['data_fim'], $linha['hora_inicio1'], $linha['hora_inicio2'], $linha['hora_fim1'], $linha['hora_fim2'], $linha['total_horas'], null, null);
+				$endereco = new Endereco(null, $linha['logradouro'], $linha['bairro'], $linha['en_numero'], null, $linha['cidade'], $linha['uf'], $linha['cep'], null);
+				$empresa = new Empresa($linha['cnpj'], $linha['em_nome'], $linha['telefone'], $linha['fax'], $linha['nregistro'], $linha['conselhofiscal'], $endereco, null, null, null);
+                $planoDeEstagio = new PlanoDeEstagio(null, null, null, $linha['atividades'], null, null, $linha['data_ini'], $linha['data_fim'], $linha['hora_inicio1'], $linha['hora_inicio2'], $linha['hora_fim1'], $linha['hora_fim2'], $linha['total_horas'], null, null);
 				$supervisor = new Supervisor(null, $linha['sor_nome'], $linha['cargo'], $linha['habilitacao'], null);
 				$estagio = new Estagio(null, $linha['bool_aprovado'], $linha['bool_obrigatorio'], null, null, null, null, null, null, null, null, null, $empresa, null, $funcionario, null, $status, $planoDeEstagio);
 				$estagio->setapolice($apolice);

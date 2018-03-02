@@ -12,8 +12,9 @@ class EnderecoModel extends MainModel {
         try {
             $this->conn->beginTransaction();
             $pstmt->execute(array($endereco->getlogradouro(), $endereco->getbairro(), $endereco->getnumero(), $endereco->getcomplemento(), $endereco->getcidade(), $endereco->getuf(), $endereco->getcep()));
+            $id = $this->conn->lastInsertId();
             $this->conn->commit();
-            $endereco->setid($this->conn->lastInsertId());
+            $endereco->setid($id);
             return 0;
         } catch (PDOExecption $e) {
             $this->conn->rollback();
@@ -44,7 +45,7 @@ class EnderecoModel extends MainModel {
             $cont = 0;
             $result = [];
             while ($row = $pstmt->fetch()) {
-                $result[$cont] = new Endereco($row["id"], $row["logradouro"], $row["bairro"], $row["numero"], $row["complemento"], $row["cidade"], $row["uf"], $row["cep"]);
+                $result[$cont] = new Endereco($row["id"], $row["logradouro"], $row["bairro"], $row["numero"], $row["complemento"], $row["cidade"], $row["uf"], $row["cep"],null);
                 $cont++;
             }
             return $result;

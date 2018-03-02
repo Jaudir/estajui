@@ -1,6 +1,6 @@
 <?php
   require_once('../../scripts/controllers/aluno/acompanhar-estagio.php');
-  //$errosExibir = $session->getErrors('normal');
+  $errosExibir = $session->getErrors('normal');
 ?>
 
 <!DOCTYPE html>
@@ -26,7 +26,7 @@
           <ul class="nav-content navbar-nav">
             <li>
               <span class="navbar-text">
-                <?php /*echo $session->getUsuario()->getnome(); */ echo "Usuário";?>
+                <?php echo $aluno->getnome();?>
               </span>
             </li>
             <li class="nav-item">
@@ -127,7 +127,7 @@
                     <h6>Nº da apólice seguradora: </h6> <p><?php echo $le->getapolice()->get_numero(); ?></p><br>
                     <h6>Nome da seguradora: </h6> <p><?php echo $le->getapolice()->get_seguradora(); ?></p> <br>
 					<h6>Supervisor: </h6> <p><?php echo $le->getsupervisor()->get_nome(); ?></p> <br>
-                    <h6>Habilitação profissional: </h6> <p><?php echo $le->getsupervisor()->get_habilitação(); ?></p> <br>
+                    <h6>Habilitação profissional: </h6> <p><?php echo $le->getsupervisor()->get_habilitacao(); ?></p> <br>
                     <h6>Cargo: </h6> <p><?php echo $le->getsupervisor()->get_cargo(); ?></p> <br>
                     <h6>Professor orientador: </h6> <p><?php echo $le->getfuncionario()->getnome(); ?></p> <br>
                     <h6>Formação profissional: </h6> <p><?php echo $le->getfuncionario()->getformacao(); ?></p> <br>

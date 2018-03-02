@@ -9,9 +9,10 @@ class MainModel {
     protected $loader;
 
     //chamar quando o model é instanciado, return false em caso de falha
-    public function init($DB, Loader $loader) {
+    public function init($DB, $loader) {
         try {
             $this->loader = $loader;
+
             $database = new Database();
 
             $database->setServername($DB['SERVER']);
@@ -32,5 +33,10 @@ class MainModel {
 
     public function getLastError(){
         return $this->conn->errorInfo();
+    }
+
+    public function getLastId(){
+        $stmt = $this->conn->query("SELECT LAST_INSERT_ID()");
+        return $stmt->fetchColumn();
     }
 }
