@@ -357,51 +357,56 @@ require_once $_SERVER['DOCUMENT_ROOT'] . "/estajui/scripts/controllers/HomeContr
                                     </div>
                                 </div>
                                 <?php
-                            }
-                        }
-                        ?>
-                        <!-- MODAL registrar a conclusao do estágio -->
-                        <div class="modal fade" id="conclusaoEstagio" tabindex="-1" role="dialog" aria-labelledby="solicitacaoEstagioTitle" aria-hidden="true">
-                            <div class="modal-dialog modal-lg" role="document">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h5 class="modal-title" id="conclusaoEstagioTitle">Registrar a conclusão do estágio</h5>
-                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                            <span aria-hidden="true">&times;</span>
-                                        </button>
-                                    </div>
-                                    <div class="modal-body">
-                                        <div class="row">
-                                            <div class="col-md-12 dados-aluno">
-                                                <h6>Nome: </h6> <p>Camila Rocha Lopes</p><br>
-                                                <h6>Cpf: </h6> <p>014.727.846-50</p><br>
-                                                <h6>Curso: </h6> <p>Ciência da Computação</p>
+                            } elseif ($estagio->getstatus()->getcodigo() == 9) {
+                                ?>
+                                <!-- MODAL registrar a conclusao do estágio -->
+                                <div class="modal fade" id="modal<?php echo $estagio->getid(); ?>" tabindex="-1" role="dialog" aria-labelledby="solicitacaoEstagioTitle" aria-hidden="true">
+                                    <div class="modal-dialog modal-lg" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="conclusaoEstagioTitle">Registrar a conclusão do estágio</h5>
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
                                             </div>
+                                            <form name="finalizacao-estadio" method="post" action="../scripts/controllers/secretaria/finalizaEstagio.php">
+                                                <input type="hidden" name="id" name="id" value="<?php echo $estagio->getid() ?>">
+                                                <div class="modal-body">
+                                                    <div class="row">
+                                                        <div class="col-md-12 dados-aluno">
+                                                            <h6>Nome: </h6> <p><?php echo $estagio->getaluno()->getnome() ?></p><br>
+                                                            <h6>Cpf: </h6> <p><?php echo $estagio->getaluno()->getcpfformatado(); ?></p><br>
+                                                            <h6>Curso: </h6> <p><?php echo $estagio->getmatricula()->getoferta()->getcurso()->getnome(); ?></p>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <div class="row">
+                                                            <div class="col-md-12">
+                                                                <h6>Documentos finais de estágio devidamente recebidos e estágio concluído.</h6>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="col-md-6">
+                                                                <label for="horas">Horas contabilizadas:</label>
+                                                                <input type="text" name="horas" max="100" class="form-control" placeholder="HH:mm" pattern="^(800|[0-7][0-9][0-9]|[0-9][0-9]|[0-9]):[0-5][0-9]$" required="required">
+                                                                <small id="dataFimHelp" class="form-text text-muted">
+                                                                    Maximo: 800:59.
+                                                                </small>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Sair</button>
+                                                    <button type="submit" class="btn btn-primary">Confirmar</button>
+                                                </div>
+                                            </form>
                                         </div>
-                                        <form name="">
-                                            <div class="form-group">
-                                                <div class="row">
-                                                    <div class="col-md-12">
-                                                        <h6>Documentos finais de estágio devidamente recebidos e estágio concluído.</h6>
-                                                    </div>
-                                                </div>
-                                                <div class="row">
-                                                    <div class="col-md-6">
-                                                        <label for="horas">Horas contabilizadas:</label>
-                                                        <input type="time" name="horas" class="form-control" placeholder="">
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </form>
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Sair</button>
-                                        <button type="button" class="btn btn-primary">Confirmar</button>
                                     </div>
                                 </div>
-                            </div>
-                        </div>
-                        <?php
+                                <?php
+                            }
+                        }
                     }
                 }
                 ?>

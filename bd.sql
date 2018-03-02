@@ -201,7 +201,7 @@ create table plano_estagio(
 	hora_inicio2 timestamp default now(),
 	hora_fim1 timestamp default now(),
 	hora_fim2 timestamp default now(),
-	total_horas timestamp default now(),
+	total_horas TIME,
 	data_efetivacao date,
 	foreign key(estagio_id) references estagio(id)
 );
@@ -288,8 +288,8 @@ insert into status (descricao) values ("Início de Estágio Autorizado. Aguardan
 insert into status (descricao) values ("Aguardando correção do relatório de estágio");
 insert into status (descricao) values ("Relatório de estágio aprovado. Aguardando que o estudante encaminhe o relatório de estágio para a Coordenadoria de Extensão");
 insert into status (descricao) values ("Relatório Final de Estágio e Declaração de Conclusão do Estágio enviados à Secretaria");
-insert into status (descricao) values ("Convênio de empresa aprovado");
 insert into status (descricao) values ("Reentregar documentos do estágio na secretaria");
+insert into status (descricao) values ("Convênio de empresa aprovado");
 insert into status (descricao) values ("Estágio concluído");
 insert into status (descricao) values ("Convênio de empresa reprovado");
 insert into status (descricao) values ("Estágio reprovado");

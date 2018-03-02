@@ -35,7 +35,7 @@ if (isset($_POST["id"])) {
                         $modificacaostatusModel = $loader->loadModel("ModificacaoStatusModel", "ModificacaoStatusModel");
                         $notificacaoModel = $loader->loadModel("NotificacaoModel", "NotificacaoModel");
                         $statusModel = $loader->loadModel("StatusModel", "StatusModel");
-                        $status = $statusModel->read(11, 1);
+                        $status = $statusModel->read(10, 1);
                         if ($status)
                             $estagio->setstatus($status[0]);
                         else

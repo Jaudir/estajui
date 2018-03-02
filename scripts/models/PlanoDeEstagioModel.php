@@ -59,10 +59,10 @@ class PlanoDeEstagioModel extends MainModel {
     }
 
     public function update(PlanoDeEstagio $pe) {
-        $pstmt = $this->conn->prepare("UPDATE " . $this->$_tabela . " SET data_assinatura = ? , atividades = ? , remuneracao = ? , vale_transporte = ? , data_ini = ? , data_fim = ? , hora_inicio1 = ? , hora_inicio2 = ? , hora_fim1 = ? , hora_fim2 = ? , total_horas = ? , data_efetivacao = ? WHERE estagio_id = ?");
+        $pstmt = $this->conn->prepare("UPDATE " . $this->_tabela . " SET data_assinatura = ? , atividades = ? , remuneracao = ? , vale_transporte = ? , data_ini = ? , data_fim = ? , hora_inicio1 = ? , hora_inicio2 = ? , hora_fim1 = ? , hora_fim2 = ? , total_horas = ? , data_efetivacao = ? WHERE estagio_id = ?");
         try {
             $this->conn->beginTransaction();
-            $pstmt->execute(array($pe->getdata_assinatura(), $pe->getatividades(), $pe->getremuneracao(), $pe->getvale_transporte(), $pe->getdata_inicio(), $pe->getdata_fim(), $pe->gethora_inicio1(), $pe->gethora_inicio2(), $pe->gethora_fim1(), $pe->gethora_fim2(), $pe->gettotal_horas(), $pe->getdata_efetivacao(), $pe->getestagio()->getid()));
+            $pstmt->execute(array($pe->getdata_assinatura(), $pe->getatividades(), $pe->getremuneracao(), $pe->getvale_transporte(), date('Y-m-d', strtotime(str_replace('/', '-', $pe->getdata_inicio()))), $pe->getdata_fim(), $pe->gethora_inicio1(), $pe->gethora_inicio2(), $pe->gethora_fim1(), $pe->gethora_fim2(), $pe->gettotal_horas(), $pe->getdata_efetivacao(), $pe->getestagio()->getid()));
             $this->conn->commit();
             return 0;
         } catch (PDOExecption $e) {
@@ -73,7 +73,7 @@ class PlanoDeEstagioModel extends MainModel {
     }
 
     public function delete(PlanoDeEstagio $pe) {
-        $pstmt = $this->conn->prepare("DELETE from " . $this->$_tabela . " WHERE estagio_id = ?");
+        $pstmt = $this->conn->prepare("DELETE from " . $this->_tabela . " WHERE estagio_id = ?");
         try {
             $this->conn->beginTransaction();
             $pstmt->execute(array($pe->getestagio()->getid()));
