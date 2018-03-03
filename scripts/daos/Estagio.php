@@ -1,20 +1,11 @@
 <?php
 
-require_once $_SERVER['DOCUMENT_ROOT'] . '/estajui/scripts/daos/PlanoDeEstagio.php';
-require_once $_SERVER['DOCUMENT_ROOT'] . '/estajui/scripts/daos/Empresa.php';
-require_once $_SERVER['DOCUMENT_ROOT'] . '/estajui/scripts/daos/Aluno.php';
-require_once $_SERVER['DOCUMENT_ROOT'] . '/estajui/scripts/daos/Funcionario.php';
-require_once $_SERVER['DOCUMENT_ROOT'] . '/estajui/scripts/daos/Curso.php';
-require_once $_SERVER['DOCUMENT_ROOT'] . '/estajui/scripts/daos/Status.php';
-require_once $_SERVER['DOCUMENT_ROOT'] . '/estajui/scripts/daos/Apolice.php';
-require_once $_SERVER['DOCUMENT_ROOT'] . '/estajui/scripts/daos/Supervisor.php';
-
 /**
  * Description of Estagio
  *
  * @author gabriel Lucas
  */
-class Estagio {
+class Estagio{
     
     private $_id;
     private $_aprovado;
@@ -58,6 +49,10 @@ class Estagio {
         $this->_pe = $_pe;
     }
     
+
+    public function get_tabela(){
+            return "estagio";
+    }
     public function getid() {
         return $this->_id;
     }

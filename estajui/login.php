@@ -23,6 +23,9 @@ require_once $_SERVER['DOCUMENT_ROOT'] . "/estajui/scripts/controllers/LoginCont
                         <?php if ($session->hasError("login")) { ?>
                             <span class="error"><?php echo $session->getErrors("login")[0];  ?></span>
                         <?php } ?>
+                        <?php if ($session->hasValues("confirmacao")) { ?>
+                            <span class="error"><?php echo $session->getValues("confirmacao")[0];  ?></span>
+                        <?php } ?>
                         <div class="form-group">
                             <label for="email">Email</label>
                             <input type="email" class="form-control" id="email" name="email" aria-describedby="emailHelp" placeholder="Digite seu email">
@@ -41,7 +44,7 @@ require_once $_SERVER['DOCUMENT_ROOT'] . "/estajui/scripts/controllers/LoginCont
                             </button><br>
                         </div>
                         <div style="text-align: right;">
-                            <a href="cadastro.html" >Cadastre-se</a>
+                        <a href="/estajui/estajui/estudante/cadastro.php" >Cadastre-se</a>
                         </div>
                         <div class="bt-logar">
                             <button type="submit" name="btn-logar" class="btn btn-success">Entrar</button>

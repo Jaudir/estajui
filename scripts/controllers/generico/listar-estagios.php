@@ -3,131 +3,260 @@ require_once(dirname(__FILE__) . '/../base-controller.php');
 $session = getSession();
 //Estudante Aluno
 /*$session->setUsuario(
-    new Aluno("aluno@aluno", "12345", 1, 1, "Nome de um aluno 1", null, null, null, null, null, null, null, null, null, null, null, null, null)
+    new Aluno("aluno@aluno", "12345", 1, 2, "Nome de um aluno 2", null, null, null, null, null, null, null, null, null, null, null, null, null)
 	);*/
 //OE
 /*$session->setUsuario(
-	new Funcionario("func@func", "12345", 1, 2, "Professor2", false, true, false, false, null, null, null, null)
+	new Funcionario("func@func", "12345", 1, 1, "Professor1", false, true, false, false, null, null, null, null)
 );*/
 //PO
-/*$session->setUsuario(
+/*
+$session->setUsuario(
 	new Funcionario("func@func", "12345", 1, 1, "Professor1", true, false, false, false, null, null, null, null)
 );*/
 //CE
-$session->setUsuario(
+/*$session->setUsuario(
 	new Funcionario("func@func", "12345", 1, 2, "Professor2", false, false, true, false, null, null, null, null)
-);
+);*/
 if($session->isoe()){
-		echo "is oe!<br/>";
-        $session->clearErrors();
-        // Criar o objeto com as informações da sessão
-        $oe = $session->getUsuario('usuario');
-		$model = $loader->loadModel('FuncionarioModel', 'FuncionarioModel');
-		$oe = $model->read($oe->getsiape(),1)[0];
-		
-		
-		$palavras_chave = array("Google", "Responsavel01", "Nome de um aluno 1", "Professor1", "2010-01-01", "2019-01-01");
-		$palavras_chave[0] = "%".$palavras_chave[0]."%";
-		$palavras_chave[1] = "%".$palavras_chave[1]."%";
-		$palavras_chave[2] = "%".$palavras_chave[2]."%";
-		$palavras_chave[3] = "%".$palavras_chave[3]."%";
-		$listaEstagios = $model->listarEstagios($palavras_chave, $oe->getsiape(), "oe.siape");
-		if (is_array($listaEstagios)){
-			foreach($listaEstagios as $le){
-				echo "Nome do estagiário: ".$le->getaluno()->getnome()."<br/>";
-				echo "Data de início: ".$le->getpe()->get_data_inicio()."<br/>";
-				echo "Data de término: ".$le->getpe()->get_data_fim()."<br/>";
-				echo "PO: ".$le->getfuncionario()->getnome()."<br/>";
-				echo "Empresa: ".$le->getempresa()->get_nome()."<br/>";
-			}
-		} else {
-			echo "Nenhum resultado.<br/>";
-		}
+    $session->clearErrors();
+    // Criar o objeto com as informações da sessão
+    $oe = $session->getUsuario('usuario');
+    $model = $loader->loadModel('FuncionarioModel', 'FuncionarioModel');
+    $oe = $model->read($oe->getsiape(),1)[0];
+
+
+    $palavras_chave = array("curso"=>"","status"=>"", "empresa"=>"", "responsavel"=>"", "aluno"=>"", "po"=>"", "data_ini"=>"", "data_fim"=>"");
+    if (isset($_POST['aluno']) && isset($_POST['status']) && isset($_POST['po']) && isset($_POST['responsavel']) && isset($_POST['empresa']) && isset($_POST['data_ini']) && isset($_POST['data_fim'])){
+
+        $palavras_chave['curso'] = $_POST['curso'];
+        $palavras_chave['status'] = $_POST['status'];
+        $palavras_chave['empresa'] = $_POST['empresa'];
+        $palavras_chave['responsavel'] = $_POST['responsavel'];
+        $palavras_chave['aluno'] = $_POST['aluno'];
+        $palavras_chave['po'] = $_POST['po'];
+        $palavras_chave['data_ini'] = $_POST['data_ini'];
+        $palavras_chave['data_fim'] = $_POST['data_fim'];
+    }
+    $palavras_chave['curso'] = "%" . $palavras_chave['curso'] . "%";
+    $palavras_chave['status'] = "%" . $palavras_chave['status'] . "%";
+    $palavras_chave['empresa'] = "%" . $palavras_chave['empresa'] . "%";
+    $palavras_chave['responsavel'] = "%" . $palavras_chave['responsavel'] . "%";
+    $palavras_chave['aluno'] = "%" . $palavras_chave['aluno'] . "%";
+    $palavras_chave['po'] = "%" . $palavras_chave['po'] . "%";
+
+    $palavras_chave['data_ini'] = strtr($palavras_chave['data_ini'], '/', '-');
+    $palavras_chave['data_fim'] = strtr($palavras_chave['data_fim'], '/', '-');
+    $palavras_chave['data_ini'] = date('Y-m-d', strtotime($palavras_chave['data_ini']));
+    $palavras_chave['data_fim'] = date('Y-m-d', strtotime($palavras_chave['data_fim']));
+    $listaEstagios = $model->listarEstagios($palavras_chave, $oe->getsiape(), "oe.siape");
+    if (is_array($listaEstagios)){
+        $retorno_ajax = array();
+        foreach($listaEstagios as $le){
+            $le->getpe()->set_data_inicio(date('d/m/Y', strtotime($le->getpe()->get_data_inicio())));
+            $le->getpe()->set_data_fim(date('d/m/Y', strtotime($le->getpe()->get_data_fim())));
+            $retorno_ajax[] = array("id"=>$le->getid(),"aluno"=>$le->getaluno()->getnome(), "status"=>$le->getstatus()->get_descricao(), "curso"=>$le->getcurso()->getnome(), "data_ini"=>$le->getpe()->get_data_inicio(), "data_fim"=>$le->getpe()->get_data_fim(), "po"=>$le->getfuncionario()->getnome(), "empresa"=>$le->getempresa()->get_nome());
+
+        }
+        if (isset($_POST['aluno']) && isset($_POST['status']) && isset($_POST['curso']) && isset($_POST['po']) && isset($_POST['responsavel']) && isset($_POST['empresa']) && isset($_POST['data_ini']) && isset($_POST['data_fim'])) {
+            echo json_encode($retorno_ajax);
+            unset($_POST['status']);
+            unset($_POST['curso']);
+            unset($_POST['empresa']);
+            unset($_POST['responsavel']);
+            unset($_POST['aluno']);
+            unset($_POST['po']);
+            unset($_POST['data_ini']);
+            unset($_POST['data_fim']);
+
+         }
+    } else {
+        if (isset($_POST['aluno'])&& isset($_POST['status'])&& isset($_POST['curso']) && isset($_POST['po']) && isset($_POST['responsavel']) && isset($_POST['empresa']) && isset($_POST['data_ini']) && isset($_POST['data_fim'])) {
+            $retorno_ajax = array();
+            $retorno_ajax[] = array("id"=>"null","aluno" => "null", "status" => "null", "curso" => "null", "data_ini" => "null", "data_fim" => "null", "po" => "null", "empresa" => "null");
+            echo json_encode($retorno_ajax);
+        }
+    }
 }else if($session->ispo()){
-		echo "is po!<br/>";
-        $session->clearErrors();
-        // Criar o objeto com as informações da sessão
-        $po = $session->getUsuario('usuario');
-		$model = $loader->loadModel('FuncionarioModel', 'FuncionarioModel');
-		$po = $model->read($po->getsiape(),1)[0];
-		
-		
-		$palavras_chave = array("Google", "Responsavel01", "Nome de um aluno 1", "Professor1", "2010-01-01", "2019-01-01");
-		$palavras_chave[0] = "%".$palavras_chave[0]."%";
-		$palavras_chave[1] = "%".$palavras_chave[1]."%";
-		$palavras_chave[2] = "%".$palavras_chave[2]."%";
-		$palavras_chave[3] = "%".$palavras_chave[3]."%";
-		$listaEstagios = $model->listarEstagios($palavras_chave, $po->getsiape(), "po.siape");
-		if (is_array($listaEstagios)){
-			foreach($listaEstagios as $le){
-				echo "Nome do estagiário: ".$le->getaluno()->getnome()."<br/>";
-				echo "Data de início: ".$le->getpe()->get_data_inicio()."<br/>";
-				echo "Data de término: ".$le->getpe()->get_data_fim()."<br/>";
-				echo "PO: ".$le->getfuncionario()->getnome()."<br/>";
-				echo "Empresa: ".$le->getempresa()->get_nome()."<br/>";
-			}
-		} else {
-			echo "Nenhum resultado.<br/>";
-		}
+
+    $session->clearErrors();
+    // Criar o objeto com as informações da sessão
+    $po = $session->getUsuario('usuario');
+    $model = $loader->loadModel('FuncionarioModel', 'FuncionarioModel');
+    $po = $model->read($po->getsiape(),1)[0];
+
+
+    $palavras_chave = array("curso"=>"","status"=>"", "empresa"=>"", "responsavel"=>"", "aluno"=>"", "po"=>"", "data_ini"=>"", "data_fim"=>"");
+    if (isset($_POST['aluno']) && isset($_POST['status']) && isset($_POST['po']) && isset($_POST['responsavel']) && isset($_POST['empresa']) && isset($_POST['data_ini']) && isset($_POST['data_fim'])){
+
+        $palavras_chave['curso'] = $_POST['curso'];
+        $palavras_chave['status'] = $_POST['status'];
+        $palavras_chave['empresa'] = $_POST['empresa'];
+        $palavras_chave['responsavel'] = $_POST['responsavel'];
+        $palavras_chave['aluno'] = $_POST['aluno'];
+        $palavras_chave['po'] = $_POST['po'];
+        $palavras_chave['data_ini'] = $_POST['data_ini'];
+        $palavras_chave['data_fim'] = $_POST['data_fim'];
+    }
+    $palavras_chave['curso'] = "%" . $palavras_chave['curso'] . "%";
+    $palavras_chave['status'] = "%" . $palavras_chave['status'] . "%";
+    $palavras_chave['empresa'] = "%" . $palavras_chave['empresa'] . "%";
+    $palavras_chave['responsavel'] = "%" . $palavras_chave['responsavel'] . "%";
+    $palavras_chave['aluno'] = "%" . $palavras_chave['aluno'] . "%";
+    $palavras_chave['po'] = "%" . $palavras_chave['po'] . "%";
+
+    $palavras_chave['data_ini'] = strtr($palavras_chave['data_ini'], '/', '-');
+    $palavras_chave['data_fim'] = strtr($palavras_chave['data_fim'], '/', '-');
+    $palavras_chave['data_ini'] = date('Y-m-d', strtotime($palavras_chave['data_ini']));
+    $palavras_chave['data_fim'] = date('Y-m-d', strtotime($palavras_chave['data_fim']));
+
+    $listaEstagios = $model->listarEstagios($palavras_chave, $po->getsiape(), "po.siape");
+    if (is_array($listaEstagios)){
+        $retorno_ajax = array();
+        foreach($listaEstagios as $le){
+            $le->getpe()->set_data_inicio(date('d/m/Y', strtotime($le->getpe()->get_data_inicio())));
+            $le->getpe()->set_data_fim(date('d/m/Y', strtotime($le->getpe()->get_data_fim())));
+            $retorno_ajax[] = array("id"=>$le->getid(),"aluno"=>$le->getaluno()->getnome(), "status"=>$le->getstatus()->get_descricao(), "curso"=>$le->getcurso()->getnome(), "data_ini"=>$le->getpe()->get_data_inicio(), "data_fim"=>$le->getpe()->get_data_fim(), "po"=>$le->getfuncionario()->getnome(), "empresa"=>$le->getempresa()->get_nome());
+
+        }
+        if (isset($_POST['aluno']) && isset($_POST['status']) && isset($_POST['curso']) && isset($_POST['po']) && isset($_POST['responsavel']) && isset($_POST['empresa']) && isset($_POST['data_ini']) && isset($_POST['data_fim'])) {
+            echo json_encode($retorno_ajax);
+            unset($_POST['status']);
+            unset($_POST['curso']);
+            unset($_POST['empresa']);
+            unset($_POST['responsavel']);
+            unset($_POST['aluno']);
+            unset($_POST['po']);
+            unset($_POST['data_ini']);
+            unset($_POST['data_fim']);
+
+        }
+    } else {
+        if (isset($_POST['aluno'])&& isset($_POST['status'])&& isset($_POST['curso']) && isset($_POST['po']) && isset($_POST['responsavel']) && isset($_POST['empresa']) && isset($_POST['data_ini']) && isset($_POST['data_fim'])) {
+            $retorno_ajax = array();
+            $retorno_ajax[] = array("id"=>"null","aluno" => "null", "status" => "null", "curso" => "null", "data_ini" => "null", "data_fim" => "null", "po" => "null", "empresa" => "null");
+            echo json_encode($retorno_ajax);
+        }
+    }
 }else if($session->isce()){
-		//echo "is ce!<br/>";
-        $session->clearErrors();
-        // Criar o objeto com as informações da sessão
-        $ce = $session->getUsuario('usuario');
-		$model = $loader->loadModel('FuncionarioModel', 'FuncionarioModel');
-		$ce = $model->read($ce->getsiape(),1)[0];
-		
-		
-		$palavras_chave = array("Google", "Responsavel01", "Nome de um aluno 1", "Professor1", "2010-01-01", "2019-01-01");
-		$palavras_chave[0] = "%".$palavras_chave[0]."%";
-		$palavras_chave[1] = "%".$palavras_chave[1]."%";
-		$palavras_chave[2] = "%".$palavras_chave[2]."%";
-		$palavras_chave[3] = "%".$palavras_chave[3]."%";
-		$listaEstagios = $model->listarEstagios_ce($palavras_chave);
-		if (is_array($listaEstagios)){
-			$arraui = array("nome"=>"carls", "Carlos"=>"10");
-			echo json_encode($arraui);
-			/*
-			foreach($listaEstagios as $le){
-				echo "Nome do estagiário: ".$le->getaluno()->getnome()."<br/>";
-				echo "Data de início: ".$le->getpe()->get_data_inicio()."<br/>";
-				echo "Data de término: ".$le->getpe()->get_data_fim()."<br/>";
-				echo "PO: ".$le->getfuncionario()->getnome()."<br/>";
-				echo "Empresa: ".$le->getempresa()->get_nome()."<br/>";
-			}
-			*/
-		} else {
-			echo "Nenhum resultado.<br/>";
-		}
+    $session->clearErrors();
+    // Criar o objeto com as informações da sessão
+    $ce = $session->getUsuario('usuario');
+    $model = $loader->loadModel('FuncionarioModel', 'FuncionarioModel');
+    $ce = $model->read($ce->getsiape(),1)[0];
+    $palavras_chave = array("curso"=>"","status"=>"", "empresa"=>"", "responsavel"=>"", "aluno"=>"", "po"=>"", "data_ini"=>"", "data_fim"=>"");
+    if (isset($_POST['aluno']) && isset($_POST['status']) && isset($_POST['po']) && isset($_POST['responsavel']) && isset($_POST['empresa']) && isset($_POST['data_ini']) && isset($_POST['data_fim'])){
+        $palavras_chave['curso'] = $_POST['curso'];
+        $palavras_chave['status'] = $_POST['status'];
+        $palavras_chave['empresa'] = $_POST['empresa'];
+        $palavras_chave['responsavel'] = $_POST['responsavel'];
+        $palavras_chave['aluno'] = $_POST['aluno'];
+        $palavras_chave['po'] = $_POST['po'];
+        $palavras_chave['data_ini'] = $_POST['data_ini'];
+        $palavras_chave['data_fim'] = $_POST['data_fim'];
+    }
+    $palavras_chave['curso'] = "%" . $palavras_chave['curso'] . "%";
+    $palavras_chave['status'] = "%" . $palavras_chave['status'] . "%";
+    $palavras_chave['empresa'] = "%" . $palavras_chave['empresa'] . "%";
+    $palavras_chave['responsavel'] = "%" . $palavras_chave['responsavel'] . "%";
+    $palavras_chave['aluno'] = "%" . $palavras_chave['aluno'] . "%";
+    $palavras_chave['po'] = "%" . $palavras_chave['po'] . "%";
+
+    $palavras_chave['data_ini'] = strtr($palavras_chave['data_ini'], '/', '-');
+    $palavras_chave['data_fim'] = strtr($palavras_chave['data_fim'], '/', '-');
+    $palavras_chave['data_ini'] = date('Y-m-d', strtotime($palavras_chave['data_ini']));
+    $palavras_chave['data_fim'] = date('Y-m-d', strtotime($palavras_chave['data_fim']));
+
+
+    $listaEstagios = $model->listarEstagios_ce($palavras_chave);
+
+    if (is_array($listaEstagios)){
+        $retorno_ajax = array();
+        foreach($listaEstagios as $le){
+            $le->getpe()->set_data_inicio(date('d/m/Y', strtotime($le->getpe()->get_data_inicio())));
+            $le->getpe()->set_data_fim(date('d/m/Y', strtotime($le->getpe()->get_data_fim())));
+            $retorno_ajax[] = array("id"=>$le->getid(),"aluno"=>$le->getaluno()->getnome(), "status"=>$le->getstatus()->get_descricao(), "curso"=>$le->getcurso()->getnome(), "data_ini"=>$le->getpe()->get_data_inicio(), "data_fim"=>$le->getpe()->get_data_fim(), "po"=>$le->getfuncionario()->getnome(), "empresa"=>$le->getempresa()->get_nome());
+
+        }
+        if (isset($_POST['aluno']) && isset($_POST['status']) && isset($_POST['curso']) && isset($_POST['po']) && isset($_POST['responsavel']) && isset($_POST['empresa']) && isset($_POST['data_ini']) && isset($_POST['data_fim'])) {
+            echo json_encode($retorno_ajax);
+            unset($_POST['status']);
+            unset($_POST['curso']);
+            unset($_POST['empresa']);
+            unset($_POST['responsavel']);
+            unset($_POST['aluno']);
+            unset($_POST['po']);
+            unset($_POST['data_ini']);
+            unset($_POST['data_fim']);
+
+        }
+    } else {
+        if (isset($_POST['aluno'])&& isset($_POST['status'])&& isset($_POST['curso']) && isset($_POST['po']) && isset($_POST['responsavel']) && isset($_POST['empresa']) && isset($_POST['data_ini']) && isset($_POST['data_fim'])) {
+            $retorno_ajax = array();
+            $retorno_ajax[] = array("id"=>"null","aluno" => "null", "status" => "null", "curso" => "null", "data_ini" => "null", "data_fim" => "null", "po" => "null", "empresa" => "null");
+            echo json_encode($retorno_ajax);
+        }
+    }
 }else if($session->isAluno()){
-		//	echo "is aluno!<br/>";
-        $session->clearErrors();
-        // Criar o objeto com as informações da sessão
-        $aluno = $session->getUsuario('usuario');
-		$model = $loader->loadModel('AlunoModel', 'AlunoModel');
-		$aluno = $model->read($aluno->getcpf(),1)[0];
-		
-		
-		$palavras_chave = array("Google", "Responsavel01", "Nome de um aluno 1", "Professor1", "2010-01-01", "2019-01-01");
-		$palavras_chave[0] = "%".$palavras_chave[0]."%";
-		$palavras_chave[1] = "%".$palavras_chave[1]."%";
-		$palavras_chave[2] = "%".$palavras_chave[2]."%";
-		$palavras_chave[3] = "%".$palavras_chave[3]."%";
-		$listaEstagios = $model->listarEstagios($palavras_chave, $aluno->getcpf(), "aluno.cpf");
-		if (is_array($listaEstagios)){
-			echo json_encode($listaEstagios);
-			/*foreach($listaEstagios as $le){
-				echo "Nome do estagiário: ".$le->getaluno()->getnome()."<br/>";
-				echo "Data de início: ".$le->getpe()->get_data_inicio()."<br/>";
-				echo "Data de término: ".$le->getpe()->get_data_fim()."<br/>";
-				echo "PO: ".$le->getfuncionario()->getnome()."<br/>";
-				echo "Empresa: ".$le->getempresa()->get_nome()."<br/>";
-			}*/
-		} else {
-			echo "Nenhum resultado.<br/>";
-		}
+    $session->clearErrors();
+    // Criar o objeto com as informações da sessão
+    $aluno = $session->getUsuario('usuario');
+    $model = $loader->loadModel('AlunoModel', 'AlunoModel');
+    $aluno = $model->read($aluno->getcpf(),1)[0];
+
+
+    $palavras_chave = array("curso"=>"","status"=>"", "empresa"=>"", "responsavel"=>"", "aluno"=>"", "po"=>"", "data_ini"=>"", "data_fim"=>"");
+    if (isset($_POST['aluno']) && isset($_POST['status']) && isset($_POST['po']) && isset($_POST['responsavel']) && isset($_POST['empresa']) && isset($_POST['data_ini']) && isset($_POST['data_fim'])){
+        $palavras_chave['curso'] = $_POST['curso'];
+        $palavras_chave['status'] = $_POST['status'];
+        $palavras_chave['empresa'] = $_POST['empresa'];
+        $palavras_chave['responsavel'] = $_POST['responsavel'];
+        $palavras_chave['aluno'] = $_POST['aluno'];
+        $palavras_chave['po'] = $_POST['po'];
+        $palavras_chave['data_ini'] = $_POST['data_ini'];
+        $palavras_chave['data_fim'] = $_POST['data_fim'];
+    }
+    $palavras_chave['curso'] = "%" . $palavras_chave['curso'] . "%";
+    $palavras_chave['status'] = "%" . $palavras_chave['status'] . "%";
+    $palavras_chave['empresa'] = "%" . $palavras_chave['empresa'] . "%";
+    $palavras_chave['responsavel'] = "%" . $palavras_chave['responsavel'] . "%";
+    $palavras_chave['aluno'] = "%" . $palavras_chave['aluno'] . "%";
+    $palavras_chave['po'] = "%" . $palavras_chave['po'] . "%";
+
+    $palavras_chave['data_ini'] = strtr($palavras_chave['data_ini'], '/', '-');
+    $palavras_chave['data_fim'] = strtr($palavras_chave['data_fim'], '/', '-');
+    $palavras_chave['data_ini'] = date('Y-m-d', strtotime($palavras_chave['data_ini']));
+    $palavras_chave['data_fim'] = date('Y-m-d', strtotime($palavras_chave['data_fim']));
+    $listaEstagios = $model->listarEstagios($palavras_chave, $aluno->getcpf(), "aluno.cpf");
+    if (is_array($listaEstagios)){
+        $retorno_ajax = array();
+        foreach($listaEstagios as $le){
+            $le->getpe()->set_data_inicio(date('d/m/Y', strtotime($le->getpe()->get_data_inicio())));
+            $le->getpe()->set_data_fim(date('d/m/Y', strtotime($le->getpe()->get_data_fim())));
+            $retorno_ajax[] = array("id"=>$le->getid(),"aluno"=>$le->getaluno()->getnome(), "status"=>$le->getstatus()->get_descricao(), "curso"=>$le->getcurso()->getnome(), "data_ini"=>$le->getpe()->get_data_inicio(), "data_fim"=>$le->getpe()->get_data_fim(), "po"=>$le->getfuncionario()->getnome(), "empresa"=>$le->getempresa()->get_nome());
+
+        }
+        if (isset($_POST['aluno']) && isset($_POST['status']) && isset($_POST['curso']) && isset($_POST['po']) && isset($_POST['responsavel']) && isset($_POST['empresa']) && isset($_POST['data_ini']) && isset($_POST['data_fim'])) {
+            echo json_encode($retorno_ajax);
+            unset($_POST['status']);
+            unset($_POST['curso']);
+            unset($_POST['empresa']);
+            unset($_POST['responsavel']);
+            unset($_POST['aluno']);
+            unset($_POST['po']);
+            unset($_POST['data_ini']);
+            unset($_POST['data_fim']);
+
+        }
+    } else {
+        if (isset($_POST['aluno'])&& isset($_POST['status'])&& isset($_POST['curso']) && isset($_POST['po']) && isset($_POST['responsavel']) && isset($_POST['empresa']) && isset($_POST['data_ini']) && isset($_POST['data_fim'])) {
+            $retorno_ajax = array();
+            $retorno_ajax[] = array("id"=>"null","aluno" => "null", "status" => "null", "curso" => "null", "data_ini" => "null", "data_fim" => "null", "po" => "null", "empresa" => "null");
+            echo json_encode($retorno_ajax);
+        }
+    }
 }else{
-	$session->pushError("Tipo de usuário incorreto!");
-	//echo "Tipo de usuário incorreto!";
-	redirect(base_url() . '/estajui/login/cadastro.php');
+    $session->pushError("Tipo de usuário incorreto!");
+
+    redirect(base_url() . '/estajui/login/cadastro.php');
 }

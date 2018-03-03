@@ -23,31 +23,53 @@ class UsuarioModel extends MainModel {
                 $pstmt = $this->conn->prepare("SELECT * FROM " . $this->_tabela . "");
             } else {
                 $pstmt = $this->conn->prepare("SELECT * FROM " . $this->_tabela . " WHERE email LIKE :email");
-                $pstmt->bindParam(':email', $email);
+				$emailAux = "%".$email."%";
+                $pstmt->bindParam(':email', $emailAux);
             }
         } else {
             if ($email == null) {
                 $pstmt = $this->conn->prepare("SELECT * FROM " . $this->_tabela . " LIMIT :limite");
             } else {
                 $pstmt = $this->conn->prepare("SELECT * FROM " . $this->_tabela . " WHERE email LIKE :email LIMIT :limite");
-                $pstmt->bindParam(':email', $email);
+				$emailAux = "%".$email."%";
+                $pstmt->bindParam(':email',  $emailAux);
             }
             $pstmt->bindParam(':limite', $limite, PDO::PARAM_INT);
         }
         try {
             $pstmt->execute();
             $cont = 0;
-            $result = [];
+            //$result = [];
+			$result = array();
             while ($row = $pstmt->fetch()) {
-                $result[$cont] = new Usuario($row["email"], $row["senha"], $row["tipo"]);
+				$u = new Usuario($row["email"], $row["senha"], $row["tipo"]);
+				array_push($result, $u);
+                //$result[$cont] = new Usuario($row["email"], $row["senha"], $row["tipo"]);
+				
                 $cont++;
             }
+			
             return $result;
         } catch (PDOExecption $e) {
             #return "Error!: " . $e->getMessage() . "</br>";
             return false;
         }
     }
+	
+	public function updateSenha(Usuario $user) {
+        $pstmt = $this->conn->prepare("UPDATE " . $this->_tabela . " SET senha=? where email = ?");
+        try {
+            $this->conn->beginTransaction();
+            $pstmt->execute(array($user->getsenha(), $user->getlogin()));
+            $this->conn->commit();
+            return 0;
+        } catch (PDOExecption $e) {
+            $this->conn->rollback();
+            #return "Error!: " . $e->getMessage() . "</br>";
+            return 2;
+        }
+    }
+	
     public function update(Usuario $user) {
         $pstmt = $this->conn->prepare("UPDATE " . $this->_tabela . " SET email=?, senha=?, tipo=? where email = ?");
         try {
@@ -99,6 +121,7 @@ class UsuarioModel extends MainModel {
                         if ($user[0]->gettipo() == 1) {
                             return $alunoModel->readbyusuario($user[0], 1)[0];
                         } elseif ($user[0]->gettipo() == 2) {
+                            var_dump($funcionarioModel->readbyusuario($user[0], 1));
                             return $funcionarioModel->readbyusuario($user[0], 1)[0];
                         } else {
                             return false;
@@ -119,6 +142,7 @@ class UsuarioModel extends MainModel {
     public function VerificaLoginCadastrado($email) {
         try {
             $pstmt = $this->conn->prepare("SELECT id from " . $this->_tabela . " WHERE email LIKE :email");
+            $pstmt = $this->conn->prepare("SELECT email from " . $this->_tabela . " WHERE email LIKE :email");
             $pstmt->bindParam(':email', $email);
             $pstmt->execute();
             if ($pstmt->fetch() == null) {

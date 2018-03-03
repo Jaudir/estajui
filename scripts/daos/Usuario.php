@@ -102,6 +102,31 @@ class Usuario {
         return $this;
     }
 
+    public function setlogin_confirmacao($login) {
+        $this->_login = $login;
+        return $this;
+    }
+
+
+    public function getlogin_confirmacao() {
+        return $this->_login;
+         
+    }
+
+
+
+
+    public function setsenha_confirmacao($senha) {
+        $this->_senha = $senha;
+        return $this;
+    }
+
+
+    public function getsenha_confirmacao() {
+        return $this->_senha;
+         
+    }
+
     /**
      * Setter de senha
      *

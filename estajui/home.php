@@ -1,5 +1,6 @@
 <?php
 require_once $_SERVER['DOCUMENT_ROOT'] . "/estajui/scripts/controllers/HomeController.php";
+redirect("secretaria/home.html#solicitacaoEstagio");
 ?>
 <!DOCTYPE html>
 <html>
@@ -44,21 +45,71 @@ require_once $_SERVER['DOCUMENT_ROOT'] . "/estajui/scripts/controllers/HomeContr
             <div class="row fullscreen">
                 <div class="col-lg-2 left-menu">
                     <ul class="nav flex-column">
+
+                        <!--Comum a todos-->
                         <li class="nav-item">
                             <a class="nav-link active" href="#">Home</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="#">Meus dados</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">Histórico de estágios</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">Orientações gerais</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">+ Novo estágio</a>
-                        </li>
+
+                        <!--Estudante-->
+                        <?php
+                        if (is_a($usuario, "Aluno")) {
+                            ?>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">Histórico de estágios</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">Orientações gerais</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">+ Novo estágio</a>
+                            </li>
+                            <?php
+                        }
+                        ?>
+
+
+
+                        <!--ROOT, CE-->
+                        <?php
+                        if (is_a($usuario, "Funcionario")) {
+                            if ($usuario->isroot() || $usuario->isce()) {
+                                ?>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="#">Usuários</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="#">Empresas</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="#">Professores</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="#">Cursos</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="#">Campi</a>
+                                </li>
+                                <?php
+                            }
+                        }
+                        ?>
+
+
+                        <!--PO, SRA, ROOT, CE, OE-->
+                        <?php
+                        if (!is_a($usuario, "Aluno")) {
+                            ?>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">Relatórios</a>
+                            </li>
+                            <?php
+                        }
+                        ?>
+
                     </ul>
                 </div>
                 <div class="col-lg-10 align-self-center center">

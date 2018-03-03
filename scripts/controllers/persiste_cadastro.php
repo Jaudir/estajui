@@ -1,6 +1,6 @@
 <?php
 
-require_once(dirname(__FILE__) . '/../base-controller.php');
+require_once('base-controller.php');
 
 if (isset($_POST['cadastrar'])) {
     //carregar arquivo da pasta util e model para cadastrar o aluno
@@ -10,13 +10,13 @@ if (isset($_POST['cadastrar'])) {
 
     $session = getSession();
 
-    $endereco = new Endereco(null, LimpaString::limpar($_POST['logradouro']), LimpaString::limpar($_POST['bairro']), LimpaString::limpar($_POST['numero']), LimpaString::limpar($_POST['complemento']), LimpaString::limpar($_POST['cidade']), LimpaString::limpar($_POST['uf']), filter_var($_POST['cep'], FILTER_SANITIZE_NUMBER_INT));
+    $endereco = new Endereco(null, LimpaString::limpar($_POST['logradouro']), LimpaString::limpar($_POST['bairro']), LimpaString::limpar($_POST['numero']), LimpaString::limpar($_POST['complemento']), LimpaString::limpar($_POST['cidade']), LimpaString::limpar($_POST['uf']), filter_var($_POST['cep'], FILTER_SANITIZE_NUMBER_INT),null);
 
     $aluno = new Aluno(null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, $endereco);
 
     $aluno->setcpf(filter_var($_POST['cpf'], FILTER_SANITIZE_NUMBER_INT));
     $aluno->setnome(LimpaString::limpar($_POST['nome']));
-    $aluno->setdata_nasc(date('Y-m-d', strtotime(str_replace('-', '/', $_POST['data_nasc']))));
+    $aluno->setdatat_nasc(date('Y-m-d', strtotime(str_replace('-', '/', $_POST['data_nasc']))));
     $aluno->setrg_num(LimpaString::limpar($_POST['rg']));
     $aluno->setrg_orgao(LimpaString::limpar($_POST['orgao_exp']));
     $aluno->setestado_civil((LimpaString::limpar($_POST['estado_civil'])));
@@ -76,29 +76,23 @@ if (isset($_POST['cadastrar'])) {
     }
 
 
-<<<<<<< HEAD
-    if ($model != null && $erros == 0) {
-        if ($model->create($aluno)) {
-            $email = Email::sendEmailAluno($aluno->getlogin());
-            $modelEmail = loadModel('EmailModel', 'EmailModel');
-=======
+  
     if ($model != null  && $erros == 0) {
         if ($model->cadastrar($aluno)) {
             $email = new Email();
-            $email->criarEmailAluno('wadson.ayres@gmail.com');
+            $email->criarEmailAluno("cabronzputo@gmail.com","Estajui",$aluno->getlogin(),$aluno->getnome());
             $email->enviarEmail();
-            $modelEmail = loadModel('email-model', 'EmailModel');
->>>>>>> master
+            $modelEmail =$loader->loadModel('EmailModel', 'EmailModel');
             $modelEmail->emitirCodigoConfirmacao($aluno, $email);
-            redirect(base_url() . '/estajui/login/login.php');
+            redirect(base_url() . '/estajui/login.php');
         } else {
             $_SESSION['erros_cadastro'] = true;
-            redirect(base_url() . '/estajui/login/cadastro.php');
+            redirect(base_url() . '/estajui/estudante/cadastro.php');
         }
     } else {
         $_SESSION['erro_bd'] = true;
-        redirect(base_url() . '/estajui/login/cadastro.php');
+        redirect(base_url() . '/estajui/estudante/cadastro.php');
     }
 } else {
-    redirect(base_url() . '/estajui/login/cadastro.php');
+    redirect(base_url() . '/estajui/estudante/cadastro.php');
 }
