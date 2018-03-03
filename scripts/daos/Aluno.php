@@ -30,7 +30,7 @@ class Aluno extends Usuario {
         parent::__construct($login, $senha, $tipo);
         $this->_cpf = $_cpf;
         $this->_nome = $_nome;
-        $this->_data_nasc = $_data_nasc;
+        $this->setdata_nasc($_data_nasc);
         $this->_rg_num = $_rg_num;
         $this->_rg_orgao = $_rg_orgao;
         $this->_estado_civil = $_estado_civil;
@@ -107,6 +107,10 @@ class Aluno extends Usuario {
 
     public function getrg_num() {
         return $this->_rg_num;
+    }
+
+    public function getrg_numformatado() {
+        return substr($this->_rg_num, 0, 2) . "." . substr($this->_rg_num, 2, 3) . "." . substr($this->_rg_num, 5, 3) . "-" . substr($this->_rg_num, 8, 1);
     }
 
     public function getrg_orgao() {
@@ -235,6 +239,15 @@ class Aluno extends Usuario {
     public function setendereco($_endereco) {
         $this->_endereco = $_endereco;
         return $this;
+    }
+
+    function getdata_nasc() {
+        return $this->_data_nasc;
+    }
+
+    function setdata_nasc($_data_nasc) {
+        $date = new DateTime($_data_nasc);
+        $this->_data_nasc = $date->format('d/m/Y');
     }
 
 }

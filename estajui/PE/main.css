@@ -20,7 +20,7 @@
 .ls2{letter-spacing:0.096000px;}
 .ls6{letter-spacing:0.144000px;}
 .sc_{text-shadow:none;}
-.underline{text-decoration: underline; color: #000; font-weight: 800; font-family: Consolas, monaco, monospace; font-size:85px;}
+.underline{text-decoration: underline; color: #000; font-weight: 800; font-family: Consolas, monaco, monospace; font-size:61px;}
 .sc0{text-shadow:-0.015em 0 transparent,0 0.015em transparent,0.015em 0 transparent,0 -0.015em  transparent;}
 @media screen and (-webkit-min-device-pixel-ratio:0){
     .sc_{-webkit-text-stroke:0px transparent;}

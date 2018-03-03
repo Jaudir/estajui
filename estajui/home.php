@@ -682,8 +682,8 @@ require_once $_SERVER['DOCUMENT_ROOT'] . "/estajui/scripts/controllers/HomeContr
                                                         <div class="modal-body">
                                                             <div class="row">
                                                                 <div class="col-md-12 dados-aluno">
-                                                                    <a href="./pe/pe.php?estagio_id=<?php echo $estagio->getid(); ?>" class="btn btn-primary"><span class="glyphicon glyphicon-print"></span>Plano de Estagio</a>
-                                                                    <a href="" class="btn btn-primary"><span class="glyphicon glyphicon-print"></span>Termo de Compromisso</a>
+                                                                    <a target="_blank" href="./pe/pe.php?estagio_id=<?php echo $estagio->getid(); ?>" class="btn btn-primary"><span class="glyphicon glyphicon-print"></span>Plano de Estagio</a>
+                                                                    <a target="_blank" href="./tc/tc.php?estagio_id=<?php echo $estagio->getid(); ?>" class="btn btn-primary"><span class="glyphicon glyphicon-print"></span>Termo de Compromisso</a>
                                                                     <br>
                                                                     <br>
                                                                     <h6>Status: </h6> <p><?php echo $estagio->getstatus()->getdescricao(); ?></p><br>
