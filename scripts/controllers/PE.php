@@ -3,14 +3,27 @@
 require_once $_SERVER['DOCUMENT_ROOT'] . "/estajui/scripts/controllers/base-controller.php";
 $session = getSession();
 if (!$session->isLogged()) {
-    redirect("login.php");
+    redirect("./../login.php");
 }
 
 
 if (isset($_GET["estagio_id"])) {
     $estagioModel = $loader->loadModel("EstagioModel", "EstagioModel");
-    $estagio = $estagioModel->read($_GET["estagio_id"], 1)[0];
+    $estagio = $estagioModel->read($_GET["estagio_id"], 1);
+    $usuario = $session->getUsuario;
+    if (is_a($usuario, "Aluno")){
+        if($usuario->getcpf() != $estagio->getaluno()->getcpf()) {
+        $session->pushError("Erro ao carregar plano de estágio!", "error-critico");
+        redirect("./../home.php");
+        }
+    }
+    if (count($estagio) != 0) {
+        $estagio = $estagio[0];
+    } else {
+        $session->pushError("Erro ao carregar plano de estágio !", "error-critico");
+        redirect("./../home.php");
+    }
 } else {
-    $session->pushError("Erro ao carregar plano de estágio!", "error-validacao");
-    redirect("home.php");
+    $session->pushError("Erro ao carregar plano de estágio!", "error-critico");
+    redirect("./../home.php");
 }

@@ -273,12 +273,19 @@ require_once $_SERVER['DOCUMENT_ROOT'] . "/estajui/scripts/controllers/HomeContr
                                                         </div>
                                                         <div class="custom-controls-stacked">
                                                             <label class="custom-control custom-radio" style="margin-top: 10px;">
-                                                                <input id="aptidao1" name="aptidao" value="1" type="radio" class="custom-control-input" required="required">
+                                                                <input id="aptidao1" name="aptidao" value="1" onchange='if ($(this).is(":checked")) {
+                                                                    $("#justificativa").attr("disabled", "disabled");
+                                                                    $("#justificativa").removeAttr("required");
+                                                                    }' type="radio" class="custom-control-input" required="required">
                                                                 <span class="custom-control-indicator"></span>
                                                                 <span class="custom-control-description">SIM</span>
                                                             </label>
                                                             <label class="custom-control custom-radio" style="margin-top: 3px;">
-                                                                <input id="aptidao2" name="aptidao" value="0" type="radio" class="custom-control-input" required="required">
+                                                                <input id="aptidao2"  onchange='if ($(this).is(":checked")) {
+                                                                    $("#justificativa").removeAttr("disabled");
+                                                                    $("#justificativa").attr("required", "required");
+                                                                    $("#justificativa").focus();
+                                                                    }' name="aptidao" value="0" type="radio" class="custom-control-input" required="required">
                                                                 <span class="custom-control-indicator"></span>
                                                                 <span class="custom-control-description">NÃO</span>
                                                             </label>
@@ -286,7 +293,7 @@ require_once $_SERVER['DOCUMENT_ROOT'] . "/estajui/scripts/controllers/HomeContr
                                                         <div class="row">
                                                             <div class="col-md-12">
                                                                 <label for="justificativa">Justificativa</label>
-                                                                <textarea name="justificativa" rows="3" class="form-control" required></textarea>
+                                                                <textarea name="justificativa" id="justificativa" rows="3" class="form-control" disabled="disabled"></textarea>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -745,12 +752,12 @@ require_once $_SERVER['DOCUMENT_ROOT'] . "/estajui/scripts/controllers/HomeContr
         if (is_a($usuario, "Aluno")) {
             ?>
             <script>
-                var options = {
+                                                        var options = {
     <?php
     foreach ($campi as $campus):
         ?>
         <?php echo $campus->getcnpj() ?> :
-                    {
+                                                            {
         <?php
         foreach ($cursos[$campus->getcnpj()] as $curso):
             ?>
@@ -763,15 +770,15 @@ require_once $_SERVER['DOCUMENT_ROOT'] . "/estajui/scripts/controllers/HomeContr
         <?php
     endforeach;
     ?>
-                };
-                $("#cursos"), select(function(){
-                var $el = $(this);
-                $el.empty();
-                $.each(options[el.val()], function(key, value) {
-                $el.append($("<option></option>")
-                        .attr("value", value).text(key));
-                });
-                });
+                                                        };
+                                                        $("#cursos"), select(function(){
+                                                        var $el = $(this);
+                                                        $el.empty();
+                                                        $.each(options[el.val()], function(key, value) {
+                                                        $el.append($("<option></option>")
+                                                                .attr("value", value).text(key));
+                                                        });
+                                                        });
             </script>
             <?php
         }
