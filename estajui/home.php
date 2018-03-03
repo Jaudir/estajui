@@ -646,12 +646,71 @@ require_once $_SERVER['DOCUMENT_ROOT'] . "/estajui/scripts/controllers/HomeContr
                                                     <td><?php echo $estagio->getempresa()->getnome() ?></td>
                                                     <td><?php echo $estagio->getstatus()->getdescricao() ?></td>
                                                     <td><?php echo $estagio->getmatricula()->getoferta()->getcurso()->getnome() ?></td>
-                                                    <td><a href="#"> <i class="fa fa-eye"></i> </a></td>
+                                                    <td class="center">
+                                                        <button type="button" class="btn btn-link"
+                                                                data-toggle="modal" data-target="#detalhes<?php echo $estagio->getid() ?>">
+                                                            <i class="fa fa-eye"></i>
+                                                        </button>
+                                                    </td>
                                                 </tr>
-                                                <?php
-                                                $cont++;
-                                            }
-                                            ?>
+                                                <!-- MODAL para mostrar detalhes do estágio -->
+                                            <div class="modal fade" id="detalhes<?php echo $estagio->getid(); ?>" tabindex="-1" role="dialog" aria-labelledby="detalhesEstagioTitle" aria-hidden="true">
+                                                <div class="modal-dialog modal-lg" role="document">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title" id="detalhesEstagioTitle">Detalhes do estágio</h5>
+                                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                <span aria-hidden="true">&times;</span>
+                                                            </button>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <div class="row">
+                                                                <div class="col-md-12 dados-aluno">
+                                                                    <a href="" class="btn btn-primary"><span class="glyphicon glyphicon-print">span</span>Plano de Estagio</a>
+                                                                    <a href="" class="btn btn-primary"><span class="glyphicon glyphicon-print"></span>Termo de Compromisso</a>
+                                                                    <br>
+                                                                    <br>
+                                                                    <h6>Status: </h6> <p><?php echo $estagio->getstatus()->getdescricao(); ?></p><br>
+                                                                    <h6>Nº da apólice seguradora: </h6> <p><?php echo $estagio->getapolice()->getnumero(); ?></p><br>
+                                                                    <h6>Setor/Unidade da empresa: </h6> <p><?php echo $estagio->getpe()->getsetor_unidade(); ?></p> <br>
+                                                                    <h6>Supervisor: </h6> <p><?php echo $estagio->getsupervisor()->getnome(); ?></p> <br>
+                                                                    <h6>Habilitação profissional: </h6> <p><?php echo $estagio->getsupervisor()->gethabilitacao(); ?></p> <br>
+                                                                    <h6>Cargo: </h6> <p><?php echo $estagio->getsupervisor()->getcargo(); ?></p> <br>
+                                                                    <h6>Professor orientador: </h6> <p><?php echo $estagio->getfuncionario()->getnome(); ?></p> <br>
+                                                                    <h6>Formação profissional: </h6> <p><?php echo $estagio->getfuncionario()->getformacao(); ?></p> <br>
+                                                                    <h6>Data prevista para ínicio do estágio: </h6> <p><?php echo $estagio->getpe()->getdata_inicio(); ?></p> <br>
+                                                                    <h6>Data prevista para término do estágio: </h6> <p><?php echo $estagio->getpe()->getdata_fim(); ?></p> <br>
+                                                                    <h6>Jornada: </h6> <p><?php echo $estagio->getpe()->gethora_inicio1(); ?>h às <?php echo $estagio->getpe()->gethora_fim1(); ?>h, totalizando <?php echo $estagio->getpe()->gettotal_horas(); ?>h semanais</p> <br>
+                                                                    <h6>Principais atividdes a serem desenvolvidas: </h6>
+                                                                    <p><?php echo $estagio->getpe()->getatividades(); ?></p> <br>
+                                                                    <h6>Nome fantasia da empresa: </h6> <p><?php echo $estagio->getempresa()->getnome(); ?></p> <br>
+                                                                    <h6>Razão social da empresa: </h6> <p><?php echo $estagio->getempresa()->getrazaosocial(); ?></p> <br>
+                                                                    <h6>CNPJ: </h6> <p><?php echo $estagio->getempresa()->getcnpj(); ?></p> <br>
+                                                                    <h6>Telefone: </h6> <p><?php echo $estagio->getempresa()->gettelefone(); ?></p> <br>
+                                                                    <h6>FAX: </h6> <p><?php echo $estagio->getempresa()->getfax(); ?></p> <br>
+                                                                    <h6>Logradouro: </h6> <p><?php echo $estagio->getempresa()->getendereco()->getlogradouro(); ?></p> <br>
+                                                                    <h6>Número: </h6> <p><?php echo $estagio->getempresa()->getendereco()->getnumero(); ?></p> <br>
+                                                                    <h6>Sala: </h6> <p><?php echo $estagio->getempresa()->getendereco()->getsala(); ?></p> <br>
+                                                                    <h6>Bairro: </h6> <p><?php echo $estagio->getempresa()->getendereco()->getbairro(); ?></p> <br>
+                                                                    <h6>Cidade: </h6> <p><?php echo $estagio->getempresa()->getendereco()->getcidade(); ?></p> <br>
+                                                                    <h6>UF: </h6> <p><?php echo $estagio->getempresa()->getendereco()->getuf(); ?></p> <br>
+                                                                    <h6>CEP: </h6> <p><?php echo $estagio->getempresa()->getendereco()->getcep(); ?></p> <br>
+                                                                    <h6>Cidade: </h6> <p><?php echo $estagio->getempresa()->getendereco()->getcidade(); ?></p> <br>
+                                                                    <h6>Nº de registro da empresa: </h6> <p><?php echo $estagio->getempresa()->getnregistro(); ?></p> <br>
+                                                                    <h6>Conselho de fiscalização: </h6> <p><?php echo $estagio->getempresa()->getconselhofiscal(); ?></p> <br>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Sair</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <?php
+                                            $cont++;
+                                        }
+                                        ?>
                                         </tbody>
                                     </table>
                                 </div>

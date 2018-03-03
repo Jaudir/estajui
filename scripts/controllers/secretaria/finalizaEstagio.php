@@ -25,8 +25,8 @@ if (isset($_POST["id"])) {
                     $session->pushError("Erro ao definir novo status!", "error-critico");
                 $modicacao = new ModificacaoStatus(NULL, date("Y-m-d H:i:s"), $estagio, $status[0], $session->getUsuario());
                 $notificacao = new Notificacao(null, false, $modicacao, "Estágio concluido");
-                $estagio->getpe()->settotal_horas($_POST["horas"]);
-                if (!$estagioModel->update($estagio) && !$modificacaostatusModel->create($modicacao) && !$notificacaoModel->create($notificacao) && !$planoModel->update($estagio->getpe())) {
+                $estagio->sethoras_contabilizadas($_POST["horas"]);
+                if (!$estagioModel->update($estagio) && !$modificacaostatusModel->create($modicacao) && !$notificacaoModel->create($notificacao)) {
                     $session->pushValue("Operação realizada com sucesso!", "sucesso");
                 } else {
                     $session->pushError("Erro no Banco de Dados!", "error-critico");

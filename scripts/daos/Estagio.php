@@ -8,7 +8,6 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/estajui/scripts/daos/Funcionario.php'
 require_once $_SERVER['DOCUMENT_ROOT'] . '/estajui/scripts/daos/Matricula.php';
 require_once $_SERVER['DOCUMENT_ROOT'] . '/estajui/scripts/daos/PlanoDeEstagio.php';
 
-
 /**
  * Description of Estagio
  *
@@ -30,6 +29,7 @@ class Estagio {
     private $_justificativa;
     private $_endereco_tc;
     private $_endereco_pe;
+    private $_horas_contabilizadas;
     private $_empresa;
     private $_aluno;
     private $_funcionario;
@@ -58,6 +58,15 @@ class Estagio {
         $this->_matricula = $_matricula;
         $this->_status = $_status;
         $this->_pe = $_pe;
+    }
+
+    public function gethoras_contabilizadas() {
+        return $this->_horas_contabilizadas;
+    }
+
+    public function sethoras_contabilizadas($_horas_contabilizadas) {
+        $this->_horas_contabilizadas = $_horas_contabilizadas;
+        return $this;
     }
 
     public function getid() {
@@ -230,7 +239,7 @@ class Estagio {
         $this->_supervisor = $_supervisor;
         return $this;
     }
-    
+
     public function getmatricula() {
         return $this->_matricula;
     }

@@ -42,6 +42,16 @@ class PlanoDeEstagio {
         $this->_comentarios = $_comentarios;
     }
     
+    public function getsetor_unidade() {
+        return $this->_setor_unidade;
+    }
+
+    public function setsetor_unidade($_setor_unidade) {
+        $this->_setor_unidade = $_setor_unidade;
+        return $this;
+    }
+
+        
     public function getestagio() {
         return $this->_estagio;
     }
