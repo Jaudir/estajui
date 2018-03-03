@@ -50,12 +50,12 @@ class EstagioModel extends MainModel {
         }
     }
 
-	public function cadastrarDadosEstagio($supervisor, $endereco, $planoDeEstagio,$empresa, $novo){
-		if($novo == true){
-			
-			try{
-				$this->conn->beginTransaction();
-				$pstmt = $this->conn->prepare("INSERT INTO endereco (logradouro, bairro, numero, complemento, cidade, uf, cep) 
+    public function cadastrarDadosEstagio($supervisor, $endereco, $planoDeEstagio, $empresa, $novo) {
+        if ($novo == true) {
+
+            try {
+                $this->conn->beginTransaction();
+                $pstmt = $this->conn->prepare("INSERT INTO endereco (logradouro, bairro, numero, complemento, cidade, uf, cep) 
 				VALUES(?, ?, ?, ?, ?, ?, ?)");
                 $pstmt->execute(array($endereco->getlogradouro(), $endereco->getbairro(), $endereco->getnumero(), $endereco->getcomplemento(),
                     $endereco->getcidade(), $endereco->getuf(), $endereco->getcep()));

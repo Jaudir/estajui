@@ -117,6 +117,7 @@ require_once $_SERVER['DOCUMENT_ROOT'] . "/estajui/scripts/controllers/HomeContr
                     if ($usuario->issra()) {
                         ?>
                         <div class="col-lg-10 status-desc">
+
                             <?php if ($session->hasError("error-validacao")) { ?>
                                 <div class="alert alert-warning">
                                     <strong>Aviso:</strong> <?php echo $session->getErrors("error-validacao")[0]; ?>
@@ -498,6 +499,21 @@ require_once $_SERVER['DOCUMENT_ROOT'] . "/estajui/scripts/controllers/HomeContr
                     } else {
                         ?>
                         <div class="col-lg-10 status-desc">
+                            <?php if ($session->hasError("error-validacao")) { ?>
+                                <div class="alert alert-warning">
+                                    <strong>Aviso:</strong> <?php echo $session->getErrors("error-validacao")[0]; ?>
+                                </div>
+                            <?php } ?>
+                            <?php if ($session->hasError("error-critico")) { ?>
+                                <div class="alert alert-danger">
+                                    <strong>Erro:</strong> <?php echo $session->getErrors("error-critico")[0]; ?>
+                                </div>
+                            <?php } ?>
+                            <?php if ($session->hasValues("sucesso")) { ?>
+                                <div class="alert alert-success">
+                                    <strong>Sucesso:</strong> <?php echo $session->getValues("sucesso")[0]; ?>
+                                </div>
+                            <?php } ?>
                             <?php
                             $cont = 1;
                             foreach ($estagios as $estagio) {
@@ -666,7 +682,7 @@ require_once $_SERVER['DOCUMENT_ROOT'] . "/estajui/scripts/controllers/HomeContr
                                                         <div class="modal-body">
                                                             <div class="row">
                                                                 <div class="col-md-12 dados-aluno">
-                                                                    <a href="" class="btn btn-primary"><span class="glyphicon glyphicon-print">span</span>Plano de Estagio</a>
+                                                                    <a href="./pe/pe.php?estagio_id=<?php echo $estagio->getid(); ?>" class="btn btn-primary"><span class="glyphicon glyphicon-print"></span>Plano de Estagio</a>
                                                                     <a href="" class="btn btn-primary"><span class="glyphicon glyphicon-print"></span>Termo de Compromisso</a>
                                                                     <br>
                                                                     <br>
