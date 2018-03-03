@@ -194,7 +194,7 @@ create table plano_estagio(
 	setor_unidade varchar(100),
 	estagio_id int primary key, 
 	data_assinatura date,
-	atividades varchar(100),
+	atividades TEXT,
 	remuneracao real,
 	vale_transporte real,
 	data_ini date,
