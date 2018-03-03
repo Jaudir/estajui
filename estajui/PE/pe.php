@@ -1,32 +1,35 @@
 <?php
+require_once $_SERVER['DOCUMENT_ROOT'] . "/estajui/scripts/controllers/PE.php";
+?>
+    <!DOCTYPE html>
+    <html xmlns="http://www.w3.org/1999/xhtml">
+        <head>
+            <meta charset="utf-8"/>
 
-require_once $_SERVER['DOCUMENT_ROOT'] . "/estajui/scripts/controllers/base-controller.php";
-$session = getSession();
-if (!$session->isLogged()) {
-    redirect("login.php");
-}
+            <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+            <link rel="stylesheet" href="base.min.css"/>
+            <link rel="stylesheet" href="fancy.min.css"/>
+            <link rel="stylesheet" href="main.css"/>
+            <script src="compatibility.min.js"></script>
+            <script src="theViewer.min.js"></script>
+            <script>
+                try {
+                    theViewer.defaultViewer = new theViewer.Viewer({});
+                } catch (e) {
+                }
+            </script>
+            <title></title>
+        </head>
+        <body>
+            <div id="sidebar">
+                <div id="outline">
+                </div>
+            </div>
+            <div id="page-container">
+                <div id="pf1" class="pf w0 h0" data-page-no="1"><div class="pc pc1 w0 h0"><img class="bi x0 y0 w1 h1" alt="" src="bg1.png"/><div class="t m0 x1 h2 y1 ff1 fs0 fc0 sc0 ls0 ws0">Ministério da Educação </div><div class="t m0 x2 h2 y2 ff1 fs0 fc0 sc0 ls0 ws0">Secretaria de Educação Profissional e Tecnológica </div><div class="t m0 x3 h2 y3 ff1 fs0 fc0 sc0 ls0 ws0">Instituto Federal do Norte de Minas Gerais <span class="ff2">–</span> IFNMG </div><div class="t m0 x1 h3 y4 ff3 fs0 fc0 sc0 ls0 ws0">Campus Montes Claros<span class="ff4"> </span></div><div class="t m0 x4 h2 y5 ff5 fs1 fc0 sc0 ls0 ws0">1 <span class="ls1">/ </span>1<span class="fs0"> </span></div><div class="c x5 y6 w2 h4"><div class="t m0 x6 h5 y7 ff6 fs2 fc0 sc0 ls0 ws0">PLANO DE ESTÁGIO<span class="fc1"> </span></div><div class="t m0 x0 h6 y8 ff6 fs0 fc0 sc0 ls0 ws0">                           (     ) <span class="ff7">obrigatório</span><span class="ls2">  </span>                                       <span class="ls3">  </span>(     ) <span class="ff7 ls4">não<span class="ls0">-obrigatório </span></span></div></div><div class="c x7 y6 w3 h4"><div class="t m0 x0 h7 y9 ff6 fs3 fc0 sc0 ls0 ws0"> </div></div><div class="c x5 ya w4 h8"><div class="t m0 x8 h5 yb ff6 fs2 fc0 sc0 ls0 ws0"> </div></div><div class="c x7 ya w5 h8"><div class="t m0 x0 h7 yc ff6 fs3 fc0 sc0 ls0 ws0"> </div></div><div class="c x5 yd w6 h9"><div class="t m0 x9 ha ye ff6 fs1 fc0 sc0 ls0 ws0">DADOS DO SEGURO CO<span class="_ _0"></span>NTRA ACIDENTES PESSOAIS </div></div><div class="c x5 yd w6 hb"><div class="t m0 xa h7 yf ff6 fs3 fc0 sc0 ls0 ws0"> </div><div class="t m0 xa h7 y10 ff6 fs3 fc0 sc0 ls0 ws0">Apólice nº:<span class="ff1"> ____________________________ </span></div><div class="t m0 xa h7 y11 ff6 fs3 fc0 sc0 ls0 ws0">Seguradora:<span class="ff1"> ________________________________________________________________________________________ </span></div></div><div class="c x5 y12 w6 hc"><div class="t m0 xb ha y13 ff6 fs1 fc0 sc0 ls0 ws0">DADOS DA ENTIDADE CONCEDE<span class="_ _0"></span>NTE DE ESTÁG<span class="_ _0"></span>IO </div><div class="t m0 xa h7 y14 ff6 fs3 fc0 sc0 ls0 ws0"> </div><div class="t m0 xa h7 y15 ff6 fs3 fc0 sc0 ls0 ws0">Nome:<span class="ff1"> _____________________________________________________________________________________________ </span></div><div class="t m0 xa h7 y16 ff6 fs3 fc0 sc0 ls0 ws0">Endereço:<span class="ff1"> __________________________________________________________________________________________ </span></div><div class="t m0 xa h7 y17 ff6 fs3 fc0 sc0 ls0 ws0">Telefone:<span class="ff1"> (_____) ___________________________________  </span>Fax: <span class="ff1">(_____) _____________________________________ </span></div><div class="t m0 xa h7 y18 ff6 fs3 fc0 sc0 ls0 ws0">Cidade:<span class="ff1"> <span class="ls5">____</span>_________________________________________<span class="ls6">__</span>______ </span>UF:<span class="ff1"> _________ </span>CEP:<span class="ff1"> _____________________ </span></div><div class="t m0 xa h7 y19 ff6 fs3 fc0 sc0 ls0 ws0">Responsável:<span class="ff1"> ______________________________________________</span>Contato/Telefone<span class="ff1 ls7">: (<span class="ls5">____<span class="ls0"> ) _________________</span>__<span class="ls0"> </span></span></span></div><div class="t m0 xa h7 y1a ff6 fs3 fc0 sc0 ls0 ws0">Cargo:<span class="ff1"> ______________________________________ </span>E-mail:<span class="ff1"> ________________________________________________</span><span class="fs4"> </span></div><div class="t m0 xa hd y1b ff6 fs4 fc0 sc0 ls0 ws0"> </div></div><div class="c x5 y1c w6 he"><div class="t m0 xc ha y1d ff6 fs1 fc0 sc0 ls0 ws0">DADOS DO ESTÁGIO<span class="ff1"> </span></div><div class="t m0 xa h7 y1e ff6 fs3 fc0 sc0 ls0 ws0"> </div><div class="t m0 xa h7 y1f ff6 fs3 fc0 sc0 ls0 ws0">Setor/Unidade:<span class="ff1"> ______________________________________________________________________________________ </span></div><div class="t m0 xa h7 y20 ff6 fs3 fc0 sc0 ls0 ws0">Nome do Supervisor (empresa/instituição):<span class="ff1"> ______________________________________________________________ </span></div><div class="t m0 xa h7 y21 ff6 fs3 fc0 sc0 ls0 ws0">Habilitação Profissional do Supervisor: <span class="ff1">______________________________________________________<span class="ls5">__</span>_________ </span></div><div class="t m0 xa h7 y22 ff6 fs3 fc0 sc0 ls0 ws0">Cargo do Supervisor (empresa/instituição):<span class="ff1"> ______________________________________________________________ </span></div><div class="t m0 xa h7 y23 ff6 fs3 fc0 sc0 ls0 ws0">Nome do Professor Orientador (<span class="ff1 ls7">IFN<span class="ls0">MG <span class="ff2">–</span></span></span> <span class="ff3">Campus Montes Claros</span><span class="ls8">):</span><span class="ff1">__________________________________________<span class="ls6">__</span> </span></div><div class="t m0 xa h7 y24 ff6 fs3 fc0 sc0 ls0 ws0">Formação Profissional do Professor Orientador:<span class="ff1">__________________________________________________________ </span></div><div class="t m0 xa h7 y25 ff6 fs3 fc0 sc0 ls0 ws0">Data Prevista para Início do Estágio:<span class="ff1">__<span class="ls5">__/___</span>_/______<span class="ls5">_ </span></span>Data Pre<span class="_ _1"></span>vista para o Término do Estágio:<span class="ff1"> ____/____/_______ </span></div><div class="t m0 xa h7 y26 ff6 fs3 fc0 sc0 ls0 ws0">Jornada de Estágio:<span class="ff1"> das _______h às _______h e das ________h às ________h, totalizando ________h semanais.<span class="_ _1"></span> </span></div><div class="t m0 xd ha y27 ff6 fs1 fc0 sc0 ls0 ws0">ATIVIDADES PRINCIPAIS<span class="_ _0"></span> A SEREM DESENVOLV<span class="_ _0"></span>IDAS*: </div><div class="t m0 xa hf y28 ff1 fs3 fc0 sc0 ls0 ws0"> </div><div class="t m0 xa hf y29 ff1 fs3 fc0 sc0 ls0 ws0">___________________________________________________________________________________________________</div><div class="t m0 xa hf y2a ff1 fs3 fc0 sc0 ls0 ws0">___________________________________________________________________________________________________</div><div class="t m0 xa hf y2b ff1 fs3 fc0 sc0 ls0 ws0">___________________________________________________________________________________________________</div><div class="t m0 xa hf y2c ff1 fs3 fc0 sc0 ls0 ws0">___________________________________________________________________________________________________</div><div class="t m0 xa hf y2d ff1 fs3 fc0 sc0 ls0 ws0">___________________________________________________________________________________________________</div><div class="t m0 xa hf y2e ff1 fs3 fc0 sc0 ls0 ws0">___________________________________________________________________________________________________ </div></div><div class="t m0 x5 h10 y2f ff3 fs3 fc0 sc0 ls0 ws0">*Colocar as atividades principais a serem desenvolvidas em tópicos. </div><div class="t m0 xe hf y30 ff6 fs5 fc0 sc0 ls0 ws0"> <span class="_ _2"> </span><span class="ls9">      </span><span class="ff1 fs3"> </span></div><div class="t m0 xf hf y31 ff1 fs3 fc0 sc0 ls0 ws0">Montes Claros - <span class="ls8">MG</span>, ________ de_________________________________de____________ </div><div class="t m0 xe hf y32 ff1 fs3 fc0 sc0 ls0 ws0"> </div><div class="t m0 xe h11 y33 ff1 fs1 fc0 sc0 ls0 ws0"> </div><div class="c xe y34 w7 h12"><div class="t m0 x10 ha y35 ff6 fs1 fc0 sc0 ls0 ws0">Nome:  </div></div><div class="c xe y34 w7 h13"><div class="t m0 x11 ha y36 ff6 fs1 fc0 sc0 ls0 ws0"> </div><div class="t m0 x12 ha y37 ff6 fs1 fc0 sc0 ls0 ws0">Estagiário </div><div class="t m0 x13 h14 y38 ff3 fs1 fc0 sc0 ls0 ws0">Campus Montes Claros </div></div><div class="c x14 y34 w8 h12"><div class="t m0 x10 ha y35 ff6 fs1 fc0 sc0 ls0 ws0"> </div></div><div class="c x15 y34 w9 h12"><div class="t m0 x10 ha y35 ff6 fs1 fc0 sc0 ls0 ws0">Nome:  </div></div><div class="c x15 y34 w9 h13"><div class="t m0 x10 ha y36 ff6 fs1 fc0 sc0 ls0 ws0"> </div><div class="t m0 x16 ha y37 ff6 fs1 fc0 sc0 ls0 ws0">Professor(a) Orientador(a) <span class="ff8">–</span> IFNM<span class="_ _0"></span>G.<span class="ff1"> </span></div><div class="t m0 x13 h15 y38 ff3 fs1 fc0 sc0 ls0 ws0">Campus Montes Claros<span class="ff7"> </span></div></div><div class="c xe y39 w7 h16"><div class="t m0 x11 h11 y3a ff1 fs1 fc0 sc0 ls0 ws0"> </div></div><div class="c x14 y39 w8 h16"><div class="t m0 x10 ha y3b ff6 fs1 fc0 sc0 ls0 ws0"> </div></div><div class="c x15 y39 w9 h16"><div class="t m0 x11 ha y3b ff6 fs1 fc0 sc0 ls0 ws0"> </div></div><div class="c xe y3c w7 h17"><div class="t m0 x10 ha y3d ff6 fs1 fc0 sc0 ls0 ws0">Nome:  </div><div class="t m0 x11 ha y3e ff6 fs1 fc0 sc0 ls0 ws0"> </div><div class="t m0 x13 ha y3f ff6 fs1 fc0 sc0 ls0 ws0">Supervisor do Estágio </div><div class="t m0 x5 h18 y40 ff6 fs1 fc0 sc0 ls0 ws0"> <span class="ff3">Entidade Concedente do Estágio<span class="fs0"> </span></span></div></div><div class="c x14 y3c w8 h17"><div class="t m0 x10 ha y3d ff6 fs1 fc0 sc0 ls0 ws0"> </div></div><div class="c x15 y3c w9 h17"><div class="t m0 x10 ha y3d ff6 fs1 fc0 sc0 ls0 ws0">Nome:  </div><div class="t m0 x10 ha y3e ff6 fs1 fc0 sc0 ls0 ws0"> </div><div class="t m0 x17 ha y3f ff6 fs1 fc0 sc0 ls0 ws0">Coordenador do Curso o<span class="_ _0"></span>u Organizador de </div><div class="t m0 x18 ha y40 ff6 fs1 fc0 sc0 ls0 ws0">Estágio </div><div class="t m0 x13 ha y41 ff3 fs1 fc0 sc0 ls0 ws0">Campus Montes Claros<span class="ff6"> </span></div></div><div class="t m0 xe h11 y42 ff1 fs1 fc0 sc0 ls0 ws0"> </div></div><div class="pi" data-data='{"ctm":[1.000000,0.000000,0.000000,1.000000,0.000000,0.000000]}'></div></div>
+            </div>
+            <div class="loading-indicator">
 
-
-if (isset($_GET["estagio_id"])) {
-
-    $estagioModel = $this->loader->loadModel("EstagioModel", "EstagioModel");
-    if ($estagioModel) {
-        $estagio = $estagioModel->read($_GET["estagio_id"], 1)[0];
-        if (is_array($estagio)) {
-            if (count($estagio) == 1) {
-                
-            } else {
-                $session->pushError("Erro ao carregar plano de estágio!", "error-validacao");
-                redirect("home.php");
-            }
-        }
-        $session->pushError("Erro ao carregar plano de estágio!", "error-validacao");
-        redirect("home.php");
-    } else {
-        $session->pushError("Erro ao carregar plano de estágio!", "error-validacao");
-        redirect("home.php");
-    }
-} else {
-    $session->pushError("Erro ao carregar plano de estágio!", "error-validacao");
-    redirect("home.php");
-}
+            </div>
+        </body>
+    </html>

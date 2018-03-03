@@ -50,54 +50,12 @@ class EstagioModel extends MainModel {
         }
     }
 
-	public function recuperar($estagio_id) {
-		try {
-			$pstmt = $this->conn->prepare("SELECT es.bool_aprovado, es.bool_obrigatorio, s.descricao, ap.numero AS ap_numero, ap.seguradora, "
-			."sor.nome AS sor_nome, sor.habilitacao, sor.cargo, f.nome AS f_nome, f.formacao, p.data_ini, p.data_fim, "
-			."p.hora_inicio1, p.hora_inicio2, p.hora_fim1, p.hora_fim2, p.total_horas, p.atividades, em.nome AS em_nome, em.razao_social, "
-			."em.cnpj, en.logradouro, en.numero AS en_numero, en.bairro, en.cidade, en.uf, en.cep, em.telefone, "
-			."em.fax, em.nregistro, em.conselhofiscal FROM plano_estagio AS p "
-			."JOIN estagio AS es ON p.estagio_id = es.id "
-			."JOIN supervisiona AS sona ON es.id = sona.estagio_id "
-			."JOIN supervisor AS sor ON sona.supervisor_id = sor.id "
-			."JOIN apolice AS ap ON es.id = ap.estagio_id "
-			."JOIN funcionario AS f ON es.po_siape = f.siape "
-			."JOIN empresa AS em ON es.empresa_cnpj = em.cnpj "
-			."JOIN endereco AS en ON em.endereco_id = en.id "
-			."JOIN status AS s ON es.status_codigo = s.codigo "
-			."WHERE es.id=?");
-			$v = $pstmt->execute(array($estagio_id));
-			$res = $pstmt->fetchAll();
-			$q = count($res);
-			if ($q == 0){
-				return false;
-			}
-			$res = $res[0];
-			$funcionario = new Funcionario(null, null, null, null, $res['f_nome'], null, null, null, null, null, $res['formacao'], null, null);
-			$apolice = new Apolice($res['ap_numero'], $res['seguradora'], null);
-			$status = new Status(null, $res['descricao']);
-			$datateste = $res['data_ini'];
-			$endereco = new Endereco(null, $res['logradouro'], $res['bairro'], $res['en_numero'], null, $res['cidade'], $res['uf'], $res['cep'],$null);
-			$empresa = new Empresa($res['cnpj'], $res['em_nome'], $res['telefone'], $res['fax'], $res['nregistro'], $res['conselhofiscal'], $endereco, null);
-			$planoDeEstagio = new PlanoDeEstagio(null, null, $res['atividades'], null, null, $res['data_ini'], $res['data_fim'], $res['hora_inicio1'], $res['hora_inicio2'], $res['hora_fim1'], $res['hora_fim2'], $res['total_horas'], null, null);
-			$supervisor = new Supervisor(null, $res['sor_nome'], $res['cargo'], $res['habilitacao'], null);
-			$estagio = new Estagio(null, $res['bool_aprovado'], $res['bool_obrigatorio'], null, null, null, null, null, null, null, null, null, $empresa, null, $funcionario, null, $status, $planoDeEstagio);
-			$estagio->setapolice($apolice);
-			$estagio->setsupervisor($supervisor);
-			return $estagio;
-		} catch (PDOException $e) {
-			Log::logPDOError($e, true);
-			$this->conn->rollback();
-			echo "deu ruim 2";
-			return false;
-		}
-	}
-	public function cadastrarDadosEstagio($supervisor, $endereco, $planoDeEstagio,$empresa, $novo){
-		if($novo == true){
-			
-			try{
-				$this->conn->beginTransaction();
-				$pstmt = $this->conn->prepare("INSERT INTO endereco (logradouro, bairro, numero, complemento, cidade, uf, cep) 
+    public function cadastrarDadosEstagio($supervisor, $endereco, $planoDeEstagio, $empresa, $novo) {
+        if ($novo == true) {
+
+            try {
+                $this->conn->beginTransaction();
+                $pstmt = $this->conn->prepare("INSERT INTO endereco (logradouro, bairro, numero, complemento, cidade, uf, cep) 
 				VALUES(?, ?, ?, ?, ?, ?, ?)");
                 $pstmt->execute(array($endereco->getlogradouro(), $endereco->getbairro(), $endereco->getnumero(), $endereco->getcomplemento(),
                     $endereco->getcidade(), $endereco->getuf(), $endereco->getcep()));
