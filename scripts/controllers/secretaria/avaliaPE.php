@@ -9,13 +9,12 @@ if (!$session->isLogged()) {
 
 if (isset($_POST["id"])) {
 //    if (isset($_POST["matricula"]) && isset($_POST["semestre"]) && isset($_POST["serie"]) && isset($_POST["modulo"]) && isset($_POST["periodo"]) && isset($_POST["integralizacao"]) && isset($_POST["dependencias"]) && isset($_POST["aptidao"]))
-    if (!empty($_POST["matricula"]) && !empty($_POST["semestre"]) && isset($_POST["aptidao"]) && !empty($_POST["justificativa"])) {
+    if (!empty($_POST["matricula"]) && !empty($_POST["semestre"]) && isset($_POST["aptidao"])) {
         $estagioModel = $loader->loadModel("EstagioModel", "EstagioModel");
         $estagio = $estagioModel->read($_POST["id"], 1);
         if (is_array($estagio)) {
             if (count($estagio) > 0) {
                 $estagio = $estagio[0];
-                $estagio->setjustificativa($_POST["justificativa"]);
                 $valorestmp = explode("/", $_POST["semestre"]);
                 $matricula = $estagio->getmatricula();
                 $matricula_anterior = clone($matricula);
@@ -65,11 +64,11 @@ if (isset($_POST["id"])) {
                     else
                         $session->pushError("Erro ao definir novo status!", "error-critico");
                     $modicacao = new ModificacaoStatus(NULL, date("Y-m-d H:i:s"), $estagio, $status[0], $session->getUsuario());
-                    $notificacao = new Notificacao(null, false, $modicacao, $_POST["justificativa"]);
+                    $notificacao = new Notificacao(null, false, $modicacao, null);
                     $matricularesult = $matriculaModel->updatematricula($matricula, $matricula_anterior->getmatricula());
                     if (!$matricularesult) {
                         $estagio->setmatricula($matricula);
-                        if (!$estagioModel->update($estagio) && $modificacaostatusModel->create($modicacao) && $notificacaoModel->create($notificacao)) {
+                        if (!$estagioModel->update($estagio) && !$modificacaostatusModel->create($modicacao) && !$notificacaoModel->create($notificacao)) {
                             $session->pushValue("Aluno avaliado com sucesso!", "sucesso");
                         } else {
                             $session->pushError("Erro no Banco de Dados!", "error-critico");
@@ -78,27 +77,31 @@ if (isset($_POST["id"])) {
                         $session->pushError("Erro no Banco de Dados!", "error-critico");
                     }
                 } else {
-                    $modificacaostatusModel = $loader->loadModel("ModificacaoStatusModel", "ModificacaoStatusModel");
-                    $matriculaModel = $loader->loadModel("MatriculaModel", "MatriculaModel");
-                    $notificacaoModel = $loader->loadModel("NotificacaoModel", "NotificacaoModel");
-                    $statusModel = $loader->loadModel("StatusModel", "StatusModel");
-                    $status = $statusModel->read(14, 1);
-                    if ($status)
-                        $estagio->setstatus($status[0]);
-                    else
-                        $session->pushError("Erro ao definir novo status!", "error-critico");
-                    $modicacao = new ModificacaoStatus(NULL, date("Y-m-d H:i:s"), $estagio, $status[0], $session->getUsuario());
-                    $notificacao = new Notificacao(null, false, $modicacao, $_POST["justificativa"]);
-                    $matricularesult = $matriculaModel->updatematricula($matricula, $matricula_anterior->getmatricula());
-                    if (!$matricularesult) {
-                        $estagio->setmatricula($matricula);
-                        if (!$estagioModel->update($estagio) && $modificacaostatusModel->create($modicacao) && $notificacaoModel->create($notificacao)) {
-                            $session->pushValue("Aluno avaliado com sucesso!", "sucesso");
+                    if (!empty($_POST["justificativa"])) {
+                        $modificacaostatusModel = $loader->loadModel("ModificacaoStatusModel", "ModificacaoStatusModel");
+                        $matriculaModel = $loader->loadModel("MatriculaModel", "MatriculaModel");
+                        $notificacaoModel = $loader->loadModel("NotificacaoModel", "NotificacaoModel");
+                        $statusModel = $loader->loadModel("StatusModel", "StatusModel");
+                        $status = $statusModel->read(14, 1);
+                        if ($status)
+                            $estagio->setstatus($status[0]);
+                        else
+                            $session->pushError("Erro ao definir novo status!", "error-critico");
+                        $modicacao = new ModificacaoStatus(NULL, date("Y-m-d H:i:s"), $estagio, $status[0], $session->getUsuario());
+                        $notificacao = new Notificacao(null, false, $modicacao, $_POST["justificativa"]);
+                        $matricularesult = $matriculaModel->updatematricula($matricula, $matricula_anterior->getmatricula());
+                        if (!$matricularesult) {
+                            $estagio->setmatricula($matricula);
+                            if (!$estagioModel->update($estagio) && !$modificacaostatusModel->create($modicacao) && !$notificacaoModel->create($notificacao)) {
+                                $session->pushValue("Aluno avaliado com sucesso!", "sucesso");
+                            } else {
+                                $session->pushError("Erro no Banco de Dados!", "error-critico");
+                            }
                         } else {
                             $session->pushError("Erro no Banco de Dados!", "error-critico");
                         }
                     } else {
-                        $session->pushError("Erro no Banco de Dados!", "error-critico");
+                        $session->pushError("Justifique a sua decisão!", "error-validacao");
                     }
                 }
             } else {
@@ -114,8 +117,6 @@ if (isset($_POST["id"])) {
             $session->pushError("Digite o semestre/ano que o aluno iniciou o curso! (Ex.: 2/2017)", "error-validacao");
         } elseif (!isset($_POST["aptidao"])) {
             $session->pushError("Avalie se o aluno está apto a realizar o estágio!", "error-validacao");
-        } else {
-            $session->pushError("Justifique a sua decisão!", "error-validacao");
         }
     }
 } else {
