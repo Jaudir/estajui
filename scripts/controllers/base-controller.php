@@ -5,7 +5,7 @@ require_once(dirname(__FILE__) . '/../util/Loader.php');
 
 $loader = new Loader($configs);
 
-/*Carregamentos iniciais*/
+/* Carregamentos iniciais */
 
 $loader->loadUtil('Log');
 $loader->loadDAO('Usuario');
@@ -22,6 +22,12 @@ function base_url() {
 
 function redirect($url) {
     header('Location:' . $url);
+    exit();
+}
+
+function redirectToView($view) {
+    header('Location:' . base_url() . "/estajui/" . $view . ".php");
+    exit();
 }
 
 /* SESSÃO ------------------------------------------------------------------------------- */

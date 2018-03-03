@@ -1,7 +1,7 @@
 <?php
 
 require_once(dirname(__FILE__) . '/MainModel.php');
-require_once $_SERVER['DOCUMENT_ROOT'] . "/estajui/scripts/daos/Funcionario.php";
+require_once $_SERVER['DOCUMENT_ROOT'] . '/estajui/scripts/daos/Funcionario.php';
 
 class FuncionarioModel extends MainModel {
 

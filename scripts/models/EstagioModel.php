@@ -5,7 +5,7 @@ require_once $_SERVER['DOCUMENT_ROOT'] . "/estajui/scripts/daos/Estagio.php";
 
 class EstagioModel extends MainModel {
 
-    private $_tabela = "estagio";	
+    private $_tabela = "estagio";
 
 
 	public function recuperar($estagio_id) {
@@ -60,53 +60,225 @@ class EstagioModel extends MainModel {
 				$this->conn->beginTransaction();
 				$pstmt = $this->conn->prepare("INSERT INTO endereco (logradouro, bairro, numero, complemento, cidade, uf, cep) 
 				VALUES(?, ?, ?, ?, ?, ?, ?)");
-				$pstmt->execute(array($endereco->getlogradouro(), $endereco->getbairro(), $endereco->getnumero(), $endereco->getcomplemento(), 
-				$endereco->getcidade(), $endereco->getuf(), $endereco->getcep()));
-				$endereco->setid($this->conn->lastInsertId());
+                $pstmt->execute(array($endereco->getlogradouro(), $endereco->getbairro(), $endereco->getnumero(), $endereco->getcomplemento(),
+                    $endereco->getcidade(), $endereco->getuf(), $endereco->getcep()));
+                $endereco->setid($this->conn->lastInsertId());
 
-				$pstmt = $this->conn->prepare("INSERT INTO empresa (cnpj,nome, razao_social,fax,telefone,nregistro,conselhofiscal,
+                $pstmt = $this->conn->prepare("INSERT INTO empresa (cnpj,nome, razao_social,fax,telefone,nregistro,conselhofiscal,
 				conveniada,endereco_id) VALUES(?,?, ?,?,?,?,?,?,?)");
-				$pstmt->execute(array($empresa->get_cnpj(),$empresa->get_nome(),$empresa->get_razao_social(),$empresa->get_fax()
-				,$empresa->get_telefone(),$empresa->get_nregistro(),$empresa->get_conselhofiscal(),false,$endereco->getid()));
-				
-				$pstmt = $this->conn->prepare("INSERT INTO responsavel (email, nome, telefone, cargo, empresa_cnpj,aprovado) values(? ,?,?,?,?,?)");
-				$pstmt->execute(array($responsavel->get_email(), $responsavel->get_nome(), $responsavel->get_cargo(), $empresa->get_cnpj(),false)); 
-				
-				$pstmt = $this->conn->prepare("INSERT INTO supervisor (nome, cargo, habilitacao, empresa_cnpj) VALUES(?,?, ?,?)");
-				$pstmt->execute(array($supervisor->get_nome(),$supervisor->get_cargo(),$supervisor->get_habilitacao(),$empresa->get_cnpj()));
-				$supervisor->set_id($this->conn->lastInsertId());
+                $pstmt->execute(array($empresa->get_cnpj(), $empresa->get_nome(), $empresa->get_razao_social(), $empresa->get_fax()
+                    , $empresa->get_telefone(), $empresa->get_nregistro(), $empresa->get_conselhofiscal(), false, $endereco->getid()));
 
-				$pstmt = $this->conn->prepare("INSERT INTO supervisiona (estagio_id,supervisor_id) VALUES(?,?)");
-				$pstmt->execute(array($supervisor->get_id,$supervisor->get_estagio()));
-				
-				$pstmt = $this->conn->prepare("INSERT INTO plano_estagio (estagio_id,setor_unidade,data_ini, data_fim, atividades,hora_inicio1,
-				 hora_fim1, total_horas, empresa_cnpj) VALUES(?,?, ?,?,?,?,?,?,?)");
-				$pstmt->execute(array($planoDeEstagio->get_estagio(),$planoDeEstagio->get_setor_unidade(),$planoDeEstagio->get_data_inicio(),$planoDeEstagio->get_data_fim(),$planoDeEstagio->get_atividades,$planoDeEstagio->get_hora_inicio1(),$planoDeEstagio->get_data_fim1(),$planoDeEstagio->get_total_horas(),$empresa->get_cnpj()));
-				$this->conn->commit();
-			}catch(PDOException $e){
-				$this->conn->rollback();
-				return false;
-			}
-		}else{
-			try {
-				
-				$this->conn->beginTransaction();
-				$pstmt = $this->conn->prepare("INSERT INTO supervisor (nome, cargo, habilitacao, empresa_cnpj) VALUES(?,?, ?,?)");
-				$pstmt->execute(array($supervisor->get_nome(),$supervisor->get_cargo(),$supervisor->get_habilitacao(),$empresa->get_cnpj()));
-				$supervisor->set_id($this->conn->lastInsertId());
+                $pstmt = $this->conn->prepare("INSERT INTO responsavel (email, nome, telefone, cargo, empresa_cnpj,aprovado) values(? ,?,?,?,?,?)");
+                $pstmt->execute(array($responsavel->get_email(), $responsavel->get_nome(), $responsavel->get_cargo(), $empresa->get_cnpj(), false));
 
-				$pstmt = $this->conn->prepare("INSERT INTO supervisiona (estagio_id,supervisor_id) VALUES(?,?)");
-				$pstmt->execute(array($supervisor->get_id,$planoDeEstagio->get_estagio()));
-				
-				$pstmt = $this->conn->prepare("INSERT INTO plano_estagio (estagio_id,setor_unidade,data_ini, data_fim, atividades,hora_inicio1,
+                $pstmt = $this->conn->prepare("INSERT INTO supervisor (nome, cargo, habilitacao, empresa_cnpj) VALUES(?,?, ?,?)");
+                $pstmt->execute(array($supervisor->get_nome(), $supervisor->get_cargo(), $supervisor->get_habilitacao(), $empresa->get_cnpj()));
+                $supervisor->set_id($this->conn->lastInsertId());
+
+                $pstmt = $this->conn->prepare("INSERT INTO supervisiona (estagio_id,supervisor_id) VALUES(?,?)");
+                $pstmt->execute(array($supervisor->get_id, $supervisor->get_estagio()));
+
+                $pstmt = $this->conn->prepare("INSERT INTO plano_estagio (estagio_id,setor_unidade,data_ini, data_fim, atividades,hora_inicio1,
 				 hora_fim1, total_horas, empresa_cnpj) VALUES(?,?, ?,?,?,?,?,?,?)");
-				$pstmt->execute(array($planoDeEstagio->get_estagio(),$planoDeEstagio->get_setor_unidade(),$planoDeEstagio->get_data_inicio(),$planoDeEstagio->get_data_fim(),$planoDeEstagio->get_atividades,$planoDeEstagio->get_hora_inicio1(),$planoDeEstagio->get_data_fim1(),$planoDeEstagio->get_total_horas(),$empresa->get_cnpj()));
-				$this->conn->commit();
-				return true;
-			} catch (PDOException $e) {
-				$this->conn->rollback();
-				return false;
-			}	
-		}
-	}
+                $pstmt->execute(array($planoDeEstagio->get_estagio(), $planoDeEstagio->get_setor_unidade(), $planoDeEstagio->get_data_inicio(), $planoDeEstagio->get_data_fim(), $planoDeEstagio->get_atividades, $planoDeEstagio->get_hora_inicio1(), $planoDeEstagio->get_data_fim1(), $planoDeEstagio->get_total_horas(), $empresa->get_cnpj()));
+                $this->conn->commit();
+            } catch (PDOException $e) {
+                $this->conn->rollback();
+                return false;
+            }
+        } else {
+            try {
+
+                $this->conn->beginTransaction();
+                $pstmt = $this->conn->prepare("INSERT INTO supervisor (nome, cargo, habilitacao, empresa_cnpj) VALUES(?,?, ?,?)");
+                $pstmt->execute(array($supervisor->get_nome(), $supervisor->get_cargo(), $supervisor->get_habilitacao(), $empresa->get_cnpj()));
+                $supervisor->set_id($this->conn->lastInsertId());
+
+                $pstmt = $this->conn->prepare("INSERT INTO supervisiona (estagio_id,supervisor_id) VALUES(?,?)");
+                $pstmt->execute(array($supervisor->get_id, $planoDeEstagio->get_estagio()));
+
+                $pstmt = $this->conn->prepare("INSERT INTO plano_estagio (estagio_id,setor_unidade,data_ini, data_fim, atividades,hora_inicio1,
+				 hora_fim1, total_horas, empresa_cnpj) VALUES(?,?, ?,?,?,?,?,?,?)");
+                $pstmt->execute(array($planoDeEstagio->get_estagio(), $planoDeEstagio->get_setor_unidade(), $planoDeEstagio->get_data_inicio(), $planoDeEstagio->get_data_fim(), $planoDeEstagio->get_atividades, $planoDeEstagio->get_hora_inicio1(), $planoDeEstagio->get_data_fim1(), $planoDeEstagio->get_total_horas(), $empresa->get_cnpj()));
+                $this->conn->commit();
+                return true;
+            } catch (PDOException $e) {
+                $this->conn->rollback();
+                return false;
+            }
+        }
+    }
+
+    public function create(Estagio $estagio) {
+        $pstmt = $this->conn->prepare("INSERT INTO " . $this->_tabela . " (bool_aprovado, bool_obrigatorio, periodo, serie, modulo, integ_ano, integ_semestre, dependencias, justificativa, endereco_tc, enderece_pe, horas_contabilizadas, aluno_cpf, empresa_cnpj, aluno_estuda_curso_matricula, po_siape, status_codigo) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+        try {
+            $this->conn->beginTransaction();
+            $pstmt->execute(array((int) $estagio->getaprovado(), (int) $estagio->getobrigatorio(), $estagio->getperiodo(), $estagio->getserie(), $estagio->getmodulo(), $estagio->getano(), $estagio->getsemestre(), $estagio->getdependencias(), $estagio->getjustificativa(), $estagio->getendereco_tc(), $estagio->getendereco_pe(), $estagio->gethoras_contabilizadas(), $estagio->getaluno()->getcpf(), $estagio->getempresa()->getcnpj(), $estagio->getmatricula()->getid(), $estagio->getfuncionario()->getsiape(), $estagio->getstatus()->getcodigo()));
+            $id = $this->conn->lastInsertId();
+            $this->conn->commit();
+            $estagio->setid($id);
+            return 0;
+        } catch (PDOExecption $e) {
+            $this->conn->rollback();
+            #return "Error!: " . $e->getMessage() . "</br>";
+            return 2;
+        }
+    }
+
+//    public function getpo(Estagio $estagio) {
+//        if ($id != NULL) {
+//            $pstmt = $this->conn->prepare("SELECT * FROM funcionario WHERE   LIMIT 1");
+//            try {
+//                $this->conn->beginTransaction();
+//                $pstmt->execute();
+//                $this->conn->commit();
+//                $cont = 0;
+//                $result = [];
+//                while ($row = $pstmt->fetch()) {
+//                    $apoliceModel = $this->loader->loadModel("ApoliceModel", "ApoliceModel");
+//                    $supervisorModel = $this->loader->loadModel("SupervisorModel", "SupervisorModel");
+//                    $empresaModel = $this->loader->loadModel("EmpresaModel", "EmpresaModel");
+//                    $alunoModel = $this->loader->loadModel("AlunoModel", "AlunoModel");
+//                    $funcionarioModel = $this->loader->loadModel("FuncionarioModel", "FuncionarioModel");
+//                    $matriculaModel = $this->loader->loadModel("MatriculaModel", "MatriculaModel");
+//                    $statusModel = $this->loader->loadModel("StatusModel", "StatusModel");
+//                    $planodeestagioModel = $this->loader->loadModel("PlanoDeEstagioModel", "PlanoDeEstagioModel");
+//                    $result[$cont] = new Estagio($row["id"], boolval($row["bool_aprovado"]), boolval($row["bool_obrigatorio"]), null, null, $row["periodo"], $row["serie"], $row["modulo"], $row["integ_ano"], $row["integ_semestre"], $row["dependencias"], $row["justificativa"], $row["endereco_tc"], $row["endereco_pe"], $empresaModel->read($row["empresa_cnpj"], 1)[0], $alunoModel->read($row["aluno_cpf"], 1)[0], $funcionarioModel->read($row["po_siape"], 1)[0], $matriculaModel->read($row["aluno_estuda_curso_matricula"], 1)[0], $statusModel->read($row["status_codigo"], 1)[0], null);
+//                    $result[$cont]->setapolice($apoliceModel->readbyestagio($result[$cont], 1)[0]);
+//                    $result[$cont]->setpe($planodeestagioModel->read($result[$cont], 1)[0]);
+//                    $result[$cont]->setsupervisor($supervisorModel->read($result[$cont]->getempresa()->getcnpj(), 1)[0]);
+//                    $cont++;
+//                }
+//                return $result;
+//            } catch (PDOExecption $e) {
+//                #return "Error!: " . $e->getMessage() . "</br>";
+//                return 2;
+//            }
+//        } else {
+//            return NULL;
+//        }
+//    }
+
+    public function read($id, $limite) {
+        if ($limite == 0) {
+            if ($id == NULL) {
+                $pstmt = $this->conn->prepare("SELECT * FROM " . $this->_tabela . " ORDER BY status_codigo ASC");
+            } else {
+                $pstmt = $this->conn->prepare("SELECT * FROM " . $this->_tabela . " WHERE id = :id ORDER BY status_codigo ASC");
+                $pstmt->bindParam(':id', $id);
+            }
+        } else {
+            if ($id == NULL) {
+                $pstmt = $this->conn->prepare("SELECT * FROM " . $this->_tabela . " ORDER BY status_codigo ASC LIMIT :limite");
+            } else {
+                $pstmt = $this->conn->prepare("SELECT * FROM " . $this->_tabela . " WHERE id = :id ORDER BY status_codigo ASC LIMIT :limite");
+                $pstmt->bindParam(':id', $id);
+            }
+            $pstmt->bindParam(':limite', $limite, PDO::PARAM_INT);
+        }
+        try {
+            $this->conn->beginTransaction();
+            $pstmt->execute();
+            $this->conn->commit();
+            $cont = 0;
+            $result = [];
+            while ($row = $pstmt->fetch()) {
+                $apoliceModel = $this->loader->loadModel("ApoliceModel", "ApoliceModel");
+                $supervisorModel = $this->loader->loadModel("SupervisorModel", "SupervisorModel");
+                $empresaModel = $this->loader->loadModel("EmpresaModel", "EmpresaModel");
+                $alunoModel = $this->loader->loadModel("AlunoModel", "AlunoModel");
+                $funcionarioModel = $this->loader->loadModel("FuncionarioModel", "FuncionarioModel");
+                $matriculaModel = $this->loader->loadModel("MatriculaModel", "MatriculaModel");
+                $statusModel = $this->loader->loadModel("StatusModel", "StatusModel");
+                $planodeestagioModel = $this->loader->loadModel("PlanoDeEstagioModel", "PlanoDeEstagioModel");
+                $result[$cont] = new Estagio($row["id"], boolval($row["bool_aprovado"]), boolval($row["bool_obrigatorio"]), null, null, $row["periodo"], $row["serie"], $row["modulo"], $row["integ_ano"], $row["integ_semestre"], $row["dependencias"], $row["justificativa"], $row["endereco_tc"], $row["endereco_pe"], $empresaModel->read($row["empresa_cnpj"], 1)[0], $alunoModel->read($row["aluno_cpf"], 1)[0], $funcionarioModel->read($row["po_siape"], 1)[0], $matriculaModel->read($row["aluno_estuda_curso_matricula"], 1)[0], $statusModel->read($row["status_codigo"], 1)[0], null);
+                $result[$cont]->sethoras_contabilizadas($row["horas_contabilizadas"]);
+                $result[$cont]->setapolice($apoliceModel->readbyestagio($result[$cont], 1)[0]);
+                $result[$cont]->setpe($planodeestagioModel->read($result[$cont], 1)[0]);
+                $result[$cont]->setsupervisor($supervisorModel->read($result[$cont]->getempresa()->getcnpj(), 1)[0]);
+                $cont++;
+            }
+            return $result;
+        } catch (PDOExecption $e) {
+            #return "Error!: " . $e->getMessage() . "</br>";
+            return 2;
+        }
+    }
+
+    public function readbyaluno(Aluno $aluno, $limite) {
+        if ($limite == 0) {
+            if ($aluno == NULL) {
+                $pstmt = $this->conn->prepare("SELECT * FROM " . $this->_tabela . " ORDER BY status_codigo ASC");
+            } else {
+                $key = $aluno->getcpf();
+                $pstmt = $this->conn->prepare("SELECT * FROM " . $this->_tabela . " WHERE aluno_cpf = :aluno_cpf ORDER BY status_codigo ASC");
+                $pstmt->bindParam(':aluno_cpf', $key);
+            }
+        } else {
+            if ($aluno == NULL) {
+                $pstmt = $this->conn->prepare("SELECT * FROM " . $this->_tabela . " LIMIT :limite ORDER BY status_codigo ASC");
+            } else {
+                $key = $aluno->getcpf();
+                $pstmt = $this->conn->prepare("SELECT * FROM " . $this->_tabela . " WHERE aluno_cpf = :aluno_cpf LIMIT :limite ORDER BY status_codigo ASC");
+                $pstmt->bindParam(':aluno_cpf', $key);
+            }
+            $pstmt->bindParam(':limite', $limite, PDO::PARAM_INT);
+        }
+        try {
+            $this->conn->beginTransaction();
+            $pstmt->execute();
+            $this->conn->commit();
+            $cont = 0;
+            $result = [];
+            while ($row = $pstmt->fetch()) {
+                $apoliceModel = $this->loader->loadModel("ApoliceModel", "ApoliceModel");
+                $supervisorModel = $this->loader->loadModel("SupervisorModel", "SupervisorModel");
+                $empresaModel = $this->loader->loadModel("EmpresaModel", "EmpresaModel");
+                $funcionarioModel = $this->loader->loadModel("FuncionarioModel", "FuncionarioModel");
+                $matriculaModel = $this->loader->loadModel("MatriculaModel", "MatriculaModel");
+                $statusModel = $this->loader->loadModel("StatusModel", "StatusModel");
+                $planodeestagioModel = $this->loader->loadModel("PlanoDeEstagioModel", "PlanoDeEstagioModel");
+                $result[$cont] = new Estagio($row["id"], boolval($row["bool_aprovado"]), boolval($row["bool_obrigatorio"]), null, null, $row["periodo"], $row["serie"], $row["modulo"], $row["integ_ano"], $row["integ_semestre"], $row["dependencias"], $row["justificativa"], $row["endereco_tc"], $row["endereco_pe"], $empresaModel->read($row["empresa_cnpj"], 1)[0], $aluno, $funcionarioModel->read($row["po_siape"], 1)[0], $matriculaModel->read($row["aluno_estuda_curso_matricula"], 1)[0], $statusModel->read($row["status_codigo"], 1)[0], null);
+                $result[$cont]->sethoras_contabilizadas($row["horas_contabilizadas"]);
+                $result[$cont]->setapolice($apoliceModel->readbyestagio($result[$cont], 1)[0]);
+                $result[$cont]->setpe($planodeestagioModel->read($result[$cont], 1)[0]);
+                $result[$cont]->setsupervisor($supervisorModel->read($result[$cont]->getempresa()->getcnpj(), 1)[0]);
+                $cont++;
+            }
+            return $result;
+        } catch (PDOExecption $e) {
+            #return "Error!: " . $e->getMessage() . "</br>";
+            return 2;
+        }
+    }
+
+    public function update(Estagio $estagio) {
+        $pstmt = $this->conn->prepare("UPDATE " . $this->_tabela . " SET bool_aprovado = ? , bool_obrigatorio = ? , periodo = ? , serie = ? , modulo = ? , integ_ano = ? , integ_semestre = ? , dependencias = ? , justificativa = ? , endereco_tc = ? , endereco_pe = ? , horas_contabilizadas = ? , aluno_cpf = ? , empresa_cnpj = ? , aluno_estuda_curso_matricula = ? , po_siape = ? , status_codigo = ? WHERE id = ?");
+        try {
+            $this->conn->beginTransaction();
+            $pstmt->execute(array((int) $estagio->getaprovado(), (int) $estagio->getobrigatorio(), $estagio->getperiodo(), $estagio->getserie(), $estagio->getmodulo(), $estagio->getano(), $estagio->getsemestre(), $estagio->getdependencias(), $estagio->getjustificativa(), $estagio->getendereco_tc(), $estagio->getendereco_pe(), $estagio->gethoras_contabilizadas(), $estagio->getaluno()->getcpf(), $estagio->getempresa()->getcnpj(), $estagio->getmatricula()->getmatricula(), $estagio->getfuncionario()->getsiape(), $estagio->getstatus()->getcodigo(), $estagio->getid()));
+            $this->conn->commit();
+            return 0;
+        } catch (PDOExecption $e) {
+            $this->conn->rollback();
+            #return "Error!: " . $e->getMessage() . "</br>";
+            return 2;
+        }
+    }
+
+    public function delete(Estagio $estagio) {
+        $pstmt = $this->conn->prepare("DELETE from " . $this->_tabela . " WHERE id = ?");
+        try {
+            $this->conn->beginTransaction();
+            $pstmt->execute(array($estagio->getid()));
+            $this->conn->commit();
+            return 0;
+        } catch (PDOExecption $e) {
+            $this->conn->rollback();
+            #return "Error!: " . $e->getMessage() . "</br>";
+            return 2;
+        }
+    }
+
 }

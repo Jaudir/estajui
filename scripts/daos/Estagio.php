@@ -1,15 +1,25 @@
 <?php
 
+require_once $_SERVER['DOCUMENT_ROOT'] . '/estajui/scripts/daos/Apolice.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/estajui/scripts/daos/Supervisor.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/estajui/scripts/daos/Empresa.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/estajui/scripts/daos/Aluno.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/estajui/scripts/daos/Funcionario.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/estajui/scripts/daos/Matricula.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/estajui/scripts/daos/PlanoDeEstagio.php';
+
 /**
  * Description of Estagio
  *
  * @author gabriel Lucas
  */
-class Estagio{
-    
+class Estagio {
+
     private $_id;
     private $_aprovado;
     private $_obrigatorio;
+    private $_apolice;
+    private $_supervisor;
     private $_periodo;
     private $_serie;
     private $_modulo;
@@ -19,19 +29,20 @@ class Estagio{
     private $_justificativa;
     private $_endereco_tc;
     private $_endereco_pe;
+    private $_horas_contabilizadas;
     private $_empresa;
     private $_aluno;
     private $_funcionario;
-    private $_curso;
+    private $_matricula;
     private $_status;
     private $_pe;
-	private $_apolice;
-	private $_supervisor;
-    
-    public function __construct($_id, $_aprovado, $_obrigatorio, $_periodo, $_serie, $_modulo, $_ano, $_semestre, $_dependencias, $_justificativa, $_endereco_tc, $_endereco_pe, $_empresa, $_aluno, $_funcionario, $_curso, $_status, $_pe) {
+
+    public function __construct($_id, $_aprovado, $_obrigatorio, $_apolice, $_supervisor, $_periodo, $_serie, $_modulo, $_ano, $_semestre, $_dependencias, $_justificativa, $_endereco_tc, $_endereco_pe, $_empresa, $_aluno, $_funcionario, $_matricula, $_status, $_pe) {
         $this->_id = $_id;
         $this->_aprovado = $_aprovado;
         $this->_obrigatorio = $_obrigatorio;
+        $this->_apolice = $_apolice;
+        $this->_supervisor = $_supervisor;
         $this->_periodo = $_periodo;
         $this->_serie = $_serie;
         $this->_modulo = $_modulo;
@@ -44,15 +55,20 @@ class Estagio{
         $this->_empresa = $_empresa;
         $this->_aluno = $_aluno;
         $this->_funcionario = $_funcionario;
-        $this->_curso = $_curso;
+        $this->_matricula = $_matricula;
         $this->_status = $_status;
         $this->_pe = $_pe;
     }
-    
 
-    public function get_tabela(){
-            return "estagio";
+    public function gethoras_contabilizadas() {
+        return $this->_horas_contabilizadas;
     }
+
+    public function sethoras_contabilizadas($_horas_contabilizadas) {
+        $this->_horas_contabilizadas = $_horas_contabilizadas;
+        return $this;
+    }
+
     public function getid() {
         return $this->_id;
     }
@@ -113,10 +129,6 @@ class Estagio{
         return $this->_funcionario;
     }
 
-    public function getcurso() {
-        return $this->_curso;
-    }
-
     public function getstatus() {
         return $this->_status;
     }
@@ -124,14 +136,15 @@ class Estagio{
     public function getpe() {
         return $this->_pe;
     }
-	
-	public function getapolice() {
+
+    public function getapolice() {
         return $this->_apolice;
     }
 
-	public function getsupervisor() {
+    public function getsupervisor() {
         return $this->_supervisor;
     }
+
     public function setid($_id) {
         $this->_id = $_id;
         return $this;
@@ -207,11 +220,6 @@ class Estagio{
         return $this;
     }
 
-    public function setcurso($_curso) {
-        $this->_curso = $_curso;
-        return $this;
-    }
-
     public function setstatus($_status) {
         $this->_status = $_status;
         return $this;
@@ -221,14 +229,24 @@ class Estagio{
         $this->_pe = $_pe;
         return $this;
     }
-	
-	public function setapolice($_apolice) {
+
+    public function setapolice($_apolice) {
         $this->_apolice = $_apolice;
         return $this;
     }
-	
-	public function setsupervisor($_supervisor) {
+
+    public function setsupervisor($_supervisor) {
         $this->_supervisor = $_supervisor;
         return $this;
     }
+
+    public function getmatricula() {
+        return $this->_matricula;
+    }
+
+    public function setmatricula($_matricula) {
+        $this->_matricula = $_matricula;
+        return $this;
+    }
+
 }

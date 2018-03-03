@@ -2,104 +2,75 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="9e8d4dc6-5639-4f20-be51-e3eb03eda2b7" name="Default" comment="">
-      <change beforePath="" afterPath="$PROJECT_DIR$/.htaccess" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/.vscode/settings.json" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/assets/js/buttons.js" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/assets/js/jquery-3.3.1.min.js" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/assets/js/search-box.js" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/bdnew.sql" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/estajui/coordenador-extensao/relatorios.html" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/estajui/estudante/cadastrar-dados-estagio.php.orig" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/estajui/estudante/historico.html" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/estajui/estudante/historico.php" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/estajui/estudante/home-novo-estagio.php" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/estajui/organizador-estagio/estagios.html" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/estajui/organizador-estagio/home.html" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/estajui/secretaria/relatorios.html" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/scripts/controllers/busca-usuario.php" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/scripts/controllers/comeca-estagio.php" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/scripts/controllers/estudante/cadastrar-estagio.php" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/scripts/controllers/estudante/load_campos_cadastro.php" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/scripts/controllers/generico/ver-estagio.php" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/scripts/controllers/orientador-estagio/definir-po.php" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/scripts/controllers/secretaria/avalia-pe.php.orig" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/scripts/controllers/secretaria/avaliaPE.php" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/scripts/daos/Leciona.php" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/scripts/daos/OfereceCurso.php" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/scripts/daos/Verifica.php" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/scripts/models/ApoliceModel.php" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/scripts/models/ComentarioPEModel.php" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/scripts/models/ComentarioRelatorioModel.php" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/scripts/models/CursoModel.php" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/scripts/models/EmpresaModel.php" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/scripts/models/ExemploModel.php" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/scripts/models/LecionaModel.php" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/scripts/models/OfereceCursoModel.php" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/scripts/models/OrientaEstagio.php" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/scripts/models/PlanoEstagioModel.php" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/scripts/models/ResponsavelModel.php" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/scripts/models/StatusModel.php" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/scripts/models/SupervisorModel.php" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/scripts/models/campus-model.php" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/scripts/models/curso-model.php" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/scripts/models/estagio-model.php" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/scripts/util/funcao-geraSenha.php" />
-      <change beforePath="$PROJECT_DIR$/.gitignore" afterPath="$PROJECT_DIR$/.gitignore" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change beforePath="$PROJECT_DIR$/assets/css/main.css" afterPath="$PROJECT_DIR$/assets/css/main.css" />
-      <change beforePath="$PROJECT_DIR$/assets/js/busca_estagio.js" afterPath="$PROJECT_DIR$/assets/js/busca_estagio.js" />
-      <change beforePath="$PROJECT_DIR$/bd.sql" afterPath="$PROJECT_DIR$/bd.sql" />
-      <change beforePath="$PROJECT_DIR$/estajui/coordenador-extensao/usuarios.php" afterPath="$PROJECT_DIR$/estajui/coordenador-extensao/usuarios.php" />
-      <change beforePath="$PROJECT_DIR$/estajui/estudante/cadastrar-dados-estagio.html" afterPath="$PROJECT_DIR$/estajui/estudante/cadastrar-dados-estagio.php" />
-      <change beforePath="$PROJECT_DIR$/estajui/estudante/cadastro.php" afterPath="$PROJECT_DIR$/estajui/estudante/cadastro.php" />
-      <change beforePath="$PROJECT_DIR$/estajui/estudante/home-preencher-dados.html" afterPath="$PROJECT_DIR$/estajui/estudante/home-preencher-dados.html" />
-      <change beforePath="$PROJECT_DIR$/estajui/estudante/persiste_cadastro.php" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/estajui/generico/listar-estagios.php" afterPath="$PROJECT_DIR$/estajui/generico/listar-estagios.php" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/estajui/PE/PLANO.outline" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/estajui/PE/base.min.css" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/estajui/PE/bg1.png" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/estajui/PE/compatibility.min.js" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/estajui/PE/f1.woff" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/estajui/PE/f2.woff" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/estajui/PE/f3.woff" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/estajui/PE/f4.woff" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/estajui/PE/f5.woff" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/estajui/PE/f6.woff" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/estajui/PE/f7.woff" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/estajui/PE/f8.woff" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/estajui/PE/fancy.min.css" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/estajui/PE/main.css" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/estajui/PE/p1c7i1sfloa0019cj1f661udemj54.pdf" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/estajui/PE/pe.php" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/estajui/PE/theViewer.min.js" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/scripts/controllers/PE.php" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/scripts/controllers/secretaria/autorizaEstagio.php" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/scripts/controllers/secretaria/finalizaEstagio.php" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/scripts/daos/Apolice.php" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/scripts/daos/ComentarioPE.php" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/scripts/models/MatriculaModel.php" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/scripts/models/ModificacaoStatusModel.php" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/scripts/models/NotificacaoModel.php" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/scripts/models/PlanoDeEstagioModel.php" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/scripts/models/RelatorioModel.php" />
+      <change beforePath="$PROJECT_DIR$/bdnew.sql" afterPath="$PROJECT_DIR$/bd.sql" />
       <change beforePath="$PROJECT_DIR$/estajui/home.php" afterPath="$PROJECT_DIR$/estajui/home.php" />
-      <change beforePath="$PROJECT_DIR$/estajui/login.php" afterPath="$PROJECT_DIR$/estajui/login.php" />
-      <change beforePath="$PROJECT_DIR$/estajui/login/cadastro.html" afterPath="$PROJECT_DIR$/estajui/login/inutilizavel-cadastro.html" />
-      <change beforePath="$PROJECT_DIR$/estajui/login/cadastro.php" afterPath="$PROJECT_DIR$/estajui/login/inutilizavel-cadastro.php" />
-      <change beforePath="$PROJECT_DIR$/estajui/login/login.php" afterPath="$PROJECT_DIR$/estajui/login/nao-usadologin.php" />
-      <change beforePath="$PROJECT_DIR$/estajui/login/redefine-resultado.php" afterPath="$PROJECT_DIR$/estajui/login/redefine-resultado.php" />
-      <change beforePath="$PROJECT_DIR$/estajui/login/redefine-senha.php" afterPath="$PROJECT_DIR$/estajui/login/redefine-senha.php" />
-      <change beforePath="$PROJECT_DIR$/estajui/secretaria/home.html" afterPath="$PROJECT_DIR$/estajui/secretaria/home.html" />
-      <change beforePath="$PROJECT_DIR$/nbproject/project.properties" afterPath="$PROJECT_DIR$/nbproject/project.properties" />
-      <change beforePath="$PROJECT_DIR$/nbproject/project.xml" afterPath="$PROJECT_DIR$/nbproject/project.xml" />
+      <change beforePath="$PROJECT_DIR$/index.php" afterPath="$PROJECT_DIR$/index.php" />
       <change beforePath="$PROJECT_DIR$/scripts/controllers/HomeController.php" afterPath="$PROJECT_DIR$/scripts/controllers/HomeController.php" />
       <change beforePath="$PROJECT_DIR$/scripts/controllers/LoginController.php" afterPath="$PROJECT_DIR$/scripts/controllers/LoginController.php" />
-      <change beforePath="$PROJECT_DIR$/scripts/controllers/aluno/acompanhar-estagio.php" afterPath="$PROJECT_DIR$/scripts/controllers/aluno/acompanhar-estagio.php" />
-      <change beforePath="$PROJECT_DIR$/scripts/controllers/aluno/detalhes-estagio.php" afterPath="$PROJECT_DIR$/scripts/controllers/aluno/detalhes-estagio.php" />
       <change beforePath="$PROJECT_DIR$/scripts/controllers/base-controller.php" afterPath="$PROJECT_DIR$/scripts/controllers/base-controller.php" />
-      <change beforePath="$PROJECT_DIR$/scripts/controllers/generico/listar-estagios.php" afterPath="$PROJECT_DIR$/scripts/controllers/generico/listar-estagios.php" />
-      <change beforePath="$PROJECT_DIR$/scripts/controllers/login/criar-codigo-redefinicao.php" afterPath="$PROJECT_DIR$/scripts/controllers/login/criar-codigo-redefinicao.php" />
-      <change beforePath="$PROJECT_DIR$/scripts/controllers/login/redefinir-senha.php" afterPath="$PROJECT_DIR$/scripts/controllers/login/redefinir-senha.php" />
-      <change beforePath="$PROJECT_DIR$/scripts/controllers/login/verificar-codigo.php" afterPath="$PROJECT_DIR$/scripts/controllers/login/verificar-codigo.php" />
-      <change beforePath="$PROJECT_DIR$/scripts/controllers/organizador-estagio/acompanhar-estagio.php" afterPath="$PROJECT_DIR$/scripts/controllers/organizador-estagio/acompanhar-estagio.php" />
-      <change beforePath="$PROJECT_DIR$/scripts/controllers/persiste-usuario.php" afterPath="$PROJECT_DIR$/scripts/controllers/persiste-usuario.php" />
-      <change beforePath="$PROJECT_DIR$/scripts/controllers/persiste_cadastro.php" afterPath="$PROJECT_DIR$/scripts/controllers/persiste_cadastro.php" />
-      <change beforePath="$PROJECT_DIR$/scripts/controllers/secretaria/avalia-pe.php" afterPath="$PROJECT_DIR$/scripts/controllers/secretaria/avalia-pe.php" />
-      <change beforePath="$PROJECT_DIR$/scripts/controllers/verification.php" afterPath="$PROJECT_DIR$/scripts/controllers/verification.php" />
-      <change beforePath="$PROJECT_DIR$/scripts/daos/Campus.php" afterPath="$PROJECT_DIR$/scripts/daos/Campus.php" />
+      <change beforePath="$PROJECT_DIR$/scripts/controllers/configs.php" afterPath="$PROJECT_DIR$/scripts/controllers/configs.php" />
+      <change beforePath="$PROJECT_DIR$/scripts/controllers/secretaria/avalia-pe.php" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/scripts/controllers/secretaria/avalia-pe.php.orig" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/scripts/controllers/secretaria/avaliaPE.php" afterPath="$PROJECT_DIR$/scripts/controllers/secretaria/avaliaPE.php" />
+      <change beforePath="$PROJECT_DIR$/scripts/daos/Aluno.php" afterPath="$PROJECT_DIR$/scripts/daos/Aluno.php" />
+      <change beforePath="$PROJECT_DIR$/scripts/daos/ComentarioRelatorio.php" afterPath="$PROJECT_DIR$/scripts/daos/ComentarioRelatorio.php" />
       <change beforePath="$PROJECT_DIR$/scripts/daos/Curso.php" afterPath="$PROJECT_DIR$/scripts/daos/Curso.php" />
-      <change beforePath="$PROJECT_DIR$/scripts/daos/Email.php" afterPath="$PROJECT_DIR$/scripts/daos/Email.php" />
       <change beforePath="$PROJECT_DIR$/scripts/daos/Empresa.php" afterPath="$PROJECT_DIR$/scripts/daos/Empresa.php" />
       <change beforePath="$PROJECT_DIR$/scripts/daos/Endereco.php" afterPath="$PROJECT_DIR$/scripts/daos/Endereco.php" />
       <change beforePath="$PROJECT_DIR$/scripts/daos/Estagio.php" afterPath="$PROJECT_DIR$/scripts/daos/Estagio.php" />
+      <change beforePath="$PROJECT_DIR$/scripts/daos/Funcionario.php" afterPath="$PROJECT_DIR$/scripts/daos/Funcionario.php" />
+      <change beforePath="$PROJECT_DIR$/scripts/daos/Matricula.php" afterPath="$PROJECT_DIR$/scripts/daos/Matricula.php" />
+      <change beforePath="$PROJECT_DIR$/scripts/daos/ModificacaoStatus.php" afterPath="$PROJECT_DIR$/scripts/daos/ModificacaoStatus.php" />
+      <change beforePath="$PROJECT_DIR$/scripts/daos/Notificacao.php" afterPath="$PROJECT_DIR$/scripts/daos/Notificacao.php" />
+      <change beforePath="$PROJECT_DIR$/scripts/daos/OfereceCurso.php" afterPath="$PROJECT_DIR$/scripts/daos/OfereceCurso.php" />
       <change beforePath="$PROJECT_DIR$/scripts/daos/PlanoDeEstagio.php" afterPath="$PROJECT_DIR$/scripts/daos/PlanoDeEstagio.php" />
+      <change beforePath="$PROJECT_DIR$/scripts/daos/Relatorio.php" afterPath="$PROJECT_DIR$/scripts/daos/Relatorio.php" />
+      <change beforePath="$PROJECT_DIR$/scripts/daos/Responsavel.php" afterPath="$PROJECT_DIR$/scripts/daos/Responsavel.php" />
+      <change beforePath="$PROJECT_DIR$/scripts/daos/Status.php" afterPath="$PROJECT_DIR$/scripts/daos/Status.php" />
       <change beforePath="$PROJECT_DIR$/scripts/daos/Supervisor.php" afterPath="$PROJECT_DIR$/scripts/daos/Supervisor.php" />
-      <change beforePath="$PROJECT_DIR$/scripts/daos/Usuario.php" afterPath="$PROJECT_DIR$/scripts/daos/Usuario.php" />
       <change beforePath="$PROJECT_DIR$/scripts/models/AlunoModel.php" afterPath="$PROJECT_DIR$/scripts/models/AlunoModel.php" />
-      <change beforePath="$PROJECT_DIR$/scripts/models/CampusModel.php" afterPath="$PROJECT_DIR$/scripts/models/CampusModel.php" />
-      <change beforePath="$PROJECT_DIR$/scripts/models/EmailModel.php" afterPath="$PROJECT_DIR$/scripts/models/EmailModel.php" />
+      <change beforePath="$PROJECT_DIR$/scripts/models/ApoliceModel.php" afterPath="$PROJECT_DIR$/scripts/models/ApoliceModel.php" />
+      <change beforePath="$PROJECT_DIR$/scripts/models/ComentarioPEModel.php" afterPath="$PROJECT_DIR$/scripts/models/ComentarioPEModel.php" />
+      <change beforePath="$PROJECT_DIR$/scripts/models/ComentarioRelatorioModel.php" afterPath="$PROJECT_DIR$/scripts/models/ComentarioRelatorioModel.php" />
+      <change beforePath="$PROJECT_DIR$/scripts/models/CursoModel.php" afterPath="$PROJECT_DIR$/scripts/models/CursoModel.php" />
+      <change beforePath="$PROJECT_DIR$/scripts/models/EmpresaModel.php" afterPath="$PROJECT_DIR$/scripts/models/EmpresaModel.php" />
       <change beforePath="$PROJECT_DIR$/scripts/models/EnderecoModel.php" afterPath="$PROJECT_DIR$/scripts/models/EnderecoModel.php" />
       <change beforePath="$PROJECT_DIR$/scripts/models/EstagioModel.php" afterPath="$PROJECT_DIR$/scripts/models/EstagioModel.php" />
+      <change beforePath="$PROJECT_DIR$/scripts/models/ExemploModel.php" afterPath="$PROJECT_DIR$/scripts/models/ExemploModel.php" />
       <change beforePath="$PROJECT_DIR$/scripts/models/FuncionarioModel.php" afterPath="$PROJECT_DIR$/scripts/models/FuncionarioModel.php" />
-      <change beforePath="$PROJECT_DIR$/scripts/models/MainModel.php" afterPath="$PROJECT_DIR$/scripts/models/MainModel.php" />
+      <change beforePath="$PROJECT_DIR$/scripts/models/OfereceCursoModel.php" afterPath="$PROJECT_DIR$/scripts/models/OfereceCursoModel.php" />
+      <change beforePath="$PROJECT_DIR$/scripts/models/ResponsavelModel.php" afterPath="$PROJECT_DIR$/scripts/models/ResponsavelModel.php" />
+      <change beforePath="$PROJECT_DIR$/scripts/models/StatusModel.php" afterPath="$PROJECT_DIR$/scripts/models/StatusModel.php" />
+      <change beforePath="$PROJECT_DIR$/scripts/models/SupervisorModel.php" afterPath="$PROJECT_DIR$/scripts/models/SupervisorModel.php" />
       <change beforePath="$PROJECT_DIR$/scripts/models/UsuarioModel.php" afterPath="$PROJECT_DIR$/scripts/models/UsuarioModel.php" />
-      <change beforePath="$PROJECT_DIR$/scripts/util/Database.php" afterPath="$PROJECT_DIR$/scripts/util/Database.php" />
-      <change beforePath="$PROJECT_DIR$/scripts/util/Session.php" afterPath="$PROJECT_DIR$/scripts/util/Session.php" />
+      <change beforePath="$PROJECT_DIR$/scripts/util/Loader.php" afterPath="$PROJECT_DIR$/scripts/util/Loader.php" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -286,22 +257,22 @@
       <updated>1520029357138</updated>
       <workItem from="1520029368499" duration="758000" />
       <workItem from="1520031514761" duration="46256000" />
-      <workItem from="1520084375223" duration="19617000" />
+      <workItem from="1520084375223" duration="20225000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="66631000" />
+    <option name="totallyTimeSpent" value="67239000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="1" y="25" width="1346" height="728" extended-state="0" />
     <layout>
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.24962406" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.24962406" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Docker" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="false" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32956383" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
@@ -332,7 +303,7 @@
         <state relative-caret-position="2431">
           <caret line="143" column="31" lean-forward="false" selection-start-line="143" selection-start-column="31" selection-end-line="143" selection-end-column="31" />
           <folding>
-            <element signature="e#7664#7671#1#HTML" expanded="true" />
+            <element signature="e#7664#7671#1#HTML" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -358,39 +329,39 @@
         <state relative-caret-position="8517">
           <caret line="501" column="43" lean-forward="false" selection-start-line="501" selection-start-column="43" selection-end-line="501" selection-end-column="43" />
           <folding>
-            <marker date="1520105617677" expanded="true" signature="539:596" ph="INSERT INTO usuario... " />
-            <marker date="1520105617677" expanded="true" signature="1373:1546" ph="INSERT INTO funcionario... " />
-            <marker date="1520105617677" expanded="true" signature="2723:2783" ph="INSERT INTO leciona... " />
-            <marker date="1520105617677" expanded="true" signature="3192:3252" ph="INSERT INTO leciona... " />
-            <marker date="1520105617677" expanded="true" signature="3664:3724" ph="INSERT INTO leciona... " />
-            <marker date="1520105617677" expanded="true" signature="4132:4192" ph="INSERT INTO leciona... " />
-            <marker date="1520105617677" expanded="true" signature="4662:4722" ph="INSERT INTO leciona... " />
-            <marker date="1520105617677" expanded="true" signature="5142:5202" ph="INSERT INTO leciona... " />
-            <marker date="1520105617677" expanded="true" signature="5837:5881" ph="SELECT conve... empresa" />
-            <marker date="1520105617677" expanded="true" signature="6910:7097" ph="SELECT * FRO... estagio" />
-            <marker date="1520105617677" expanded="true" signature="7487:7542" ph="UPDATE empresa... " />
-            <marker date="1520105617677" expanded="true" signature="7756:7888" ph="INSERT INTO modifica_status... " />
-            <marker date="1520105617677" expanded="true" signature="7983:8122" ph="INSERT INTO notificacao... " />
-            <marker date="1520105617677" expanded="true" signature="8446:8479" ph="delete from empresa... " />
-            <marker date="1520105617677" expanded="true" signature="9015:9445" ph="SELECT ender... empresa" />
-            <marker date="1520105617677" expanded="true" signature="9891:10077" ph="INSERT INTO ${$this-&gt;_tabela}... " />
-            <marker date="1520105617677" expanded="true" signature="10977:11014" ph="SELECT * FRO... ${$this-&gt;_tabela}" />
-            <marker date="1520105617677" expanded="true" signature="11085:11145" ph="SELECT * FRO... ${$this-&gt;_tabela}" />
-            <marker date="1520105617677" expanded="true" signature="11354:11404" ph="SELECT * FRO... ${$this-&gt;_tabela}" />
-            <marker date="1520105617677" expanded="true" signature="11476:11550" ph="SELECT * FRO... ${$this-&gt;_tabela}" />
-            <marker date="1520105617677" expanded="true" signature="12805:12842" ph="SELECT * FRO... ${$this-&gt;_tabela}" />
-            <marker date="1520105617677" expanded="true" signature="12915:12973" ph="SELECT * FRO... ${$this-&gt;_tabela}" />
-            <marker date="1520105617677" expanded="true" signature="13178:13228" ph="SELECT * FRO... ${$this-&gt;_tabela}" />
-            <marker date="1520105617677" expanded="true" signature="13302:13374" ph="SELECT * FRO... ${$this-&gt;_tabela}" />
-            <marker date="1520105617677" expanded="true" signature="14727:14764" ph="SELECT * FRO... ${$this-&gt;_tabela}" />
-            <marker date="1520105617677" expanded="true" signature="14835:14911" ph="SELECT * FRO... ${$this-&gt;_tabela}" />
-            <marker date="1520105617677" expanded="true" signature="15125:15175" ph="SELECT * FRO... ${$this-&gt;_tabela}" />
-            <marker date="1520105617677" expanded="true" signature="15247:15337" ph="SELECT * FRO... ${$this-&gt;_tabela}" />
-            <marker date="1520105617677" expanded="true" signature="16484:16521" ph="SELECT * FRO... ${$this-&gt;_tabela}" />
-            <marker date="1520105617677" expanded="true" signature="16592:16664" ph="SELECT * FRO... ${$this-&gt;_tabela}" />
-            <marker date="1520105617677" expanded="true" signature="16835:16885" ph="SELECT * FRO... ${$this-&gt;_tabela}" />
-            <marker date="1520105617677" expanded="true" signature="16957:17043" ph="SELECT * FRO... ${$this-&gt;_tabela}" />
-            <marker date="1520105617677" expanded="true" signature="20032:20085" ph="DELETE from ${$this-&gt;_tabela}... " />
+            <marker date="1520107338690" expanded="true" signature="539:596" ph="INSERT INTO usuario... " />
+            <marker date="1520107338690" expanded="true" signature="1373:1546" ph="INSERT INTO funcionario... " />
+            <marker date="1520107338690" expanded="true" signature="2723:2783" ph="INSERT INTO leciona... " />
+            <marker date="1520107338690" expanded="true" signature="3192:3252" ph="INSERT INTO leciona... " />
+            <marker date="1520107338690" expanded="true" signature="3664:3724" ph="INSERT INTO leciona... " />
+            <marker date="1520107338690" expanded="true" signature="4132:4192" ph="INSERT INTO leciona... " />
+            <marker date="1520107338690" expanded="true" signature="4662:4722" ph="INSERT INTO leciona... " />
+            <marker date="1520107338690" expanded="true" signature="5142:5202" ph="INSERT INTO leciona... " />
+            <marker date="1520107338690" expanded="true" signature="5837:5881" ph="SELECT conve... empresa" />
+            <marker date="1520107338690" expanded="true" signature="6910:7097" ph="SELECT * FRO... estagio" />
+            <marker date="1520107338690" expanded="true" signature="7487:7542" ph="UPDATE empresa... " />
+            <marker date="1520107338690" expanded="true" signature="7756:7888" ph="INSERT INTO modifica_status... " />
+            <marker date="1520107338690" expanded="true" signature="7983:8122" ph="INSERT INTO notificacao... " />
+            <marker date="1520107338690" expanded="true" signature="8446:8479" ph="delete from empresa... " />
+            <marker date="1520107338690" expanded="true" signature="9015:9445" ph="SELECT ender... empresa" />
+            <marker date="1520107338690" expanded="true" signature="9891:10077" ph="INSERT INTO ${$this-&gt;_tabela}... " />
+            <marker date="1520107338690" expanded="true" signature="10977:11014" ph="SELECT * FRO... ${$this-&gt;_tabela}" />
+            <marker date="1520107338690" expanded="true" signature="11085:11145" ph="SELECT * FRO... ${$this-&gt;_tabela}" />
+            <marker date="1520107338690" expanded="true" signature="11354:11404" ph="SELECT * FRO... ${$this-&gt;_tabela}" />
+            <marker date="1520107338690" expanded="true" signature="11476:11550" ph="SELECT * FRO... ${$this-&gt;_tabela}" />
+            <marker date="1520107338690" expanded="true" signature="12805:12842" ph="SELECT * FRO... ${$this-&gt;_tabela}" />
+            <marker date="1520107338690" expanded="true" signature="12915:12973" ph="SELECT * FRO... ${$this-&gt;_tabela}" />
+            <marker date="1520107338690" expanded="true" signature="13178:13228" ph="SELECT * FRO... ${$this-&gt;_tabela}" />
+            <marker date="1520107338690" expanded="true" signature="13302:13374" ph="SELECT * FRO... ${$this-&gt;_tabela}" />
+            <marker date="1520107338690" expanded="true" signature="14727:14764" ph="SELECT * FRO... ${$this-&gt;_tabela}" />
+            <marker date="1520107338690" expanded="true" signature="14835:14911" ph="SELECT * FRO... ${$this-&gt;_tabela}" />
+            <marker date="1520107338690" expanded="true" signature="15125:15175" ph="SELECT * FRO... ${$this-&gt;_tabela}" />
+            <marker date="1520107338690" expanded="true" signature="15247:15337" ph="SELECT * FRO... ${$this-&gt;_tabela}" />
+            <marker date="1520107338690" expanded="true" signature="16484:16521" ph="SELECT * FRO... ${$this-&gt;_tabela}" />
+            <marker date="1520107338690" expanded="true" signature="16592:16664" ph="SELECT * FRO... ${$this-&gt;_tabela}" />
+            <marker date="1520107338690" expanded="true" signature="16835:16885" ph="SELECT * FRO... ${$this-&gt;_tabela}" />
+            <marker date="1520107338690" expanded="true" signature="16957:17043" ph="SELECT * FRO... ${$this-&gt;_tabela}" />
+            <marker date="1520107338690" expanded="true" signature="20032:20085" ph="DELETE from ${$this-&gt;_tabela}... " />
           </folding>
         </state>
       </provider>
@@ -517,15 +488,15 @@
         <state relative-caret-position="493">
           <caret line="48" column="12" lean-forward="false" selection-start-line="48" selection-start-column="12" selection-end-line="48" selection-end-column="12" />
           <folding>
-            <marker date="1520093725378" expanded="true" signature="3204:3316" ph="INSERT INTO endereco... " />
-            <marker date="1520093725378" expanded="true" signature="3610:3748" ph="INSERT INTO empresa... " />
-            <marker date="1520093725378" expanded="true" signature="4024:4122" ph="INSERT INTO responsavel... " />
-            <marker date="1520093725378" expanded="true" signature="4303:4383" ph="INSERT INTO supervisor... " />
-            <marker date="1520093725378" expanded="true" signature="4607:4670" ph="INSERT INTO supervisiona... " />
-            <marker date="1520093725378" expanded="true" signature="4790:4956" ph="INSERT INTO plano_estagio... " />
-            <marker date="1520093725378" expanded="true" signature="5483:5563" ph="INSERT INTO supervisor... " />
-            <marker date="1520093725378" expanded="true" signature="5787:5850" ph="INSERT INTO supervisiona... " />
-            <marker date="1520093725378" expanded="true" signature="5974:6140" ph="INSERT INTO plano_estagio... " />
+            <marker date="1520107757744" expanded="true" signature="3204:3316" ph="INSERT INTO endereco... " />
+            <marker date="1520107757744" expanded="true" signature="3610:3748" ph="INSERT INTO empresa... " />
+            <marker date="1520107757744" expanded="true" signature="4024:4122" ph="INSERT INTO responsavel... " />
+            <marker date="1520107757744" expanded="true" signature="4303:4383" ph="INSERT INTO supervisor... " />
+            <marker date="1520107757744" expanded="true" signature="4607:4670" ph="INSERT INTO supervisiona... " />
+            <marker date="1520107757744" expanded="true" signature="4790:4956" ph="INSERT INTO plano_estagio... " />
+            <marker date="1520107757744" expanded="true" signature="5483:5563" ph="INSERT INTO supervisor... " />
+            <marker date="1520107757744" expanded="true" signature="5787:5850" ph="INSERT INTO supervisiona... " />
+            <marker date="1520107757744" expanded="true" signature="5974:6140" ph="INSERT INTO plano_estagio... " />
           </folding>
         </state>
       </provider>
@@ -535,24 +506,24 @@
         <state relative-caret-position="-129">
           <caret line="285" column="0" lean-forward="true" selection-start-line="285" selection-start-column="0" selection-end-line="285" selection-end-column="0" />
           <folding>
-            <marker date="1520105376920" expanded="true" signature="420:656" ph="INSERT INTO ${$this-&gt;_tabela}... " />
-            <marker date="1520105376920" expanded="true" signature="1585:1622" ph="SELECT * FRO... ${$this-&gt;_tabela}" />
-            <marker date="1520105376920" expanded="true" signature="1693:1749" ph="SELECT * FRO... ${$this-&gt;_tabela}" />
-            <marker date="1520105376920" expanded="true" signature="1912:1962" ph="SELECT * FRO... ${$this-&gt;_tabela}" />
-            <marker date="1520105376920" expanded="true" signature="2034:2104" ph="SELECT * FRO... ${$this-&gt;_tabela}" />
-            <marker date="1520105376920" expanded="true" signature="3481:3518" ph="SELECT * FRO... ${$this-&gt;_tabela}" />
-            <marker date="1520105376920" expanded="true" signature="3597:3673" ph="SELECT * FRO... ${$this-&gt;_tabela}" />
-            <marker date="1520105376920" expanded="true" signature="3867:3917" ph="SELECT * FRO... ${$this-&gt;_tabela}" />
-            <marker date="1520105376920" expanded="true" signature="3997:4087" ph="SELECT * FRO... ${$this-&gt;_tabela}" />
-            <marker date="1520105376920" expanded="true" signature="6409:6462" ph="DELETE from ${$aluno-&gt;$_tabela}... " />
-            <marker date="1520105376920" expanded="true" signature="7065:7120" ph="INSERT INTO usuario... " />
-            <marker date="1520105376920" expanded="true" signature="7287:7394" ph="INSERT INTO endereco... " />
-            <marker date="1520105376920" expanded="true" signature="7840:8052" ph="INSERT INTO aluno... " />
-            <marker date="1520105376920" expanded="true" signature="8720:8854" ph="SELECT * FRO... aluno" />
-            <marker date="1520105376920" expanded="true" signature="9891:9931" ph="UPDATE usuario... " />
-            <marker date="1520105376920" expanded="true" signature="10055:10156" ph="UPDATE endereco... " />
-            <marker date="1520105376920" expanded="true" signature="10446:10608" ph="UPDATE aluno... " />
-            <marker date="1520105376920" expanded="true" signature="11203:11252" ph="SELECT email... usuario" />
+            <marker date="1520107480050" expanded="true" signature="420:583" ph="INSERT INTO ${$this-&gt;_tabela}... " />
+            <marker date="1520107480050" expanded="true" signature="1585:1622" ph="SELECT * FRO... ${$this-&gt;_tabela}" />
+            <marker date="1520107480050" expanded="true" signature="1693:1749" ph="SELECT * FRO... ${$this-&gt;_tabela}" />
+            <marker date="1520107480050" expanded="true" signature="1912:1962" ph="SELECT * FRO... ${$this-&gt;_tabela}" />
+            <marker date="1520107480050" expanded="true" signature="2034:2104" ph="SELECT * FRO... ${$this-&gt;_tabela}" />
+            <marker date="1520107480050" expanded="true" signature="3481:3518" ph="SELECT * FRO... ${$this-&gt;_tabela}" />
+            <marker date="1520107480050" expanded="true" signature="3597:3673" ph="SELECT * FRO... ${$this-&gt;_tabela}" />
+            <marker date="1520107480050" expanded="true" signature="3867:3917" ph="SELECT * FRO... ${$this-&gt;_tabela}" />
+            <marker date="1520107480050" expanded="true" signature="3997:4087" ph="SELECT * FRO... ${$this-&gt;_tabela}" />
+            <marker date="1520107480050" expanded="true" signature="6847:6878" ph="DELETE from ${$aluno-&gt;$_tabela}... " />
+            <marker date="1520107480050" expanded="true" signature="7481:7536" ph="INSERT INTO usuario... " />
+            <marker date="1520107480050" expanded="true" signature="7703:7810" ph="INSERT INTO endereco... " />
+            <marker date="1520107480050" expanded="true" signature="8256:8468" ph="INSERT INTO aluno... " />
+            <marker date="1520107480050" expanded="true" signature="9136:9270" ph="SELECT * FRO... aluno" />
+            <marker date="1520107480050" expanded="true" signature="10307:10347" ph="UPDATE usuario... " />
+            <marker date="1520107480050" expanded="true" signature="10471:10572" ph="UPDATE endereco... " />
+            <marker date="1520107480050" expanded="true" signature="10862:11024" ph="UPDATE aluno... " />
+            <marker date="1520107480050" expanded="true" signature="11619:11668" ph="SELECT email... usuario" />
           </folding>
         </state>
       </provider>
@@ -570,7 +541,7 @@
         <state relative-caret-position="204">
           <caret line="21" column="39" lean-forward="true" selection-start-line="21" selection-start-column="39" selection-end-line="21" selection-end-column="39" />
           <folding>
-            <element signature="e#7664#7671#1#HTML" expanded="true" />
+            <element signature="e#7664#7671#1#HTML" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -580,39 +551,39 @@
         <state relative-caret-position="374">
           <caret line="467" column="33" lean-forward="false" selection-start-line="467" selection-start-column="33" selection-end-line="467" selection-end-column="33" />
           <folding>
-            <marker date="1520105617677" expanded="true" signature="539:596" ph="INSERT INTO usuario... " />
-            <marker date="1520105617677" expanded="true" signature="1373:1546" ph="INSERT INTO funcionario... " />
-            <marker date="1520105617677" expanded="true" signature="2723:2783" ph="INSERT INTO leciona... " />
-            <marker date="1520105617677" expanded="true" signature="3192:3252" ph="INSERT INTO leciona... " />
-            <marker date="1520105617677" expanded="true" signature="3664:3724" ph="INSERT INTO leciona... " />
-            <marker date="1520105617677" expanded="true" signature="4132:4192" ph="INSERT INTO leciona... " />
-            <marker date="1520105617677" expanded="true" signature="4662:4722" ph="INSERT INTO leciona... " />
-            <marker date="1520105617677" expanded="true" signature="5142:5202" ph="INSERT INTO leciona... " />
-            <marker date="1520105617677" expanded="true" signature="5837:5881" ph="SELECT conve... empresa" />
-            <marker date="1520105617677" expanded="true" signature="6910:7097" ph="SELECT * FRO... estagio" />
-            <marker date="1520105617677" expanded="true" signature="7487:7542" ph="UPDATE empresa... " />
-            <marker date="1520105617677" expanded="true" signature="7756:7888" ph="INSERT INTO modifica_status... " />
-            <marker date="1520105617677" expanded="true" signature="7983:8122" ph="INSERT INTO notificacao... " />
-            <marker date="1520105617677" expanded="true" signature="8446:8479" ph="delete from empresa... " />
-            <marker date="1520105617677" expanded="true" signature="9015:9445" ph="SELECT ender... empresa" />
-            <marker date="1520105617677" expanded="true" signature="9891:10077" ph="INSERT INTO ${$this-&gt;_tabela}... " />
-            <marker date="1520105617677" expanded="true" signature="10977:11014" ph="SELECT * FRO... ${$this-&gt;_tabela}" />
-            <marker date="1520105617677" expanded="true" signature="11085:11145" ph="SELECT * FRO... ${$this-&gt;_tabela}" />
-            <marker date="1520105617677" expanded="true" signature="11354:11404" ph="SELECT * FRO... ${$this-&gt;_tabela}" />
-            <marker date="1520105617677" expanded="true" signature="11476:11550" ph="SELECT * FRO... ${$this-&gt;_tabela}" />
-            <marker date="1520105617677" expanded="true" signature="12805:12842" ph="SELECT * FRO... ${$this-&gt;_tabela}" />
-            <marker date="1520105617677" expanded="true" signature="12915:12973" ph="SELECT * FRO... ${$this-&gt;_tabela}" />
-            <marker date="1520105617677" expanded="true" signature="13178:13228" ph="SELECT * FRO... ${$this-&gt;_tabela}" />
-            <marker date="1520105617677" expanded="true" signature="13302:13374" ph="SELECT * FRO... ${$this-&gt;_tabela}" />
-            <marker date="1520105617677" expanded="true" signature="14727:14764" ph="SELECT * FRO... ${$this-&gt;_tabela}" />
-            <marker date="1520105617677" expanded="true" signature="14835:14911" ph="SELECT * FRO... ${$this-&gt;_tabela}" />
-            <marker date="1520105617677" expanded="true" signature="15125:15175" ph="SELECT * FRO... ${$this-&gt;_tabela}" />
-            <marker date="1520105617677" expanded="true" signature="15247:15337" ph="SELECT * FRO... ${$this-&gt;_tabela}" />
-            <marker date="1520105617677" expanded="true" signature="16484:16521" ph="SELECT * FRO... ${$this-&gt;_tabela}" />
-            <marker date="1520105617677" expanded="true" signature="16592:16664" ph="SELECT * FRO... ${$this-&gt;_tabela}" />
-            <marker date="1520105617677" expanded="true" signature="16835:16885" ph="SELECT * FRO... ${$this-&gt;_tabela}" />
-            <marker date="1520105617677" expanded="true" signature="16957:17043" ph="SELECT * FRO... ${$this-&gt;_tabela}" />
-            <marker date="1520105617677" expanded="true" signature="20032:20085" ph="DELETE from ${$this-&gt;_tabela}... " />
+            <marker date="1520107338690" expanded="true" signature="539:596" ph="INSERT INTO usuario... " />
+            <marker date="1520107338690" expanded="true" signature="1373:1546" ph="INSERT INTO funcionario... " />
+            <marker date="1520107338690" expanded="true" signature="2723:2783" ph="INSERT INTO leciona... " />
+            <marker date="1520107338690" expanded="true" signature="3192:3252" ph="INSERT INTO leciona... " />
+            <marker date="1520107338690" expanded="true" signature="3664:3724" ph="INSERT INTO leciona... " />
+            <marker date="1520107338690" expanded="true" signature="4132:4192" ph="INSERT INTO leciona... " />
+            <marker date="1520107338690" expanded="true" signature="4662:4722" ph="INSERT INTO leciona... " />
+            <marker date="1520107338690" expanded="true" signature="5142:5202" ph="INSERT INTO leciona... " />
+            <marker date="1520107338690" expanded="true" signature="5837:5881" ph="SELECT conve... empresa" />
+            <marker date="1520107338690" expanded="true" signature="6910:7097" ph="SELECT * FRO... estagio" />
+            <marker date="1520107338690" expanded="true" signature="7487:7542" ph="UPDATE empresa... " />
+            <marker date="1520107338690" expanded="true" signature="7756:7888" ph="INSERT INTO modifica_status... " />
+            <marker date="1520107338690" expanded="true" signature="7983:8122" ph="INSERT INTO notificacao... " />
+            <marker date="1520107338690" expanded="true" signature="8446:8479" ph="delete from empresa... " />
+            <marker date="1520107338690" expanded="true" signature="9015:9445" ph="SELECT ender... empresa" />
+            <marker date="1520107338690" expanded="true" signature="9891:10077" ph="INSERT INTO ${$this-&gt;_tabela}... " />
+            <marker date="1520107338690" expanded="true" signature="10977:11014" ph="SELECT * FRO... ${$this-&gt;_tabela}" />
+            <marker date="1520107338690" expanded="true" signature="11085:11145" ph="SELECT * FRO... ${$this-&gt;_tabela}" />
+            <marker date="1520107338690" expanded="true" signature="11354:11404" ph="SELECT * FRO... ${$this-&gt;_tabela}" />
+            <marker date="1520107338690" expanded="true" signature="11476:11550" ph="SELECT * FRO... ${$this-&gt;_tabela}" />
+            <marker date="1520107338690" expanded="true" signature="12805:12842" ph="SELECT * FRO... ${$this-&gt;_tabela}" />
+            <marker date="1520107338690" expanded="true" signature="12915:12973" ph="SELECT * FRO... ${$this-&gt;_tabela}" />
+            <marker date="1520107338690" expanded="true" signature="13178:13228" ph="SELECT * FRO... ${$this-&gt;_tabela}" />
+            <marker date="1520107338690" expanded="true" signature="13302:13374" ph="SELECT * FRO... ${$this-&gt;_tabela}" />
+            <marker date="1520107338690" expanded="true" signature="14727:14764" ph="SELECT * FRO... ${$this-&gt;_tabela}" />
+            <marker date="1520107338690" expanded="true" signature="14835:14911" ph="SELECT * FRO... ${$this-&gt;_tabela}" />
+            <marker date="1520107338690" expanded="true" signature="15125:15175" ph="SELECT * FRO... ${$this-&gt;_tabela}" />
+            <marker date="1520107338690" expanded="true" signature="15247:15337" ph="SELECT * FRO... ${$this-&gt;_tabela}" />
+            <marker date="1520107338690" expanded="true" signature="16484:16521" ph="SELECT * FRO... ${$this-&gt;_tabela}" />
+            <marker date="1520107338690" expanded="true" signature="16592:16664" ph="SELECT * FRO... ${$this-&gt;_tabela}" />
+            <marker date="1520107338690" expanded="true" signature="16835:16885" ph="SELECT * FRO... ${$this-&gt;_tabela}" />
+            <marker date="1520107338690" expanded="true" signature="16957:17043" ph="SELECT * FRO... ${$this-&gt;_tabela}" />
+            <marker date="1520107338690" expanded="true" signature="20032:20085" ph="DELETE from ${$this-&gt;_tabela}... " />
           </folding>
         </state>
       </provider>

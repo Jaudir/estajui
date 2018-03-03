@@ -4,7 +4,7 @@
 Este arquivo é incluido no controller base
 */
 
-$configs['BASE_URL'] = 'http://localhost/estajui';
+$configs['BASE_URL'] = 'http://localhost/estajui';;
 
 //envio de emails
 $configs['email_estajui'] = 'estajui@estajui.estajui';

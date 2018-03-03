@@ -7,6 +7,7 @@ class UsuarioModel extends MainModel {
     public function create(Usuario $user) {
         $pstmt = $this->conn->prepare("INSERT INTO " . $this->_tabela . " (email, senha, tipo) VALUES(?,?, ?)");
         try {
+            $this->conn->beginTransaction();
             $this->conn->execute(array($user->getlogin(), $user->getsenha(), $user->gettipo()));
             $this->conn->commit();
             return 0;
