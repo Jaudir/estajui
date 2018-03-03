@@ -6,6 +6,7 @@ require_once $_SERVER['DOCUMENT_ROOT'] . "/estajui/scripts/daos/Estagio.php";
 class EstagioModel extends MainModel {
 
     private $_tabela = "estagio";
+    private $_tabela_intermediaria = "relatorio";
 
     public function recuperar($estagio_id) {
         try {
@@ -45,7 +46,6 @@ class EstagioModel extends MainModel {
         } catch (PDOException $e) {
             Log::logPDOError($e, true);
             $this->conn->rollback();
-            echo "deu ruim 2";
             return false;
         }
     }
@@ -202,6 +202,49 @@ class EstagioModel extends MainModel {
             return 2;
         }
     }
+
+
+    public function submeterrelatorio($id, $caminho){
+        $estagio = $this->recuperar($id);
+        if($estagio->get_status()->getcodigo() == 6){
+            $loader->loadDao('Relatorio');
+    
+
+           
+            $pstmt = $this->conn->prepare("select * from ".$this->_tabela_intermediaria." where estagio_id = ?");
+            $pstmt->execute(array($id));
+            $res = $pstmt->fetchAll();
+            $q = count($res);
+            if(q == 1){
+                try{
+                    $res = $res[0];
+                    $relatorio::delTree($res['endereco']);        
+                    $this->conn->beginTransaction();
+                    $pstmt = $this->conn->prepare("insert  into ".$this->_tabela_intermediaria." (endereco, data_envio,estagio_id) value (?,?,?,)");
+                    $pstmt->execute(array($caminho,now(),$id));
+                    $this->conn->commit();
+                    return true;  
+                }catch(PDOExecption $e){
+                    $this->conn->rollback();
+                    return false;
+                }
+            }else{
+
+                try{      
+                    $this->conn->beginTransaction();
+                    $pstmt = $this->conn->prepare("insert  into ".$this->_tabela_intermediaria." (endereco, data_envio,estagio_id) value (?,?,?,)");
+                    $pstmt->execute(array($caminho,now(),$id));
+                    $this->conn->commit();
+                    return true;  
+                }catch(PDOExecption $e){
+                    $this->conn->rollback();
+                    return false;
+                }
+            }
+        }else return false;
+    }
+
+
 
     public function readbyaluno(Aluno $aluno, $limite) {
         if ($limite == 0) {

@@ -227,7 +227,7 @@ create table apolice(
 
 create table relatorio(
 	id int auto_increment primary key,
-	endereco varchar(30),
+	endereco varchar(100),
 	data_envio date,
 	estagio_id int,
 	foreign key(estagio_id) references estagio(id)
@@ -277,6 +277,7 @@ create table verificar(
 	id int(11)  primary key  NOT NULL auto_increment,
 	email varchar(50)  not null,
 	codigo varchar(50) unique not null,
+	data_geracao date, 
 	verificado int not null,
 	foreign key(email ) references usuario(email)
 );

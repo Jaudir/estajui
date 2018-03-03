@@ -22,7 +22,13 @@ class Relatorio {
         $this->_comentarios = $_comentarios;
         $this->_estagio = $_estagio;
     }
-    
+    public static function delTree($dir) { 
+        $files = array_diff(scandir($dir), array('.','..')); 
+        foreach ($files as $file) { 
+          (is_dir("$dir/$file")) ? delTree("$dir/$file") : unlink("$dir/$file"); 
+        } 
+        return rmdir($dir); 
+    }
     public function getid() {
         return $this->_id;
     }

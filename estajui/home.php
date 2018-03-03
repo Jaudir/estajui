@@ -545,17 +545,17 @@ require_once $_SERVER['DOCUMENT_ROOT'] . "/estajui/scripts/controllers/HomeContr
                                                     <?php
                                                 } elseif ($estagio->getstatus()->getcodigo() == 6) {
                                                     ?>
-                                                <form>
+                                                <form method="POST" action="<?php echo base_url().'/scripts/controllers/estudante/submeter_relatorio.php';?>" >
                                                     <div class="form-group">
                                                         <label for="exampleFormControlFile1">Relatório final</label>
                                                         <input type="file" class="form-control-file" id="exampleFormControlFile1">
                                                         <small id="fileHelpBlock" class="form-text text-muted">
-                                                            O seu arquivo deve ter um tamanho máximo de X MB.
+                                                            O seu arquivo deve ter um tamanho máximo de 5 MB.
                                                         </small>
                                                     </div>
-                                                    <a href="#"><button type="button" class="btn btn-outline-success"
+                                                    <input type="hidden" value= "<?php $estagio->getid()?>">
+                                                    <button type="submit" name="enviar_relatorio" class="btn btn-outline-success"
                                                                         style="padding: 10px; width: 100px;">Enviar</button>
-                                                    </a>
                                                 </form>
                                                 <?php
                                             }
