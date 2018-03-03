@@ -33,5 +33,5 @@ class Curso {
         $this->_nome = $_nome;
         return $this;
     }
-    
+
 }

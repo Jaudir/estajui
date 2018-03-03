@@ -437,6 +437,145 @@ class FuncionarioModel extends MainModel {
             return 2;
         }
     }
+	// Campos de pesquisa: nome da empresa, nome do responsável, professor orientador ou aluno, entre data de início e de término
+	// Infos a serem retornadas: Nome do Estagiário, Data de Início, Término, PO, empresa
+	// a função recebe o array $palavras_chave que sao os termos de pesquisa
+	// recebe id do usuário que está pesquisando
+	// recebe a string relacionada ao tipo de usuario: oe.siape, po.siape ou aluno.cpf
+	public function listarEstagios($palavras_chave, $id, $tipo_de_usuario){
+		try {
+            $pstmt = $this->conn->prepare("SELECT es.id AS estagio_id, aluno.cpf AS aluno_cpf, curso.nome AS curso_nome, aluno.nome AS aluno_nome, status.descricao AS status_descricao, pe.data_ini AS pe_data_ini, "
+			."pe.data_fim AS pe_data_fim, po.nome AS po_nome, em.nome AS em_nome FROM plano_estagio AS pe "
+			."JOIN estagio AS es ON es.id = pe.estagio_id "
+			."JOIN funcionario AS po ON po.siape = es.po_siape "
+			."JOIN empresa AS em ON em.cnpj = es.empresa_cnpj "
+			."JOIN aluno_estuda_curso AS alescu ON alescu.matricula = es.aluno_estuda_curso_matricula "
+			."JOIN oferece_curso AS ocu ON ocu.id = alescu.oferece_curso_id "
+            ."JOIN curso ON curso.id = ocu.curso_id = curso.id "
+			."JOIN funcionario AS oe ON oe.siape = ocu.oe_siape "
+			."JOIN responsavel AS resp ON resp.empresa_cnpj = em.cnpj "
+			."JOIN aluno ON aluno.cpf = es.aluno_cpf "
+            ."JOIN status ON status.codigo = es.status_codigo "
+			."WHERE ".$tipo_de_usuario." = ? AND curso.nome LIKE ? AND status.descricao LIKE ? AND em.nome LIKE ? AND resp.nome LIKE ? AND aluno.nome LIKE ? AND po.nome LIKE ? AND (pe.data_ini >= ? OR pe.data_fim <= ?)");
+            $termos = array();
+			$termos[] = $id;
+			foreach ($palavras_chave as $pal){
+				$termos[] = $pal;
+			}
+			$v = $pstmt->execute($termos);
+            $res = $pstmt->fetchAll();
+			
+            if (count($res) == 0)
+                return false;
+			
+			$listaEstagios = array();
+            $this->loader->loadDao('PlanoDeEstagio');
+            $this->loader->loadDao('Funcionario');
+            $this->loader->loadDao('Aluno');
+            $this->loader->loadDao('Estagio');
+            $this->loader->loadDao('Apolice');
+            $this->loader->loadDao('Status');
+            $this->loader->loadDao('Empresa');
+            $this->loader->loadDao('Supervisor');
+            $this->loader->loadDao('Curso');
+			foreach ($res as $linha) {
+				$plano_estagio = new PlanoDeEstagio(null,null,null,null,null,null,null,null,null,null,null,null,null,null, null);
+				$plano_estagio->set_data_inicio($linha['pe_data_ini']);
+				$plano_estagio->set_data_fim($linha['pe_data_fim']);
+				
+				$empresa = new Empresa(null,null,null,null,null,null,null,null, null, null);
+				$empresa->set_nome($linha['em_nome']);
+				
+				$po = new Funcionario(null,null,null,null,null,null,null,null,null,null,null,null,null);
+				$po->setnome($linha['po_nome']);
+				
+				$aluno = new Aluno(null, null, null, null, $linha['aluno_nome'], null, null, null, null, null, null, null, null, null, null, null, null, null);
+				
+				$status = new Status(null, $linha['status_descricao']);
+
+				$curso = new Curso(null, $linha['curso_nome']);
+
+				$estagio = new Estagio($linha['estagio_id'],null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null);
+				
+				$estagio->setempresa($empresa);
+				$estagio->setfuncionario($po);
+				$estagio->setaluno($aluno);				
+				$estagio->setpe($plano_estagio);
+				$estagio->setstatus($status);
+				$estagio->setcurso($curso);
+				
+				$listaEstagios[] = $estagio;
+			}
+            
+            return $listaEstagios;
+        } catch (PDOException $e) {
+            Log::logPDOError($e, true);
+            $this->conn->rollback();
+            return false;
+        }
+	}
+	
+	public function listarEstagios_ce($palavras_chave){
+		try {
+            $pstmt = $this->conn->prepare("SELECT es.id AS estagio_id, aluno.cpf AS aluno_cpf, aluno.nome AS aluno_nome, pe.data_ini AS pe_data_ini, "
+			."pe.data_fim AS pe_data_fim, po.nome AS po_nome, em.nome AS em_nome FROM plano_estagio AS pe "
+			."JOIN estagio AS es ON es.id = pe.estagio_id "
+			."JOIN funcionario AS po ON po.siape = es.po_siape "
+			."JOIN empresa AS em ON em.cnpj = es.empresa_cnpj "
+			."JOIN aluno_estuda_curso AS alescu ON alescu.matricula = es.aluno_estuda_curso_matricula "
+			."JOIN oferece_curso AS ocu ON ocu.id = alescu.oferece_curso_id "
+			."JOIN funcionario AS oe ON oe.siape = ocu.oe_siape "
+			."JOIN responsavel AS resp ON resp.empresa_cnpj = em.cnpj "
+			."JOIN aluno ON aluno.cpf = es.aluno_cpf "
+			."WHERE em.nome LIKE ? AND resp.nome LIKE ? AND aluno.nome LIKE ? AND po.nome LIKE ? AND (pe.data_ini >= ? OR pe.data_fim <= ?)");
+            $termos = array();
+			foreach ($palavras_chave as $pal){
+				$termos[] = $pal;
+			}
+			//var_dump($termos);
+			$v = $pstmt->execute($termos);
+            $res = $pstmt->fetchAll();
+			
+            if (count($res) == 0)
+                return false;
+			
+			$listaEstagios = array();
+            $this->loader->loadDao('PlanoDeEstagio');
+            $this->loader->loadDao('Apolice');
+            $this->loader->loadDao('Status');
+            $this->loader->loadDao('Empresa');
+            $this->loader->loadDao('Supervisor');
+            foreach ($res as $linha) {
+				$plano_estagio = new PlanoDeEstagio(null,null,null,null,null,null,null,null,null,null,null,null,null,null, null);
+				$plano_estagio->set_data_inicio($linha['pe_data_ini']);
+				$plano_estagio->set_data_fim($linha['pe_data_fim']);
+				
+				$empresa = new Empresa(null,null,null,null,null,null,null,null, null, null);
+				$empresa->set_nome($linha['em_nome']);
+				
+				$po = new Funcionario(null,null,null,null,null,null,null,null,null,null,null,null,null);
+				$po->setnome($linha['po_nome']);
+				
+				$aluno = new Aluno(null, null, null, null, $linha['aluno_nome'], null, null, null, null, null, null, null, null, null, null, null, null, null);
+				
+				
+				$estagio = new Estagio($linha['estagio_id'],null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null);
+				
+				$estagio->setempresa($empresa);
+				$estagio->setfuncionario($po);
+				$estagio->setaluno($aluno);				
+				$estagio->setpe($plano_estagio);
+				
+				$listaEstagios[] = $estagio;
+			}
+            
+            return $listaEstagios;
+        } catch (PDOException $e) {
+            Log::logPDOError($e, true);
+            $this->conn->rollback();
+            return false;
+        }
+	}
 
 }
 
