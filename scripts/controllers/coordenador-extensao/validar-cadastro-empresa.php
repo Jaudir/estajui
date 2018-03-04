@@ -17,7 +17,9 @@ if($session->isce()){
         if($model != null){
             if(!$model->verificaPreCadastro($cnpj)){
                 //altera convênio e notifica alunos
-                if(!$model->alterarConvenio($veredito, $justificativa, $cnpj, $session->getUsuario())){
+                if($model->alterarConvenio($veredito, $justificativa, $cnpj, $session->getUsuario())){
+                    $session->pushValue('Convênio alterado!', 'resultado');
+                }else{
                     $session->pushError('Falha de comunicação com o servidor');
                 }
             }else{

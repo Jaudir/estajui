@@ -1,7 +1,5 @@
 <?php
   require_once('../../scripts/controllers/coordenador-extensao/load-home.php');
-  
-  $errosExibir = $session->getErrors('normal');
 ?>
 <!DOCTYPE html>
 <html>
@@ -258,16 +256,12 @@
     <script>
       $(function(){
         <?php
-          if($errosExibir != null):  
+          if($session->hasError('normal')):
         ?>
-          <?php
-            $msg = ''; 
-            foreach($errosExibir as $erro){
-              $msg = $msg . '\n' . $erro;
-            }
-          ?>
-        alert('Erro:\n<?php echo $msg?>');
-        <?php endif?>
+          alert(<?php echo "\"" . $session->getErrors('normal')[0] . "\""?>);
+        <?php elseif($session->hasValues('resultado')):?>
+          alert(<?php echo "\"" . $session->getValues('resultado')[0] . "\""?>);
+        <?php endif;?>
 
         $('.empresaModalToggle').click(function(){
           $('#ecnpj').val($(this).find('.cnpj').html());

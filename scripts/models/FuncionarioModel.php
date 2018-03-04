@@ -244,7 +244,7 @@ class FuncionarioModel extends MainModel {
                             $empr['cidade'],
                             $empr['uf'],
                             $empr['cep'],
-                            $empr['sala']
+                            null
                         ),
                         new Responsavel(
                             $empr['resp_email'],
