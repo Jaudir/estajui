@@ -159,7 +159,9 @@ require_once(dirname(__FILE__) . '/../../scripts/controllers/organizador-estagio
       $(function(){
       <?php if($session->hasError('normal')):?>
         alert(<?php echo "\"" . $session->getErrors('normal')[0] . "\""?>);
-      <?php endif;?>
+      <?php elseif($session->hasValues('resultado')):?>
+        alert(<?php echo "\"" . $session->getValues('resultado')[0] . "\""?>);
+      <?php endif?>
 
         $('.definirOrientador').click(function(){
           $('.modal-data-target').html($(this).find('div').html());

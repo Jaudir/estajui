@@ -11,9 +11,11 @@ class OrientaEstagio extends MainModel{
             if($alterando == false){
                 $stmt = $this->conn->prepare('insert into orienta_estagio(estagio_id, po_siape) values(:estagio, :po)');
             }else{
-                $stmt = $this->conn->prepare('alter table orienta_estagio set po_siape = :po where estagio_id = :estagio');
+                $stmt = $this->conn->prepare('update orienta_estagio set po_siape = :po where estagio_id = :estagio');
             }
-
+            $stmt->execute(array(':estagio' => $estagio->getid(), ':po' => $professorSiape));
+            
+            $stmt = $this->conn->prepare('update estagio set po_siape = :po where id = :estagio');
             $stmt->execute(array(':estagio' => $estagio->getid(), ':po' => $professorSiape));
 
             $status->adicionaNotificacao(StatusModel::$PROFESSOR_DEF, $estagio, $usuario);

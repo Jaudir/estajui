@@ -16,7 +16,7 @@ if($session->isoe()){
         $model = $loader->loadModel('OrientaEstagio', 'OrientaEstagio');
 
         if($model->defineOrientador(new Estagio($estagioId, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null), $professorSiape, $session->getUsuario(), $alterando)){
-            $session->pushValue('Ok', 'resultado');
+            $session->pushValue('Orientador definido!', 'resultado');
         }else{
             $session->pushError('Falha ao salvar dados!');
         }
@@ -26,3 +26,4 @@ if($session->isoe()){
 }else{
     $session->pushError('Você não tem permissão para essa operação');
 }
+redirect(base_url() . '/estajui/organizador-estagio/home.php');
