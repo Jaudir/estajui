@@ -1,19 +1,18 @@
 <?php
 require_once('base-controller.php');
 
-
-
-session_start();
+$session = getSession();
 
 if(isset($_GET['code']) && isset($_GET['email'])){
- $model = loadModel('email-model', 'EmailModel');
+ $model = $loader->loadModel('EmailModel', 'EmailModel');
  if ($model != null) {
-    if($model->validarCodigoConfirmacao($_GET['code'],$_GET['email'])){
-        $_SESSION['validacao_sucesso'] = true;// MENSAGEM = Conta ativada com sucesso!
+    if($model->verificarValidadeCodigo($_GET['code'],0)){
+       if($model->validarCodigoConfirmacao($_GET['code'],$_GET['email'])){
+           $session->pushValue('Conta ativada com sucesso!',"confirmacao");
+       }
     }else {
-        echo "invalido";
-        $_SESSION['validacao_sucesso'] = false;// MENSAGEM = link de ativação invalido
+        $session->pushValue('Codigo inválido!',"confirmacao");
     }
  }
- redirect(base_url() . '/estajui/login/login.php');
+ redirect(base_url() . '/estajui/login.php');
 }

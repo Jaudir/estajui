@@ -4,6 +4,9 @@ require_once(dirname(__FILE__) . '/../util/PHPMailer/PHPMailerAutoload.php');
 class Email{
     private $mail;
     private $codigo;
+    private $remetente;
+    private $remetenteNome;
+
     public function __construct() {
         $this->mail = new PHPMailer(true);
         $this->mail->isSMTP();                                      // Set mailer to use SMTP
@@ -13,31 +16,32 @@ class Email{
         $this->mail->Password = 'secret-123';                           // SMTP password
         $this->mail->SMTPSecure = 'SSL';                            // Enable TLS encryption, `ssl` also accepted
         $this->mail->Port = 465;
+
     }
-    public function criarEmailAluno($destinatario){
-       // $this->mail->SMTPDebug = SMTP::DEBUG_SERVER;
-        $this->mail->setFrom('wadson.ayres@gmail.com', 'Your Name');
-        $this->mail->addAddress($destinatario, 'Um FDP User');
+    public function criarEmailAluno($remetente, $remetenteNome, $destinatario, $destinatarioNome){
+        $base_url = 'http://localhost/estajui';    
+        $this->geraCodigoConfirmacao();
+        $this->mail->setFrom($remetente, $remetenteNome);
+        $this->mail->addAddress($destinatario, $destinatarioNome);
         $this->mail->isHTML(true);                                  // Set email format to HTML
         $this->mail->Subject = 'Confirmação de conta ESTAJUI';
-        $this->mail->Body='Por Favor clique  aqui <a href="verification.php">Verify.php?email='.$destinatario.'&code='.$this->geraCodigoConfirmacao().'</a> para ativar sua conta.';
+        $this->mail->Body  = "Link de ativação da sua conta no <a href=\"http://www.estajui.com.br\">Estajui</a>, Clique no link ativar: <a href=\"$base_url/scripts/controllers/verification.php?code=$this->codigo&email=$destinatario\">Link</a>.";
     }
-
     public static function criarEmailRecuperarSenha($remetente, $remetenteNome, $destinatario, $destinatarioNome){
         $base_url = 'http://localhost/estajui';
 
         $email = new Email();
         $email->geraCodigoConfirmacao();
 
-        $email->mail->SMTPDebug = SMTP::DEBUG_SERVER;
+        //$email->mail->SMTPDebug = SMTP::DEBUG_SERVER;
         $email->mail->setFrom($remetente, $remetenteNome);
         $email->mail->addAddress($destinatario, $destinatarioNome);
         $email->mail->isHTML(true);                                  // Set email format to HTML
         $email->mail->Subject = 'Recuperação de senha ESTAJUI';
-        $email->mail->Body  = "Foi solicitado um link para recuperação de senha para sua conta no <a href=\"http://www.estajui.com.br\">Estajui</a>, Clique no link para acessar a página de redefinição: <a href=\"$base_url/estajui/recuperar_senha.php?c=$email->codigo\"></a>.<br>Caso você não tenha solicitado, ignore este email e considere alterar sua senha.";
-        
+        $email->mail->Body  = "Foi solicitado um link para recuperação de senha para sua conta no <a href=\"http://www.estajui.com.br\">Estajui</a>, Clique no link para acessar a página de redefinição: <a href=\"$base_url/estajui/recuperar_senha.php?c=$email->codigo\"></a>.<br>Caso você não tenha solicitado, ignore este email e considere alterar sua senha.";       
         return $email;
     }
+
 
     public function enviarEmail(){
         if($this->mail->send()){
