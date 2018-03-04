@@ -218,11 +218,14 @@ class EstagioModel extends MainModel {
             if(q == 1){
                 try{
                     $res = $res[0];
+                    $pstmt = $this->conn->prepare("deletr from ".$this->_tabela_intermediaria." where id = ?");
+                    $pstmt->execute(array($res['id']));
                     $relatorio::delTree($res['endereco']);        
                     $this->conn->beginTransaction();
                     $pstmt = $this->conn->prepare("insert  into ".$this->_tabela_intermediaria." (endereco, data_envio,estagio_id) value (?,?,?,)");
                     $pstmt->execute(array($caminho,now(),$id));
                     $this->conn->commit();
+                    
                     return true;  
                 }catch(PDOExecption $e){
                     $this->conn->rollback();

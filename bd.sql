@@ -227,7 +227,9 @@ create table apolice(
 
 create table relatorio(
 	id int auto_increment primary key,
-	endereco varchar(100),
+	nome varchar(50),
+	tipo varchar(10),
+	conteudo LONGBLOB,
 	data_envio date,
 	estagio_id int,
 	foreign key(estagio_id) references estagio(id)

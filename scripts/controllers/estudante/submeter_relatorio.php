@@ -1,5 +1,6 @@
 <?php
 require_once $_SERVER['DOCUMENT_ROOT'] . "/estajui/scripts/controllers/HomeController.php";
+$loader->loadDao('Relatorio');
 
 if(is_a($usuario, "Aluno") && isset($_POST['enviar_relatorio'])){
     if(isset($_POST['estagio_id'])){
