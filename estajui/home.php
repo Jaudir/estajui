@@ -555,13 +555,13 @@ require_once $_SERVER['DOCUMENT_ROOT'] . "/estajui/scripts/controllers/HomeContr
                                                 <form  enctype="multipart/form-data"  method="POST" action="<?php echo base_url().'/scripts/controllers/estudante/submeter_relatorio.php';?>" >
                                                     <div class="form-group">
                                                         <label for="exampleFormControlFile1">Relatório final</label>
-                                                        <input type="file" name="relatorio" class="form-control-file" id="exampleFormControlFile1">
+                                                        <input type="file" name="relatorio" class="form-control-file" id="exampleFormControlFile1" required>
                                                         <small id="fileHelpBlock" class="form-text text-muted">
                                                             O seu arquivo deve ter um tamanho máximo de 50 MB.
                                                         </small>
                                                     </div>
                                                     <?php $_SESSION['estagio'] = $estagio; ?>
-                                                    <input type="hidden" name="MAX_FILE_SIZE" value="10000000" >
+                                                    <!--input type="hidden" name="MAX_FILE_SIZE" value="55000000"-->
                                                     <button type="submit" name="enviar_relatorio" class="btn btn-outline-success"
                                                                         style="padding: 10px; width: 100px;">Enviar</button>
                                                 </form>
