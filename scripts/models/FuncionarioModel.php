@@ -156,11 +156,14 @@ class FuncionarioModel extends MainModel {
                 $status_codigo = StatusModel::$CONVENIO_RPR;
             }
 
-            /* Carregar alunos de estágios associados que devem ser notificados desta ação */
+            /* Carregar estágios associados que devem ser notificados desta ação */
             $estagios = $estagioModel->buscarPorEmpresa($cnpj);
 
-            if($estagios == false)
+            if($estagios == false){
+                //acontece quando você insere dados manualmente para testes...
+                Log::LogError('Empresa não possui nenhum estágio associado');
                 return false;
+            }
 
             //inserção dos dados
             $this->conn->beginTransaction();
@@ -230,7 +233,6 @@ class FuncionarioModel extends MainModel {
                     $empresas[] = new Empresa(
                         $empr['cnpj'],
                         $empr['nome'],
-                        $empr['razao_social'],
                         $empr['telefone'],
                         $empr['fax'],
                         $empr['nregistro'],
@@ -251,9 +253,11 @@ class FuncionarioModel extends MainModel {
                             $empr['resp_nome'],
                             $empr['resp_tel'],
                             $empr['resp_cargo'],
+                            null,
                             null
                         ),
-                        $empr['conveniada']
+                        $empr['conveniada'],
+                        $empr['razao_social']
                     );
                 }
                 return $empresas;

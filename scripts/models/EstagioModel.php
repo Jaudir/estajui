@@ -354,7 +354,7 @@ class EstagioModel extends MainModel {
 		
 		$estagios = array();
 		foreach($response as $res){
-			$estagio = new Estagio($res['id'], $res['bool_aprovado'], $res['bool_obrigatorio'], null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
+			$estagio = new Estagio($res['id'], $res['bool_aprovado'], $res['bool_obrigatorio'], null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
 			$estagios[] = $estagio;
 		}
 
