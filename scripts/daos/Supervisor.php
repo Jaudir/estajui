@@ -12,62 +12,63 @@ class Supervisor {
     private $_id;
     private $_nome;
     private $_cargo;
-    private $_habilitação;
+    private $_habilitacao;
     private $_empresa;
     
-    function __construct($_id, $_nome, $_cargo, $_habilitação, $_empresa) {
+    public function __construct($_id, $_nome, $_cargo, $_habilitacao, $_empresa) {
         $this->_id = $_id;
         $this->_nome = $_nome;
         $this->_cargo = $_cargo;
-        $this->_habilitação = $_habilitação;
+        $this->_habilitacao = $_habilitacao;
         $this->_empresa = $_empresa;
     }
-
-    public function get_id() {
+    
+    public function getid() {
         return $this->_id;
     }
 
-    public function get_nome() {
+    public function getnome() {
         return $this->_nome;
     }
 
-    public function get_cargo() {
+    public function getcargo() {
         return $this->_cargo;
     }
 
-    public function get_habilitação() {
-        return $this->_habilitação;
+    public function gethabilitacao() {
+        return $this->_habilitacao;
     }
 
-    public function get_empresa() {
+    public function getempresa() {
         return $this->_empresa;
     }
 
-    public function set_id($_id) {
+    public function setid($_id) {
         $this->_id = $_id;
         return $this;
     }
 
-    public function set_nome($_nome) {
+    public function setnome($_nome) {
         $this->_nome = $_nome;
         return $this;
     }
 
-    public function set_cargo($_cargo) {
+    public function setcargo($_cargo) {
         $this->_cargo = $_cargo;
         return $this;
     }
 
-    public function set_habilitação($_habilitação) {
-        $this->_habilitação = $_habilitação;
+    public function sethabilitacao($_habilitacao) {
+        $this->_habilitacao = $_habilitacao;
         return $this;
     }
 
-    public function set_empresa($_empresa) {
+    public function setempresa($_empresa) {
         $this->_empresa = $_empresa;
         return $this;
     }
 
 
-    
+
+
 }

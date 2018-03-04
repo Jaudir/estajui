@@ -1,6 +1,5 @@
 <?php
   require_once('../../scripts/controllers/coordenador-extensao/load-home.php');
-
   $errosExibir = $session->getErrors('normal');
 ?>
 <!DOCTYPE html>
@@ -120,24 +119,24 @@
                         data-toggle="modal" data-target="#aprovarConvenio">
                         <i class="fa fa-pencil"></i>
                         <div class="empresaDados" style="display:none;">
-                        <h6>Razão Social: </h6> <p><?php echo $empresa['razao_social']?></p><br>
-                        <h6>CNPJ: </h6> <p class="cnpj"><?php echo $empresa['cnpj']?></p><br>
-                        <h6>Nome fantasia: </h6> <p><?php echo $empresa['nome']?></p> <br>
-                        <h6>Telefone: </h6> <p><?php echo $empresa['telefone']?></p> <br>
-                        <h6>FAX: </h6> <p><?php echo $empresa['fax']?></p> <br>
-                        <h6>Registro: </h6> <p><?php echo $empresa['nregistro']?></p> <br>
-                        <h6>Conselho de fiscalização: </h6> <p><?php echo $empresa['conselhofiscal']?></p> <br>
-                        <h6>Nome do responsável: </h6> <p><?php echo $empresa['resp_nome']?></p> <br>
-                        <h6>Telefone do responsável: </h6> <p><?php echo $empresa['resp_tel']?></p> <br>
-                        <h6>Email: </h6> <p><?php echo $empresa['resp_email']?></p> <br>
-                        <h6>Cargo: </h6> <p><?php echo $empresa['resp_cargo']?></p> <br>
-                        <h6>Logradouro: </h6> <p><?php echo $empresa['logradouro']?></p> <br>
-                        <h6>Número: </h6> <p><?php echo $empresa['numero']?></p> <br>
-                        <h6>Sala: </h6> <p><?php echo "Não tem sala"?></p> <br>
-                        <h6>Bairro: </h6> <p><?php echo $empresa['bairro']?></p><br>
-                        <h6>Cidade: </h6> <p><?php echo $empresa['cidade']?></p><br>
-                        <h6>Estado: </h6> <p><?php echo $empresa['estado']?></p><br>
-                        <h6>CEP: </h6> <p><?php echo $empresa['cep']?></p>
+                        <h6>Razão Social: </h6> <p><?php echo $empresa->get_razao_social()?></p><br>
+                        <h6>CNPJ: </h6> <p class="cnpj"><?php echo $empresa->get_cnpj()?></p><br>
+                        <h6>Nome fantasia: </h6> <p><?php echo $empresa->get_nome()?></p> <br>
+                        <h6>Telefone: </h6> <p><?php echo $empresa->get_telefone()?></p> <br>
+                        <h6>FAX: </h6> <p><?php echo $empresa->get_fax()?></p> <br>
+                        <h6>Registro: </h6> <p><?php echo $empresa->get_nregistro()?></p> <br>
+                        <h6>Conselho de fiscalização: </h6> <p><?php echo $empresa->get_conselhofiscal()?></p> <br>
+                        <h6>Nome do responsável: </h6> <p><?php echo $empresa->get_responsavel()->get_nome()?></p> <br>
+                        <h6>Telefone do responsável: </h6> <p><?php echo $empresa->get_responsavel()->get_telefone()?></p> <br>
+                        <h6>Email: </h6> <p><?php echo $empresa->get_responsavel()->get_email()?></p> <br>
+                        <h6>Cargo: </h6> <p><?php echo $empresa->get_responsavel()->get_cargo()?></p> <br>
+                        <h6>Logradouro: </h6> <p><?php echo $empresa->get_endereco()->getlogradouro()?></p> <br>
+                        <h6>Número: </h6> <p><?php echo $empresa->get_endereco()->getnumero()?></p> <br>
+                        <h6>Sala: </h6> <p><?php echo $empresa->get_endereco()->getsala()?></p> <br>
+                        <h6>Bairro: </h6> <p><?php echo $empresa->get_endereco()->getbairro()?></p><br>
+                        <h6>Cidade: </h6> <p><?php echo $empresa->get_endereco()->getcidade()?></p><br>
+                        <h6>Estado: </h6> <p><?php echo $empresa->get_endereco()->getuf()?></p><br>
+                        <h6>CEP: </h6> <p><?php echo $empresa->get_endereco()->getcep()?></p>
                         </div>
                       </button>
                     </td>
@@ -364,16 +363,13 @@
     <script>
       $(function(){
         <?php
-          if($errosExibir != null):
+
+          if($session->hasError('normal')):
         ?>
-          <?php
-            $msg = '';
-            foreach($errosExibir as $erro){
-              $msg = $msg . '\n' . $erro;
-            }
-          ?>
-        alert('Erro:\n<?php echo $msg?>');
-        <?php endif?>
+          alert(<?php echo "\"" . $session->getErrors('normal')[0] . "\""?>);
+        <?php elseif($session->hasValues('resultado')):?>
+          alert(<?php echo "\"" . $session->getValues('resultado')[0] . "\""?>);
+        <?php endif;?>
 
         $('.empresaModalToggle').click(function(){
           $('#ecnpj').val($(this).find('.cnpj').html());

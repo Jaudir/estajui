@@ -4,7 +4,12 @@
 class Session{
     public function start(){
         session_start();
-        $_SESSION['errors'] = array();
+
+        if(!isset($_SESSION['errors']))
+            $_SESSION['errors'] = array();
+
+        if(!isset($_SESSION['values']))
+            $_SESSION['values'] = array();
     }
 
     public function destroy(){
@@ -15,8 +20,6 @@ class Session{
     public function setUsuario($usuario){
         $_SESSION['is_func'] = (get_class($usuario) == 'Funcionario');
         $_SESSION['usuario'] = $usuario;
-        $_SESSION['errors'] = array();
-        $_SESSION['values'] = array();
     }
 
     public function getUsuario(){
@@ -65,7 +68,7 @@ class Session{
 
     public function getValues($key){
         if(isset($_SESSION['values'][$key])){
-            $v =  $_SESSION['values'][$key];
+            $v = $_SESSION['values'][$key];
             unset($_SESSION['values'][$key]);
             return $v;
         }
@@ -75,7 +78,7 @@ class Session{
     public function hasValues($key = null){
         if($key == null)
             return count($_SESSION['values']) > 0;
-        return isset($_SESSION['values'][$key]) && count($_SESSION['values'][$key]) > 0;
+        return isset($_SESSION['values'][$key]);
     }
 
     public function clearValues(){
@@ -114,6 +117,26 @@ class Session{
             foreach($descriptions as $description){
                 echo "<p style='margin-left:12px;'>Descrição: <span style='color:red;'>$description</span></p>";
             } 
+        }
+    }
+
+    /*
+        Pega os dados do post e passa para os valores na sessão
+        Parametros: 
+            filter: dados para serem filtrados
+            boolExclude: Se for true, os dados em filter serão ignorados durante a cópia, caso sea
+                        falso, os dados em filter serão os únicos à serem adicionados.
+    */
+    public function valuesFromPOST($filter = array(), $boolExclude = true){
+        $values = array();
+
+        if($boolExclude == false)
+            $values = array_intersect_key($_POST, $filter);
+        else
+            $values = array_diff_key($_POST, $filter);
+
+        foreach($values as $key => $value){
+            $this->pushValue($value, $key);
         }
     }
 }

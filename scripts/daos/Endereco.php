@@ -15,9 +15,9 @@ class Endereco {
     private $_cidade;
     private $_uf;
     private $_cep;
-    private static $_tabela = "endereco";
+    private $_sala;
 
-    public function __construct($_id, $_logradouro, $_bairro, $_numero, $_complemento, $_cidade, $_uf, $_cep) {
+    public function __construct($_id, $_logradouro, $_bairro, $_numero, $_complemento, $_cidade, $_uf, $_cep, $_sala) {
         $this->_id = $_id;
         $this->_logradouro = $_logradouro;
         $this->_bairro = $_bairro;
@@ -26,10 +26,19 @@ class Endereco {
         $this->_cidade = $_cidade;
         $this->_uf = $_uf;
         $this->_cep = $_cep;
+        $this->_sala = $_sala;
     }
 
     public function getid() {
         return $this->_id;
+    }
+
+    public function getsala() {
+        return $this->_sala;
+    }
+
+    public function setsala($_sala) {
+        return $this->_sala = $_sala;
     }
 
     public function getlogradouro() {
@@ -42,6 +51,10 @@ class Endereco {
 
     public function getnumero() {
         return $this->_numero;
+    }
+
+    public function getendereco() {
+        return $this->_logradouro . ", " . $this->_numero . " - " . $this->_bairro;
     }
 
     public function getcomplemento() {

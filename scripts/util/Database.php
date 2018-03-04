@@ -1,5 +1,33 @@
 <?php
 
+class CascadePDO extends PDO {
+
+    protected $transactionCounter = 0;
+
+    function beginTransaction() {
+        if (!$this->transactionCounter++)
+            return parent::beginTransaction();
+        return $this->transactionCounter >= 0;
+    }
+
+    function commit() {
+        if (!--$this->transactionCounter)
+            return parent::commit();
+        return $this->transactionCounter >= 0;
+    }
+
+    function rollback() {
+        if ($this->transactionCounter >= 0) {
+            $this->transactionCounter = 0;
+            return parent::rollback();
+        }
+        $this->transactionCounter = 0;
+        return false;
+    }
+
+//...
+}
+
 /**
  * Conexão e relações gerais com o BD
  *
@@ -56,7 +84,7 @@ class Database {
     public static function getConnection() {
         if (is_null(self::$db)) {
             try {
-                $conn = new PDO("mysql:host=" . self::$servername . ";dbname=" . self::$dbname, self::$username, self::$password);
+                $conn = new CascadePDO("mysql:host=" . self::$servername . ";dbname=" . self::$dbname . ";charset=utf8", self::$username, self::$password);
                 $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
                 return $conn;
             } catch (PDOException $e) {

@@ -18,25 +18,37 @@ if(isset($_POST['email'])){
 
     if($usuario){
         $usuario = $usuario[0];
-    }
 
-    //carregar o aluno(tipo = 1) ou funcionário(tipo = 2) por que a tabela usuário não tem o nome do usuario :////
-    /*if($usuario->getTipo() == 1){
-        $usuario = $amodel->readbyusuario($usuario);
-    }else{
-        $usuario = $fmodel->readbyusuario($usuario);
-    }*/
-
-    $email = Email::criarEmailRecuperarSenha($configs['email_estajui'], $configs['responsavel_estajui'], $usuario->getlogin(), 'nome teste');
-    
-    if($emodel->emitirCodigoConfirmacao($usuario, $email)){
-        if($email->enviarEmail()){
-            echo "Email de redefinição enviado!";
+        //carregar o aluno(tipo = 1) ou funcionário(tipo = 2) por que a tabela usuário não tem o nome do usuario :////
+        /*if($usuario->getTipo() == 1){
+            $usuario = $amodel->readbyusuario($usuario);
         }else{
-            echo "Não foi possível enviar o email!";
+            $usuario = $fmodel->readbyusuario($usuario);
+        }*/
+
+        $email = Email::criarEmailRecuperarSenha($configs['email_estajui'], $configs['responsavel_estajui'], $usuario->getlogin(), 'nome teste');
+
+        //se já existe um código de verificaçao para este email, apenas altera e reenvia o email caso exista
+        $verifica = $emodel->buscarCodigo($email, EmailModel::$CODIGO_RECUPERACAO);
+        
+        $result = null;
+        if($verifica){
+            $result = $emodel->atualizarCodigoVerificacao($usuario, $email);//atualiza
+        }else{
+            $result = $emodel->salvarCodigoVerificacao($usuario, $email);//insere um novo
+        }
+
+        if($result){
+            if($email->enviarEmail()){
+                echo "Email de redefinição enviado!";
+            }else{
+                echo "Não foi possível enviar o email!";
+            }
+        }else{
+            echo "Falha ao contatar servidor!";
         }
     }else{
-        echo "Falha ao contatar servidor!";
+        echo "Este email não está cadastrado no sistema!";
     }
 }else{
     echo "Dados inválidos!";

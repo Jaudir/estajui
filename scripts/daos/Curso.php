@@ -10,52 +10,28 @@ class Curso {
     
     private $_id;
     private $_nome;
-    private $_turno;
-    private $_campus;
     
-    public function __construct($_id, $_nome, $_turno, $_campus) {
+    public function __construct($_id, $_nome) {
         $this->_id = $_id;
         $this->_nome = $_nome;
-        $this->_turno = $_turno;
-        $this->_campus = $_campus;
     }
 
-    public function get_id() {
+    public function getid() {
         return $this->_id;
     }
 
-    public function get_nome() {
+    public function getnome() {
         return $this->_nome;
     }
 
-    public function get_turno() {
-        return $this->_turno;
-    }
-
-    public function get_campus() {
-        return $this->_campus;
-    }
-
-    public function set_id($_id) {
+    public function setid($_id) {
         $this->_id = $_id;
         return $this;
     }
 
-    public function set_nome($_nome) {
+    public function setnome($_nome) {
         $this->_nome = $_nome;
         return $this;
     }
 
-    public function set_turno($_turno) {
-        $this->_turno = $_turno;
-        return $this;
-    }
-
-    public function set_campus($_campus) {
-        $this->_campus = $_campus;
-        return $this;
-    }
-
-
-    
 }

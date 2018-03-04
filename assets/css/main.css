@@ -5,6 +5,13 @@
 	--vermelho: #f68484;
 }
 
+span.error {
+    color: red;
+    text-align: center;
+    margin: auto;
+    display: block;
+}
+
 html, body {
 
   height: 100%;

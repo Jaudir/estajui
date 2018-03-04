@@ -12,8 +12,8 @@ class EnderecoModel extends MainModel {
         try {
             $this->conn->beginTransaction();
             $pstmt->execute(array($endereco->getlogradouro(), $endereco->getbairro(), $endereco->getnumero(), $endereco->getcomplemento(), $endereco->getcidade(), $endereco->getuf(), $endereco->getcep()));
-            $this->conn->commit();
             $endereco->setid($this->conn->lastInsertId());
+            $this->conn->commit();
             return 0;
         } catch (PDOExecption $e) {
             $this->conn->rollback();
@@ -27,14 +27,14 @@ class EnderecoModel extends MainModel {
             if ($id == NULL) {
                 $pstmt = $this->conn->prepare("SELECT * FROM " . $this->_tabela . "");
             } else {
-                $pstmt = $this->conn->prepare("SELECT * FROM " . $this->_tabela . " WHERE id LIKE :id");
+                $pstmt = $this->conn->prepare("SELECT * FROM " . $this->_tabela . " WHERE id = :id");
                 $pstmt->bindParam(':id', $id);
             }
         } else {
             if ($id == NULL) {
                 $pstmt = $this->conn->prepare("SELECT * FROM " . $this->_tabela . " LIMIT :limite");
             } else {
-                $pstmt = $this->conn->prepare("SELECT * FROM " . $this->_tabela . " WHERE id LIKE :id LIMIT :limite");
+                $pstmt = $this->conn->prepare("SELECT * FROM " . $this->_tabela . " WHERE id = :id LIMIT :limite");
                 $pstmt->bindParam(':id', $id);
             }
             $pstmt->bindParam(':limite', $limite, PDO::PARAM_INT);
@@ -44,7 +44,7 @@ class EnderecoModel extends MainModel {
             $cont = 0;
             $result = [];
             while ($row = $pstmt->fetch()) {
-                $result[$cont] = new Endereco($row["id"], $row["logradouro"], $row["bairro"], $row["numero"], $row["complemento"], $row["cidade"], $row["uf"], $row["cep"]);
+                $result[$cont] = new Endereco($row["id"], $row["logradouro"], $row["bairro"], $row["numero"], $row["complemento"], $row["cidade"], $row["uf"], $row["cep"],null);
                 $cont++;
             }
             return $result;

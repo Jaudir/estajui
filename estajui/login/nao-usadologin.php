@@ -36,7 +36,7 @@ require_once('../../scripts/controllers/base-controller.php');
               </button><br>
             </div>
             <div style="text-align: right;">
-              <a href="cadastro.html" >Cadastre-se</a>
+              <a href="/estajui/estudante/cadastro.php" >Cadastre-se</a>
             </div>
             <div class="bt-logar">
               <button type="submit" name="btn-logar" class="btn btn-success">Entrar</button>
