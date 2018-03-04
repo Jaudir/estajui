@@ -229,15 +229,15 @@ require_once $_SERVER['DOCUMENT_ROOT'] . "/estajui/scripts/controllers/HomeContr
                                                             <div class="row">
                                                                 <div class="col-md-4">
                                                                     <label for="serie">Série:</label>
-                                                                    <input type="text" name="serie" id="serie" class="form-control" placeholder="" disabled="disabled">
+                                                                    <input type="number" name="serie" id="serie" class="form-control" placeholder="" disabled="disabled">
                                                                 </div>
                                                                 <div class="col-md-4">
                                                                     <label for="modulo">Módulo:</label>
-                                                                    <input type="text" name="modulo" id="modulo" class="form-control" placeholder="" disabled="disabled">
+                                                                    <input type="number" name="modulo" id="modulo" class="form-control" placeholder="" disabled="disabled">
                                                                 </div>
                                                                 <div class="col-md-4">
                                                                     <label for="periodo">Período:</label>
-                                                                    <input type="text" name="periodo" id="periodo" class="form-control" placeholder="" disabled="disabled">
+                                                                    <input type="number" name="periodo" id="periodo" class="form-control" placeholder="" disabled="disabled">
                                                                 </div>
                                                             </div>
                                                             <label class="custom-control custom-radio">
