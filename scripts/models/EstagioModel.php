@@ -6,6 +6,7 @@ require_once $_SERVER['DOCUMENT_ROOT'] . "/estajui/scripts/daos/Estagio.php";
 class EstagioModel extends MainModel {
 
     private $_tabela = "estagio";
+    private $_tabela_intermediaria = "relatorio";
 
 
 	public function recuperar($estagio_id) {
@@ -208,6 +209,48 @@ class EstagioModel extends MainModel {
             return 2;
         }
     }
+
+
+    public function submeterrelatorio($id, $arquivo,$usuario){
+            $statusModel = $this->loader->loadModel('StatusModel', 'StatusModel');
+            $estagio = new Estagio($id,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null);
+            $pstmt = $this->conn->prepare("select * from ".$this->_tabela_intermediaria." where estagio_id = ?");
+            $pstmt->execute(array($id));
+            $res = $pstmt->fetchAll();
+            $q = count($res);
+            if($q == 1){
+                try{
+                    $this->conn->beginTransaction();
+                    $pstmt = $this->conn->prepare("update  ".$this->_tabela_intermediaria." set conteudo = ?, nome = ? , tipo = ?, data_envio = now() where id = ?");
+                    $pstmt->execute(array($arquivo->get_conteudo(),$arquivo->get_nome(),$arquivo->get_tipo(),$id));
+                    $statusModel->adicionaNotificacao(StatusModel::$AGURDANDO_REL,$estagio, $usuario);
+                    $this->conn->commit();
+                    return true;  
+                }catch(PDOExecption $e){
+                    $this->conn->rollback();
+                    return false;
+                }
+            }else{
+                try{      
+                    $this->conn->beginTransaction();
+                    $pstmt = $this->conn->prepare("insert into ".$this->_tabela_intermediaria." (conteudo, tipo, nome, data_envio,estagio_id) value (?,?,?,NOW(),?)");
+                    $pstmt->execute(array($arquivo->get_conteudo(),$arquivo->get_tipo(),$arquivo->get_nome(),$id));
+                    $statusModel->adicionaNotificacao(StatusModel::$AGURDANDO_REL,$estagio, $usuario);
+                    
+                    $pstmt = $this->conn->prepare("update ".$this->_tabela." set status_codigo = ? where id = ?");
+                    $pstmt->execute(array(StatusModel::$AGURDANDO_REL, $id));
+                    
+                    
+                    $this->conn->commit();
+                    return true;  
+                }catch(PDOExecption $e){
+                    $this->conn->rollback();
+                    return false;
+                }
+            }
+    }
+
+
 
     public function readbyaluno(Aluno $aluno, $limite) {
         if ($limite == 0) {

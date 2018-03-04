@@ -11,6 +11,11 @@ $loader->loadUtil('Log');
 $loader->loadDAO('Usuario');
 $loader->loadDAO('Funcionario');
 $loader->loadDAO('Aluno');
+// gambiarra de wadson
+$loader->loadDao('Arquivo');
+$loader->loadDao('Status');
+$loader->loadDao('Estagio');
+
 
 //faz com que todas as mensagens de erro log sejam printadas na tela
 //Log::setIsDebugging(true);

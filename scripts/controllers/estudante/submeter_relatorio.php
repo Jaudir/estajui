@@ -1,19 +1,34 @@
-
 <?php
-require_once('../base-controller.php');
-//require_once('../../scripts/controllers/HomeController.php');
-$status = "Se Fudeu";
+require_once $_SERVER['DOCUMENT_ROOT'] . "/estajui/scripts/controllers/HomeController.php";
 
-//!remover essa porra aqui depois! -- > Begin
+if(is_a($usuario, "Aluno")){
+    if(isset($_POST['enviar_relatorio']) ){
+        $arquivo = $_FILES["relatorio"];
+        if(!is_uploaded_file($_FILES['relatorio']['tmp_name']) || !preg_match("/\.(pdf){1}$/i", $arquivo["name"], $ext)){
+            $session->pushError("Formato de arquivo invalido!", "error-validacao");
+            redirect(base_url().'/estajui/home.php');
+        }else{
+            $estagio_atual = $_SESSION['estagio'];
+            unset($_SESSION['estagio']);
+            $arq = new Arquivo();
 
-$usuarioModel = $loader->loadModel("UsuarioModel", "UsuarioModel");
-$result = $usuarioModel->validate('wadson.ayres@gmail.com', '12345678');
-$session->setUsuario($result);
+                $arq->read($_FILES, 'relatorio');
+                $x = $estagioModel->submeterrelatorio($estagio_atual->getid(),$arq,$usuario);
+                if($x == false){
+                    $session->pushError("Erro ao cadastrar novo relatório!", "error-critico");
+                    redirect(base_url().'/estajui/home.php');
+                }else{
+                    $session->pushValue("Relatorio enviado com sucesso!", "sucesso");
+                    redirect(base_url().'/estajui/home.php');
+                }
+            }
 
-
-//! <-- end
-
-
-$modelAluno = $loader->loadModel('AlunoModel','AlunoModel');
-$aluno = $modelAluno->readbyusuario($session->getUsuario(),1);
-$estagios =  $modelAluno->visualizarEstagios($aluno);
+        }else {
+            echo "vazio";
+            $session->pushError("Deve ser preenchido", "error-validacao");
+            redirect(base_url().'/estajui/home.php');
+        }
+    }else{
+        echo "erro aqui2";  
+        redirect(base_url().'/estajui/login.php');
+}
