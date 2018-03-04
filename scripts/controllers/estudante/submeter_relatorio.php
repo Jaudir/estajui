@@ -1,26 +1,34 @@
 <?php
 require_once $_SERVER['DOCUMENT_ROOT'] . "/estajui/scripts/controllers/HomeController.php";
-$loader->loadDao('Relatorio');
 
-if(is_a($usuario, "Aluno") && isset($_POST['enviar_relatorio'])){
-    if(isset($_POST['estagio_id'])){
-        // validar ser o relatorio que vem pode submeter estágio;
-        if(!preg_match("/\.(pdf){1}$/i", $arquivo["name"], $ext)){
-            $session->pushError("Formato de arquivo invalido!", "arquivo");
+if(is_a($usuario, "Aluno")){
+    if(isset($_POST['enviar_relatorio']) ){
+        $arquivo = $_FILES["relatorio"];
+        if(!is_uploaded_file($_FILES['relatorio']['tmp_name']) || !preg_match("/\.(pdf){1}$/i", $arquivo["name"], $ext)){
+            $session->pushError("Formato de arquivo invalido!", "error-validacao");
+            redirect(base_url().'/estajui/home.php');
         }else{
-            $arquivo = $_FILES["relatorio"];
-            if(is_uploaded_file($_FILES['relatorio']['tmp_name'])){
-                preg_match("/\.(pdf){1}$/i", $arquivo["name"], $ext);
-                $nome_arquivo = md5(uniqid(time())).".".$ext[1];
-                $caminho_imagem = 'relatorios/estudantes/'.$usuario->getcpf().'/'.$_POST['estagio_id'].'/'.$nome_arquivo;
-                if($estagioModel->submeterRelatorio($_POST['estagio_id'],$caminho_imagem)){
-                    move_uploaded_file($arquivo["tmp_name"], $caminho_imagem);
+            $estagio_atual = $_SESSION['estagio'];
+            unset($_SESSION['estagio']);
+            $arq = new Arquivo();
+
+                $arq->read($_FILES, 'relatorio');
+                $x = $estagioModel->submeterrelatorio($estagio_atual->getid(),$arq,$usuario);
+                if($x == false){
+                    $session->pushError("Erro ao cadastrar novo relatório!", "error-critico");
+                    redirect(base_url().'/estajui/home.php');
                 }else{
-                    $session->pushError("Erro ao enviar relatorio", "arquivo");             
+                    $session->pushValue("Relatorio enviado com sucesso!", "sucesso");
+                    redirect(base_url().'/estajui/home.php');
                 }
             }
+
+        }else {
+            echo "vazio";
+            $session->pushError("Deve ser preenchido", "error-validacao");
+            redirect(base_url().'/estajui/home.php');
         }
-    }
-}else{
-redirect(base_url().'estajui/login.php');
+    }else{
+        echo "erro aqui2";  
+        redirect(base_url().'/estajui/login.php');
 }
