@@ -3,9 +3,9 @@
 require_once(dirname(__FILE__) . '/MainModel.php');
 
 class OrientaEstagio extends MainModel{
-    public function defineOrientador($estagioId, $professorSiape, $usuario, $alterando){
+    public function defineOrientador($estagio, $professorSiape, $usuario, $alterando){
         try{
-            $status = $this->conn->loadModel('StatusModel', 'StatusModel');
+            $status = $this->loader->loadModel('StatusModel', 'StatusModel');
             $this->conn->beginTransaction();
             
             if($alterando == false){
@@ -14,9 +14,9 @@ class OrientaEstagio extends MainModel{
                 $stmt = $this->conn->prepare('alter table orienta_estagio set po_siape = :po where estagio_id = :estagio');
             }
 
-            $stmt->execute(array(':estagio' => $esatgioId, ':po' => $professorSiape));
+            $stmt->execute(array(':estagio' => $estagio->getid(), ':po' => $professorSiape));
 
-            $status->adicionaNotificacao(StatusModel::$PROFESSOR_DEF, $estagioId, $usuario);
+            $status->adicionaNotificacao(StatusModel::$PROFESSOR_DEF, $estagio, $usuario);
 
             $this->conn->commit();
         }catch(PDOException $ex){

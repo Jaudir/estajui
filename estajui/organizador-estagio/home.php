@@ -78,19 +78,33 @@ require_once(dirname(__FILE__) . '/../../scripts/controllers/organizador-estagio
                     $i = 0;
                     foreach($estagios as &$estagio):
                   ?>
-                  <?php
-                    $usuario = $estagio->getestagio()->getusuario();
-                  ?>
+                  <?php $aluno = $estagio->getestagio()->getaluno();?>
                   <tr class="red">
                     <th scope="row"><?php echo ++$i;?></th>
-                    <td><?php echo $estagio->getestagio()->getstatus()->get_descricao(); ?></td>
-                    <td><?php $estagio->getestagio()->getusuario()->getnome(); ?></td>
-                    <td><?php $estagio->get_data_inicio(); ?></td>
-                    <td><?php $estagio->getestagio()->getcurso()->getnome(); ?></td>
+                    <td><?php echo $estagio->getestagio()->getstatus()->getdescricao(); ?></td>
+                    <td><?php echo $estagio->getestagio()->getaluno()->getnome(); ?></td>
+                    <td><?php echo $estagio->getdata_inicio(); ?></td>
+                    <td><?php echo $estagio->getestagio()->getaluno()->getcursos()[0]->getnome() ?></td>
                     <td class="center">
                       <button class="definirOrientador" type="button" class="btn btn-link"
                         data-toggle="modal" data-target="#definirOrientador">
                         <i class="fa fa-pencil"></i>
+                        <div style="display:none;" class="modal-data-hold row">
+                          <span class="estagio-id" style="display:none;"><?php echo $estagio->getestagio()->getid();?></span>
+                          <h6>Nome: </h6> <p><?php echo $aluno->getnome(); ?></p><br>
+                          <h6>Cpf: </h6> <p><?php echo $aluno->getcpf(); ?></p><br>
+                          <h6>Curso: </h6> <p><?php echo $aluno->getcursos()[0]->getnome(); ?></p> <br>
+                          <h6>Nome fantasia da empresa: </h6> <p><?php echo $estagio->getestagio()->getempresa()->getnome(); ?></p> <br>
+                          <h6>Setor/Unidade da empresa: </h6> <p><?php echo "T.I." ;//$estagio->getestagio()->getempresa()->getsetor_unidade(); ?></p> <br>
+                          <h6>Supervisor: </h6> <p><?php echo $estagio->getestagio()->getsupervisor()->getnome(); ?></p> <br>
+                          <h6>Telefone do supervisor: </h6> <p><?php echo "(38) 9878-3177"//$estagio->getestagio()->getsupervisor()->gettelefone(); ?></p> <br>
+                          <h6>Habilitação profissional: </h6> <p><?php echo $estagio->getestagio()->getsupervisor()->gethabilitacao(); ?></p> <br>
+                          <h6>Cargo: </h6> <p><?php echo $estagio->getestagio()->getsupervisor()->getcargo(); ?></p> <br>
+                          <h6>Principais atividdes a serem desenvolvidas: </h6>
+                          <p><?php echo $estagio->getatividades(); ?></p> <br>
+                          <h6>Data prevista para ínicio do estágio: </h6> <p><?php echo $estagio->getdata_inicio(); ?></p> <br>
+                          <h6>Data prevista para término do estágio: </h6> <p><?php echo $estagio->getdata_fim(); ?></p> <br>
+                        </div>
                       </button>
                     </td>
                     <td class="center"><a href="#"> <i class="fa fa-eye"></i> </a></td>
@@ -112,15 +126,15 @@ require_once(dirname(__FILE__) . '/../../scripts/controllers/organizador-estagio
                 </button>
               </div>
               <div class="modal-body">
-                <div id="modal-data-target" class="row">
-                  <div class="col-md-12 dados-aluno">
-
-                </div>
-                <form name="dados-aluno">
+              <div class="modal-data-target" class="row">
+              </div>
+                <form id="form-def-orientador" name="dados-aluno" method="post" action="<?php echo base_url() . '/scripts/controllers/organizador-estagio/definir-po.php'; ?>">
+                  <input type="hidden" value="define" name="tipo">
+                  <input id="estagio-id" type="hidden" value="" name="estagio">
                   <div class="row">
                     <div class="col-md-6 mb-2">
                       <label for="validationCustom17">Professor Orientador</label>
-                      <select class="form-control" required>
+                      <select class="form-control" name="professor" required>
                         <?php foreach($professores as $professor):?>
                         <option value="<?php echo $professor->getsiape(); ?>"><?php echo $professor->getnome(); ?></option>
                         <?php endforeach;?>
@@ -131,7 +145,7 @@ require_once(dirname(__FILE__) . '/../../scripts/controllers/organizador-estagio
               </div>
               <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Sair</button>
-                <button type="button" class="btn btn-primary">Confirmar</button>
+                <button id="definirOrientadorBtt" type="button" class="btn btn-primary">Confirmar</button>
               </div>
             </div>
           </div>
@@ -143,12 +157,17 @@ require_once(dirname(__FILE__) . '/../../scripts/controllers/organizador-estagio
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
     <script>
       $(function(){
-      <?php if($session->hasErrors('normal')):?>
+      <?php if($session->hasError('normal')):?>
         alert(<?php echo "\"" . $session->getErrors('normal')[0] . "\""?>);
       <?php endif;?>
 
         $('.definirOrientador').click(function(){
-          $('');
+          $('.modal-data-target').html($(this).find('div').html());
+          $('#estagio-id').val($(this).find('div').find('.estagio-id').html());
+        });
+
+        $('#definirOrientadorBtt').click(function(){
+          $('#form-def-orientador').submit();
         });
       });
     </script>

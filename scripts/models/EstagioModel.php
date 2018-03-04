@@ -10,11 +10,11 @@ class EstagioModel extends MainModel {
 	public function recuperar($estagio_id) {
 		try {
 
-			$pstmt = $this->conn->prepare("SELECT es.bool_aprovado, es.bool_obrigatorio, s.descricao AS status_descricao, ap.numero AS ap_numero, ap.seguradora, "
+			$pstmt = $this->conn->prepare("SELECT es.id, es.aluno_cpf, es.bool_aprovado, es.bool_obrigatorio, s.descricao AS status_descricao, ap.numero AS ap_numero, ap.seguradora, "
 			."sor.nome AS sor_nome, sor.habilitacao, sor.cargo, f.nome AS f_nome, f.formacao, p.data_ini, p.data_fim, "
 			."p.hora_inicio1, p.hora_inicio2, p.hora_fim1, p.hora_fim2, p.total_horas, p.atividades, em.nome AS em_nome, em.razao_social, "
 			."em.cnpj, en.logradouro, en.numero AS en_numero, en.bairro, en.cidade, en.uf, en.cep, em.telefone, "
-			."em.fax, em.nregistro, em.conselhofiscal al.* FROM plano_estagio AS p "
+			."em.fax, em.nregistro, em.conselhofiscal FROM plano_estagio AS p "
 			."LEFT JOIN estagio AS es ON p.estagio_id = es.id "
 			."LEFT JOIN supervisiona AS sona ON es.id = sona.estagio_id "
 			."LEFT JOIN supervisor AS sor ON sona.supervisor_id = sor.id "
@@ -23,7 +23,6 @@ class EstagioModel extends MainModel {
 			."LEFT JOIN empresa AS em ON es.empresa_cnpj = em.cnpj "
 			."LEFT JOIN endereco AS en ON em.endereco_id = en.id "
 			."LEFT JOIN status AS s ON es.status_codigo = s.codigo "
-			."LEFT JOIN aluno AS al on aluno.cpf = es.aluno_cpf "
 			."WHERE es.id=?");
 			$v = $pstmt->execute(array($estagio_id));
 			$res = $pstmt->fetchAll();
@@ -36,7 +35,9 @@ class EstagioModel extends MainModel {
             $this->loader->loadDao('Apolice');
             $this->loader->loadDao('Status');
             $this->loader->loadDao('Empresa');
-			$this->loader->loadDao('Supervisor');
+            $this->loader->loadDao('Supervisor');
+            
+            $alunoModel = $this->loader->loadModel('AlunoModel', 'AlunoModel');
 
 			$funcionario = new Funcionario(null, null, null, null, $res['f_nome'], null, null, null, null, null, $res['formacao'], null, null);
 			$apolice = new Apolice($res['ap_numero'], $res['seguradora'], null);
@@ -45,11 +46,11 @@ class EstagioModel extends MainModel {
 			$empresa = new Empresa($res['cnpj'], $res['em_nome'], $res['telefone'], $res['fax'], $res['nregistro'], $res['conselhofiscal'], $endereco, null, null, null);
 			$planoDeEstagio = new PlanoDeEstagio(null, null,null, $res['atividades'], null, null, $res['data_ini'], $res['data_fim'], $res['hora_inicio1'], $res['hora_inicio2'], $res['hora_fim1'], $res['hora_fim2'], $res['total_horas'], null, null);
 			$supervisor = new Supervisor(null, $res['sor_nome'], $res['cargo'], $res['habilitacao'], null);
-			$estagio = new Estagio(null, $res['bool_aprovado'], $res['bool_obrigatorio'], $apolice, $supervisor, null, null, null, null, null, null, null, null, null, $empresa, null, $funcionario, null, $status, $planoDeEstagio);
+			$estagio = new Estagio($res['id'], $res['bool_aprovado'], $res['bool_obrigatorio'], $apolice, $supervisor, null, null, null, null, null, null, null, null, null, $empresa, $alunoModel->read($res['aluno_cpf'], 1)[0], $funcionario, null, $status, $planoDeEstagio);
 
             return $estagio;
 		} catch (PDOException $e) {
-			Log::logPDOError($e, true);
+			Log::LogPDOError($e, true);
 			return false;
 		}
 	}
