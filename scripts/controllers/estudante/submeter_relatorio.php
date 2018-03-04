@@ -2,11 +2,17 @@
 require_once $_SERVER['DOCUMENT_ROOT'] . "/estajui/scripts/controllers/HomeController.php";
 
 if(is_a($usuario, "Aluno")){
-    if(isset($_POST['enviar_relatorio']) ){
+    if(isset($_POST['enviar_relatorio'])){
         $arquivo = $_FILES["relatorio"];
-        if(!is_uploaded_file($_FILES['relatorio']['tmp_name']) || !preg_match("/\.(pdf){1}$/i", $arquivo["name"], $ext)){
-            $session->pushError("Formato de arquivo invalido!", "error-validacao");
+        if(!is_uploaded_file($_FILES['relatorio']['tmp_name'])){
+            $session->pushError("Nenhum arquivo selecionado!", "error-validacao");
             redirect(base_url().'/estajui/home.php');
+        }else if(!preg_match("/\.(pdf){1}$/i", $arquivo["name"], $ext)){
+            $session->pushError("Fomarto de arquivo inválido!", "error-validacao");
+            redirect(base_url().'/estajui/home.php');
+        } else if($_FILES['relatorio']['size']>55000000){
+            $session->pushError("O arquivo excedeu o tamanho máximo!", "error-validacao");
+            redirect(base_url().'/estajui/home.php');      
         }else{
             $estagio_atual = $_SESSION['estagio'];
             unset($_SESSION['estagio']);
@@ -24,11 +30,10 @@ if(is_a($usuario, "Aluno")){
             }
 
         }else {
-            echo "vazio";
-            $session->pushError("Deve ser preenchido", "error-validacao");
+            $session->pushError("O arquivo excedeu o tamanho máximo!", "error-validacao");
             redirect(base_url().'/estajui/home.php');
         }
     }else{
-        echo "erro aqui2";  
+        
         redirect(base_url().'/estajui/login.php');
 }
