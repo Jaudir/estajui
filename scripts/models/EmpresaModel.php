@@ -85,7 +85,7 @@ class EmpresaModel extends MainModel{
             empresa.razao_social ,empresa.fax ,empresa.nregistro ,empresa.conselhofiscal,
             responsavel.email , responsavel.nome as responsavelnome , responsavel.telefone as responsaveltelefone , 
             responsavel.cargo,endereco.logradouro,endereco.bairro,endereco.numero,endereco.complemento,
-            endereco.cidade,endereco.uf,endereco.cep, endereco.sala
+            endereco.cidade,endereco.uf,endereco.cep
             FROM  empresa 
             JOIN responsavel on responsavel.empresa_cnpj = empresa.cnpj  
             JOIN endereco on endereco.id = empresa.endereco_id 
@@ -105,6 +105,62 @@ class EmpresaModel extends MainModel{
             else return $result;
         } catch (PDOExecption $e) {
             return null;
+        }
+    }
+
+    public function buscar($cnpj) {    
+        try {
+            $this->loader->loadDAO('Empresa');
+            $this->loader->loadDAO('Responsavel');
+            $this->loader->loadDAO('Endereco');
+            $pstmt = $this->conn->prepare("SELECT empresa.cnpj ,empresa.nome as empresanome,empresa.telefone as empresatelefone,
+            empresa.razao_social ,empresa.fax ,empresa.nregistro ,empresa.conselhofiscal,
+            responsavel.email , responsavel.nome as responsavelnome , responsavel.telefone as responsaveltelefone , 
+            responsavel.cargo,endereco.logradouro,endereco.bairro,endereco.numero,endereco.complemento,
+            endereco.cidade,endereco.uf,endereco.cep
+            FROM  empresa 
+            LEFT JOIN responsavel on responsavel.empresa_cnpj = empresa.cnpj  
+            LEFT JOIN endereco on endereco.id = empresa.endereco_id 
+            WHERE empresa.cnpj = :cnpj");
+            $pstmt->bindParam(':cnpj', $cnpj);
+            $pstmt->execute();
+
+            $empresa = $pstmt->fetchAll();
+
+            if(count($empresa) == 1){
+                $empresa = $empresa[0];
+                return
+                    new Empresa(
+                        $empresa["cnpj"],
+                        $empresa["empresanome"],
+                        $empresa["empresatelefone"],
+                        $empresa["fax"],
+                        $empresa["nregistro"],
+                        $empresa["conselhofiscal"],
+                        new Endereco(
+                            null,
+                            $empresa["logradouro"],
+                            $empresa["bairro"],
+                            $empresa["numero"],
+                            $empresa["complemento"],
+                            $empresa["cidade"],
+                            $empresa["uf"],
+                            $empresa["cep"],
+                            null),
+                        new Responsavel(
+                            $empresa["email"], 
+                            $empresa["responsavelnome"],
+                            $empresa["responsaveltelefone"], 
+                            $empresa["cargo"], 
+                            null),
+                        null,
+                        $empresa["razao_social"]);
+            }
+            return false;
+            
+        } catch (PDOExecption $e) {
+            Log::LogPDOError($e);
+            return false;
         }
     }
 }
