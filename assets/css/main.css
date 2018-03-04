@@ -144,8 +144,9 @@ form section{
     line-height: 20px;
     min-width: 20px;
     position: absolute;
-    top: 6px;
-    right: 52px;
+    /*top: 6px;
+    right: 52px;*/
+	left: 44px;
     text-align: center;
     text-shadow: 0 1px 0 rgba(0, 0, 0, 0.1);
     padding-left: 4px;
@@ -462,4 +463,15 @@ form section{
   top: auto;
   bottom: 0px;
   left: 43px;
+}
+
+#dropdownMenuLink{
+	font-size: 1.6em;
+	padding: 0;
+	margin: 2px 0 0 15px;
+}
+
+.dropdown-item{
+	white-space: inherit;
+	width: 200px;
 }
