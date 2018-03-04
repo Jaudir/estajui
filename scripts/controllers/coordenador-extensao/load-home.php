@@ -4,22 +4,6 @@ require_once(dirname(__FILE__) . '/../base-controller.php');
 
 $session = getSession();
 
-$session->setUsuario(
-    new Funcionario(
-        "func@func", 
-        "12345", 
-        5, 
-        12345, 
-        "Joao", 
-        true, 
-        true, 
-        true, 
-        true, 
-        true, 
-        "Nadica de nada", 
-        true, 
-        10727655000462));
-
 if($session->isce()){
     $model = $loader->loadModel('FuncionarioModel', 'FuncionarioModel');
 

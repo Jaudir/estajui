@@ -141,48 +141,39 @@ class FuncionarioModel extends MainModel {
     }
 
     //altera a situação de uma empresa conveniada e notifica os alunos em estágios associados
-    public function alterarConvenio($veredito, $justificativa, $cnpj) {
+    public function alterarConvenio($veredito, $justificativa, $cnpj, $usuario) {
         try {
+            $statusModel = $this->loader->loadModel('StatusModel', 'StatusModel');
+            $estagioModel = $this->loader->loadModel('EstagioModel', 'EstagioModel');
+            $alunoModel = $this->loader->loadModel('AlunoModel', 'AlunoModel');
+            
             $status_codigo = 0;
-            $temJustificativa = 0;
 
             if ($veredito == 1) {
-                $status_codigo = 11; //id direto do BD ://///
-                $justificativa = '';
-                $temJustificativa = 0;
+                $status_codigo = StatusModel::$CONVENIO_APR;
+                $justificativa = null;
             } else {
-                $status_codigo = 12; //id direto do BD ://///
-                $temJustificativa = 1;
+                $status_codigo = StatusModel::$CONVENIO_RPR;
             }
 
             /* Carregar alunos de estágios associados que devem ser notificados desta ação */
-            $stmt = $this->conn->prepare(
-                    "SELECT * FROM estagio
-                JOIN aluno ON aluno.cpf = estagio.aluno_cpf
-                JOIN usuario ON aluno.usuario_email = usuario.email
-                WHERE empresa_cnpj = $cnpj");
-            $stmt->execute();
+            $estagios = $estagioModel->buscarPorEmpresa($cnpj);
 
-            $alunos = $stmt->fetchAll();
-            if (count($alunos) == 0) {
-                Log::LogError("Empresa não tem estágios associados", true); //não tem estágios associados, ou alunos associados aos estágios ??
-            }
+            if($estagios == false)
+                return false;
 
             //inserção dos dados
-
             $this->conn->beginTransaction();
 
             $this->conn->exec("UPDATE empresa SET conveniada = $veredito WHERE cnpj = $cnpj");
 
-            //notificar todos os alunos
-            foreach ($alunos as $aluno) {
-                $estagio_id = $aluno['id'];
-                $email = $aluno['email'];
-
-                $this->conn->exec("INSERT INTO modifica_status(data, estagio_id, status_codigo, usuario_email) VALUES(NOW(), '$estagio_id', '$status_codigo', '$email')");
-                $last_id = $this->conn->lastInsertId();
-                $this->conn->exec("INSERT INTO notificacao(lida, temJustificativa, justificativa, modifica_status_id) VALUES(0, $temJustificativa, '$justificativa', $last_id)");
+            //notificar todos os estagios
+            foreach ($estagios as $estagio) {
+                $statusModel->adicionaNotificacao($status_codigo, $estagio, $usuario, $justificativa);
             }
+
+            if($veredito == 0)
+                $this->removerCadastroEmpresa($cnpj);
 
             $this->conn->commit();
         } catch (PDOException $ex) {
@@ -215,8 +206,13 @@ class FuncionarioModel extends MainModel {
 
     public function listaEmpresas() {
         try {
+            $this->loader->loadDAO('Empresa');
+            $this->loader->loadDAO('Endereco');
+            $this->loader->loadDAO('Responsavel');
+
             $st = $this->conn->prepare(
-                    'SELECT 
+                'SELECT 
+                endereco.id as endr_id,
                 endereco.*,
                 empresa.*,
                 responsavel.nome AS resp_nome, responsavel.email AS resp_email, responsavel.telefone AS resp_tel, responsavel.cargo AS resp_cargo
@@ -224,8 +220,45 @@ class FuncionarioModel extends MainModel {
                 INNER JOIN endereco ON endereco.id = empresa.endereco_id 
                 LEFT JOIN responsavel ON responsavel.empresa_cnpj = empresa.cnpj
                 WHERE conveniada = 0');
+
             $st->execute();
-            return $st->fetchAll();
+            
+            $emprs = $st->fetchAll();
+            if(count($emprs) > 0){
+                $empresas = array();
+                foreach($emprs as $empr){
+                    $empresas[] = new Empresa(
+                        $empr['cnpj'],
+                        $empr['nome'],
+                        $empr['razao_social'],
+                        $empr['telefone'],
+                        $empr['fax'],
+                        $empr['nregistro'],
+                        $empr['conselhofiscal'],
+                        new Endereco(
+                            $empr['endr_id'],
+                            $empr['logradouro'],
+                            $empr['bairro'],
+                            $empr['numero'],
+                            $empr['complemento'],
+                            $empr['cidade'],
+                            $empr['uf'],
+                            $empr['cep'],
+                            null
+                        ),
+                        new Responsavel(
+                            $empr['resp_email'],
+                            $empr['resp_nome'],
+                            $empr['resp_tel'],
+                            $empr['resp_cargo'],
+                            null
+                        ),
+                        $empr['conveniada']
+                    );
+                }
+                return $empresas;
+            }
+            return false;
         } catch (PDOException $ex) {
             Log::LogPDOError($ex);
             return false;
@@ -593,5 +626,3 @@ class FuncionarioModel extends MainModel {
 	}
 
 }
-
-?>

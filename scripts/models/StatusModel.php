@@ -34,12 +34,12 @@ class StatusModel extends MainModel {
 
             $stmt = $this->conn->prepare('INSERT INTO notificacao(lida, modifica_status_id, temJustificativa, justificativa) VALUES(:lida, :modifica_status_id, :temJustificativa, :justificativa)');
             $stmt->execute(
-                    array(
-                        ':lida' => 0,
-                        ':modifica_status_id' => $id,
-                        ':temJustificativa' => $justificativa != null,
-                        ':justificativa' => $justificativa));
-
+                array(
+                    ':lida' => 0, 
+                    ':modifica_status_id' => $id, 
+                    ':temJustificativa' => $justificativa != null, 
+                    ':justificativa' => $justificativa));
+                    
             $this->conn->commit();
         } catch (PDOException $ex) {
             Log::LogPDOError($ex);

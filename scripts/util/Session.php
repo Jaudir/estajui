@@ -119,4 +119,24 @@ class Session{
             } 
         }
     }
+
+    /*
+        Pega os dados do post e passa para os valores na sessão
+        Parametros: 
+            filter: dados para serem filtrados
+            boolExclude: Se for true, os dados em filter serão ignorados durante a cópia, caso sea
+                        falso, os dados em filter serão os únicos à serem adicionados.
+    */
+    public function valuesFromPOST($filter = array(), $boolExclude = true){
+        $values = array();
+
+        if($boolExclude == false)
+            $values = array_intersect_key($_POST, $filter);
+        else
+            $values = array_diff_key($_POST, $filter);
+
+        foreach($values as $key => $value){
+            $this->pushValue($value, $key);
+        }
+    }
 }

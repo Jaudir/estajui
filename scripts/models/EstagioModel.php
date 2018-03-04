@@ -327,4 +327,48 @@ class EstagioModel extends MainModel {
         }
     }
 
+    public function buscarPorEmpresa($empresaCnpj){
+		try{
+			return $this->mread(array('empresa_cnpj' => $empresaCnpj));
+		}catch(PDOException $ex){
+			return false;
+		}
+	}
+
+	private function mread($fields){
+		//TODO: carregando apenas o estágio, editar para carrear tabelas associadas
+
+		$query = "SELECT * FROM estagio WHERE";
+
+		foreach($fields as $column => $value){
+			$query = $query . ' ' . $column . ' = ' . $value;
+		}
+
+		$stmt = $this->conn->prepare($query);
+		$stmt->execute();
+
+		$response = $stmt->fetchAll();
+
+		if(count($response) == 0)
+			return false;
+		
+		$estagios = array();
+		foreach($response as $res){
+			$estagio = new Estagio($res['id'], $res['bool_aprovado'], $res['bool_obrigatorio'], null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
+			$estagios[] = $estagio;
+		}
+
+		return $estagios;
+    }
 }
+/*
+    $pstmt->execute(array($planoDeEstagio->get_estagio(),$planoDeEstagio->get_setor_unidade(),$planoDeEstagio->get_data_inicio(),$planoDeEstagio->get_data_fim(),$planoDeEstagio->get_atividades,$planoDeEstagio->get_hora_inicio1(),$planoDeEstagio->get_data_fim1(),$planoDeEstagio->get_total_horas(),$empresa->get_cnpj()));
+				$this->conn->commit();
+				return true;
+			} catch (PDOException $e) {
+				$this->conn->rollback();
+				return false;
+			}	
+		}
+	}
+*/
