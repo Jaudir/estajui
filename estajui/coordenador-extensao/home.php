@@ -136,7 +136,7 @@
                         <h6>Sala: </h6> <p><?php echo "Não tem sala"?></p> <br>
                         <h6>Bairro: </h6> <p><?php echo $empresa['bairro']?></p><br>
                         <h6>Cidade: </h6> <p><?php echo $empresa['cidade']?></p><br>
-                        <h6>Estado: </h6> <p><?php echo $empresa['estado']?></p><br>
+                        <h6>Estado: </h6> <p><?php echo $empresa['uf']?></p><br>
                         <h6>CEP: </h6> <p><?php echo $empresa['cep']?></p>
                         </div>
                       </button>
