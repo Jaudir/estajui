@@ -1,56 +1,94 @@
+<?php
+		
+	require_once $_SERVER['DOCUMENT_ROOT'] . "/estajui/scripts/controllers/base-controller.php";
+	require_once $_SERVER['DOCUMENT_ROOT'] . '/estajui/scripts/daos/Leciona.php';
+	
+	$loader->loadDao('Usuario');
+	$loader->loadDao('Funcionario');
+	$loader->loadDao('Leciona');
+	$loader->loadDao('OfereceCurso');
+	$session = getSession();
+	
+	
+?>
 <!DOCTYPE html>
+
 <?php
 	
-	//require_once $_SERVER['DOCUMENT_ROOT'] . '/estajui/scripts/controllers/busca-usuario.php';
-	require_once $_SERVER['DOCUMENT_ROOT'] . '/estajui/scripts/daos/Leciona.php';
-	//require_once $_SERVER['DOCUMENT_ROOT'] . '/estajui/scripts/daos/Usuario.php';
-	//require_once $_SERVER['DOCUMENT_ROOT'] . '/estajui/scripts/daos/Funcionario.php';
-	//require_once $_SERVER['DOCUMENT_ROOT'] . '/estajui/scripts/daos/OfereceCurso.php';
-	//session_start();
-	session_start();
-	//session_unset();
-	//session_destroy();
 	
 	
-	//var_dump($_SESSION);
+	
+	//$session->destroy();
+	
+	
+	
+	if(!isset($session) || $session->getUsuario() == null || !$session->isce()) {
+	
+		echo "Setado: " . isset($session);
+		echo "\nUsuario nulo: " . ($session->getUsuario() == null ? "true" : "false");
+		echo "\nCE: " . ($session->isce() ? "true" : "false");
+		echo base_url();
+		//$session->destroy();
+		//unset($session);
+		//$session=null;
+		redirect(base_url(). '/estajui/login.php');
+		echo "REDIRECIONA";
+	}
+	
+	///Carrega o nome do usuário para a sessão
+	if(!$session->hasValues('nome')) {
+		//echo "Entrou";
+		$usuarioModel = $loader->loadModel('UsuarioModel','UsuarioModel');$funcionarioModel = $loader->loadModel('FuncionarioModel','FuncionarioModel');
+		$funcionarioModel = $loader->loadModel('FuncionarioModel','FuncionarioModel');
+		
+		$funcionarioLogado = $funcionarioModel->readbyusuario($session->getusuario(),1);
+		
+		if($funcionarioLogado != false && $funcionarioLogado != null) {
+			$funcionarioLogado = $funcionarioLogado[0];
+			$session->pushValue($funcionarioLogado->getnome(), 'nome');
+		}
+		//else
+			//redirect(base_url(). '/estajui/login.php');
+	}
 	
 ?>
 
 
 <script>
 	function mensagemSalvamento() {	
-		
-		if(<?php if(isset($_SESSION['erros'])) echo 0; else echo 1; ?>) {
-			
-			return ;
-		}
-		if(<?php if(isset($_SESSION['erros']) && $_SESSION['erros'] == 0) echo 1; else echo 0; ?>) {
-			if(<?php if(isset($_SESSION['busca']) && $_SESSION['busca'] == true) echo 1; else echo 0; ?>) {
-				<?php 
-					$_SESSION['busca'] = null; 
+			<?php
+				if($session->hasError('erro')) :	
+			?>
+
+				<?php
+					$vetErros = $session->getErrors('erro');
+					$stringErro = "";
+					if($vetErros != null)
+						foreach($vetErros as $erro) {
+							$stringErro .= $erro;
+						}
+					$session->getValues('salvar');
 				?>
-				return ;
-			}
-			window.alert("Usuário cadastrado com sucesso!");
-			
-			<?php $_SESSION['erros'] = null; ?>
-			return ;
-		}
-		else {
-			var msg;
-			var i;
-			window.alert('<?php if (isset($_SESSION['mensagensErro'])) {foreach($_SESSION['mensagensErro'] as &$msg) echo $msg . " "; unset($msg); } ?>');
-			
-			<?php $_SESSION['erros'] = null;
-			$_SESSION['mensagensErro'] = null; ?>
-			return ;
-		}
-		
-		<?php
-			$_SESSION['erros'] = null;
-			$_SESSION['mensagensErro'] = null;
-		?>
-		<?php /*unset($_SESSION['erros']);	unset($_SESSION['mensagensErro']); unset($_SESSION['pau1']); unset($_SESSION['pau12']); unset($_SESSION['curso']) */?>
+					window.alert(<?php echo "\"" . $stringErro . "\"" ?>);
+					
+				<?php
+					elseif($session->hasValues('salvar')):
+				?>
+					//Salvamento sem erros
+					window.alert(<?php echo "\"" . $session->getValues('salvar')[0] . "\""?>)
+				<?php
+					endif;
+				?>
+						
+				<?php
+					if(!$session->hasValues('busca')):
+				?>
+					//Não fez nenhuma busca
+					document.getElementById("buscar").click();
+					
+				<?php
+					endif;
+				?>
 	}
 	
 	function ocultarCursos() {
@@ -205,6 +243,12 @@
 		}
 	}
 	
+	//function deslogar() {
+		//window.alert("Deslogando...");
+		//<?php echo "<META http-equiv='refresh' content='0;URL=" . base_url() . '/estajui/coordenador-extensao/deslogar.php'  ."'> " ?>	
+		//location.href = base_url() . '/estajui/coordenador-extensao/deslogar.php';
+	//}
+	
 </script>
 <html>
   <head>
@@ -228,11 +272,14 @@
           <ul class="nav-content navbar-nav">
             <li>
               <span class="navbar-text">
-                Mario Sérgio Costa da Silveira
+                <!--Mario Sérgio Costa da Silveira-->
+				<?php echo $session->getValues('nome')[0]; ?>
               </span>
             </li>
             <li class="nav-item">
-              <button type="button" class="btn btn-outline-light bt-sair">Sair</button
+              <a href =   "<?php echo base_url() . '/scripts/controllers/deslogar.php'; ?>">
+			  		<button type="button" class="btn btn-outline-light bt-sair"> Sair </button>
+			  </a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="#"><i class="fa fa-envelope fa-2x" aria-hidden="true"></i>
@@ -247,10 +294,10 @@
         <div class="col-lg-2 left-menu">
           <ul class="nav flex-column">
             <li class="nav-item">
-              <a class="nav-link active" href="#">Home</a>
+              <a class="nav-link active" href="home.php">Home</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#">Usuários</a>
+              <a class="nav-link" href="usuarios.php">Usuários</a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="#">Cursos</a>
@@ -309,21 +356,18 @@
                     <div class="invalid-feedback">
                       Por favor, informe um e-mail válido.
                     </div>
-					
-					<label>Formação: </label>
-					<input type="text" class="form-control" id="formacao" name="formacao">
-					<!-- !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!     Se vazio, é um novo usuário  -->
-					<input type="hidden" name="idUsuario" id="idUsuario" value=""></input>
-					
-					
-					
-					
-					
-					<!-- !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!       -->
-					
-					
-                  </div>
-                </div>
+				   </div>
+				</div>
+				<div class="row">	
+					<div class="col-md-6 mb-3">
+						<label>Formação: </label>
+						<input type="text" class="form-control" id="formacao" name="formacao">
+						<!-- !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!     Se vazio, é um novo usuário  -->
+						<input type="hidden" name="idUsuario" id="idUsuario" value=""></input>
+					</div>
+				</div>
+
+                
                 <div class="row" id="ministraAulas">
                   <div class="col-md-12" id="ministraAulas">
                     <h6>Caso seja docente, marque os cursos em que ele ministra aulas:</h6>
@@ -416,21 +460,27 @@
             </div>
           </div>
 		  
-		  <form method="POST" action="../../scripts/controllers/busca-usuario.php">
-		  		  <label>Informe o texto de busca: </label>
-				  <input type="text" name="campoBusca"> <br>
-				  <input type="radio" name="tipoBusca" value="email">E-mail</input><br>
-				  <input type="radio" name="tipoBusca" value="nome">Nome</input><br>
-				  <button class="btn btn-success" type="submit" name="buscar">Buscar</button>
-		  </form>
+
 		  
 		  
           <div class="row table-usuarios">
-            <div class="offset-lg-1 col-lg-10 table-title">
-              <h3 class="bg-gray"> Todos os usuários </h3>
+            <div class="offset-lg-1 col-lg-10 table-title bg-gray">
+				<div class="row">
+					<div class="col-md-3">
+              			<h3 > Todos os usuários </h3>
+			  		</div>
+					<div class="col-md-9">
+					  	 <form method="POST" action="../../scripts/controllers/busca-usuario.php" style="padding-top: 15px; padding-right: 30px; float: right;">
+						  	<input type="text" class=""  name="campoBusca" > 
+						  	<input type="radio" name="tipoBusca" value="email">E-mail</input>
+						  	<input type="radio" name="tipoBusca" value="nome">Nome</input>
+						  	<button id="buscar" class="btn btn-success" type="submit" name="buscar">Buscar</button>
+				  		</form>
+					</div>
+				</div>
             </div>
-            <div class="offset-lg-1 col-lg-10">
-              <table class="table table-bordered">
+            <div class="offset-lg-1 col-lg-10" style="padding: 0;">
+              <table class="table table-bordered" id="tabela">
                 <thead>
                   <tr>
                     <th scope="col">Nome</th>
@@ -446,9 +496,15 @@
                 </thead>
                 <tbody>
 					<?php
-						if(isset($_SESSION["funcionarios"]) && isset($_SESSION["leciona"])) {
-							$funcionarios = $_SESSION["funcionarios"];
-							$leciona = $_SESSION["leciona"];
+						//if(isset($_SESSION["funcionarios"]) && isset($_SESSION["leciona"])) {
+						
+						 
+							if($session->hasValues("funcionarios") && $session->hasValues("leciona")) {
+							//$funcionarios = $_SESSION["funcionarios"];
+							//$leciona = $_SESSION["leciona"];
+							
+							$funcionarios = $session->getValues("funcionarios");
+							$leciona = $session->getValues("leciona");
 							
 							$cont = 0;
 							
@@ -456,14 +512,18 @@
 								?> <script> window.alert("A busca não obteve resultado!"); </script> <?php
 							}
 							
-							foreach($funcionarios as $funcionario) {
+							foreach($funcionarios as $f) {
+								foreach($f as $funcionario) {
 								$lecionaAux = array();
+								//echo "CLASSE: " . $funcionario.getclass();
+								
 								echo "<tr>";
 								echo "<td id='nome".$cont."'>" . $funcionario->getnome() . "</td>"."\n";
 								echo "<td id='email".$cont."'>" . $funcionario->getlogin() . "</td>"."\n";
 								echo "<td id='siape".$cont."'>" . $funcionario->getsiape() . "</td>"."\n";
 								echo "<td>";
-								foreach($leciona as $l) {
+								foreach($leciona as $lec) {
+									foreach($lec as $l) {
 									if($l->getfuncionario()->getlogin() == $funcionario->getlogin()) {
 										if ($l->getoferececurso()->getcurso()->getid() == 1) echo "<span id='CComp" . $cont . "'>"."\n";
 										if ($l->getoferececurso()->getcurso()->getid() == 2) echo "<span id='EQuim" . $cont . "'>"."\n";
@@ -474,6 +534,7 @@
 										echo $l->getoferececurso()->getcurso()->getnome() . "</span><br>"."\n";
 										array_push($lecionaAux, $l);
 									}
+								}
 								}
 								echo "</td>"."\n";
 								
@@ -499,10 +560,12 @@
                     				echo "<td class='center red'><a href='#'> <i class='fa fa-trash'></i> </a></td>";
                     				echo "</tr>";
 								
-								$_SESSION['busca'] = null;												
+								//$_SESSION['busca'] = null;												
+								$session->getValues("busca");
 								
 								$cont++;
 							}
+						}
 						}
 					?>
                   <!--<tr>

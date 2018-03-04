@@ -4,7 +4,7 @@
 class Session{
     public function start(){
         session_start();
-
+		
         if(!isset($_SESSION['errors']))
             $_SESSION['errors'] = array();
 
