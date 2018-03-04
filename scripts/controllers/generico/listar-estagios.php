@@ -2,16 +2,15 @@
 require_once(dirname(__FILE__) . '/../base-controller.php');
 $session = getSession();
 //Estudante Aluno
-/*$session->setUsuario(
-    new Aluno("aluno@aluno", "12345", 1, 2, "Nome de um aluno 2", null, null, null, null, null, null, null, null, null, null, null, null, null)
-	);*/
+$session->setUsuario(
+    new Aluno("aluno@aluno", "12345", 1, 3, "Nome de um aluno 3", null, null, null, null, null, null, null, null, null, null, null, null, null)
+	);
 //OE
-$session->setUsuario(
+/*$session->setUsuario(
 	new Funcionario("func@func", "12345", 1, 1, "Professor1", false, true, false, false, null, null, null, null)
-);
+);*/
 //PO
-/*
-$session->setUsuario(
+/*$session->setUsuario(
 	new Funcionario("func@func", "12345", 1, 1, "Professor1", true, false, false, false, null, null, null, null)
 );*/
 //CE
@@ -53,9 +52,9 @@ if($session->isoe()){
     if (is_array($listaEstagios)){
         $retorno_ajax = array();
         foreach($listaEstagios as $le){
-            $le->getpe()->set_data_inicio(date('d/m/Y', strtotime($le->getpe()->get_data_inicio())));
-            $le->getpe()->set_data_fim(date('d/m/Y', strtotime($le->getpe()->get_data_fim())));
-            $retorno_ajax[] = array("id"=>$le->getid(),"aluno"=>$le->getaluno()->getnome(), "status"=>$le->getstatus()->get_descricao(), "curso"=>$le->getcurso()->getnome(), "data_ini"=>$le->getpe()->get_data_inicio(), "data_fim"=>$le->getpe()->get_data_fim(), "po"=>$le->getfuncionario()->getnome(), "empresa"=>$le->getempresa()->get_nome());
+            $le->getpe()->setdata_inicio(date('d/m/Y', strtotime($le->getpe()->getdata_inicio())));
+            $le->getpe()->setdata_fim(date('d/m/Y', strtotime($le->getpe()->getdata_fim())));
+            $retorno_ajax[] = array("id"=>$le->getid(),"aluno"=>$le->getaluno()->getnome(), "status"=>$le->getstatus()->getdescricao(), "curso"=>$le->getmatricula()->getoferta()->getcurso()->getnome(), "data_ini"=>$le->getpe()->getdata_inicio(), "data_fim"=>$le->getpe()->getdata_fim(), "po"=>$le->getfuncionario()->getnome(), "empresa"=>$le->getempresa()->getnome());
 
         }
         if (isset($_POST['aluno']) && isset($_POST['status']) && isset($_POST['curso']) && isset($_POST['po']) && isset($_POST['responsavel']) && isset($_POST['empresa']) && isset($_POST['data_ini']) && isset($_POST['data_fim'])) {
@@ -114,9 +113,9 @@ if($session->isoe()){
     if (is_array($listaEstagios)){
         $retorno_ajax = array();
         foreach($listaEstagios as $le){
-            $le->getpe()->set_data_inicio(date('d/m/Y', strtotime($le->getpe()->get_data_inicio())));
-            $le->getpe()->set_data_fim(date('d/m/Y', strtotime($le->getpe()->get_data_fim())));
-            $retorno_ajax[] = array("id"=>$le->getid(),"aluno"=>$le->getaluno()->getnome(), "status"=>$le->getstatus()->get_descricao(), "curso"=>$le->getcurso()->getnome(), "data_ini"=>$le->getpe()->get_data_inicio(), "data_fim"=>$le->getpe()->get_data_fim(), "po"=>$le->getfuncionario()->getnome(), "empresa"=>$le->getempresa()->get_nome());
+            $le->getpe()->setdata_inicio(date('d/m/Y', strtotime($le->getpe()->getdata_inicio())));
+            $le->getpe()->setdata_fim(date('d/m/Y', strtotime($le->getpe()->getdata_fim())));
+            $retorno_ajax[] = array("id"=>$le->getid(),"aluno"=>$le->getaluno()->getnome(), "status"=>$le->getstatus()->getdescricao(), "curso"=>$le->getmatricula()->getoferta()->getcurso()->getnome(), "data_ini"=>$le->getpe()->getdata_inicio(), "data_fim"=>$le->getpe()->getdata_fim(), "po"=>$le->getfuncionario()->getnome(), "empresa"=>$le->getempresa()->getnome());
 
         }
         if (isset($_POST['aluno']) && isset($_POST['status']) && isset($_POST['curso']) && isset($_POST['po']) && isset($_POST['responsavel']) && isset($_POST['empresa']) && isset($_POST['data_ini']) && isset($_POST['data_fim'])) {
@@ -173,9 +172,9 @@ if($session->isoe()){
     if (is_array($listaEstagios)){
         $retorno_ajax = array();
         foreach($listaEstagios as $le){
-            $le->getpe()->set_data_inicio(date('d/m/Y', strtotime($le->getpe()->get_data_inicio())));
-            $le->getpe()->set_data_fim(date('d/m/Y', strtotime($le->getpe()->get_data_fim())));
-            $retorno_ajax[] = array("id"=>$le->getid(),"aluno"=>$le->getaluno()->getnome(), "status"=>$le->getstatus()->get_descricao(), "curso"=>$le->getcurso()->getnome(), "data_ini"=>$le->getpe()->get_data_inicio(), "data_fim"=>$le->getpe()->get_data_fim(), "po"=>$le->getfuncionario()->getnome(), "empresa"=>$le->getempresa()->get_nome());
+            $le->getpe()->setdata_inicio(date('d/m/Y', strtotime($le->getpe()->getdata_inicio())));
+            $le->getpe()->setdata_fim(date('d/m/Y', strtotime($le->getpe()->getdata_fim())));
+            $retorno_ajax[] = array("id"=>$le->getid(),"aluno"=>$le->getaluno()->getnome(), "status"=>$le->getstatus()->getdescricao(), "curso"=>$le->getmatricula()->getoferta()->getcurso()->getnome(), "data_ini"=>$le->getpe()->getdata_inicio(), "data_fim"=>$le->getpe()->getdata_fim(), "po"=>$le->getfuncionario()->getnome(), "empresa"=>$le->getempresa()->getnome());
 
         }
         if (isset($_POST['aluno']) && isset($_POST['status']) && isset($_POST['curso']) && isset($_POST['po']) && isset($_POST['responsavel']) && isset($_POST['empresa']) && isset($_POST['data_ini']) && isset($_POST['data_fim'])) {
@@ -231,9 +230,9 @@ if($session->isoe()){
     if (is_array($listaEstagios)){
         $retorno_ajax = array();
         foreach($listaEstagios as $le){
-            $le->getpe()->set_data_inicio(date('d/m/Y', strtotime($le->getpe()->get_data_inicio())));
-            $le->getpe()->set_data_fim(date('d/m/Y', strtotime($le->getpe()->get_data_fim())));
-            $retorno_ajax[] = array("id"=>$le->getid(),"aluno"=>$le->getaluno()->getnome(), "status"=>$le->getstatus()->get_descricao(), "curso"=>$le->getcurso()->getnome(), "data_ini"=>$le->getpe()->get_data_inicio(), "data_fim"=>$le->getpe()->get_data_fim(), "po"=>$le->getfuncionario()->getnome(), "empresa"=>$le->getempresa()->get_nome());
+            $le->getpe()->setdata_inicio(date('d/m/Y', strtotime($le->getpe()->getdata_inicio())));
+            $le->getpe()->setdata_fim(date('d/m/Y', strtotime($le->getpe()->getdata_fim())));
+            $retorno_ajax[] = array("id"=>$le->getid(),"aluno"=>$le->getaluno()->getnome(), "status"=>$le->getstatus()->getdescricao(), "curso"=>$le->getmatricula()->getoferta()->getcurso()->getnome(), "data_ini"=>$le->getpe()->getdata_inicio(), "data_fim"=>$le->getpe()->getdata_fim(), "po"=>$le->getfuncionario()->getnome(), "empresa"=>$le->getempresa()->getnome());
 
         }
         if (isset($_POST['aluno']) && isset($_POST['status']) && isset($_POST['curso']) && isset($_POST['po']) && isset($_POST['responsavel']) && isset($_POST['empresa']) && isset($_POST['data_ini']) && isset($_POST['data_fim'])) {

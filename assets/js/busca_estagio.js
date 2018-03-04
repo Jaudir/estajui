@@ -74,11 +74,11 @@ $(document).ready(function(){
                         $('#tabela > tbody:last-child').append("<tr>\n" +
                             "                    <td>" + itemData["aluno"] + "</td>\n" +
                             "                    <td>" + itemData["status"] + "</td>\n" +
-                            "                    <td>" + itemData["curso"] + "</td>\n" +
                             "                    <td>" + itemData["data_ini"] + "</td>\n" +
                             "                    <td>" + itemData["data_fim"] + "</td>\n" +
                             "                    <td>" + itemData["po"] + "</td>\n" +
                             "                    <td>" + itemData["empresa"] + "</td>\n" +
+                            "                    <td>" + itemData["curso"] + "</td>\n" +
                             "                    <td class=\"center\"><a href=\"\" data-toggle=\"modal\" data-target=\"#ver-estagio\" id=\"ver"+itemData["id"]+"\"> <i class=\"fa fa-eye\"></i> </a></td>\n" +
                             "                  </tr>");
                         document.getElementById("ver"+itemData["id"]).onclick = function() {

@@ -229,15 +229,15 @@ require_once $_SERVER['DOCUMENT_ROOT'] . "/estajui/scripts/controllers/HomeContr
                                                             <div class="row">
                                                                 <div class="col-md-4">
                                                                     <label for="serie">Série:</label>
-                                                                    <input type="text" name="serie" id="serie" class="form-control" placeholder="" disabled="disabled">
+                                                                    <input type="number" name="serie" id="serie" class="form-control" placeholder="" disabled="disabled">
                                                                 </div>
                                                                 <div class="col-md-4">
                                                                     <label for="modulo">Módulo:</label>
-                                                                    <input type="text" name="modulo" id="modulo" class="form-control" placeholder="" disabled="disabled">
+                                                                    <input type="number" name="modulo" id="modulo" class="form-control" placeholder="" disabled="disabled">
                                                                 </div>
                                                                 <div class="col-md-4">
                                                                     <label for="periodo">Período:</label>
-                                                                    <input type="text" name="periodo" id="periodo" class="form-control" placeholder="" disabled="disabled">
+                                                                    <input type="number" name="periodo" id="periodo" class="form-control" placeholder="" disabled="disabled">
                                                                 </div>
                                                             </div>
                                                             <label class="custom-control custom-radio">
@@ -273,12 +273,19 @@ require_once $_SERVER['DOCUMENT_ROOT'] . "/estajui/scripts/controllers/HomeContr
                                                         </div>
                                                         <div class="custom-controls-stacked">
                                                             <label class="custom-control custom-radio" style="margin-top: 10px;">
-                                                                <input id="aptidao1" name="aptidao" value="1" type="radio" class="custom-control-input" required="required">
+                                                                <input id="aptidao1" name="aptidao" value="1" onchange='if ($(this).is(":checked")) {
+                                                                    $("#justificativa").attr("disabled", "disabled");
+                                                                    $("#justificativa").removeAttr("required");
+                                                                    }' type="radio" class="custom-control-input" required="required">
                                                                 <span class="custom-control-indicator"></span>
                                                                 <span class="custom-control-description">SIM</span>
                                                             </label>
                                                             <label class="custom-control custom-radio" style="margin-top: 3px;">
-                                                                <input id="aptidao2" name="aptidao" value="0" type="radio" class="custom-control-input" required="required">
+                                                                <input id="aptidao2"  onchange='if ($(this).is(":checked")) {
+                                                                    $("#justificativa").removeAttr("disabled");
+                                                                    $("#justificativa").attr("required", "required");
+                                                                    $("#justificativa").focus();
+                                                                    }' name="aptidao" value="0" type="radio" class="custom-control-input" required="required">
                                                                 <span class="custom-control-indicator"></span>
                                                                 <span class="custom-control-description">NÃO</span>
                                                             </label>
@@ -286,7 +293,7 @@ require_once $_SERVER['DOCUMENT_ROOT'] . "/estajui/scripts/controllers/HomeContr
                                                         <div class="row">
                                                             <div class="col-md-12">
                                                                 <label for="justificativa">Justificativa</label>
-                                                                <textarea name="justificativa" rows="3" class="form-control" required></textarea>
+                                                                <textarea name="justificativa" id="justificativa" rows="3" class="form-control" disabled="disabled"></textarea>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -517,7 +524,7 @@ require_once $_SERVER['DOCUMENT_ROOT'] . "/estajui/scripts/controllers/HomeContr
                             <?php
                             $cont = 1;
                             foreach ($estagios as $estagio) {
-                                if ($estagio->getstatus()->getcodigo() <= 9) {
+                                if ($estagio->getstatus()->getcodigo() <= 11) {
                                     ?>
                                     <div class="row">
                                         <div class="offset-lg-1 col-lg-10 status-desc-item bg-gray">
@@ -538,10 +545,10 @@ require_once $_SERVER['DOCUMENT_ROOT'] . "/estajui/scripts/controllers/HomeContr
                                                 análise do orientador.
                                             </p>
                                             <?php
-                                            if ($estagio->getstatus()->getcodigo() == 4) {
+                                            if ($estagio->getstatus()->getcodigo() == 2) {
                                                 ?>
-                                                <a href="cadastrar-dados-estagio.html"><button type="button" class="btn btn-outline-dark" data-toggle="modal"
-                                                                                               data-target="#modalEstagio" style="padding: 10px;">Preencher dados</button></a>
+                                                <a href="./estudante/cadastrar-dados-estagio.php"><button type="button" class="btn btn-outline-dark" data-toggle="modal"
+                                                                                                          data-target="#modalEstagio" style="padding: 10px;">Preencher dados</button></a>
                                                     <?php
                                                 } elseif ($estagio->getstatus()->getcodigo() == 6) {
                                                     ?>
@@ -682,8 +689,8 @@ require_once $_SERVER['DOCUMENT_ROOT'] . "/estajui/scripts/controllers/HomeContr
                                                         <div class="modal-body">
                                                             <div class="row">
                                                                 <div class="col-md-12 dados-aluno">
-                                                                    <a href="./pe/pe.php?estagio_id=<?php echo $estagio->getid(); ?>" class="btn btn-primary"><span class="glyphicon glyphicon-print"></span>Plano de Estagio</a>
-                                                                    <a href="" class="btn btn-primary"><span class="glyphicon glyphicon-print"></span>Termo de Compromisso</a>
+                                                                    <a target="_blank" href="./pe/pe.php?estagio_id=<?php echo $estagio->getid(); ?>" class="btn btn-primary"><span class="glyphicon glyphicon-print"></span>Plano de Estagio</a>
+                                                                    <a target="_blank" href="./tc/tc.php?estagio_id=<?php echo $estagio->getid(); ?>" class="btn btn-primary"><span class="glyphicon glyphicon-print"></span>Termo de Compromisso</a>
                                                                     <br>
                                                                     <br>
                                                                     <h6>Status: </h6> <p><?php echo $estagio->getstatus()->getdescricao(); ?></p><br>
@@ -745,12 +752,12 @@ require_once $_SERVER['DOCUMENT_ROOT'] . "/estajui/scripts/controllers/HomeContr
         if (is_a($usuario, "Aluno")) {
             ?>
             <script>
-                var options = {
+                                                        var options = {
     <?php
     foreach ($campi as $campus):
         ?>
         <?php echo $campus->getcnpj() ?> :
-                    {
+                                                            {
         <?php
         foreach ($cursos[$campus->getcnpj()] as $curso):
             ?>
@@ -763,15 +770,15 @@ require_once $_SERVER['DOCUMENT_ROOT'] . "/estajui/scripts/controllers/HomeContr
         <?php
     endforeach;
     ?>
-                };
-                $("#cursos"), select(function(){
-                var $el = $(this);
-                $el.empty();
-                $.each(options[el.val()], function(key, value) {
-                $el.append($("<option></option>")
-                        .attr("value", value).text(key));
-                });
-                });
+                                                        };
+                                                        $("#cursos"), select(function(){
+                                                        var $el = $(this);
+                                                        $el.empty();
+                                                        $.each(options[el.val()], function(key, value) {
+                                                        $el.append($("<option></option>")
+                                                                .attr("value", value).text(key));
+                                                        });
+                                                        });
             </script>
             <?php
         }
