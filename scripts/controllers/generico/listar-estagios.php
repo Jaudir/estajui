@@ -6,9 +6,9 @@ $session = getSession();
     new Aluno("aluno@aluno", "12345", 1, 2, "Nome de um aluno 2", null, null, null, null, null, null, null, null, null, null, null, null, null)
 	);*/
 //OE
-/*$session->setUsuario(
+$session->setUsuario(
 	new Funcionario("func@func", "12345", 1, 1, "Professor1", false, true, false, false, null, null, null, null)
-);*/
+);
 //PO
 /*
 $session->setUsuario(
