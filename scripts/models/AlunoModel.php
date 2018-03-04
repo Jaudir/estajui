@@ -249,12 +249,12 @@ class AlunoModel extends MainModel {
             foreach ($res as $linha) {
 				$funcionario = new Funcionario(null, null, null, null, $linha['f_nome'], null, null, null, null, null, $linha['formacao'], null, null);
 				$apolice = new Apolice($linha['ap_numero'], $linha['seguradora'], null);
-				$status = new Status(null, $linha['descricao']);
+				$status = new Status(null, $linha['descricao'], null);
 				$endereco = new Endereco(null, $linha['logradouro'], $linha['bairro'], $linha['en_numero'], null, $linha['cidade'], $linha['uf'], $linha['cep'], null);
 				$empresa = new Empresa($linha['cnpj'], $linha['em_nome'], $linha['telefone'], $linha['fax'], $linha['nregistro'], $linha['conselhofiscal'], $endereco, null, null, null);
                 $planoDeEstagio = new PlanoDeEstagio(null, null, null, $linha['atividades'], null, null, $linha['data_ini'], $linha['data_fim'], $linha['hora_inicio1'], $linha['hora_inicio2'], $linha['hora_fim1'], $linha['hora_fim2'], $linha['total_horas'], null, null);
 				$supervisor = new Supervisor(null, $linha['sor_nome'], $linha['cargo'], $linha['habilitacao'], null);
-				$estagio = new Estagio(null, $linha['bool_aprovado'], $linha['bool_obrigatorio'], null, null, null, null, null, null, null, null, null, $empresa, null, $funcionario, null, $status, $planoDeEstagio);
+				$estagio = new Estagio(null, $linha['bool_aprovado'], $linha['bool_obrigatorio'], null, null, null, null, null, null, null, null, null, null, null,$empresa, null, $funcionario, null, $status, $planoDeEstagio);
 				$estagio->setapolice($apolice);
 				$estagio->setsupervisor($supervisor);
 				$listaEstagios[] = $estagio;
@@ -303,29 +303,33 @@ class AlunoModel extends MainModel {
             $this->loader->loadDao('Curso');
             foreach ($res as $linha) {
 				$plano_estagio = new PlanoDeEstagio(null,null,null,null,null,null,null,null,null,null,null,null,null,null, null);
-				$plano_estagio->set_data_inicio($linha['pe_data_ini']);
-				$plano_estagio->set_data_fim($linha['pe_data_fim']);
+				$plano_estagio->setdata_inicio($linha['pe_data_ini']);
+				$plano_estagio->setdata_fim($linha['pe_data_fim']);
 
 				$empresa = new Empresa(null,null,null,null,null,null,null,null, null, null);
-				$empresa->set_nome($linha['em_nome']);
+				$empresa->setnome($linha['em_nome']);
 
 				$po = new Funcionario(null,null,null,null,null,null,null,null,null,null,null,null,null);
 				$po->setnome($linha['po_nome']);
 
 				$aluno = new Aluno(null, null, null, null, $linha['aluno_nome'], null, null, null, null, null, null, null, null, null, null, null, null, null);
 
-                $status = new Status(null, $linha['status_descricao']);
+                $status = new Status(null, $linha['status_descricao'], null);
 
                 $curso = new Curso(null, $linha['curso_nome']);
 
-                $estagio = new Estagio($linha['estagio_id'],null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null);
+                $estagio = new Estagio($linha['estagio_id'],null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null, null, null);
 
+                $oferta = new OfereceCurso(null, null, $curso, null, null);
+
+                $matricula = new Matricula(null, null, null, $oferta, $aluno);
+
+                $estagio->setmatricula($matricula);
 				$estagio->setempresa($empresa);
 				$estagio->setfuncionario($po);
 				$estagio->setaluno($aluno);
 				$estagio->setpe($plano_estagio);
                 $estagio->setstatus($status);
-                $estagio->setcurso($curso);
 
 				$listaEstagios[] = $estagio;
 			}

@@ -15,15 +15,15 @@ if (isset($_GET["estagio_id"])) {
         $estagio = $estagio[0];
         if (is_a($usuario, "Aluno")) {
             if ($usuario->getcpf() != $estagio->getaluno()->getcpf()) {
-                $session->pushError("Erro ao carregar plano de estágio!", "error-critico");
+                $session->pushError("Erro ao carregar Termo de Compromisso!", "error-critico");
                 redirect("./../home.php");
             }
         }
     } else {
-        $session->pushError("Erro ao carregar plano de estágio !", "error-critico");
+        $session->pushError("Erro ao carregar Termo de Compromisso!", "error-critico");
         redirect("./../home.php");
     }
 } else {
-    $session->pushError("Erro ao carregar plano de estágio!", "error-critico");
+    $session->pushError("Erro ao carregar Termo de Compromisso!", "error-critico");
     redirect("./../home.php");
 }

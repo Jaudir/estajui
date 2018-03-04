@@ -145,12 +145,12 @@
                   <?php if (is_array($listaEstagios)){foreach ($listaEstagios as $le):?>
                     <tr>
                         <td><?php echo $le->getaluno()->getnome();?></td>
-                        <td><?php echo $le->getstatus()->get_descricao();?></td>
-                        <td><?php echo $le->getpe()->get_data_inicio();?></td>
-                        <td><?php echo $le->getpe()->get_data_fim();?></td>
+                        <td><?php echo $le->getstatus()->getdescricao();?></td>
+                        <td><?php echo $le->getpe()->getdata_inicio();?></td>
+                        <td><?php echo $le->getpe()->getdata_fim();?></td>
                         <td><?php echo $le->getfuncionario()->getnome();?></td>
-                        <td><?php echo $le->getempresa()->get_nome();?></td>
-                        <td><?php echo $le->getcurso()->getnome();?></td>
+                        <td><?php echo $le->getempresa()->getnome();?></td>
+                        <td><?php echo $le->getmatricula()->getoferta()->getcurso()->getnome();?></td>
                         <td class="center">
                             <a href="" onclick="preencherModal(<?php echo $le->getid();?>)" data-toggle="modal" data-target="#ver-estagio" id="ver<?php echo $lin++; ?>"> <i class="fa fa-eye ver"></i></a>
                         </td>

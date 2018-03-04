@@ -53,6 +53,10 @@ class Endereco {
         return $this->_numero;
     }
 
+    public function getendereco() {
+        return $this->_logradouro . ", " . $this->_numero . " - " . $this->_bairro;
+    }
+
     public function getcomplemento() {
         return $this->_complemento;
     }

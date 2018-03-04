@@ -21,10 +21,10 @@ require_once $_SERVER['DOCUMENT_ROOT'] . "/estajui/scripts/controllers/LoginCont
                 <div class="col-md-4 content-login">
                     <form name="login" method="post">
                         <?php if ($session->hasError("login")) { ?>
-                            <span class="error"><?php echo $session->getErrors("login")[0];  ?></span>
+                            <span class="error"><?php echo $session->getErrors("login")[0]; ?></span>
                         <?php } ?>
                         <?php if ($session->hasValues("confirmacao")) { ?>
-                            <span class="error"><?php echo $session->getValues("confirmacao")[0];  ?></span>
+                            <span class="error"><?php echo $session->getValues("confirmacao")[0]; ?></span>
                         <?php } ?>
                         <div class="form-group">
                             <label for="email">Email</label>
@@ -44,7 +44,7 @@ require_once $_SERVER['DOCUMENT_ROOT'] . "/estajui/scripts/controllers/LoginCont
                             </button><br>
                         </div>
                         <div style="text-align: right;">
-                        <a href="/estajui/estajui/estudante/cadastro.php" >Cadastre-se</a>
+                            <a href="/estajui/estajui/estudante/cadastro.php" >Cadastre-se</a>
                         </div>
                         <div class="bt-logar">
                             <button type="submit" name="btn-logar" class="btn btn-success">Entrar</button>
@@ -62,20 +62,19 @@ require_once $_SERVER['DOCUMENT_ROOT'] . "/estajui/scripts/controllers/LoginCont
                                     <span aria-hidden="true">&times;</span>
                                 </button>
                             </div>
-                            <div class="modal-body">
-                                <form name="recup-senha">
+                            <form name="recup-senha" method="post" action="../scripts/controllers/login/criar-codigo-redefinicao.php">
+                                <div class="modal-body">
                                     <div class="form-group">
                                         <label for="email">Email</label>
                                         <input type="email" class="form-control" id="email" name="email" aria-describedby="emailHelp" placeholder="Digite seu email">
                                         <small id="emailHelp" class="form-text text-muted">Forneça seu e-mail cadastrado para receber o link de redefinição de senha.</small>
-
                                     </div>
-                                </form>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Sair</button>
-                                <button type="button" class="btn btn-primary">Confirmar</button>
-                            </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Sair</button>
+                                    <button type="submit" class="btn btn-primary">Confirmar</button>
+                                </div>
+                            </form>
                         </div>
                     </div>
                 </div>
