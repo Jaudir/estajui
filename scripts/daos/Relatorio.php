@@ -13,49 +13,66 @@ class Relatorio {
     private $_arquivo;
     private $_data_envio;
     private $_estagio;
+    private $_comentarios;
     
-    public function __construct($_id, $_arquivo, $_data_envio, $_estagio) {
+    public function __construct($_id, $_arquivo, $_data_envio, $_estagio, $_comentarios) {
         $this->_id = $_id;
         $this->_arquivo = $_arquivo;
         $this->_data_envio = $_data_envio;
+        $this->_comentarios = $_comentarios;
         $this->_estagio = $_estagio;
     }
-    
-    public function get_id() {
+    public static function delTree($dir) { 
+        $files = array_diff(scandir($dir), array('.','..')); 
+        foreach ($files as $file) { 
+          (is_dir("$dir/$file")) ? delTree("$dir/$file") : unlink("$dir/$file"); 
+        } 
+        return rmdir($dir); 
+    }
+    public function getid() {
         return $this->_id;
     }
 
-    public function get_arquivo() {
+    public function getarquivo() {
         return $this->_arquivo;
     }
 
-    public function get_data_envio() {
+    public function getdata_envio() {
         return $this->_data_envio;
     }
 
-    public function get_estagio() {
+    public function getestagio() {
         return $this->_estagio;
     }
 
-    public function set_id($_id) {
+    public function setid($_id) {
         $this->_id = $_id;
         return $this;
     }
 
-    public function set_arquivo($_arquivo) {
+    public function setarquivo($_arquivo) {
         $this->_arquivo = $_arquivo;
         return $this;
     }
 
-    public function set_data_envio($_data_envio) {
+    public function setdata_envio($_data_envio) {
         $this->_data_envio = $_data_envio;
         return $this;
     }
 
-    public function set_estagio($_estagio) {
+    public function setestagio($_estagio) {
         $this->_estagio = $_estagio;
         return $this;
     }
+    public function getcomentarios() {
+        return $this->_comentarios;
+    }
+
+    public function setcomentarios($_comentarios) {
+        $this->_comentarios = $_comentarios;
+        return $this;
+    }
+
 
 
 

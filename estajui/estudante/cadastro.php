@@ -33,6 +33,24 @@
           <div class="row form-title">
             <div class="col-md-12">
               <h3>Cadastro</h3>
+              <span class="error">
+                          <?php
+
+            if (!empty($_SESSION['erros_cadastro'])) {
+                echo " Erro ao inserir os dados: Verifique os dados informados e tente novamente!";
+                unset($_SESSION['erros_cadastro']);
+            }
+
+            ?></span>
+            <span class="error">
+                        <?php
+
+if (!empty($_SESSION['erro_bd'])) {
+    echo " Erro de conexão com o banco de dados";
+    unset($_SESSION['erro_bd']);
+}
+
+?></span>
             </div>
           </div>
           <form class="container" id="needs-validation" novalidate method="POST" action="../../scripts/controllers/persiste_cadastro.php">
@@ -353,11 +371,14 @@
             </section>
             <div class="row">
               <div class="col-md-12" style="margin-top: 30px;">
-                <button class="btn btn-success" name="cadastrar" type="submit">Cadastrar</button>
-                <button class="btn btn-danger" name="cancelar" type="submit">Cancelar</button>
-              </div>
+                <button class="btn btn-success" name="cadastrar" type="submit">Cadastrar</button>   
+                <button class="btn btn-danger" id="cancelar" type="button">Cancelar</button>
             </div>
-          </form>
+            </div>
+            </form>
+
+          
+                    
 
           <script>
             // Example starter JavaScript for disabling form submissions if there are invalid fields
@@ -383,6 +404,7 @@
     <script src="../../assets/js/jquery-1.9.0.min.js" type="text/javascript" charset="utf-8"></script>
     <script src="../../assets/js/jquery.maskedinput.js" type="text/javascript"></script>
     <script src="../../assets/js/masks.js" type="text/javascript"></script>
+    <script src="../../assets/js/buttons.js" type="text/javascript" charset="utf-8"></script>
     <!--<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>-->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>

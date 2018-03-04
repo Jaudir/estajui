@@ -10,41 +10,28 @@ class Apolice {
     
     private $_numero;
     private $_seguradora;
-    private $_estagio;
     
-    public function __construct($_numero, $_seguradora, $_estagio) {
+    public function __construct($_numero, $_seguradora) {
         $this->_numero = $_numero;
         $this->_seguradora = $_seguradora;
-        $this->_estagio = $_estagio;
     }
 
-    public function get_numero() {
+    public function getnumero() {
         return $this->_numero;
     }
 
-    public function get_seguradora() {
+    public function getseguradora() {
         return $this->_seguradora;
     }
 
-    public function get_estagio() {
-        return $this->_estagio;
-    }
-
-    public function set_numero($_numero) {
+    public function setnumero($_numero) {
         $this->_numero = $_numero;
         return $this;
     }
 
-    public function set_seguradora($_seguradora) {
+    public function setseguradora($_seguradora) {
         $this->_seguradora = $_seguradora;
         return $this;
     }
-
-    public function set_estagio($_estagio) {
-        $this->_estagio = $_estagio;
-        return $this;
-    }
-
-
     
 }

@@ -1,4 +1,5 @@
 <?php
 chdir(__DIR__);
-header("Location: http://" . $_SERVER['SERVER_NAME'] . "/estajui/estajui/login.php");
+require_once './scripts/controllers/configs.php';
+header("Location:".$configs['BASE_URL']."/estajui/login.php");
 die();

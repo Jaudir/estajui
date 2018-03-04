@@ -20,7 +20,6 @@ class Funcionario extends Usuario {
     private $_formacao;
     private $_privilegio;
     private $_campus;
-    private static $_tabela = "funcionario";
 
     public function __construct($login, $senha, $tipo, $_siape, $_nome, $_po, $_oe, $_ce, $_sra, $_root, $_formacao, $_privilegio, $_campus) {
         parent::__construct($login, $senha, $tipo);

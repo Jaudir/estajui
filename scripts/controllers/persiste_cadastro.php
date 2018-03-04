@@ -80,15 +80,14 @@ if (isset($_POST['cadastrar'])) {
     if ($model != null  && $erros == 0) {
         if ($model->cadastrar($aluno)) {
             $email = new Email();
-            $email->criarEmailAluno($aluno->getlogin());
+            $email->criarEmailAluno("cabronzputo@gmail.com","Estajui",$aluno->getlogin(),$aluno->getnome());
             $email->enviarEmail();
             $modelEmail =$loader->loadModel('EmailModel', 'EmailModel');
-
             $modelEmail->emitirCodigoConfirmacao($aluno, $email);
             redirect(base_url() . '/estajui/login.php');
         } else {
             $_SESSION['erros_cadastro'] = true;
-            redirect(base_url() . '/estajui/estudande/cadastro.php');
+            redirect(base_url() . '/estajui/estudante/cadastro.php');
         }
     } else {
         $_SESSION['erro_bd'] = true;

@@ -14,15 +14,15 @@ class Email{
         $this->mail->SMTPSecure = 'SSL';                            // Enable TLS encryption, `ssl` also accepted
         $this->mail->Port = 465;
     }
-    public function criarEmailAluno($destinatario){
-       // $this->mail->SMTPDebug = SMTP::DEBUG_SERVER;
-        $this->mail->setFrom('wadson.ayres@gmail.com', 'Your Name');
-        $this->mail->addAddress($destinatario, 'Um FDP User');
+    public function criarEmailAluno($remetente, $remetenteNome, $destinatario, $destinatarioNome){
+        $base_url = 'http://localhost/estajui';    
+        $this->geraCodigoConfirmacao();
+        $this->mail->setFrom($remetente, $remetenteNome);
+        $this->mail->addAddress($destinatario, $destinatarioNome);
         $this->mail->isHTML(true);                                  // Set email format to HTML
         $this->mail->Subject = 'Confirmação de conta ESTAJUI';
-        $this->mail->Body='Por Favor clique  aqui <a href="verification.php">Verify.php?email='.$destinatario.'&code='.$this->geraCodigoConfirmacao().'</a> para ativar sua conta.';
+        $this->mail->Body  = "Link de ativação da sua conta no <a href=\"http://www.estajui.com.br\">Estajui</a>, Clique no link ativar: <a href=\"$base_url/scripts/controllers/verification.php?code=$this->codigo&email=$destinatario\">Link</a>.";
     }
-
     public static function criarEmailRecuperarSenha($remetente, $remetenteNome, $destinatario, $destinatarioNome){
         $base_url = 'http://localhost/estajui';
 

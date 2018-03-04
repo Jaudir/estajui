@@ -34,7 +34,7 @@ if(isset($_POST['email'])){
         $result = null;
         if($verifica){
             $result = $emodel->atualizarCodigoVerificacao($usuario, $email);//atualiza
-        else{
+        }else{
             $result = $emodel->salvarCodigoVerificacao($usuario, $email);//insere um novo
         }
 

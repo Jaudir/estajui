@@ -12,57 +12,46 @@ class ComentarioRelatorio {
     private $_id;
     private $_data;
     private $_descricao;
-    private $_relatorio;
     private $_funcionario;
     
-    public function __construct($_id, $_data, $_descricao, $_relatorio, $_funcionario) {
+    public function __construct($_id, $_data, $_descricao, $_funcionario) {
         $this->_id = $_id;
         $this->_data = $_data;
         $this->_descricao = $_descricao;
-        $this->_relatorio = $_relatorio;
         $this->_funcionario = $_funcionario;
     }
-    public function get_id() {
+    public function getid() {
         return $this->_id;
     }
 
-    public function get_data() {
+    public function getdata() {
         return $this->_data;
     }
 
-    public function get_descricao() {
+    public function getdescricao() {
         return $this->_descricao;
     }
 
-    public function get_relatorio() {
-        return $this->_relatorio;
-    }
-
-    public function get_funcionario() {
+    public function getfuncionario() {
         return $this->_funcionario;
     }
 
-    public function set_id($_id) {
+    public function setid($_id) {
         $this->_id = $_id;
         return $this;
     }
 
-    public function set_data($_data) {
+    public function setdata($_data) {
         $this->_data = $_data;
         return $this;
     }
 
-    public function set_descricao($_descricao) {
+    public function setdescricao($_descricao) {
         $this->_descricao = $_descricao;
         return $this;
     }
 
-    public function set_relatorio($_relatorio) {
-        $this->_relatorio = $_relatorio;
-        return $this;
-    }
-
-    public function set_funcionario($_funcionario) {
+    public function setfuncionario($_funcionario) {
         $this->_funcionario = $_funcionario;
         return $this;
     }
