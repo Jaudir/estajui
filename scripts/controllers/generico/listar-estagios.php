@@ -2,9 +2,9 @@
 require_once(dirname(__FILE__) . '/../base-controller.php');
 $session = getSession();
 //Estudante Aluno
-$session->setUsuario(
+/*$session->setUsuario(
     new Aluno("aluno@aluno", "12345", 1, 3, "Nome de um aluno 3", null, null, null, null, null, null, null, null, null, null, null, null, null)
-	);
+	);*/
 //OE
 /*$session->setUsuario(
 	new Funcionario("func@func", "12345", 1, 1, "Professor1", false, true, false, false, null, null, null, null)
