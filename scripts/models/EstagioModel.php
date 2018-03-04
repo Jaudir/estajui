@@ -233,6 +233,7 @@ class EstagioModel extends MainModel {
                     $pstmt = $this->conn->prepare("update ".$this->_tabela." set status_codigo = ? where id = ?");
                     $pstmt->execute(array(StatusModel::$AGURDANDO_REL, $id));
                     
+                    
                     $this->conn->commit();
                     return true;  
                 }catch(PDOExecption $e){
