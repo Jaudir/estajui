@@ -79,6 +79,7 @@ if (isset($_POST["id"])) {
                 } else {
                     if (!empty($_POST["justificativa"])) {
                         $estagio->setaprovado(FALSE);
+                        $estagio->setjustificativa($_POST["justificativa"]);
                         if (isset($_POST["matriculado"])) {
                             if (!empty($_POST["serie"]) && !empty($_POST["modulo"]) && !empty($_POST["periodo"])) {
                                 $estagio->setserie($_POST["serie"]);
