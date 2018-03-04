@@ -16,6 +16,7 @@ function underlineString($tamanho, $string) {
         <link rel="stylesheet" href="base.min.css"/>
         <link rel="stylesheet" href="fancy.min.css"/>
         <link rel="stylesheet" href="main.css"/>
+        <link rel="stylesheet" href="mainprint.css" media="print"/>
         <script src="compatibility.min.js"></script>
         <script src="theViewer.min.js"></script>
         <script>
@@ -27,7 +28,7 @@ function underlineString($tamanho, $string) {
         <title>
         </title>
     </head>
-    <body>
+    <body onload="window.print()">
         <div id="sidebar">
             <div id="outline">
             </div>
@@ -49,27 +50,27 @@ function underlineString($tamanho, $string) {
                     <div class="t m0 x6 h6 yb ff4 fs2 fc0 sc0 ls0 ws0">RG: <span class="underline"><?php echo underlineString(26, $estagio->getaluno()->getrg_numformatado()); ?></span> CPF: <span class="underline"><?php echo underlineString(26, $estagio->getaluno()->getcpfformatado()); ?></span>Data de nascimento: <span class="underline"><?php echo underlineString(26, $estagio->getaluno()->getdata_nasc()); ?></span></div>
                     <div class="t m0 x6 h6 yc ff4 fs2 fc0 sc0 ls0 ws0">Endereço (rua/av.): <span class="underline"><?php echo underlineString(57, $estagio->getaluno()->getendereco()->getlogradouro()); ?></span> N º: <span class="underline"><?php echo underlineString(7, $estagio->getaluno()->getendereco()->getnumero()); ?></span> Aptº: <span class="underline"><?php echo underlineString(15, $estagio->getaluno()->getendereco()->getcomplemento()); ?></span> </div>
                     <div class="t m0 x6 h6 yd ff4 fs2 fc0 sc0 ls0 ws0">Bairro: <span class="underline"><?php echo underlineString(40, $estagio->getaluno()->getendereco()->getbairro()); ?></span> Cidade:<span class="underline"><?php echo underlineString(37, $estagio->getaluno()->getendereco()->getcidade()); ?></span> Estado:  <span class="underline"><?php echo underlineString(5, $estagio->getaluno()->getendereco()->getuf()); ?> </span></div>
-                    <div class="t m0 x6 h6 ye ff4 fs2 fc0 sc0 ls0 ws0">CEP: <span class="underline"><?php echo underlineString(20, $estagio->getaluno()->getendereco()->getcep()); ?></span> Telefone Fixo: <span class="underline"><?php echo underlineString(35, $estagio->getaluno()->gettelefone()); ?></span> Celular:<span class="underline"><?php echo underlineString(35, $estagio->getaluno()->getcidade()); ?></span> </div>
-                    <div class="t m0 x6 h6 yf ff4 fs2 fc0 sc0 ls0 ws0">Curso:_______________________________________________________ Série:________ Módulo:_________ Período:_________</div>
-                    <div class="t m0 x6 h6 y10 ff4 fs2 fc0 sc0 ls0 ws0">*Aluno (a) integralizou a carga horária do curso:Semestre/Ano de Integralização:_______/____________  </div>
+                    <div class="t m0 x6 h6 ye ff4 fs2 fc0 sc0 ls0 ws0">CEP: <span class="underline"><?php echo underlineString(20, $estagio->getaluno()->getendereco()->getcep()); ?></span> Telefone Fixo: <span class="underline"><?php echo underlineString(20, $estagio->getaluno()->gettelefone()); ?></span> Celular:<span class="underline"><?php echo underlineString(40, $estagio->getaluno()->getendereco()->getcidade()); ?></span> </div>
+                    <div class="t m0 x6 h6 yf ff4 fs2 fc0 sc0 ls0 ws0">Curso: <span class="underline"><?php echo underlineString(54, $estagio->getmatricula()->getoferta()->getcurso()->getnome()); ?></span> Série: <span class="underline"><?php echo underlineString(8, $estagio->getserie()); ?></span> Módulo: <span class="underline"><?php echo underlineString(8, $estagio->getmodulo()); ?></span> Período: <span class="underline"><?php echo underlineString(8, $estagio->getperiodo()); ?></span></div>
+                    <div class="t m0 x6 h6 y10 ff4 fs2 fc0 sc0 ls0 ws0">*Aluno (a) integralizou a carga horária do curso:Semestre/Ano de Integralização:<span class="underline"><?php echo underlineString(6, $estagio->getsemestre()); ?></span>/<span class="underline"><?php echo underlineString(8, $estagio->getano()); ?></span>  </div>
                     <div class="t m0 x6 h7 y11 ff6 fs4 fc0 sc0 ls0 ws0">*Concluiu com aproveitamento todas as disciplinas/módulos que integram a estrutura curricular do curso, excluindo-se estágios e defesas de TCC, entre outras atividades </div>
                     <div class="t m0 x6 h7 y12 ff6 fs4 fc0 sc0 ls0 ws0">que não pressuponham a presença regular do aluno nas dependências da instituição. </div>
                     <div class="t m0 x6 h8 y13 ff1 fs4 fc0 sc0 ls0 ws0"></div>
                     <div class="t m0 x6 h5 y14 ff4 fs3 fc0 sc0 ls0 ws0">CONCEDENTE </div>
                     <div class="t m0 x6 h4 y15 ff1 fs2 fc0 sc0 ls0 ws0"></div>
-                    <div class="t m0 x6 h6 y16 ff4 fs2 fc0 sc0 ls0 ws0">Nome ou Razão Social: ___________________________________________________________________________________________</div>
-                    <div class="t m0 x6 h6 y17 ff4 fs2 fc0 sc0 ls0 ws0">Endereço (rua/av.):__________________________________________________________________ N º:  ___________ Sala:_________ </div>
-                    <div class="t m0 x6 h6 y18 ff4 fs2 fc0 sc0 ls0 ws0">Bairro:_________________________________________Cidade:____________________________________ Estado:_____________ </div>
-                    <div class="t m0 x6 h6 y19 ff4 fs2 fc0 sc0 ls0 ws0">CEP:________________________ Telefone(s):________________________________________________________________________</div>
-                    <div class="t m0 x6 h6 y1a ff4 fs2 fc0 sc0 ls0 ws0">CNPJ:_________________________________________________________________________________________________________</div>
-                    <div class="t m0 x6 h6 y1b ff4 fs2 fc0 sc0 ls0 ws0">N° Registro:_____________________________________ Conselho de Fiscalização:________________________________________</div>
+                    <div class="t m0 x6 h6 y16 ff4 fs2 fc0 sc0 ls0 ws0">Nome ou Razão Social: <span class="underline"><?php echo underlineString(84, $estagio->getempresa()->getnome()); ?></span></div>
+                    <div class="t m0 x6 h6 y17 ff4 fs2 fc0 sc0 ls0 ws0">Endereço (rua/av.):<span class="underline"><?php echo underlineString(57, $estagio->getempresa()->getendereco()->getlogradouro()); ?></span> N º:  <span class="underline"><?php echo underlineString(7, $estagio->getempresa()->getendereco()->getnumero()); ?></span> Sala:<span class="underline"><?php echo underlineString(15, $estagio->getempresa()->getendereco()->getsala()); ?></span> </div>
+                    <div class="t m0 x6 h6 y18 ff4 fs2 fc0 sc0 ls0 ws0">Bairro: <span class="underline"><?php echo underlineString(41, $estagio->getempresa()->getendereco()->getbairro()); ?></span>   Cidade: <span class="underline"><?php echo underlineString(36, $estagio->getempresa()->getendereco()->getcidade()); ?></span> Estado: <span class="underline"><?php echo underlineString(5, $estagio->getempresa()->getendereco()->getuf()); ?></span> </div>
+                    <div class="t m0 x6 h6 y19 ff4 fs2 fc0 sc0 ls0 ws0">CEP: <span class="underline"><?php echo underlineString(20, $estagio->getempresa()->getendereco()->getcep()); ?></span> Telefone(s):<span class="underline"><?php echo underlineString(69, $estagio->getempresa()->gettelefone()); ?></span></div>
+                    <div class="t m0 x6 h6 y1a ff4 fs2 fc0 sc0 ls0 ws0">CNPJ :<span class="underline"><?php echo underlineString(98, $estagio->getempresa()->getcnpj()); ?></span></div>
+                    <div class="t m0 x6 h6 y1b ff4 fs2 fc0 sc0 ls0 ws0">N° Registro: <span class="underline"><?php echo underlineString(40, $estagio->getempresa()->getnregistro()); ?></span> Conselho de Fiscalização: <span class="underline"><?php echo underlineString(32, $estagio->getempresa()->getconselhofiscal()); ?></span></div>
                     <div class="t m0 x6 h4 y1c ff1 fs2 fc0 sc0 ls0 ws0"></div>
                     <div class="t m0 x6 h5 y1d ff4 fs3 fc0 sc0 ls0 ws0">INSTITUIÇÃO DE ENSINO </div>
                     <div class="t m0 x6 h6 y1e ff4 fs2 fc0 sc0 ls0 ws0"></div>
-                    <div class="t m0 x6 h6 y1f ff4 fs2 fc0 sc0 ls0 ws0">Razão Social: Instituto Federal de Educação, Ciência e Tecnologia Norte de Minas Gerais–Campus__________________________ </div>
-                    <div class="t m0 x6 h6 y20 ff4 fs2 fc0 sc0 ls0 ws0">Endereço:______________________________________________________________________________________________________</div>
-                    <div class="t m0 x6 h6 y21 ff4 fs2 fc0 sc0 ls0 ws0">Cidade:_____________________________________ Estado:MG CEP: __________________ Telefone:(       ) ___________________</div>
-                    <div class="t m0 x6 h6 y22 ff4 fs2 fc0 sc0 ls0 ws0">CNPJ(do Campus):____________________________________________  </div>
+                    <div class="t m0 x6 h6 y1f ff4 fs2 fc0 sc0 ls0 ws0">Razão Social: Instituto Federal de Educação, Ciência e Tecnologia Norte de Minas Gerais – Campus <span class="underline"><?php echo underlineString(24, $estagio->getmatricula()->getoferta()->getcampus()->getendereco()->getcidade()); ?></span> </div>
+                    <div class="t m0 x6 h6 y20 ff4 fs2 fc0 sc0 ls0 ws0">Endereço:<span class="underline"><?php echo underlineString(95, $estagio->getmatricula()->getoferta()->getcampus()->getendereco()->getendereco()); ?></span></div>
+                    <div class="t m0 x6 h6 y21 ff4 fs2 fc0 sc0 ls0 ws0">Cidade:<span class="underline"><?php echo underlineString(40, $estagio->getmatricula()->getoferta()->getcampus()->getendereco()->getcidade()); ?></span> Estado:MG CEP: <span class="underline"><?php echo underlineString(15, $estagio->getmatricula()->getoferta()->getcampus()->getendereco()->getcep()); ?></span> Telefone:<span class="underline"><?php echo underlineString(20, $estagio->getmatricula()->getoferta()->getcampus()->gettelefone()); ?></span></div>
+                    <div class="t m0 x6 h6 y22 ff4 fs2 fc0 sc0 ls0 ws0">CNPJ(do Campus):<span class="underline"><?php echo underlineString(30, $estagio->getmatricula()->getoferta()->getcampus()->getcnpj()); ?></span>  </div>
                     <div class="t m0 x6 h4 y23 ff1 fs2 fc0 sc0 ls0 ws0"></div>
                     <div class="t m0 x6 h6 y24 ff1 fs2 fc0 sc0 ls0 ws0">Celebram entre si este TERMO DE COMPROMISSO DE ESTÁGIO convencionando ascláusulas e condições seguintes: </div>
                     <div class="t m0 x6 h4 y25 ff1 fs2 fc0 sc0 ls0 ws0"></div>
@@ -79,17 +80,17 @@ function underlineString($tamanho, $string) {
                     <div class="t m0 x6 h6 y29 ff4 fs2 fc0 sc0 ls0 ws0"></div>
                     <div class="t m0 x6 h6 y2a ff4 fs2 fc0 sc0 ls0 ws0">Art. 2º Fica acertado entre as partes que:</div>
                     <div class="t m0 x6 h6 y2b ff4 fs2 fc0 sc0 ls0 ws0">a) as atividades principais desenvolvidas no estágio serão:</div>
-                    <div class="t m0 x6 h4 y2c ff1 fs2 fc0 sc0 ls1 ws0">_______________________________________________________________________________________________________________</div>
-                    <div class="t m0 x6 h4 y2d ff1 fs2 fc0 sc0 ls1 ws0">_______________________________________________________________________________________________________________</div>
-                    <div class="t m0 x6 h4 y2e ff1 fs2 fc0 sc0 ls1 ws0">_______________________________________________________________________________________________________________</div>
-                    <div class="t m0 x6 h4 y2f ff1 fs2 fc0 sc0 ls1 ws0">_______________________________________________________________________________________________________________</div>
-                    <div class="t m0 x6 h4 y30 ff1 fs2 fc0 sc0 ls1 ws0">_______________________________________________________________________________________________________________ </div>
+                    <div class="t m0 x6 h4 y2c ff1 fs2 fc0 sc0 ls1 ws0"><span class="underline"><?php echo underlineString(102, substr($estagio->getpe()->getatividades(), 0, 102)); ?></span></div>
+                    <div class="t m0 x6 h4 y2d ff1 fs2 fc0 sc0 ls1 ws0"><span class="underline"><?php echo underlineString(102, substr($estagio->getpe()->getatividades(), 102, 102)); ?></span></div>
+                    <div class="t m0 x6 h4 y2e ff1 fs2 fc0 sc0 ls1 ws0"><span class="underline"><?php echo underlineString(102, substr($estagio->getpe()->getatividades(), 204, 102)); ?></span></div>
+                    <div class="t m0 x6 h4 y2f ff1 fs2 fc0 sc0 ls1 ws0"><span class="underline"><?php echo underlineString(102, substr($estagio->getpe()->getatividades(), 306, 102)); ?></span></div>
+                    <div class="t m0 x6 h4 y30 ff1 fs2 fc0 sc0 ls1 ws0"><span class="underline"><?php echo underlineString(102, substr($estagio->getpe()->getatividades(), 408, 102)); ?></span></div>
                     <div class="t m0 x6 h6 y31 ff4 fs2 fc0 sc0 ls0 ws0">b) a jornada de estágio será cumprida (diariamente) nos horários de: </div>
-                    <div class="t m0 x6 h4 y32 ff1 fs2 fc0 sc0 ls0 ws0">___________h às ___________h e das ___________h às ___________h, totalizando __________h semanais;</div>
-                    <div class="t m0 x6 h6 y33 ff4 fs2 fc0 sc0 ls0 ws0">c) o estágio será oferecido(  ) sem ( ) com remuneração no valor de R$ ___________ (______________________________________ </div>
+                    <div class="t m0 x6 h4 y32 ff1 fs2 fc0 sc0 ls0 ws0"><span class="underline"><?php echo underlineString(10, $estagio->getpe()->gethora_inicio1()); ?></span>h às <span class="underline"><?php echo underlineString(10, $estagio->getpe()->gethora_fim1()); ?></span>h e das ___________h às ___________h, totalizando <span class="underline"><?php echo underlineString(10, $estagio->getpe()->gettotal_horas()); ?></span>h semanais;</div>
+                    <div class="t m0 x6 h6 y33 ff4 fs2 fc0 sc0 ls0 ws0">c) o estágio será oferecido(<?php if(boolval($estagio->getpe()->getremuneracao())) echo "X"; else echo "  "; ?>) sem (<?php if(!boolval($estagio->getpe()->getremuneracao())) echo "X"; else echo "  "; ?>) com remuneração no valor de R$ <span class="underline"><?php echo underlineString(12, $estagio->getpe()->getremuneracao()); ?></span> (______________________________________ </div>
                     <div class="t m0 x6 h4 y34 ff1 fs2 fc0 sc0 ls1 ws0">__________________________________________________________________________________), bem como auxilio - transporte no </div>
-                    <div class="t m0 x6 h4 y35 ff1 fs2 fc0 sc0 ls0 ws0">valor de R$  ( ___________________________________________________________________________________________________); </div>
-                    <div class="t m0 x6 h6 y36 ff4 fs2 fc0 sc0 ls0 ws0">d) o presente TERMO DE COMPROMISSO DE ESTÁGIO terá validade de______/_______/________ a ______/_______/________, </div>
+                    <div class="t m0 x6 h4 y35 ff1 fs2 fc0 sc0 ls0 ws0">valor de R$  ( <span class="underline"><?php echo underlineString(90, $estagio->getpe()->getvale_transporte()); ?></span>); </div>
+                    <div class="t m0 x6 h6 y36 ff4 fs2 fc0 sc0 ls0 ws0">d) o presente TERMO DE COMPROMISSO DE ESTÁGIO terá validade de <span class="underline"><?php echo underlineString(17, $estagio->getpe()->getdata_inicio()); ?></span> a <span class="underline"><?php echo underlineString(17, $estagio->getpe()->getdata_fim()); ?></span>, </div>
                     <div class="t m0 x6 h4 y37 ff1 fs2 fc0 sc0 ls0 ws0">que poderá ser eventualmente prorrogado ou modificado por documento complementar, desde que qualquer das partes peça rescisão, por </div>
                     <div class="t m0 x6 h4 y38 ff1 fs2 fc0 sc0 ls0 ws0">escrito, com 5 dias de antecedência.  </div>
                 </div>
@@ -102,11 +103,11 @@ function underlineString($tamanho, $string) {
                     <div class="t m0 x2 h2 y2 ff1 fs0 fc0 sc0 ls0 ws0">Secretaria de Educação Profissional e Tecnológica </div>
                     <div class="t m0 x3 h2 y3 ff1 fs0 fc0 sc0 ls0 ws0">Instituto Federal do Norte de Minas Gerais – IFNMG </div>
                     <div class="t m0 x4 h2 y4 ff3 fs0 fc0 sc0 ls0 ws0"></div>
-                    <div class="t m0 x6 h6 y39 ff4 fs2 fc0 sc0 ls0 ws0">Art.3º A CONCEDENTE designa o(a) Sr.(a) ___________________________________________________________________________, </div>
-                    <div class="t m0 x6 h6 y3a ff1 fs2 fc0 sc0 ls0 ws0">cargo ______________________________________________________________, para atuar como SUPERVISOR DO ESTÁGIO e o 
+                    <div class="t m0 x6 h6 y39 ff4 fs2 fc0 sc0 ls0 ws0">Art.3º A CONCEDENTE designa o(a) Sr.(a) <span class="underline"><?php echo underlineString(62, $estagio->getsupervisor()->getnome()); ?></span>, </div>
+                    <div class="t m0 x6 h6 y3a ff1 fs2 fc0 sc0 ls0 ws0">cargo <span class="underline"><?php echo underlineString(59, $estagio->getsupervisor()->getcargo()); ?></span>, para atuar como SUPERVISOR DO ESTÁGIO e o 
                     </div>
-                    <div class="t m0 x6 h4 y3b ff1 fs2 fc0 sc0 ls0 ws0">Instituto Federal de Educação, Ciência e Tecnologia Norte de Minas Gerais – Campus ________________________________, designa o </div>
-                    <div class="t m0 x6 h6 y3c ff1 fs2 fc0 sc0 ls0 ws0">(a) Prof.(a) ______________________________________________________________, para atuar como ORIENTADOR  DO ESTÁGIO. </div>
+                    <div class="t m0 x6 h4 y3b ff1 fs2 fc0 sc0 ls0 ws0">Instituto Federal de Educação, Ciência e Tecnologia Norte de Minas Gerais – Campus <span class="underline"><?php echo underlineString(30, $estagio->getmatricula()->getoferta()->getcampus()->getendereco()->getcidade()); ?></span>, designa o </div>
+                    <div class="t m0 x6 h6 y3c ff1 fs2 fc0 sc0 ls0 ws0">(a) Prof.(a) <span class="underline"><?php echo underlineString(58, $estagio->getfuncionario()->getnome()); ?></span>, para atuar como ORIENTADOR  DO ESTÁGIO. </div>
                     <div class="t m0 x6 h6 y3d ff4 fs2 fc0 sc0 ls0 ws0"></div>
                     <div class="t m0 x6 h6 y3e ff4 fs2 fc0 sc0 ls0 ws0">Art. 4º Constituem-se motivos para a INTERRUPÇÃO AUTOMÁTICA do presente TERMO DE COMPROMISSO DE ESTÁGIO: </div>
                     <div class="t m0 x6 h4 y3f ff1 fs2 fc0 sc0 ls0 ws0">a) conclusão do curso, trancamento de matrícula ou abandono do curso; </div>
@@ -114,8 +115,8 @@ function underlineString($tamanho, $string) {
                     <div class="t m0 x4 h2 y41 ff3 fs0 fc0 sc0 ls0 ws0"></div>
                     <div class="t m0 x6 h6 y42 ff4 fs2 fc0 sc0 ls0 ws0">Art. 5ºNa vigência do presente TERMO DE COMPROMISSO DE ESTÁGIO, o ESTAGIÁRIO estará incluído na cobertura do SEGURO </div>
                     <div class="t m0 x6 h6 y43 ff4 fs2 fc0 sc0 ls0 ws0">CONTRA ACIDENTES PESSOAIS, proporcionada pela:  </div>
-                    <div class="t m0 x6 h4 y44 ff1 fs2 fc0 sc0 ls0 ws0">APÓLICE nº:_____________________________________________________________________________________________________</div>
-                    <div class="t m0 x6 h4 y45 ff1 fs2 fc0 sc0 ls0 ws0">SEGURADORA:__________________________________________________________________________________________________ </div>
+                    <div class="t m0 x6 h4 y44 ff1 fs2 fc0 sc0 ls0 ws0">APÓLICE nº:<span class="underline"><?php echo underlineString(93, $estagio->getapolice()->getnumero()); ?></span></div>
+                    <div class="t m0 x6 h4 y45 ff1 fs2 fc0 sc0 ls0 ws0">SEGURADORA:<span class="underline"><?php echo underlineString(91, $estagio->getapolice()->getseguradora()); ?></span> </div>
                     <div class="t m0 x6 h6 y46 ff4 fs2 fc0 sc0 ls0 ws0">Art. 6ºAssim materializado, documentado ecaracterizado, o presente estágio, não acarretará vínculo empregatício, de qualquer natureza,</div>
                     <div class="t m0 x6 h6 y47 ff1 fs2 fc0 sc0 ls0 ws0">entre o ESTAGIARIO e a CONCEDENTE nos termos do que dispõem oArt. 3°da Lei Nº 11.788, de 25 de setembro de 2008.</div>
                     <div class="t m0 x6 h6 y48 ff4 fs2 fc0 sc0 ls0 ws0"></div>
