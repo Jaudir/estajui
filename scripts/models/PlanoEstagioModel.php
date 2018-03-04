@@ -105,6 +105,7 @@ class PlanoEstagioModel extends MainModel{
             }
             return $estagiosDAOs;
         }catch(PDOException $ex){
+            echo "AQUI<br>";
             Log::LogPDOError($ex);
             return false;
         }
