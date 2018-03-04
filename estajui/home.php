@@ -524,7 +524,7 @@ require_once $_SERVER['DOCUMENT_ROOT'] . "/estajui/scripts/controllers/HomeContr
                             <?php
                             $cont = 1;
                             foreach ($estagios as $estagio) {
-                                if ($estagio->getstatus()->getcodigo() <= 9) {
+                                if ($estagio->getstatus()->getcodigo() <= 11) {
                                     ?>
                                     <div class="row">
                                         <div class="offset-lg-1 col-lg-10 status-desc-item bg-gray">
@@ -545,10 +545,10 @@ require_once $_SERVER['DOCUMENT_ROOT'] . "/estajui/scripts/controllers/HomeContr
                                                 análise do orientador.
                                             </p>
                                             <?php
-                                            if ($estagio->getstatus()->getcodigo() == 4) {
+                                            if ($estagio->getstatus()->getcodigo() == 2) {
                                                 ?>
-                                                <a href="cadastrar-dados-estagio.html"><button type="button" class="btn btn-outline-dark" data-toggle="modal"
-                                                                                               data-target="#modalEstagio" style="padding: 10px;">Preencher dados</button></a>
+                                                <a href="./estudante/cadastrar-dados-estagio.php"><button type="button" class="btn btn-outline-dark" data-toggle="modal"
+                                                                                                          data-target="#modalEstagio" style="padding: 10px;">Preencher dados</button></a>
                                                     <?php
                                                 } elseif ($estagio->getstatus()->getcodigo() == 6) {
                                                     ?>
