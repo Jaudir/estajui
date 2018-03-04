@@ -15,9 +15,10 @@ $atividade;
     <head>
         <meta charset="utf-8"/>
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
-        <link rel="stylesheet"media="all" href="base.min.css" type="text/css" media="all" />
-        <link rel="stylesheet" href="fancy.min.css" type="text/css" media="all" />
-        <link rel="stylesheet" href="main.css" type="text/css" media="all" />
+        <link rel="stylesheet"media="all" href="base.min.css" type="text/css"/>
+        <link rel="stylesheet" href="fancy.min.css" type="text/css"/>
+        <link rel="stylesheet" href="main.css" type="text/css"/>
+        <link rel="stylesheet" href="mainprint.css" media="print"/>
         <script src="compatibility.min.js"></script>
         <script src="theViewer.min.js"></script>
         <script>

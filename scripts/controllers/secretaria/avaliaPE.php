@@ -78,6 +78,38 @@ if (isset($_POST["id"])) {
                     }
                 } else {
                     if (!empty($_POST["justificativa"])) {
+                        $estagio->setaprovado(FALSE);
+                        if (isset($_POST["matriculado"])) {
+                            if (!empty($_POST["serie"]) && !empty($_POST["modulo"]) && !empty($_POST["periodo"])) {
+                                $estagio->setserie($_POST["serie"]);
+                                $estagio->setmodulo($_POST["modulo"]);
+                                $estagio->setperiodo($_POST["periodo"]);
+                            } else {
+                                if (empty($_POST["serie"])) {
+                                    $session->pushError("Digite a serie do aluno!", "error-validacao");
+                                } elseif (empty($_POST["modulo"])) {
+                                    $session->pushError("Digite o modulo do aluno!", "error-validacao");
+                                } else {
+                                    $session->pushError("Digite o periodo do aluno!", "error-validacao");
+                                }
+                            }
+                        }
+                        if (isset($_POST["integralizado"])) {
+                            if (!empty($_POST["integralizacao"])) {
+                                $valores = explode("/", $_POST["integralizacao"]);
+                                $estagio->setsemestre($valores[0]);
+                                $estagio->setano($valores[1]);
+                            } else {
+                                $session->pushError("Digite o semestre/ano da integralização do aluno!", "error-validacao");
+                            }
+                        }
+                        if (isset($_POST["emregime"])) {
+                            if (!empty($_POST["dependencias"])) {
+                                $estagio->setdependencias($_POST["dependencias"]);
+                            } else {
+                                $session->pushError("Digite as dependências do aluno!", "error-validacao");
+                            }
+                        }
                         $modificacaostatusModel = $loader->loadModel("ModificacaoStatusModel", "ModificacaoStatusModel");
                         $matriculaModel = $loader->loadModel("MatriculaModel", "MatriculaModel");
                         $notificacaoModel = $loader->loadModel("NotificacaoModel", "NotificacaoModel");
