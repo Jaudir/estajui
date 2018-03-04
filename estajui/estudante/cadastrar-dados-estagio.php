@@ -37,8 +37,6 @@
       echo 'selected';
   }
 
-  $missingFields = $session->hasError() && !$session->hasValues('busca');
-
   $_POST['estagio'] = 1;
 ?>
 <html>
@@ -300,7 +298,7 @@
     <script>
           // Example starter JavaScript for disabling form submissions if there are invalid fields
           $(function() {
-          <?php if($missingFields):?>
+          <?php if($session->hasError('missing')):?>
             alert("Campos obrigatórios não foram preenchidos!");
           <?php elseif($session->hasValues('resultado')):?>
             alert(<?php echo "\"" . $session->getValues('resultado')[0] ."\""?>);

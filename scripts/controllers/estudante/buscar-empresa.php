@@ -15,6 +15,8 @@ if(isset($_POST['cnpj-busca'])){
     if($empresa){
         $session->pushValue($empresa->get_nome(), 'nome_fantasia');
         $session->pushValue($empresa->get_cnpj(), 'cnpj');
+        $session->pushValue($empresa->get_telefone(), 'telefone');
+        $session->pushValue($empresa->get_fax(), 'fax');
         $session->pushValue($empresa->get_razaosocial(), 'razao_social');
         $session->pushValue($empresa->get_endereco()->getlogradouro(), 'logradouro');
         $session->pushValue($empresa->get_endereco()->getnumero(), 'numero');
@@ -32,7 +34,6 @@ if(isset($_POST['cnpj-busca'])){
     }else{
         $session->pushError('Nenhuma empresa encontrada');
     }
-
 }else{
     $session->pushError('Dados de busca inválidos!');
 }

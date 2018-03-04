@@ -51,7 +51,7 @@ if($session->isAluno()){
     $validate->addField('cargo_responsavel', array('required' => true, 'min_size' => 4, 'max_size' => 20));
     
     //campos do supervisor
-    $validate->addField('nome_supervisor', array('required' => true, 'min_size' => 4, 'max_size' => 20)); 
+    $validate->addField('nome_supervisor', array('required' => true, 'min_size' => 4, 'max_size' => 200)); 
     $validate->addField('cargo', array('required' => true, 'min_size' => 4, 'max_size' => 20)); 
     $validate->addField('habilitacao', array('required' => true, 'min_size' => 4, 'max_size' => 100));
 
@@ -79,9 +79,9 @@ if($session->isAluno()){
         $planoModel = $loader->loadModel('PlanoEstagioModel', 'PlanoEstagioModel');
 
         //preenchendo models
-        $endereco = new Endereco(-1, $_POST['logradouro'], $_POST['bairro'], $_POST['numero'], null, $_POST['cidade'], $_POST['estado'], $_POST['cep'], $_POST['sala']);
-        $empresa = new Empresa($_POST['cnpj'], $_POST['nome_fantasia'], $_POST['telefone'], $_POST['fax'], $_POST['nregistro'], $_POST['conselhofiscal'], $endereco, null, 0, $_POST['razao_social']);
-        $responsavel = new Responsavel($_POST['email_responsavel'], $_POST['nome_responsavel'], $_POST['telefone_responsavel'], $_POST['cargo_responsavel'], $empresa);
+        $endereco = new Endereco(-1, $_POST['logradouro'], $_POST['bairro'], $_POST['numero'], null, $_POST['cidade'], $_POST['estado'], preg_replace("/[^0-9]/", "", $_POST['cep']), $_POST['sala']);
+        $empresa = new Empresa(preg_replace("/[^0-9]/", "", $_POST['cnpj']), $_POST['nome_fantasia'], preg_replace("/[^0-9]/", "", $_POST['telefone']), $_POST['fax'], $_POST['nregistro'], $_POST['conselhofiscal'], $endereco, null, 0, $_POST['razao_social']);
+        $responsavel = new Responsavel($_POST['email_responsavel'], $_POST['nome_responsavel'], preg_replace("/[^0-9]/", "", $_POST['telefone_responsavel']), $_POST['cargo_responsavel'], $empresa);
         $supervisor = new Supervisor(-1, $_POST['nome_supervisor'], $_POST['cargo'], $_POST['habilitacao'], $empresa);
         $estagio = new Estagio($_POST['estagio'], null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
         $planoEstagio = new PlanoDeEstagio($estagio, $estagio, null, $_POST['atividades'], null, null, $_POST['data_inicio'], $_POST['data_termino'], $_POST['inicio_jornada'], null, $_POST['termino_jornada'], null, $_POST['horas_semanais'], null, null);
@@ -93,8 +93,9 @@ if($session->isAluno()){
         }
     }else{
         $validate->pushErrors($session);
+        $session->pushError(true, 'missing');
     }
 }else{
     $session->pushError('Você não é um aluno, não é possível criar estágios!');
 }
-redirect(base_url() . '/estajui/estudante/cadastrar-dados-estagio.php');
+//redirect(base_url() . '/estajui/estudante/cadastrar-dados-estagio.php');

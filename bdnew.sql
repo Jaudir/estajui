@@ -352,17 +352,16 @@ INSERT INTO funcionario (siape, nome, bool_po, bool_oe, bool_ce, bool_sra, bool_
 
 
 -- OFERECE CURSO
-INSERT INTO oferece_curso (id, turno, curso_id, campus_cnpj, oe_siape) VALUES (1, ‘Integral’, 1, 10727655000462, 1 );
-INSERT INTO oferece_curso (id, turno, curso_id, campus_cnpj, oe_siape) VALUES (2, ‘Integral’, 2, 10727655000462, 2 );
-INSERT INTO oferece_curso (id, turno, curso_id, campus_cnpj, oe_siape) VALUES (3, ‘Noturno’, 1, 10727655000462, 3 );
-INSERT INTO oferece_curso (id, turno, curso_id, campus_cnpj, oe_siape) VALUES (4, ‘Noturno’, 2, 10727655000462, 4 );
+INSERT INTO oferece_curso (id, turno, curso_id, campus_cnpj, oe_siape) VALUES (1, 'Integral', 1, 10727655000462, 1 );
+INSERT INTO oferece_curso (id, turno, curso_id, campus_cnpj, oe_siape) VALUES (2, 'Integral', 2, 10727655000462, 2 );
+INSERT INTO oferece_curso (id, turno, curso_id, campus_cnpj, oe_siape) VALUES (3, 'Noturno', 1, 10727655000462, 3 );
+INSERT INTO oferece_curso (id, turno, curso_id, campus_cnpj, oe_siape) VALUES (4, 'Noturno', 2, 10727655000462, 4 );
 
 -- ALUNO CURSO
 INSERT INTO aluno_estuda_curso (matricula, semestre_inicio, ano_inicio, oferece_curso_id, aluno_cpf) VALUES (1, 1, 1990, 1, 000000001);
-INSERT INTO aluno_estuda_curso (matricula, semestre_inicio, ano_inicio, oferece_curso_id, aluno_cpf) VALUES (2, 1, 1990, 2, 000000002);
-INSERT INTO aluno_estuda_curso (matricula, semestre_inicio, ano_inicio, oferece_curso_id, aluno_cpf) VALUES (3, 1, 1990, 5, 000000003);
+INSERT INTO aluno_estuda_curso (matricula, semestre_inicio, ano_inicio, oferece_curso_id, aluno_cpf) VALUES (2, 1, 1990, 4, 000000002);
+INSERT INTO aluno_estuda_curso (matricula, semestre_inicio, ano_inicio, oferece_curso_id, aluno_cpf) VALUES (3, 1, 1990, 4, 000000003);
 INSERT INTO aluno_estuda_curso (matricula, semestre_inicio, ano_inicio, oferece_curso_id, aluno_cpf) VALUES (4, 1, 1990, 1, 000000004);
-INSERT INTO aluno_estuda_curso (matricula, semestre_inicio, ano_inicio, oferece_curso_id, aluno_cpf) VALUES (5, 1, 1990, 5, 000000001);
 
 -- EMPRESA
 INSERT INTO empresa (cnpj, nome, telefone, fax, nregistro, conselhofiscal, endereco_id, conveniada) VALUES (00001, 'Google', 12345566, 12312431, 31231, 'Conselho', 12, 0);
