@@ -71,4 +71,42 @@ class PlanoEstagioModel extends MainModel{
         }
         return true;
     }
+
+    public function carregarAguardandoOrientador(){
+        try{
+            $estagioModel = $this->loader->loadModel('EstagioModel', 'EstagioModel');
+            $this->loader->loadDao('PlanoDeEstagio');
+
+            $stmt = $this->conn->prepare("SELECT plano_estagio.* FROM estagio LEFT JOIN plano_estagio ON estagio.id = plano_estagio.estagio_id WHERE po_siape is NULL");
+            $stmt->execute();
+
+            $estagios = $stmt->fetchAll();
+
+            $estagiosDAOs = array();
+            foreach($estagios as &$estagio){
+                $plano = new PlanoDeEstagio(
+                    $estagio['setor_unidade'], 
+                    $estagioModel->recuperar($estagio['estagio_id']),
+                    $estagio['data_assinatura'],
+                    $estagio['atividades'],
+                    $estagio['remuneracao'],
+                    $estagio['vale_transporte'],
+                    $estagio['data_ini'],
+                    $estagio['data_fim'],
+                    $estagio['hora_inicio1'],
+                    $estagio['hora_inicio2'],
+                    $estagio['hora_fim1'],
+                    $estagio['hora_fim2'],
+                    $estagio['total_horas'],
+                    $estagio['data_efetivacao'],
+                    null
+                );
+                $estagiosDAOs[] = $plano;
+            }
+            return $estagiosDAOs;
+        }catch(PDOException $ex){
+            Log::LogPDOError($ex);
+            return false;
+        }
+    }
 }

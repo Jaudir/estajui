@@ -15,14 +15,14 @@ class EstagioModel extends MainModel {
 			."p.hora_inicio1, p.hora_inicio2, p.hora_fim1, p.hora_fim2, p.total_horas, p.atividades, em.nome AS em_nome, em.razao_social, "
 			."em.cnpj, en.logradouro, en.numero AS en_numero, en.bairro, en.cidade, en.uf, en.cep, em.telefone, "
 			."em.fax, em.nregistro, em.conselhofiscal FROM plano_estagio AS p "
-			."JOIN estagio AS es ON p.estagio_id = es.id "
-			."JOIN supervisiona AS sona ON es.id = sona.estagio_id "
-			."JOIN supervisor AS sor ON sona.supervisor_id = sor.id "
-			."JOIN apolice AS ap ON es.id = ap.estagio_id "
-			."JOIN funcionario AS f ON es.po_siape = f.siape "
-			."JOIN empresa AS em ON es.empresa_cnpj = em.cnpj "
-			."JOIN endereco AS en ON em.endereco_id = en.id "
-			."JOIN status AS s ON es.status_codigo = s.codigo "
+			."LEFT JOIN estagio AS es ON p.estagio_id = es.id "
+			."LEFT JOIN supervisiona AS sona ON es.id = sona.estagio_id "
+			."LEFT JOIN supervisor AS sor ON sona.supervisor_id = sor.id "
+			."LEFT JOIN apolice AS ap ON es.id = ap.estagio_id "
+			."LEFT JOIN funcionario AS f ON es.po_siape = f.siape "
+			."LEFT JOIN empresa AS em ON es.empresa_cnpj = em.cnpj "
+			."LEFT JOIN endereco AS en ON em.endereco_id = en.id "
+			."LEFT JOIN status AS s ON es.status_codigo = s.codigo "
 			."WHERE es.id=?");
 			$v = $pstmt->execute(array($estagio_id));
 			$res = $pstmt->fetchAll();
@@ -45,11 +45,10 @@ class EstagioModel extends MainModel {
 			return $estagio;
 		} catch (PDOException $e) {
 			Log::logPDOError($e, true);
-			$this->conn->rollback();
-			echo "deu ruim 2";
 			return false;
 		}
 	}
+
 	public function cadastrarDadosEstagio($supervisor, $endereco, $planoDeEstagio,$empresa, $novo){
 		if($novo == true){
 			
