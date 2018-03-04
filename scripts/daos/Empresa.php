@@ -9,7 +9,6 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/estajui/scripts/daos/Endereco.php';
  * @author gabriel Lucas
  */
 class Empresa {
-
     private $_cnpj;
     private $_nome;
     private $_razao_social;
@@ -20,12 +19,10 @@ class Empresa {
     private $_endereco;
     private $_responsavel;
     private $_conveniada;
-    private $_razaosocial;
 
-    public function __construct($_cnpj, $_nome, $_telefone, $_fax, $_nregistro, $_conselhofiscal, $_endereco, $_responsavel, $_conveniada, $_razaosocial) {
+    public function __construct($_cnpj, $_nome, $_razao_social, $_telefone, $_fax, $_nregistro, $_conselhofiscal, $_endereco, $_responsavel, $_conveniada) {
         $this->_cnpj = $_cnpj;
         $this->_nome = $_nome;
-        $this->_razaosocial = $_razaosocial;
         $this->_telefone = $_telefone;
         $this->_fax = $_fax;
         $this->_nregistro = $_nregistro;
