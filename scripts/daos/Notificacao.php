@@ -11,50 +11,50 @@ class Notificacao {
     
     private $_id;
     private $_lida;
-    private $_status;
-    private $_usuario;
+    private $_modificacao_status;
+    private $_justificativa;
     
-    public function __construct($_id, $_lida, $_status, $_usuario) {
+    public function __construct($_id, $_lida, $_modificacao_status, $_justificativa) {
         $this->_id = $_id;
         $this->_lida = $_lida;
-        $this->_status = $_status;
-        $this->_usuario = $_usuario;
+        $this->_modificacao_status = $_modificacao_status;
+        $this->_justificativa = $_justificativa;
     }
-
-    public function get_id() {
+    
+    public function getid() {
         return $this->_id;
     }
 
-    public function get_lida() {
+    public function getlida() {
         return $this->_lida;
     }
 
-    public function get_status() {
-        return $this->_status;
+    public function getmodificacao_status() {
+        return $this->_modificacao_status;
     }
 
-    public function get_usuario() {
-        return $this->_usuario;
+    public function getjustificativa() {
+        return $this->_justificativa;
     }
 
-    public function set_id($_id) {
+    public function setid($_id) {
         $this->_id = $_id;
         return $this;
     }
 
-    public function set_lida($_lida) {
+    public function setlida($_lida) {
         $this->_lida = $_lida;
         return $this;
     }
 
-    public function set_status($_status) {
-        $this->_status = $_status;
+    public function setmodificacao_status($_modificacao_status) {
+        $this->_modificacao_status = $_modificacao_status;
         return $this;
     }
 
-    public function set_usuario($_usuario) {
-        $this->_usuario = $_usuario;
+    public function setjustificativa($_justificativa) {
+        $this->_justificativa = $_justificativa;
         return $this;
     }
-    
+
 }

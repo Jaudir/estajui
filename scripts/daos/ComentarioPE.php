@@ -14,68 +14,57 @@ class ComentarioPE {
     private $_descricao;
     private $_correcao;
     private $_funcionario;
-    private $_estagio;
     
-    public function __construct($_id, $_data, $_descricao, $_correcao, $_funcionario, $_estagio) {
+    public function __construct($_id, $_data, $_descricao, $_correcao, $_funcionario) {
         $this->_id = $_id;
         $this->_data = $_data;
         $this->_descricao = $_descricao;
         $this->_correcao = $_correcao;
         $this->_funcionario = $_funcionario;
-        $this->_estagio = $_estagio;
     }
 
-    public function get_id() {
+    public function getid() {
         return $this->_id;
     }
 
-    public function get_data() {
+    public function getdata() {
         return $this->_data;
     }
 
-    public function get_descricao() {
+    public function getdescricao() {
         return $this->_descricao;
     }
 
-    public function get_correcao() {
+    public function getcorrecao() {
         return $this->_correcao;
     }
 
-    public function get_funcionario() {
+    public function getfuncionario() {
         return $this->_funcionario;
     }
 
-    public function get_estagio() {
-        return $this->_estagio;
-    }
-
-    public function set_id($_id) {
+    public function setid($_id) {
         $this->_id = $_id;
         return $this;
     }
 
-    public function set_data($_data) {
+    public function setdata($_data) {
         $this->_data = $_data;
         return $this;
     }
 
-    public function set_descricao($_descricao) {
+    public function setdescricao($_descricao) {
         $this->_descricao = $_descricao;
         return $this;
     }
 
-    public function set_correcao($_correcao) {
+    public function setcorrecao($_correcao) {
         $this->_correcao = $_correcao;
         return $this;
     }
 
-    public function set_funcionario($_funcionario) {
+    public function setfuncionario($_funcionario) {
         $this->_funcionario = $_funcionario;
-        return $this;
-    }
-
-    public function set_estagio($_estagio) {
-        $this->_estagio = $_estagio;
         return $this;
     }
 

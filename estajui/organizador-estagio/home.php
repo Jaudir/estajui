@@ -79,14 +79,14 @@ require_once(dirname(__FILE__) . '/../../scripts/controllers/organizador-estagio
                     foreach($estagios as &$estagio):
                   ?>
                   <?php
-                    $usuario = $estagio->get_estagio()->getusuario();
+                    $usuario = $estagio->getestagio()->getusuario();
                   ?>
                   <tr class="red">
                     <th scope="row"><?php echo ++$i;?></th>
-                    <td><?php echo $estagio->get_estagio()->getstatus()->get_descricao(); ?></td>
-                    <td><?php $estagio->get_estagio()->getusuario()->getnome(); ?></td>
+                    <td><?php echo $estagio->getestagio()->getstatus()->get_descricao(); ?></td>
+                    <td><?php $estagio->getestagio()->getusuario()->getnome(); ?></td>
                     <td><?php $estagio->get_data_inicio(); ?></td>
-                    <td><?php $estagio->getEstagio()->get_estagio()->getcurso()->getnome(); ?></td>
+                    <td><?php $estagio->getestagio()->getcurso()->getnome(); ?></td>
                     <td class="center">
                       <button class="definirOrientador" type="button" class="btn btn-link"
                         data-toggle="modal" data-target="#definirOrientador">
