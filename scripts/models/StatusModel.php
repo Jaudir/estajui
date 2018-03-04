@@ -29,7 +29,6 @@ class StatusModel extends MainModel {
                 VALUES(NOW(), :estagio_id, :status_codigo, :usuario_email)');
             $stmt->execute(array(':estagio_id' => $estagio->getid(), ':status_codigo' => $statusId, ':usuario_email' => $usuario->getlogin()));
 
-            $stmt->execute();
             $id = $this->conn->lastInsertId();
 
             $stmt = $this->conn->prepare('INSERT INTO notificacao(lida, modifica_status_id, temJustificativa, justificativa) VALUES(:lida, :modifica_status_id, :temJustificativa, :justificativa)');
