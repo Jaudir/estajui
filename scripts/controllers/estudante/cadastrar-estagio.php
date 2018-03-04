@@ -89,7 +89,7 @@ if($session->isAluno()){
         if($planoModel->create($planoEstagio, $supervisor, $responsavel, $empresa, $session->getUsuario())){
             $session->pushValue('Estágio cadastrado!', 'resultado');
         }else{
-            $session->pushError('Falha ao cadastrar estágio');
+            $session->pushError('Falha de comunicação com o servidor!');
         }
     }else{
         $validate->pushErrors($session);
