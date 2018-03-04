@@ -1,62 +1,35 @@
 <!DOCTYPE html>
 <?php
+  require_once('../../scripts/controllers/base-controller.php');
+  $session = getSession();
 
-require_once('../../scripts/controllers/base-controller.php');
-$session = getSession();
+  function printErrorFeedback($error){
+    echo '<span class="error">';
+    echo $error[0];
+    echo '</span>';
+  }
 
-/*
-//Descomentar para testes, o campo estagio é o id do estágio que foi escolhido para ser cadastrado,
-//deve ser passado pelo POST(ou GET)
-$_POST['estagio'] = 1;
-$session->setUsuario(
-  new Aluno(
-      'email@email10.com', 
-      '123', 
-      1, 
-      '1231231', 
-      'teste', 
-      null, 
-      null, 
-      null, 
-      null, 
-      null, 
-      null, 
-      null, 
-      null, 
-      null, 
-      null, 
-      null,
-      null,
-      null));
-*/
+  function printError($index){
+    global $session;
 
-      //funções auxiliares
+    if($session->hasError($index))
+      printErrorFeedback($session->getErrors($index));
+  }
 
-      function printErrorFeedback($error){
-        echo '<div class="invalid-feedback">';
-        echo $error[0];
-        echo '</div>';
-      }
+  function printValue($index){
+    global $session;
 
-      function printError($index){
-        global $session;
-        
-        if($session->hasError($index))
-          printErrorFeedback($session->getErrors($index));
-      }
+    if($session->hasValues($index))
+      echo 'value="' . $session->getValues($index)[0] . '"';
+  }
 
-      function printValue($index){
-        global $session;
+  function selectOption($index, $opt){
+    global $session;
+    if($session->getValues($index) == $opt)
+      echo 'selected';
+  }
 
-        if($session->hasValues($index))
-          echo 'value="' . $session->getValues($index)[0] . '"';
-      }
-
-      function selectOption($index, $opt){
-        global $session;
-        if($session->getValues($index) == $opt)
-          echo 'selected';
-      }
+  $_POST['estagio'] = 1;
 ?>
 <html>
   <head>
@@ -264,8 +237,7 @@ $session->setUsuario(
 
                     <div class="col-md-12 mb-3">
                       <label for="validationCustom32">Atividades principais a serem desenvolvidas: </label>
-                      <textarea name="atividades" rows="6" class="form-control" id="validationCustom32" required><?php if($session->hasValues('atividades')) echo $session->getValues('atividades')?>
-                      </textarea>
+                      <textarea name="atividades" rows="6" class="form-control" id="validationCustom32" required><?php if($session->hasValues('atividades')) echo $session->getValues('atividades')[0]?></textarea>
                       <?php printError('atividades'); //Por favor, preencha este campo.?>
                     </div>
 
@@ -318,7 +290,11 @@ $session->setUsuario(
           // Example starter JavaScript for disabling form submissions if there are invalid fields
           $(function() {
           <?php if($session->hasValues('resultado')):?>
-            alert(<?php echo $session->getValues('resultdado')[0]?>);
+            alert(<?php echo "\"" . $session->getValues('resultado')[0] ."\""?>);
+          <?php elseif($session->hasError('estagio')):?>
+            alert(<?php echo "\"" . $session->getErrors('estagio')[0] . "\""?>);
+          <?php elseif($session->hasError('normal')):?>
+            alert(<?php echo "\"" . $session->getErrors('normal')[0] . "\""?>);
           <?php endif;?>
 
             window.addEventListener('load', function() {

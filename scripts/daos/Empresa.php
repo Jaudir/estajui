@@ -28,7 +28,7 @@ class Empresa {
         $this->_cnpj = $_cnpj;
         $this->_nome = $_nome;
         $this->_telefone = $_telefone;
-        $this->_razao_social = $_razao_social;
+        $this->_razao_social = $_razaosocial;
         $this->_fax = $_fax;
         $this->_nregistro = $_nregistro;
         $this->_conselhofiscal = $_conselhofiscal;

@@ -62,15 +62,9 @@ class Supervisor {
         
     }
 
-<<<<<<< HEAD
     public function set_habilitacao($_habilitacao) {
         $this->_habilitacao = $_habilitacao;
         return $this;
-=======
-    public function set_habilitação($_habilitação) {
-        $this->_habilitação = $_habilitação;
-        
->>>>>>> caso_uso_5
     }
 
     public function set_empresa($_empresa) {
