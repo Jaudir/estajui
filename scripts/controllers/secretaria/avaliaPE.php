@@ -17,10 +17,14 @@ if (isset($_POST["id"])) {
                 $estagio = $estagio[0];
                 $valorestmp = explode("/", $_POST["semestre"]);
                 $matricula = $estagio->getmatricula();
-                $matricula_anterior = clone($matricula);
-                $matricula->setmatricula((int) $_POST["matricula"]);
-                $matricula->setsemestre_inicio((int) $valorestmp[0]);
-                $matricula->setano_inicio((int) $valorestmp[1]);
+                if ($matricula) {
+                    $matricula_anterior = clone($matricula);
+                    $matricula->setmatricula((int) $_POST["matricula"]);
+                    $matricula->setsemestre_inicio((int) $valorestmp[0]);
+                    $matricula->setano_inicio((int) $valorestmp[1]);
+                } else {
+                    $matricula_anterior = null;
+                }
                 if ($_POST["aptidao"] == "1") {
                     $estagio->setaprovado(TRUE);
                     if (isset($_POST["matriculado"])) {

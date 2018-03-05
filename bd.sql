@@ -285,6 +285,7 @@ create table verificar(
 	codigo varchar(50) unique not null,
 	data_geracao date, 
 	verificado int not null,
+	tipo int,
 	foreign key(email ) references usuario(email)
 );
 
