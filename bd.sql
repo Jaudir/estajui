@@ -122,7 +122,7 @@ create table oferece_curso (
 );
 
 create table aluno_estuda_curso(
-	matricula int unique primary key,
+	matricula int unique auto_increment primary key,
 	semestre_inicio int,
 	ano_inicio int,
 	oferece_curso_id int,

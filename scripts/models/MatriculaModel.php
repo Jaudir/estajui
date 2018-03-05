@@ -11,8 +11,10 @@ class MatriculaModel extends MainModel {
         $pstmt = $this->conn->prepare("INSERT INTO " . $this->_tabela . " (matricula, semestre_inicio, ano_inicio, oferece_curso_id, aluno_cpf) VALUES(?, ?, ?, ?, ?)");
         try {
             $this->conn->beginTransaction();
-            $pstmt->execute(array($matricula->getmatricula(), $matricula->getsemestre_inicio(), $matricula->getano_inicio(), $matricula->oferta()->getid(), $matricula->getaluno()->getcpf()));
+            $pstmt->execute(array($matricula->getmatricula(), $matricula->getsemestre_inicio(), $matricula->getano_inicio(), $matricula->getoferta()->getid(), $matricula->getaluno()->getcpf()));
+            $id = $this->conn->lastInsertId();
             $this->conn->commit();
+            $matricula->setmatricula($id);
             return 0;
         } catch (PDOExecption $e) {
             $this->conn->rollback();
