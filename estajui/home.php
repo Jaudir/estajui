@@ -1119,7 +1119,7 @@ require_once $_SERVER['DOCUMENT_ROOT'] . "/estajui/scripts/controllers/HomeContr
                                             <td><?php echo ($estagio->getpe()) ? $estagio->getpe()->getdata_inicio() : " - " ?></td>
                                             <td><?php echo (!$estagio->getempresa()) ? " - " : $estagio->getempresa()->getnome() ?></td>
                                             <td><?php echo $estagio->getstatus()->getdescricao() ?></td>
-                                            <td><?php echo $estagio->getmatricula()->getoferta()->getcurso()->getnome() ?></td>
+                                            <td><?php echo (!$estagio->getmatricula()) ? " - " : $estagio->getmatricula()->getoferta()->getcurso()->getnome() ?></td>
                                             <td class="center">
                                                 <button type="button" class="btn btn-link"
                                                         data-toggle="modal" data-target="#detalhes<?php echo $estagio->getid() ?>">
