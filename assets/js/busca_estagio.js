@@ -1,6 +1,6 @@
 function preencherModal(id) {
     $.ajax({
-        url: "http://localhost/estajui/scripts/controllers/generico/ver-estagio.php",
+        url: "/../../estajui/scripts/controllers/generico/ver-estagio.php",
         type: "post",
         dataType: "json",
         data:{
@@ -52,7 +52,7 @@ function preencherModal(id) {
 $(document).ready(function(){
     $('#filtrar').click(function(){
         $.ajax({
-            url: "http://localhost/estajui/scripts/controllers/generico/listar-estagios.php",
+            url: "/../../estajui/scripts/controllers/generico/listar-estagios.php",
             type: "post",
             dataType:"json",
             data:{

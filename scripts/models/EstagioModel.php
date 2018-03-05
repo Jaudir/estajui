@@ -67,6 +67,20 @@ class EstagioModel extends MainModel {
 		}
 	}
 
+	public function atualizarStatus($estagio_id, $novo_status_codigo){
+        $pstmt = $this->conn->prepare("UPDATE " . $this->_tabela . " SET status_codigo = ? WHERE id = ?");
+        try {
+            $this->conn->beginTransaction();
+            $pstmt->execute(array($novo_status_codigo, $estagio_id));
+            $this->conn->commit();
+            return 0;
+        } catch (PDOExecption $e) {
+            $this->conn->rollback();
+            #return "Error!: " . $e->getMessage() . "</br>";
+            return 2;
+        }
+    }
+
     public function cadastrarDadosEstagio($supervisor, $endereco, $planoDeEstagio, $empresa, $novo) {
         if ($novo == true) {
 

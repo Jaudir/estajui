@@ -2,7 +2,7 @@ id = -1;
 
 function preencherModalEditarAprov(id) {
     $.ajax({
-        url: "http://localhost/estajui/scripts/controllers/generico/ver-estagio.php",
+        url: "/../../estajui/scripts/controllers/generico/ver-estagio.php",
         type: "post",
         dataType: "json",
         data:{
@@ -44,7 +44,7 @@ function preencherModalEditarAprov(id) {
 
 function preencherModalEditar(id) {
     $.ajax({
-        url: "http://localhost/estajui/scripts/controllers/generico/ver-estagio.php",
+        url: "/../../estajui/scripts/controllers/generico/ver-estagio.php",
         type: "post",
         dataType: "json",
         data:{
