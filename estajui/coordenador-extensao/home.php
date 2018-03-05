@@ -88,7 +88,7 @@
                   <?php
                   $row_id = 1;
                   foreach($listaDeEstagios as $le):
-                      if ($le->getstatus()->getcodigo() == 4 || $le->getstatus()->getcodigo() == 7){
+                      if ($le->getstatus()->getcodigo() == 4 /*|| $le->getstatus()->getcodigo() == 7*/){
                   ?>
                   <tr class="">
                       <th scope="row"><input type="hidden" value="<?php echo $le->getid(); ?>" class="form-control" id="estagioID<?php echo $row_id;?>"><?php echo $row_id; ?></th>
