@@ -241,6 +241,9 @@ create table comentario_relatorio(
 	descricao TEXT,
 	relatorio_id int,
 	po_siape numeric(9),
+	nome varchar(50),
+	tipo varchar(10),
+	conteudo LONGBLOB,
 	foreign key(po_siape) references funcionario(siape),
 	foreign key(relatorio_id) references relatorio(id)
 );
@@ -298,6 +301,7 @@ insert into status (descricao) values ("Convênio de empresa aprovado");
 insert into status (descricao) values ("Estágio concluído");
 insert into status (descricao) values ("Convênio de empresa reprovado");
 insert into status (descricao) values ("Estágio reprovado");
+insert into status (descricao) values ("Aguardando que o estudante submeta uma nova versão do relatório de estágio");
 
 -- Adicionando dados pra testar
 

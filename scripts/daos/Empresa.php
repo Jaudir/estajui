@@ -30,7 +30,7 @@ class Empresa {
         $this->_endereco = $_endereco;
         $this->_responsavel = $_responsavel;
         $this->_conveniada = $_conveniada;
-        $this->_razaosocial = $_razao_social;
+        $this->_razaosocial = $_razaosocial;
     }
 
     public function getresponsavel() {

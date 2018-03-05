@@ -18,6 +18,7 @@ class StatusModel extends MainModel {
     public static $ESTAGIO_CON = 10;
     public static $CONVENIO_APR = 11;
     public static $CONVENIO_RPR = 12;
+    public static $RELATORIO_REV = 15;
 
     public function adicionaNotificacao($statusId, $estagio, $usuario, $justificativa = null) {
         try {

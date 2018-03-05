@@ -6,6 +6,7 @@ class EstagioModel extends MainModel {
 
     private $_tabela = "estagio";
     private $_tabela_intermediaria = "relatorio";
+    private $_tabela_intermediaria2 = "comentario_relatorio";
 
 
 	public function recuperar($estagio_id) {
@@ -254,6 +255,37 @@ class EstagioModel extends MainModel {
             }
     }
 
+
+
+
+    public function avaliarrelatorio($aprovado,$id, $arquivo,$usuario,$relatorio_id,$comentarioRelatorio){
+        $statusModel = $this->loader->loadModel('StatusModel', 'StatusModel');
+        $estagio = new Estagio($id,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null);
+        try{
+            if($aprovado == true){
+                $this->conn->beginTransaction();  
+                 $statusModel->adicionaNotificacao(StatusModel::$RELATORIO_APR,$estagio, $usuario);
+                 $pstmt = $this->conn->prepare("update ".$this->_tabela." set status_codigo = ? where id = ?");
+                 $pstmt->execute(array(StatusModel::$RELATORIO_APR, $id));
+                 $this->conn->commit();
+                 echo "saiu aqui";
+                 return true;  
+            }else if($aprovado == false){
+                $this->conn->beginTransaction();  
+                $pstmt = $this->conn->prepare("insert into ".$this->_tabela_intermediaria2." (descricao, relatorio_id, po_siape, conteudo, tipo, nome) values (?,?,?)");
+                $pstmt->execute(array($comentarioRelatorio->get_descricao(),$relatorio_id,$usuario->getsiape(),$arquivo->get_conteudo(),$arquivo->get_tipo(),$arquivo->get_nome()));
+                $statusModel->adicionaNotificacao(StatusModel::$RELATORIO_REV,$estagio, $usuario);
+                
+                $pstmt = $this->conn->prepare("update ".$this->_tabela." set status_codigo = ? where id = ?");
+                $pstmt->execute(array(StatusModel::$RELATORIO_REV, $id));
+                 
+                $this->conn->commit();
+            }else return false;
+        }catch(PDOExecption $e){
+            $this->conn->rollback();
+            return false;
+        }
+    }
 
 
     public function readbyaluno(Aluno $aluno, $limite) {
