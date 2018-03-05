@@ -84,65 +84,37 @@
                   </tr>
                 </thead>
                 <tbody>
-                  <?php
-                    $row_id = 1;
-                    foreach($statusEstagios as $estagio):
-                  ?>
-
-                  <tr class="red">
-                    <th scope="row"><?php echo $row_id++; ?></th>
-                    <td><?php echo $estagio['descricao']; ?></td>
-                    <td><?php echo $estagio['data'] ?></td>
-                    <td><?php echo $estagio['curso']; ?></td>
-                    <td class="center">
-                      <button type="button" class="btn btn-link"
-                        data-toggle="modal" data-target="#aprovarConvenio">
-                        <i class="fa fa-pencil"></i>
-                      </button>
-                    </td>
-                    <td class="center"><a href="#"> <i class="fa fa-eye"></i> </a></td>
-                  </tr>
-
-                  <?php endforeach; ?>
 
                   <?php
-                    foreach($statusEmpresas as $empresa):
+                  $row_id = 1;
+                  foreach($listaDeEstagios as $le):
+                      if ($le->getstatus()->getcodigo() == 4 || $le->getstatus()->getcodigo() == 7){
                   ?>
-                  <tr class="red">
-                    <th scope="row"><?php echo $row_id++; ?></th>
-                    <td>Aguardando aprovação de convênio</td>
-                    <td><?php echo "Data?" ?></td>
-                    <td><?php echo "Curso?" ?></td>
-                    <td class="center">
+                  <tr class="">
+                      <th scope="row"><input type="hidden" value="<?php echo $le->getid(); ?>" class="form-control" id="estagioID<?php echo $row_id;?>"><?php echo $row_id; ?></th>
+                      <td><?php echo $le->getstatus()->getdescricao(); ?></td>
+                      <td><?php echo $le->getpe()->getdata_inicio(); ?></td>
+                      <td><?php echo $le->getmatricula()->getoferta()->getcurso()->getnome(); ?></td>
+                      <td class="center">
                       <button type="button" class="btn btn-link empresaModalToggle"
-                        data-toggle="modal" data-target="#aprovarConvenio">
+                      onclick="setarId('<?php echo "estagioID".$row_id++;?>')" data-toggle="modal" data-target="<?php
+                        if ($le->getstatus()->getcodigo() == 4){
+                            echo "#apoliceSeguro";
+                        } else {
+                            echo "#aprovarConvenio";
+                        }
+
+                      ?>" >
                         <i class="fa fa-pencil"></i>
-                        <div class="empresaDados" style="display:none;">
-                        <h6>Razão Social: </h6> <p><?php echo $empresa->get_razao_social()?></p><br>
-                        <h6>CNPJ: </h6> <p class="cnpj"><?php echo $empresa->get_cnpj()?></p><br>
-                        <h6>Nome fantasia: </h6> <p><?php echo $empresa->get_nome()?></p> <br>
-                        <h6>Telefone: </h6> <p><?php echo $empresa->get_telefone()?></p> <br>
-                        <h6>FAX: </h6> <p><?php echo $empresa->get_fax()?></p> <br>
-                        <h6>Registro: </h6> <p><?php echo $empresa->get_nregistro()?></p> <br>
-                        <h6>Conselho de fiscalização: </h6> <p><?php echo $empresa->get_conselhofiscal()?></p> <br>
-                        <h6>Nome do responsável: </h6> <p><?php echo $empresa->get_responsavel()->get_nome()?></p> <br>
-                        <h6>Telefone do responsável: </h6> <p><?php echo $empresa->get_responsavel()->get_telefone()?></p> <br>
-                        <h6>Email: </h6> <p><?php echo $empresa->get_responsavel()->get_email()?></p> <br>
-                        <h6>Cargo: </h6> <p><?php echo $empresa->get_responsavel()->get_cargo()?></p> <br>
-                        <h6>Logradouro: </h6> <p><?php echo $empresa->get_endereco()->getlogradouro()?></p> <br>
-                        <h6>Número: </h6> <p><?php echo $empresa->get_endereco()->getnumero()?></p> <br>
-                        <h6>Sala: </h6> <p><?php echo $empresa->get_endereco()->getsala()?></p> <br>
-                        <h6>Bairro: </h6> <p><?php echo $empresa->get_endereco()->getbairro()?></p><br>
-                        <h6>Cidade: </h6> <p><?php echo $empresa->get_endereco()->getcidade()?></p><br>
-                        <h6>Estado: </h6> <p><?php echo $empresa->get_endereco()->getuf()?></p><br>
-                        <h6>CEP: </h6> <p><?php echo $empresa->get_endereco()->getcep()?></p>
-                        </div>
                       </button>
+
                     </td>
-                    <td class="center"><a href="#"> <i class="fa fa-eye"></i> </a></td>
+                      <td class="center">
+                          <a href="" onclick="preencherModal(<?php echo $le->getid();?>)" data-toggle="modal" data-target="#ver-estagio" id="ver<?php echo $lin++; ?>"> <i class="fa fa-eye ver"></i></a>
+                      </td>
                   </tr>
 
-                  <?php endforeach; ?>
+                  <?php } endforeach; ?>
                 </tbody>
               </table>
             </div>
@@ -161,7 +133,11 @@
               <div class="modal-body">
                 <div class="row">
                   <div class="col-md-12 dados-aluno" id="empresaDadosInModal">
-                      <!---->
+                      <table class="table table-bordered" id="tabela_modal_editar_aprov">
+                          <tbody>
+                          <!-- BODY Não digite nada aqui -->
+                          </tbody>
+                      </table>
                   </div>
                 </div>
                 <form name="convenio" id="empresaForm" method="post" action="<?php echo base_url() . '/scripts/controllers/coordenador-extensao/validar-cadastro-empresa.php'?>">
@@ -209,13 +185,14 @@
               <div class="modal-body">
                 <div class="row">
                   <div class="col-md-12 dados-aluno">
-                    <h6>Nome: </h6> <p>Joaquim da Silva</p><br>
-                    <h6>Matrícula: </h6> <p>XXXXXX</p><br>
-                    <h6>Curso: </h6> <p>Engenharia Química</p> <br>
-                    <h6>Obrigatoriedade: </h6> <p>Obrigatório</p> <br>
-                    <h6>Empresa: </h6> <p>Lorem ipsum</p> <br>
-                    <h6>CNPJ: </h6> <p>1029.02930.19303-00001</p> <br>
-                    <h6>Razão Social: </h6> <p>Dolor sit amet</p> <br>
+                      <div class="modal-body">
+                          <table class="table table-bordered" id="tabela_modal_editar">
+                              <tbody>
+                              <!-- BODY Não digite nada aqui -->
+                              </tbody>
+                          </table>
+
+                      </div>
                   </div>
                 </div>
                 <form name="convenio">
@@ -243,16 +220,43 @@
               </div>
               <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Sair</button>
-                <button type="button" class="btn btn-primary">Confirmar</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="preencherDadosApolice()">Confirmar</button>
               </div>
             </div>
           </div>
         </div>
     </div>
+        <!--MODAL de destalhes do estágio -->
+        <div class="modal fade" id="ver-estagio" tabindex="-1" role="dialog" aria-labelledby="detalhesEstagioTitle" aria-hidden="true">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="detalhesEstagioTitle">Detalhes do estágio</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <table class="table table-bordered" id="tabela_modal">
+                            <tbody>
+                            <!-- BODY -->
+                            </tbody>
+                        </table>
 
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Sair</button>
+                        <button type="button" class="btn btn-primary">Confirmar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="../../assets/js/jquery-1.9.0.min.js" type="text/javascript" charset="utf-8"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
+    <script src="../../assets/js/busca_estagio.js"></script>
+    <script src="../../assets/js/ce-load-home.js"></script>
     <script>
       $(function(){
         <?php

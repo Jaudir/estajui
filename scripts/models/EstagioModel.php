@@ -11,18 +11,22 @@ class EstagioModel extends MainModel {
 
 	public function recuperar($estagio_id) {
 		try {
-			$pstmt = $this->conn->prepare("SELECT es.bool_aprovado, es.bool_obrigatorio, s.descricao AS status_descricao, ap.numero AS ap_numero, ap.seguradora, "
+			$pstmt = $this->conn->prepare("SELECT es.aluno_estuda_curso_matricula AS aluno_estuda_curso_matricula, es.bool_aprovado, es.bool_obrigatorio AS bool_obrigatorio, curso.nome AS curso_nome, aluno.nome AS aluno_nome, s.codigo AS status_codigo, s.descricao AS status_descricao, ap.numero AS ap_numero, ap.seguradora, "
 			."sor.nome AS sor_nome, sor.habilitacao, sor.cargo, f.nome AS f_nome, f.formacao, p.data_ini, p.data_fim, "
 			."p.hora_inicio1, p.hora_inicio2, p.hora_fim1, p.hora_fim2, p.total_horas, p.atividades, em.nome AS em_nome, em.razao_social, "
 			."em.cnpj, en.logradouro, en.numero AS en_numero, en.bairro, en.cidade, en.uf, en.cep, em.telefone, "
 			."em.fax, em.nregistro, em.conselhofiscal FROM plano_estagio AS p "
 			."JOIN estagio AS es ON p.estagio_id = es.id "
-			."JOIN supervisiona AS sona ON es.id = sona.estagio_id "
+            ."JOIN aluno_estuda_curso AS alescu ON alescu.matricula = es.aluno_estuda_curso_matricula "
+            ."JOIN oferece_curso AS ocu ON ocu.id = alescu.oferece_curso_id "
+            ."JOIN curso ON curso.id = ocu.curso_id = curso.id "
+            ."JOIN supervisiona AS sona ON es.id = sona.estagio_id "
 			."JOIN supervisor AS sor ON sona.supervisor_id = sor.id "
 			."JOIN apolice AS ap ON es.id = ap.estagio_id "
 			."JOIN funcionario AS f ON es.po_siape = f.siape "
 			."JOIN empresa AS em ON es.empresa_cnpj = em.cnpj "
-			."JOIN endereco AS en ON em.endereco_id = en.id "
+            ."JOIN aluno ON aluno.cpf = es.aluno_cpf "
+            ."JOIN endereco AS en ON em.endereco_id = en.id "
 			."JOIN status AS s ON es.status_codigo = s.codigo "
 			."WHERE es.id=?");
 			$v = $pstmt->execute(array($estagio_id));
@@ -40,14 +44,19 @@ class EstagioModel extends MainModel {
             $this->loader->loadDao('Funcionario');
             $this->loader->loadDao('Endereco');
             $this->loader->loadDao('Estagio');
+            $this->loader->loadDao('Aluno');
 			$funcionario = new Funcionario(null, null, null, null, $res['f_nome'], null, null, null, null, null, $res['formacao'], null, null);
 			$apolice = new Apolice($res['ap_numero'], $res['seguradora']);
-			$status = new Status(null, $res['status_descricao'], null);
+			$status = new Status($res['status_codigo'], $res['status_descricao'], null);
 			$endereco = new Endereco(null, $res['logradouro'], $res['bairro'], $res['en_numero'], null, $res['cidade'], $res['uf'], $res['cep'], null);
-			$empresa = new Empresa($res['cnpj'], $res['em_nome'], $res['telefone'], $res['fax'], $res['nregistro'], $res['conselhofiscal'], $endereco, null, null, null);
+			$empresa = new Empresa($res['cnpj'], $res['em_nome'], null, $res['telefone'], $res['fax'], $res['nregistro'], $res['conselhofiscal'], $endereco, null, null, null);
 			$planoDeEstagio = new PlanoDeEstagio(null, null,null, $res['atividades'], null, null, $res['data_ini'], $res['data_fim'], $res['hora_inicio1'], $res['hora_inicio2'], $res['hora_fim1'], $res['hora_fim2'], $res['total_horas'], null, null);
 			$supervisor = new Supervisor(null, $res['sor_nome'], $res['cargo'], $res['habilitacao'], null);
-			$estagio = new Estagio(null, $res['bool_aprovado'], $res['bool_obrigatorio'], null, null, null, null, null, null, null, null, null, null, null, $empresa, null, $funcionario, null, $status, $planoDeEstagio);
+            $curso = new Curso(null, $res['curso_nome']);
+            $oferta = new OfereceCurso(null, null, $curso, null, null);
+            $aluno = new Aluno(null, null, null, null, $res['aluno_nome'], null, null, null, null, null, null, null, null, null, null, null, null, null);
+            $matricula = new Matricula($res['aluno_estuda_curso_matricula'], null, null, $oferta, $aluno);
+            $estagio = new Estagio(null, $res['bool_aprovado'], $res['bool_obrigatorio'], null, null, null, null, null, null, null, null, null, null, null, $empresa, $aluno, $funcionario, $matricula, $status, $planoDeEstagio);
 			$estagio->setapolice($apolice);
 			$estagio->setsupervisor($supervisor);
             return $estagio;

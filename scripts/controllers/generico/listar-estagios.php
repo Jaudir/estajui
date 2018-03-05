@@ -14,9 +14,9 @@ $session = getSession();
 	new Funcionario("func@func", "12345", 1, 1, "Professor1", true, false, false, false, null, null, null, null)
 );*/
 //CE
-/*$session->setUsuario(
+$session->setUsuario(
 	new Funcionario("func@func", "12345", 1, 2, "Professor2", false, false, true, false, null, null, null, null)
-);*/
+);
 if($session->isoe()){
     $session->clearErrors();
     // Criar o objeto com as informações da sessão

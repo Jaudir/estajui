@@ -8,6 +8,7 @@ function preencherModal(id) {
         },
         success: function(data) {
             var dataItems = "";
+            console.log("sucesso!");
             $('#tabela_modal > tbody').empty();
             $.each(data, function (index, itemData) {
                 dataItems += index + ": " + itemData["status"] + "\n";
@@ -46,6 +47,8 @@ function preencherModal(id) {
         }
     });
 }
+
+
 $(document).ready(function(){
     $('#filtrar').click(function(){
         $.ajax({

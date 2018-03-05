@@ -3,16 +3,38 @@
 require_once(dirname(__FILE__) . '/../base-controller.php');
 
 $session = getSession();
-
+/*$session->setUsuario(
+    new Funcionario("func@func", "12345", 1, 1, "Jirafalles", false, false, true, false, null, null, null, null)
+);*/
 if($session->isce()){
+    $session->clearErrors();
+    $ce = $session->getUsuario('usuario');
     $model = $loader->loadModel('FuncionarioModel', 'FuncionarioModel');
+    $ce = $model->read($ce->getsiape(),1)[0];
 
     $statusEstagios = null;
     $statusEmpresas = null;
 
     if($model != null){
         /* Carregar dados de estágios e empresas e o que mais for preciso para a home do CE*/
-        $statusEstagios = $model->listaEstagios();
+        $palavras_chave = array("curso"=>"","status"=>"", "empresa"=>"", "responsavel"=>"", "aluno"=>"", "po"=>"", "data_ini"=>"", "data_fim"=>"");
+
+        $palavras_chave['curso'] = "%" . $palavras_chave['curso'] . "%";
+        $palavras_chave['status'] = "%" . $palavras_chave['status'] . "%";
+        $palavras_chave['empresa'] = "%" . $palavras_chave['empresa'] . "%";
+        $palavras_chave['responsavel'] = "%" . $palavras_chave['responsavel'] . "%";
+        $palavras_chave['aluno'] = "%" . $palavras_chave['aluno'] . "%";
+        $palavras_chave['po'] = "%" . $palavras_chave['po'] . "%";
+
+        $listaDeEstagios = $model->listarEstagios_ce($palavras_chave);
+        if (is_array($listaDeEstagios)){
+            foreach($listaDeEstagios as $le){
+                $le->getpe()->setdata_inicio(date('d/m/Y', strtotime($le->getpe()->getdata_inicio())));
+                $le->getpe()->setdata_fim(date('d/m/Y', strtotime($le->getpe()->getdata_fim())));
+                $retorno_ajax[] = array("id"=>$le->getid(),"aluno"=>$le->getaluno()->getnome(), "status"=>$le->getstatus()->getdescricao(), "curso"=>$le->getmatricula()->getoferta()->getcurso()->getnome(), "data_ini"=>$le->getpe()->getdata_inicio(), "data_fim"=>$le->getpe()->getdata_fim(), "po"=>$le->getfuncionario()->getnome(), "empresa"=>$le->getempresa()->getnome());
+
+            }
+        }
         $statusEmpresas = $model->listaEmpresas();
 
         if(!$statusEstagios)
