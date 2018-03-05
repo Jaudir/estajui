@@ -31,4 +31,3 @@ if($session->isce()){
     $session->pushError('Você não tem permissão para realizar esta operação!');
 }
 redirect(base_url() . '/estajui/coordenador-extensao/home.php');
-//$session->printErrors();

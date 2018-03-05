@@ -6,14 +6,15 @@ $session = getSession();
 /*$session->setUsuario(
     new Funcionario("func@func", "12345", 1, 1, "Jirafalles", false, false, true, false, null, null, null, null)
 );*/
+
+$listaDeEstagios = array();
+$statusEmpresas = array();
+
 if($session->isce()){
-    $session->clearErrors();
+    //$session->clearErrors();
     $ce = $session->getUsuario('usuario');
     $model = $loader->loadModel('FuncionarioModel', 'FuncionarioModel');
     $ce = $model->read($ce->getsiape(),1)[0];
-
-    $statusEstagios = null;
-    $statusEmpresas = null;
 
     if($model != null){
         /* Carregar dados de estágios e empresas e o que mais for preciso para a home do CE*/
@@ -37,8 +38,8 @@ if($session->isce()){
         }
         $statusEmpresas = $model->listaEmpresas();
 
-        if(!$statusEstagios)
-            $statusEstagios = array();
+        if(!$listaDeEstagios)
+            $listaDeEstagios = array();
         
         if(!$statusEmpresas)
             $statusEmpresas = array();

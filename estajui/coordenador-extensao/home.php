@@ -1,6 +1,5 @@
 <?php
   require_once('../../scripts/controllers/coordenador-extensao/load-home.php');
-  $errosExibir = $session->getErrors('normal');
 ?>
 <!DOCTYPE html>
 <html>
@@ -116,6 +115,46 @@
                   </tr>
 
                   <?php } endforeach; ?>
+
+                  <?php
+                    foreach($statusEmpresas as $empresa):
+                  ?>
+                  <tr class="red">
+                    <th scope="row"><?php echo $row_id++; ?></th>
+                    <td>Aguardando aprovação de convênio</td>
+                    <td><?php echo "-" ?></td>
+                    <td><?php echo "-" ?></td>
+                    <td class="center">
+                      <button type="button" class="btn btn-link empresaModalToggle"
+                        data-toggle="modal" data-target="#aprovarConvenio">
+                        <i class="fa fa-pencil"></i>
+                        <div class="empresaDados" style="display:none;">
+                        <h6>Razão Social: </h6> <p><?php echo $empresa->getrazaosocial()?></p><br>
+                        <h6>CNPJ: </h6> <p class="cnpj"><?php echo $empresa->getcnpj()?></p><br>
+                        <h6>Nome fantasia: </h6> <p><?php echo $empresa->getnome()?></p> <br>
+                        <h6>Telefone: </h6> <p><?php echo $empresa->gettelefone()?></p> <br>
+                        <h6>FAX: </h6> <p><?php echo $empresa->getfax()?></p> <br>
+                        <h6>Registro: </h6> <p><?php echo $empresa->getnregistro()?></p> <br>
+                        <h6>Conselho de fiscalização: </h6> <p><?php echo $empresa->getconselhofiscal()?></p> <br>
+                        <h6>Nome do responsável: </h6> <p><?php echo $empresa->getresponsavel()->getnome()?></p> <br>
+                        <h6>Telefone do responsável: </h6> <p><?php echo $empresa->getresponsavel()->gettelefone()?></p> <br>
+                        <h6>Email: </h6> <p><?php echo $empresa->getresponsavel()->getemail()?></p> <br>
+                        <h6>Cargo: </h6> <p><?php echo $empresa->getresponsavel()->getcargo()?></p> <br>
+                        <h6>Logradouro: </h6> <p><?php echo $empresa->getendereco()->getlogradouro()?></p> <br>
+                        <h6>Número: </h6> <p><?php echo $empresa->getendereco()->getnumero()?></p> <br>
+                        <h6>Sala: </h6> <p><?php echo $empresa->getendereco()->getsala()?></p> <br>
+                        <h6>Bairro: </h6> <p><?php echo $empresa->getendereco()->getbairro()?></p><br>
+                        <h6>Cidade: </h6> <p><?php echo $empresa->getendereco()->getcidade()?></p><br>
+                        <h6>Estado: </h6> <p><?php echo $empresa->getendereco()->getuf()?></p><br>
+                        <h6>CEP: </h6> <p><?php echo $empresa->getendereco()->getcep()?></p>
+                        </div>
+                      </button>
+                    </td>
+                    <td class="center"><a href="#"> <i class="fa fa-eye"></i> </a></td>
+                  </tr>
+
+                  <?php endforeach; ?>
+
                 </tbody>
               </table>
             </div>
