@@ -36,8 +36,24 @@
           </ul>
         </div>
       </nav>
-
       <div class="row fullscreen">
+      <?php if ($session->hasError("error-validacao")) { ?>
+                                <div class="alert alert-warning">
+                                    <strong>Aviso:</strong> <?php echo $session->getErrors("error-validacao")[0]; ?>
+                                </div>
+                            <?php } ?>
+                            <?php if ($session->hasError("error-critico")) { ?>
+                                <div class="alert alert-danger">
+                                    <strong>Erro:</strong> <?php echo $session->getErrors("error-critico")[0]; ?>
+                                </div>
+                            <?php } ?>
+                            <?php if ($session->hasValues("sucesso")) { ?>
+                                <div class="alert alert-success">
+                                    <strong>Sucesso:</strong> <?php echo $session->getValues("sucesso")[0]; ?>
+                                </div>
+                            <?php } ?>  
+      
+
         <div class="col-lg-2 left-menu">
           <ul class="nav flex-column">
             <li class="nav-item">
@@ -137,16 +153,18 @@
                       </div>
                     </div> <br>
                     <div class="row">
+                        
                       <div class="col-md-12">
-                        <label for="justificativa">Justificativa</label>
-                        <textarea name="justificativa" rows="3" class="form-control" required>
+                        <input type="hidden" name="justificativa" value="" id='justificativa_post'>
+                        <label for="justificativa_text">Justificativa</label>
+                        <textarea id="justificativa_text" rows="3" class="form-control" required>
                         </textarea>
                       </div>
                     </div>
                   </div>
                   <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Sair</button>
-                <button type="submit"  name="confirmar" class="btn btn-primary">Confirmar</button>
+                <button type="submit"  id='confirmar' name="confirmar" class="btn btn-primary">Confirmar</button>
               </div>
                 </form>
               </div>
@@ -159,5 +177,6 @@
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
+   <script src='../../assets/js/home_po.js'></script>
   </body>
 </html>

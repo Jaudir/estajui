@@ -15,10 +15,9 @@ if(isset($_POST['confirmar']) && isset($_POST['estagio_id']) && isset($_POST['re
     if(isset($_POST['aprovado'])){
         $estagio_atual->avaliarrelatorio(isset($_POST['aprovado']),$_POST['estagio_id'], null,$session->getusuario(),$_POST['relatorio_id'],null);
         $session->pushValue('Relatorio aprovado!', 'sucesso');
-        echo "sucesso!";
-    }else if($_POST['reprovado']){
+    }else if(isset($_POST['reprovado'])){
         if(isset($_POST['justificativa'])){
-            $session->pushValue('Ao rejeitar um relatório é necessário expressar uma justificativa!', 'error-validacao');
+            $session->pushError('Ao rejeitar um relatório é necessário expressar uma justificativa!', 'error-validacao');
         }else{
             if(!is_uploaded_file($_FILES['correcao']['tmp_name'])){
                 $arquivo = new Arquivo(null);
@@ -28,12 +27,13 @@ if(isset($_POST['confirmar']) && isset($_POST['estagio_id']) && isset($_POST['re
             $estagio_atual->avaliarrelatorio(isset($_POST['aprovado']),$_POST['estagio_id'],$arquivo,$session->getusuario(),$_POST['relatorio_id'],$_POST['justificativa']);
         }
     }else{
-        $session->pushValue('Nenhum campo foi preenchido!', 'error-validacao');
+        $session->pushError('Nenhum campo foi preenchido!', 'error-validacao');
     }
 }else{
-    echo "falhou";
+    $session->pushError('Nenhum campo foi preenchido2!', 'error-validacao');
 }
-
+$session->pushError('PassouDireto!', 'error-validacao');
+redirect(base_url().'/estajui/professor-orientador/home.php');
 
 
 
