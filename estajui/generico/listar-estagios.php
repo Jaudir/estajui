@@ -97,13 +97,10 @@ $errosExibir = $session->getErrors('normal');
                             if ($usuario->isroot() || $usuario->isce()) {
                                 ?>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="#">Usuários</a>
+                                    <a class="nav-link" href="../coordenador-extensao/usuarios.php">Usuários</a>
                                 </li>
                                 <li class="nav-item">
                                     <a class="nav-link" href="#">Empresas</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" href="#">Professores</a>
                                 </li>
                                 <li class="nav-item">
                                     <a class="nav-link" href="#">Cursos</a>
@@ -117,14 +114,21 @@ $errosExibir = $session->getErrors('normal');
                         ?>
 
 
-                        <!--PO, SRA, ROOT, CE, OE-->
+                        <!--OE-->
                         <?php
-                        if (!is_a($usuario, "Aluno")) {
-                            ?>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#">Relatórios</a>
-                            </li>
-                            <?php
+                        if (is_a($usuario, "Funcionario")) {
+                            if ($usuario->isoe()) {
+                                ?>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="#">Professores</a>
+                                </li>
+                                <?php if ($usuario->ispo() || $usuario->isce()) { ?>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="#">Relatórios</a>
+                                    </li>
+                                    <?php
+                                }
+                            }
                         }
                         ?>
 
@@ -221,7 +225,7 @@ $errosExibir = $session->getErrors('normal');
                                                     <a href="" onclick="preencherModal(<?php echo $le->getid(); ?>)" data-toggle="modal" data-target="#ver-estagio" id="ver<?php echo $lin++; ?>"> <i class="fa fa-eye ver"></i></a>
                                                 </td>
                                             </tr>
-                                        <?php
+                                            <?php
                                         endforeach;
                                     }
                                     ?>
