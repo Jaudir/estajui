@@ -3,7 +3,7 @@
 /*Acessar os dados da sessão*/
 class Session{
     public function start(){
-        session_start();
+        if(!isset($_SESSION))session_start();
 		
         if(!isset($_SESSION['errors']))
             $_SESSION['errors'] = array();

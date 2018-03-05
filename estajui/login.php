@@ -19,6 +19,22 @@ require_once $_SERVER['DOCUMENT_ROOT'] . "/estajui/scripts/controllers/LoginCont
             </div>
             <div class="row align-items-center fullscreen" style="margin-top: -113px;">
                 <div class="col-md-4 content-login">
+                <?php if ($session->hasError("error-validacao")) { ?>
+                        <div class="alert alert-warning">
+                            <strong>Aviso:</strong> <?php echo $session->getErrors("error-validacao")[0]; ?>
+                        </div>
+                    <?php } ?>
+                    <?php if ($session->hasError("error-critico")) { ?>
+                        <div class="alert alert-danger">
+                            <strong>Erro:</strong> <?php echo $session->getErrors("error-critico")[0]; ?>
+                        </div>
+                    <?php } ?>
+                    <?php if ($session->hasValues("sucesso")) { ?>
+                        <div class="alert alert-success">
+                            <strong>Sucesso:</strong> <?php echo $session->getValues("sucesso")[0]; ?>
+                        </div>
+                    <?php } ?>
+
                     <form name="login" method="post">
                         <?php if ($session->hasError("login")) { ?>
                             <span class="error"><?php echo $session->getErrors("login")[0]; ?></span>
