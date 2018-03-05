@@ -678,4 +678,23 @@ class FuncionarioModel extends MainModel {
         }
 	}
 
+    public function concluirEstagio($estagio){
+        try{
+            $statusModel = $this->loader->loadModel('StatusModel', 'StatusModel');
+
+            $this->conn->beginTransaction();
+
+            //atualiza o status do estágio
+            $this->conn->exec("UPDATE TABLE estagio SET status_codigo = " . StatusModel::$RELATORIO_SEC . " WHERE id = " . $estagio->getid());
+
+            //adiciona notificações
+            $statusModel->adicionaNotificacao(StatusModel::$RELATORIO_SEC, $estagio, $estagio->getusuario());
+
+            $this->conn->commit();
+        }catch(PDOException $ex) {
+            Log::logPDOError($e);
+            $this->conn->rollback();
+            return false;
+        }
+    }
 }

@@ -100,14 +100,14 @@
                       onclick="setarId('<?php echo "estagioID".$row_id++;?>')" data-toggle="modal" data-target="<?php
                         if ($le->getstatus()->getcodigo() == 4){
                             echo "#apoliceSeguro";
-                        } else {
-                            echo "#aprovarConvenio";
+                        } else if($le->getstatus()->getcodigo() == 1){
+                            echo "#aprovarDocumentosFinais";
+                        } else if($le->getstatus()->getcodigo() == 7){
+                          echo "#aprovarConvenio";
                         }
-
                       ?>" >
                         <i class="fa fa-pencil"></i>
                       </button>
-
                     </td>
                       <td class="center">
                           <a href="" onclick="preencherModal(<?php echo $le->getid();?>)" data-toggle="modal" data-target="#ver-estagio" id="ver<?php echo $lin++; ?>"> <i class="fa fa-eye ver"></i></a>
@@ -266,6 +266,66 @@
           </div>
         </div>
     </div>
+
+    <!-- Modal emitir parecer sobre documentos finais do Estágio -->
+    <div class="modal fade" id="aprovarDocumentosFinais" tabindex="-1" role="dialog" aria-labelledby="aprovarDocumentosFinaisTitle" aria-hidden="true">
+      <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="aprovarDocumentosFinaisTitle">Documentos Finais</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <div class="row" id="dados-parecer-final">
+              <div class="col-md-12 dados-aluno">
+                <h6>Nome: </h6> <p id="pfnome"></p><br>
+                <h6>Matrícula: </h6> <p id="pfmatricula"></p><br>
+                <h6>Curso: </h6> <p id="pfcurso"></p> <br>
+                <h6>Obrigatoriedade: </h6> <p id="pfobrig"></p> <br>
+                <h6>Empresa: </h6> <p id="pfempresa"></p> <br>
+                <h6>CNPJ: </h6> <p id="pfcnpj"></p> <br>
+                <h6>Razão Social: </h6> <p id="pfrazaos"></p> <br>
+              </div>
+            </div>
+            <form name="" id="concluirEstagioForm" action="<?php echo base_url() . '/scripts/controllers/coordenador-extensao/parecer-final.php'?>" method="post">
+              <input name="estagio" id="concluirEstagioId" type="hidden">
+              <div class="form-group">
+                <div class="row">
+                  <div class="col-md-12">
+                    <h6>Os documentos finais de estágio foram entregues corretamente?</h6>
+                  </div>
+                </div>
+                <div class="custom-controls-stacked d-block my-3" style="margin-top: 10px;">
+                  <label class="custom-control custom-radio">
+                    <input id="radioStacked1" name="veredito" value="1" type="radio" class="custom-control-input" required>
+                    <span class="custom-control-indicator"></span>
+                    <span id="concluirEstagio" class="custom-control-description">Sim</span>
+                  </label>
+                  <label class="custom-control custom-radio" style="margin-left: 20px;">
+                    <input id="radioStacked2" name="veredito" value="0" type="radio" class="custom-control-input" required>
+                    <span class="custom-control-indicator"></span>
+                    <span class="custom-control-description">Não</span>
+                  </label>
+                </div>
+                <div class="row">
+                  <div class="col-md-12">
+                    <label for="justificativa">Justificativa</label>
+                    <textarea placeholder="Só será usada em caso de reprovação." name="justificativa" rows="3" class="form-control" required></textarea>
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Sair</button>
+            <button type="button" class="btn btn-primary">Confirmar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
         <!--MODAL de destalhes do estágio -->
         <div class="modal fade" id="ver-estagio" tabindex="-1" role="dialog" aria-labelledby="detalhesEstagioTitle" aria-hidden="true">
             <div class="modal-dialog modal-lg" role="document">
@@ -314,6 +374,10 @@
 
         $('#enviarFormEmpresa').click(function(){
           $('#empresaForm').submit();
+        });
+
+        $('#concluirEstagio').click(function(){
+          $('#concluirEstagioForm').submit();
         });
       });
     </script>
