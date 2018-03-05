@@ -130,7 +130,7 @@ class CampusModel extends MainModel {
 			
 			$campi = array();
 			foreach($res as $campus){
-				$endereco = new Endereco($campus['id'], $campus['logradouro'], $campus['bairro'], $campus['numero'], $campus['complemento'], $campus['cidade'], $campus['uf'], $campus['cep'], $campus['sala']);
+				$endereco = new Endereco($campus['id'], $campus['logradouro'], $campus['bairro'], $campus['numero'], $campus['complemento'], $campus['cidade'], $campus['uf'], $campus['cep'], null);
 				$c = new Campus($campus['cnpj'], $campus['telefone'], $endereco);
 				array_push($campi, $c);
 			}

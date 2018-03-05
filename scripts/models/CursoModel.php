@@ -131,7 +131,7 @@ class CursoModel extends MainModel {
 		try {
 			$this->loader->loadDAO('Curso');
 			
-            $pstmt = $this->conn->prepare("SELECT curso.id, nome FROM curso JOIN oferece_curso ON oferece_curso.curso_id=curso.id WHERE campus_cnpj=?");
+            $pstmt = $this->conn->prepare("SELECT curso.id, nome FROM curso JOIN oferece_curso ON oferece_curso.curso_id=curso.id WHERE curso.campus_cnpj=?");
             $pstmt->execute(array($campus->getcnpj()));
 			$res = $pstmt->fetchAll();
 			

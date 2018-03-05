@@ -39,7 +39,7 @@ if($session->isAluno()){
     $validate->addField('cnpj', array('required' => true, 'min_size' => 18, 'max_size' => 18));
     $validate->addField('nome_fantasia', array('required' => true, 'min_size' => 4, 'max_size' => 30));
     $validate->addField('telefone', array('required' => true, 'tel' => true));
-    $validate->addField('fax', array('required' => true, 'min_size' => 10, 'max_size' => 10, 'integer' => true));
+    $validate->addField('fax', array('min_size' => 0, 'max_size' => 10, 'integer' => true));
     $validate->addField('nregistro', array('required' => true, 'min_size' => 8, 'max_size' => 8, 'integer' => true));
     $validate->addField('conselhofiscal', array('required' => true, 'min_size' => 4, 'max_size' => 30));
     $validate->addField('razao_social', array('required' => true, 'min_size' => 4, 'max_size' => 100));
@@ -81,7 +81,7 @@ if($session->isAluno()){
 
         //preenchendo models
         $endereco = new Endereco(-1, $_POST['logradouro'], $_POST['bairro'], $_POST['numero'], null, $_POST['cidade'], $_POST['estado'], preg_replace("/[^0-9]/", "", $_POST['cep']), $_POST['sala']);
-        $empresa = new Empresa(preg_replace("/[^0-9]/", "", $_POST['cnpj']), $_POST['nome_fantasia'], preg_replace("/[^0-9]/", "", $_POST['telefone']), $_POST['fax'], $_POST['nregistro'], $_POST['conselhofiscal'], $endereco, null, 0, $_POST['razao_social']);
+        $empresa = new Empresa(preg_replace("/[^0-9]/", "", $_POST['cnpj']), $_POST['nome_fantasia'], preg_replace("/[^0-9]/", "", $_POST['telefone']), isset($_POST['fax']) ? $_POST['fax'] : null, $_POST['nregistro'], $_POST['conselhofiscal'], $endereco, null, 0, $_POST['razao_social']);
         $responsavel = new Responsavel($_POST['email_responsavel'], $_POST['nome_responsavel'], preg_replace("/[^0-9]/", "", $_POST['telefone_responsavel']), $_POST['cargo_responsavel'], $empresa, null);
         $supervisor = new Supervisor(-1, $_POST['nome_supervisor'], $_POST['cargo'], $_POST['habilitacao'], $empresa);
         $estagio = new Estagio($_POST['estagio'], null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
