@@ -358,7 +358,15 @@ class EstagioModel extends MainModel {
         $pstmt = $this->conn->prepare("UPDATE " . $this->_tabela . " SET bool_aprovado = ? , bool_obrigatorio = ? , periodo = ? , serie = ? , modulo = ? , integ_ano = ? , integ_semestre = ? , dependencias = ? , justificativa = ? , endereco_tc = ? , endereco_pe = ? , horas_contabilizadas = ? , aluno_cpf = ? , empresa_cnpj = ? , aluno_estuda_curso_matricula = ? , po_siape = ? , status_codigo = ? WHERE id = ?");
         try {
             $this->conn->beginTransaction();
-            $pstmt->execute(array((int) $estagio->getaprovado(), (int) $estagio->getobrigatorio(), $estagio->getperiodo(), $estagio->getserie(), $estagio->getmodulo(), $estagio->getano(), $estagio->getsemestre(), $estagio->getdependencias(), $estagio->getjustificativa(), $estagio->getendereco_tc(), $estagio->getendereco_pe(), $estagio->gethoras_contabilizadas(), $estagio->getaluno()->getcpf(), $estagio->getempresa()->getcnpj(), $estagio->getmatricula()->getmatricula(), $estagio->getfuncionario()->getsiape(), $estagio->getstatus()->getcodigo(), $estagio->getid()));
+            $pstmt->execute(array((int) $estagio->getaprovado(), (int) $estagio->getobrigatorio(),
+             $estagio->getperiodo(), $estagio->getserie(), $estagio->getmodulo(), $estagio->getano(), 
+             $estagio->getsemestre(), $estagio->getdependencias(), $estagio->getjustificativa(),
+              $estagio->getendereco_tc(), $estagio->getendereco_pe(), $estagio->gethoras_contabilizadas(),
+               $estagio->getaluno()->getcpf(), 
+               (!$estagio->getempresa()) ? NULL : $estagio->getempresa()->getcnpj(),     
+                   (!$estagio->getmatricula()) ? NULL :  $estagio->getmatricula()->getmatricula(), 
+                     (!$estagio->getfuncionario()) ? NULL :  $estagio->getfuncionario()->getsiape(), 
+                     (!$estagio->getstatus()) ? NULL : $estagio->getstatus()->getcodigo(), $estagio->getid()));
             $this->conn->commit();
             return 0;
         } catch (PDOExecption $e) {
