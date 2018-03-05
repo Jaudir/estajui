@@ -13,21 +13,40 @@ if (!$session->isLogged()) {
 $estagios = array();
 $usuario = $session->getUsuario();
 $estagioModel = $loader->loadModel("EstagioModel", "EstagioModel");
+$notificacoesModel = $loader->loadModel("NotificacaoModel", "NotificacaoModel");
+$notificacoes = $notificacoesModel->getNotificacoes($usuario);
 if (is_a($usuario, "Aluno")) {
     $titulo = "Estudante";
     $estagios = $estagioModel->readbyaluno($usuario, 0);
-//    $cursoModel = $loader->loadModel('curso-model', 'CursoModel');
-//    $campusModel = $loader->loadModel('campus-model', 'CampusModel');
-//    $campi = $campusModel->recuperarTodos();
-//    $cursos = array();
-//    foreach ($campi as $campus)
-//        $cursos[$campus->getcnpj()] = $cursoModel->recuperarPorCampus($campus);
+    $cursoModel = $loader->loadModel('CursoModel', 'CursoModel');
+    $campusModel = $loader->loadModel('CampusModel', 'CampusModel');
+
+    $campi = $campusModel->recuperarTodos();
+
+    $cursos = array();
+    foreach ($campi as $campus) {
+        $var = $cursoModel->recuperarPorCampus($campus);
+        $cursos[$campus->getcnpj()] = $var;
+    }
 } elseif (is_a($usuario, "Funcionario")) {
     if ($usuario->isroot()) {
         $titulo = "Administrador";
     } elseif ($usuario->isce()) {
         $titulo = "Coordenador de extensão";
     } elseif ($usuario->isoe()) {
+        /* Carregar dados dos estágios agurdando professor orientador */
+        $peModel = $loader->loadModel('PlanoEstagioModel', 'PlanoEstagioModel');
+//carregar estágios que estão aguardando definição de professor orientador
+        $estagios = $peModel->carregarAguardandoOrientador();
+        if ($estagios == false) {
+            $estagios = array();
+        }
+        /* Carregar professores orientadores */
+        $funcModel = $loader->loadModel('FuncionarioModel', 'FuncionarioModel');
+        $professores = $funcModel->carregarOrientadores();
+        if ($professores == false) {
+            $professores = array();
+        }
         $titulo = "Organizador de estagio";
     } elseif ($usuario->issra()) {
         $titulo = "Secretaria";

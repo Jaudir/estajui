@@ -18,7 +18,7 @@ $loader->loadDao('Estagio');
 
 
 //faz com que todas as mensagens de erro log sejam printadas na tela
-Log::setIsDebugging(true);
+//Log::setIsDebugging(true);
 
 function base_url() {
     global $configs;

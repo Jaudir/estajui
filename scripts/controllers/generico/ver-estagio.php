@@ -13,7 +13,11 @@ if($session->isoe() || $session->isAluno() || $session->ispo() || $session->isce
         $loader->loadDao('Estagio');
         $le = $model->recuperar($_POST['estagio_id']);
         $ajax_ans = array();
-        $ajax_ans[] = array("status" => $le->getstatus()->getdescricao(),
+        $ajax_ans[] = array("aluno"=>$le->getaluno()->getnome(),
+            "curso"=>$le->getmatricula()->getoferta()->getcurso()->getnome(),
+            "matricula"=>$le->getmatricula()->getmatricula(),
+            "bool_obrigatorio"=>$le->getobrigatorio(),
+            "status" => $le->getstatus()->getdescricao(),
             "apolice_numero" => $le->getapolice()->getnumero(),
             "apolice_seguradora" => $le->getapolice()->getseguradora(),
             "supervisor" => $le->getsupervisor()->getnome(),

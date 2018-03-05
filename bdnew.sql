@@ -352,18 +352,6 @@ INSERT INTO funcionario (siape, nome, bool_po, bool_oe, bool_ce, bool_sra, bool_
 
 
 -- OFERECE CURSO
-<<<<<<< HEAD
-INSERT INTO oferece_curso (id, turno, curso_id, campus_cnpj, oe_siape) VALUES (1, 'Integral', 1, 10727655000462, 1 );
-INSERT INTO oferece_curso (id, turno, curso_id, campus_cnpj, oe_siape) VALUES (2, 'Integral', 2, 10727655000462, 2 );
-INSERT INTO oferece_curso (id, turno, curso_id, campus_cnpj, oe_siape) VALUES (3, 'Noturno', 1, 10727655000462, 3 );
-INSERT INTO oferece_curso (id, turno, curso_id, campus_cnpj, oe_siape) VALUES (4, 'Noturno', 2, 10727655000462, 4 );
-
--- ALUNO CURSO
-INSERT INTO aluno_estuda_curso (matricula, semestre_inicio, ano_inicio, oferece_curso_id, aluno_cpf) VALUES (1, 1, 1990, 1, 000000001);
-INSERT INTO aluno_estuda_curso (matricula, semestre_inicio, ano_inicio, oferece_curso_id, aluno_cpf) VALUES (2, 1, 1990, 4, 000000002);
-INSERT INTO aluno_estuda_curso (matricula, semestre_inicio, ano_inicio, oferece_curso_id, aluno_cpf) VALUES (3, 1, 1990, 4, 000000003);
-INSERT INTO aluno_estuda_curso (matricula, semestre_inicio, ano_inicio, oferece_curso_id, aluno_cpf) VALUES (4, 1, 1990, 1, 000000004);
-=======
 INSERT INTO oferece_curso (id, turno, curso_id, campus_cnpj, oe_siape) VALUES (1, 'Integral', 1, 10727655000462, 000000001 );
 INSERT INTO oferece_curso (id, turno, curso_id, campus_cnpj, oe_siape) VALUES (2, 'Integral', 2, 10727655000462, 000000001 );
 INSERT INTO oferece_curso (id, turno, curso_id, campus_cnpj, oe_siape) VALUES (3, 'Noturno', 1, 10727655000462, 000000001 );
@@ -374,7 +362,6 @@ INSERT INTO aluno_estuda_curso (matricula, semestre_inicio, ano_inicio, oferece_
 INSERT INTO aluno_estuda_curso (matricula, semestre_inicio, ano_inicio, oferece_curso_id, aluno_cpf) VALUES (2, 1, 1990, 2, 00000000002);
 INSERT INTO aluno_estuda_curso (matricula, semestre_inicio, ano_inicio, oferece_curso_id, aluno_cpf) VALUES (3, 1, 1990, 2, 00000000003);
 INSERT INTO aluno_estuda_curso (matricula, semestre_inicio, ano_inicio, oferece_curso_id, aluno_cpf) VALUES (4, 1, 1990, 1, 00000000004);
->>>>>>> caso-uso-10-paulo
 
 -- EMPRESA
 INSERT INTO empresa (cnpj, nome, telefone, fax, nregistro, conselhofiscal, endereco_id, conveniada) VALUES (00001, 'Google', 12345566, 12312431, 31231, 'Conselho', 12, 0);
@@ -382,11 +369,7 @@ INSERT INTO empresa (cnpj, nome, telefone, fax, nregistro, conselhofiscal, ender
 
 -- Estagios
 INSERT INTO estagio(bool_aprovado, bool_obrigatorio, justificativa, aluno_cpf, empresa_cnpj, aluno_estuda_curso_matricula, po_siape, status_codigo)
-<<<<<<< HEAD
-VALUES(1, 1, 'justificativa05', 1, 1, 1, 1, 1),
-=======
 VALUES(1, 1, 'justificativa05', 1, 1, 1, NULL, 1),
->>>>>>> caso-uso-10-paulo
 (1, 1, 'justificativa06', 2, 2, 2, 2, 2),
 (1, 1, 'justificativa07', 3, 1, 1, 3, 3),
 (1, 1, 'justificativa08', 4, 2, 4, 4, 4),

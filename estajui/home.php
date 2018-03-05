@@ -28,14 +28,31 @@ require_once $_SERVER['DOCUMENT_ROOT'] . "/estajui/scripts/controllers/HomeContr
                             </span>
                         </li>
                         <li class="nav-item">
+                            <div class="dropdown">
+                                <a class="btn nav-link" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <i class="fa fa-envelope fa-2x" aria-hidden="true"></i>
+                                    <span class="notification"> <?php echo count($notificacoes) ?> </span>
+                                </a>
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                    <?php
+                                    foreach ($notificacoes as $notificacao) {
+                                        if (!$notificacao->getlida()) {
+                                            ?>
+                                            <a class="dropdown-item" href="#estagio<?php echo $notificacao->getmodificacao_status()->getestagio()->getid(); ?>">
+                                                Novo status:<br>
+                                                <?php echo $notificacao->getmodificacao_status()->getstatus()->getdescricao(); ?>
+                                            </a>
+                                            <?php
+                                        }
+                                    }
+                                    ?>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="nav-item">
                             <form method="get">
                                 <button type="submit" name="logoff" class="btn btn-outline-light bt-sair">Sair</button>
                             </form>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#"><i class="fa fa-envelope fa-2x" aria-hidden="true"></i>
-                                <span class="notification"> 5 </span>
-                            </a>
                         </li>
                     </ul>
                 </div>
@@ -49,22 +66,22 @@ require_once $_SERVER['DOCUMENT_ROOT'] . "/estajui/scripts/controllers/HomeContr
                         <li class="nav-item">
                             <a class="nav-link active" href="home.php">Home</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="estudante/alterar-dados-pessoais.php">Meus dados</a>
-                        </li>
 
                         <!--Estudante-->
                         <?php
                         if (is_a($usuario, "Aluno")) {
                             ?>
                             <li class="nav-item">
-                                <a class="nav-link" href="historico.html">Histórico de estágios</a>
+                                <a class="nav-link" href="estudante/alterar-dados-pessoais.php">Meus dados</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="estudante/historico.php">Histórico de estágios</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="#">Orientações gerais</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="#">+ Novo estágio</a>
+                                <a class="nav-link" href="#"  data-toggle="modal" data-target="#modalNovoEstagio" >+ Novo estágio</a>
                             </li>
                             <?php
                         }
@@ -84,13 +101,24 @@ require_once $_SERVER['DOCUMENT_ROOT'] . "/estajui/scripts/controllers/HomeContr
                                     <a class="nav-link" href="#">Empresas</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="#">Professores</a>
-                                </li>
-                                <li class="nav-item">
                                     <a class="nav-link" href="#">Cursos</a>
                                 </li>
                                 <li class="nav-item">
                                     <a class="nav-link" href="#">Campi</a>
+                                </li>
+                                <?php
+                            }
+                        }
+                        ?>
+
+
+                        <!--OE-->
+                        <?php
+                        if (is_a($usuario, "Funcionario")) {
+                            if ($usuario->isoe()) {
+                                ?>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="#">Professores</a>
                                 </li>
                                 <?php
                             }
@@ -103,7 +131,7 @@ require_once $_SERVER['DOCUMENT_ROOT'] . "/estajui/scripts/controllers/HomeContr
                         if (!is_a($usuario, "Aluno")) {
                             ?>
                             <li class="nav-item">
-                                <a class="nav-link" href="#">Relatórios</a>
+                                <a class="nav-link" href="generico/listar-estagios.php">Relatórios</a>
                             </li>
                             <?php
                         }
@@ -111,6 +139,120 @@ require_once $_SERVER['DOCUMENT_ROOT'] . "/estajui/scripts/controllers/HomeContr
 
                     </ul>
                 </div>
+                <!--Professor orientador-->
+                <!--"Wadson,aqui"-->
+                <?php
+                if (is_a($usuario, "Funcionario")) {
+                    if ($usuario->ispo()) {
+                        ?>
+                        <?php
+                    }
+                }
+                ?>
+                <!--Organizador de estágio-->
+                <?php
+                if (is_a($usuario, "Funcionario")) {
+                    if ($usuario->isoe()) {
+                        ?>
+                        <div class="col-lg-10 status-desc">
+                            <div class="row table-estagios">
+                                <div class="offset-lg-1 col-lg-10 table-title">
+                                    <h3 class="bg-gray"> Todos os estágios</h3>
+                                </div>
+                                <div class="offset-lg-1 col-lg-10">
+                                    <table class="table table-bordered">
+                                        <thead>
+                                            <tr>
+                                                <th scope="col">#</th>
+                                                <th scope="col">Status</th>
+                                                <th scope="col">Nome</th>
+                                                <th scope="col">Data início</th>
+                                                <th scope="col">Curso</th>
+                                                <th scope="col">Editar</td>
+                                                <th scope="col">Ver</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <?php
+                                            $i = 0;
+                                            foreach ($estagios as &$estagio):
+                                                ?>
+                                                <?php $aluno = $estagio->getestagio()->getaluno(); ?>
+                                                <tr class="red">
+                                                    <th scope="row"><?php echo ++$i; ?></th>
+                                                    <td><?php echo $estagio->getestagio()->getstatus()->getdescricao(); ?></td>
+                                                    <td><?php echo $estagio->getestagio()->getaluno()->getnome(); ?></td>
+                                                    <td><?php echo $estagio->getdata_inicio(); ?></td>
+                                                    <td><?php echo $estagio->getestagio()->getaluno()->getcursos()[0]->getnome() ?></td>
+                                                    <td class="center">
+                                                        <button type="button" class="definirOrientador btn btn-link"
+                                                                data-toggle="modal" data-target="#definirOrientador">
+                                                            <i class="fa fa-pencil"></i>
+                                                            <div style="display:none;" class="modal-data-hold row">
+                                                                <span class="estagio-id" style="display:none;"><?php echo $estagio->getestagio()->getid(); ?></span>
+                                                                <h6>Nome: </h6> <p><?php echo $aluno->getnome(); ?></p><br>
+                                                                <h6>Cpf: </h6> <p><?php echo $aluno->getcpf(); ?></p><br>
+                                                                <h6>Curso: </h6> <p><?php echo $aluno->getcursos()[0]->getnome(); ?></p> <br>
+                                                                <h6>Nome fantasia da empresa: </h6> <p><?php echo $estagio->getestagio()->getempresa()->getnome(); ?></p> <br>
+                                                                <h6>Setor/Unidade da empresa: </h6> <p><?php echo "T.I."; //$estagio->getestagio()->getempresa()->getsetor_unidade();  ?></p> <br>
+                                                                <h6>Supervisor: </h6> <p><?php echo $estagio->getestagio()->getsupervisor()->getnome(); ?></p> <br>
+                                                                <h6>Telefone do supervisor: </h6> <p><?php echo "(38) 9878-3177"//$estagio->getestagio()->getsupervisor()->gettelefone();  ?></p> <br>
+                                                                <h6>Habilitação profissional: </h6> <p><?php echo $estagio->getestagio()->getsupervisor()->gethabilitacao(); ?></p> <br>
+                                                                <h6>Cargo: </h6> <p><?php echo $estagio->getestagio()->getsupervisor()->getcargo(); ?></p> <br>
+                                                                <h6>Principais atividdes a serem desenvolvidas: </h6>
+                                                                <p><?php echo $estagio->getatividades(); ?></p> <br>
+                                                                <h6>Data prevista para ínicio do estágio: </h6> <p><?php echo $estagio->getdata_inicio(); ?></p> <br>
+                                                                <h6>Data prevista para término do estágio: </h6> <p><?php echo $estagio->getdata_fim(); ?></p> <br>
+                                                            </div>
+                                                        </button>
+                                                    </td>
+                                                    <td class="center"><a href="#"> <i class="fa fa-eye"></i> </a></td>
+                                                </tr>
+                                            <?php endforeach; ?>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- MODAL para definir prof. Orientador -->
+                        <div class="modal fade" id="definirOrientador" tabindex="-1" role="dialog" aria-labelledby="definirOrientadorTitle" aria-hidden="true">
+                            <div class="modal-dialog modal-lg" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="definirOrientadorTitle">Atribuir Orientador</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="modal-data-target" class="row">
+                                        </div>
+                                        <form id="form-def-orientador" name="dados-aluno" method="post" action="<?php echo base_url() . '/scripts/controllers/organizador-estagio/definir-po.php'; ?>">
+                                            <input type="hidden" value="define" name="tipo">
+                                            <input id="estagio-id" type="hidden" value="" name="estagio">
+                                            <div class="row">
+                                                <div class="col-md-6 mb-2">
+                                                    <label for="validationCustom17">Professor Orientador</label>
+                                                    <select class="form-control" name="professor" required>
+                                                        <?php foreach ($professores as $professor): ?>
+                                                            <option value="<?php echo $professor->getsiape(); ?>"><?php echo $professor->getnome(); ?></option>
+                                                        <?php endforeach; ?>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Sair</button>
+                                        <button id="definirOrientadorBtt" type="button" class="btn btn-primary">Confirmar</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <?php
+                    }
+                }
+                ?>
                 <!--Secretaria-->
                 <?php
                 if (is_a($usuario, "Funcionario")) {
@@ -419,88 +561,88 @@ require_once $_SERVER['DOCUMENT_ROOT'] . "/estajui/scripts/controllers/HomeContr
                 }
                 ?>
                 <!--Aluno-->
+
+                <!-- Modal para solicitar um novo estágio -->
+                <div class="modal fade" id="modalNovoEstagio" tabindex="-1" role="dialog" aria-labelledby="modalNovoEstagioTitle" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="modalNovoEstagioTitle">Solicitação de estágio</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <form id="novo-estagio" name="novo-estagio" style="text-align: left;" method="POST" action="<?php echo base_url() ?>/scripts/controllers/estudante/comeca-estagio.php">
+                                    <div class="form-group">
+                                        <div class="form-check">
+                                            <label class="form-check-label">
+                                                <input class="form-check-input" type="radio" name="obrigatorio" id="exampleRadios1" value="1" checked>
+                                                Obrigatório
+                                            </label>
+                                        </div>
+                                        <div class="form-check">
+                                            <label class="form-check-label">
+                                                <input class="form-check-input" type="radio" name="obrigatorio" id="exampleRadios2" value="2">
+                                                Não obrigatório.
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Campus</label>
+                                        <select class="form-control" id="campus" name="campus" required>
+                                            <?php foreach ($campi as $campus): ?>
+                                                <option value="<?php echo $campus->getcnpj(); ?>"><?php echo $campus->getendereco()->getcidade(); ?></option>
+                                            <?php endforeach; ?> 
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Curso</label>
+                                        <select class="form-control" id="cursos" name="curso" required>
+
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="form-check">
+                                            <label class="form-check-label">
+                                                <input class="form-check-input" type="radio" name="horario" id="" value="1" checked>
+                                                Integral
+                                            </label>
+                                        </div>
+                                        <div class="form-check">
+                                            <label class="form-check-label">
+                                                <input class="form-check-input" type="radio" name="horario" id="" value="2">
+                                                Matutino
+                                            </label>
+                                        </div>
+                                        <div class="form-check">
+                                            <label class="form-check-label">
+                                                <input class="form-check-input" type="radio" name="horario" id="" value="3">
+                                                Vespertino
+                                            </label>
+                                        </div>
+                                        <div class="form-check">
+                                            <label class="form-check-label">
+                                                <input class="form-check-input" type="radio" name="horario" id="" value="4">
+                                                Noturno
+                                            </label>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Sair</button>
+                                <button type="button" id="cadastrar-estagio" class="btn btn-primary">Confirmar</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 <?php
                 if (is_a($usuario, "Aluno")) {
                     if (count($estagios) == 0) {
                         ?>
                         <div class="col-lg-10 align-self-center center">
                             <button type="button" class="btn btn-outline-success" data-toggle="modal" data-target="#modalNovoEstagio" style="padding: 25px;">Novo estágio</button>
-
-                            <!-- Modal para solicitar um novo estágio -->
-                            <div class="modal fade" id="modalNovoEstagio" tabindex="-1" role="dialog" aria-labelledby="modalNovoEstagioTitle" aria-hidden="true">
-                                <div class="modal-dialog" role="document">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h5 class="modal-title" id="modalNovoEstagioTitle">Solicitação de estágio</h5>
-                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                <span aria-hidden="true">&times;</span>
-                                            </button>
-                                        </div>
-                                        <div class="modal-body">
-                                            <form name="novo-estagio" style="text-align: left;" method="POST" action="comeca-estagio.php">
-                                                <div class="form-group">
-                                                    <div class="form-check">
-                                                        <label class="form-check-label">
-                                                            <input class="form-check-input" type="radio" name="exampleRadios1" id="exampleRadios1" value="obrigatorio" checked>
-                                                            Obrigatório
-                                                        </label>
-                                                    </div>
-                                                    <div class="form-check">
-                                                        <label class="form-check-label">
-                                                            <input class="form-check-input" type="radio" name="exampleRadios1" id="exampleRadios2" value="option2">
-                                                            Não obrigatório.
-                                                        </label>
-                                                    </div>
-                                                </div>
-                                                <div class="form-group">
-                                                    <label>Campus</label>
-        <!--                                                    <select class="form-control" value="<?php if (!empty($_SESSION['campus_nome'])) echo htmlspecialchars($_SESSION['campus_nome']);unset($_SESSION['campus_nome']); ?>" required>
-                                                    <?php foreach ($campi as $campus): ?>
-                                                                                                                                                                                                                    <option value="<?php echo $campus->getcnpj(); ?>"><?php echo $campus->endereco()->getcidade(); ?></option>
-                                                    <?php endforeach; ?> 
-                                                    </select>-->
-                                                </div>
-                                                <div class="form-group">
-                                                    <label>Curso</label>
-        <!--                                                    <select class="form-control" id="cursos" value="<?php if (!empty($_SESSION['curso_nome'])) echo htmlspecialchars($_SESSION['curso_nome']);unset($_SESSION['curso_nome']); ?>" required>
-
-                                                    </select>-->
-                                                </div>
-                                                <div class="form-group">
-                                                    <div class="form-check">
-                                                        <label class="form-check-label">
-                                                            <input class="form-check-input" type="radio" name="integral" id="" value="option1" checked>
-                                                            Integral
-                                                        </label>
-                                                    </div>
-                                                    <div class="form-check">
-                                                        <label class="form-check-label">
-                                                            <input class="form-check-input" type="radio" name="matutino" id="" value="option2">
-                                                            Matutino
-                                                        </label>
-                                                    </div>
-                                                    <div class="form-check">
-                                                        <label class="form-check-label">
-                                                            <input class="form-check-input" type="radio" name="vespertino" id="" value="option3">
-                                                            Vespertino
-                                                        </label>
-                                                    </div>
-                                                    <div class="form-check">
-                                                        <label class="form-check-label">
-                                                            <input class="form-check-input" type="radio" name="noturno" id="" value="option4">
-                                                            Noturno
-                                                        </label>
-                                                    </div>
-                                                </div>
-                                            </form>
-                                        </div>
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Sair</button>
-                                            <button type="button" class="btn btn-primary">Confirmar</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
                         </div>
                         <?php
                     } else {
@@ -526,9 +668,9 @@ require_once $_SERVER['DOCUMENT_ROOT'] . "/estajui/scripts/controllers/HomeContr
                             foreach ($estagios as $estagio) {
                                 if ($estagio->getstatus()->getcodigo() <= 11) {
                                     ?>
-                                    <div class="row">
+                                    <div class="row" id="estagio<?php echo $estagio->getid(); ?>">
                                         <div class="offset-lg-1 col-lg-10 status-desc-item bg-gray">
-                                            <h3> Estágio atual <?php echo $cont; ?> </h3>
+                                            <h3> Estágio atual <?php echo (!$estagio->getempresa()) ? NULL : "(" . $estagio->getempresa()->getnome() . ")"; ?> </h3>
                                         </div>
                                     </div>
                                     <div class="row">
@@ -539,12 +681,12 @@ require_once $_SERVER['DOCUMENT_ROOT'] . "/estajui/scripts/controllers/HomeContr
                                     </div>
                                     <div class="row">
                                         <div class="offset-lg-1 col-lg-10 status-desc-item">
-                                            <h4>Descrição: </h4>
-                                            <p>Os documentos iniciais do estágio foram entregues e validados, você pode iniciar o estágio como
-                                                estimado, após o término do estágio redija o relatório final como descrito no modelo e envie para
-                                                análise do orientador.
-                                            </p>
-                                            <?php
+                                            <?php if ($estagio->getstatus()->gettexto()) {
+                                                ?>
+                                                <h4>Descrição: </h4>
+                                                <p><?php echo $estagio->getstatus()->gettexto() ?></p>
+                                                <?php
+                                            }
                                             if ($estagio->getstatus()->getcodigo() == 2) {
                                                 ?>
                                                 <a href="./estudante/cadastrar-dados-estagio.php"><button type="button" class="btn btn-outline-dark" data-toggle="modal"
@@ -552,7 +694,7 @@ require_once $_SERVER['DOCUMENT_ROOT'] . "/estajui/scripts/controllers/HomeContr
                                                     <?php
                                                 } elseif ($estagio->getstatus()->getcodigo() == 6) {
                                                     ?>
-                                                <form  enctype="multipart/form-data"  method="POST" action="<?php echo base_url().'/scripts/controllers/estudante/submeter_relatorio.php';?>" >
+                                                <form  enctype="multipart/form-data"  method="POST" action="<?php echo base_url() . '/scripts/controllers/estudante/submeter_relatorio.php'; ?>" >
                                                     <div class="form-group">
                                                         <label for="exampleFormControlFile1">Relatório final</label>
                                                         <input type="file" name="relatorio" class="form-control-file" id="exampleFormControlFile1" required>
@@ -563,7 +705,7 @@ require_once $_SERVER['DOCUMENT_ROOT'] . "/estajui/scripts/controllers/HomeContr
                                                     <?php $_SESSION['estagio'] = $estagio; ?>
                                                     <!--input type="hidden" name="MAX_FILE_SIZE" value="55000000"-->
                                                     <button type="submit" name="enviar_relatorio" class="btn btn-outline-success"
-                                                                        style="padding: 10px; width: 100px;">Enviar</button>
+                                                            style="padding: 10px; width: 100px;">Enviar</button>
                                                 </form>
                                                 <?php
                                             }
@@ -579,60 +721,76 @@ require_once $_SERVER['DOCUMENT_ROOT'] . "/estajui/scripts/controllers/HomeContr
                                             </div>-->
                                             <div style="display:inline-block;width:100%;overflow-y:auto;">
                                                 <ul class="timeline timeline-horizontal">
-                                                    <li class="timeline-item">
-                                                        <div class="timeline-badge success"><i class="fa fa-check"></i></div>
-                                                        <div class="timeline-panel">
-                                                            <div class="timeline-heading">
-                                                                <h4 class="timeline-title">Mussum ipsum cacilds 1</h4>
-                                                                <p><small class="text-muted"> 09/12/2017 às 9:42 </small></p>
+                                                    <?php
+                                                    $modificacaoModel = $loader->loadModel("ModificacaoStatusModel", "ModificacaoStatusModel");
+                                                    $modificacoes = $modificacaoModel->readbyestagio($estagio, 0);
+                                                    $ultimoPasso = 0;
+                                                    foreach ($modificacoes as $modicacao) {
+                                                        ?>
+                                                        <li class="timeline-item">
+                                                            <div class="timeline-badge success"><i class="fa fa-check"></i></div>
+                                                            <div class="timeline-panel">
+                                                                <div class="timeline-heading">
+                                                                    <h4 class="timeline-title"><?php
+                                                                        if ($modicacao->getstatus()->getcodigo() == 1) {
+                                                                            echo "Estagio criado";
+                                                                        } elseif ($modicacao->getstatus()->getcodigo() == 2) {
+                                                                            echo "Estagio deferido";
+                                                                        } elseif ($modicacao->getstatus()->getcodigo() == 4) {
+                                                                            echo "Professor orientador definido";
+                                                                        } elseif ($modicacao->getstatus()->getcodigo() == 6) {
+                                                                            echo "Inicio de estágio autorizado";
+                                                                        } elseif ($modicacao->getstatus()->getcodigo() == 8) {
+                                                                            echo "Relatório aprovado";
+                                                                        } elseif ($modicacao->getstatus()->getcodigo() == 11) {
+                                                                            echo "Empresa conveniada";
+                                                                        } elseif ($modicacao->getstatus()->getcodigo() == 12) {
+                                                                            echo "Estágio concluido";
+                                                                        }
+                                                                        ?></h4>
+                                                                    <p><small class="text-muted"><?php
+                                                                            $date = new DateTime($modicacao->getdata());
+                                                                            echo $date->format('d/m/Y') . " às " . $date->format('H:i');
+                                                                            ?></small></p>
+                                                                </div>
                                                             </div>
-                                                        </div>
-                                                    </li>
-                                                    <li class="timeline-item">
-                                                        <div class="timeline-badge success"><i class="fa fa-check"></i></div>
-                                                        <div class="timeline-panel">
-                                                            <div class="timeline-heading">
-                                                                <h4 class="timeline-title">Mussum ipsum cacilds 2</h4>
-                                                                <p><small class="text-muted"> 10/12/2017 às 11:30 </small></p>
-                                                            </div>
-                                                        </div>
-                                                    </li>
-                                                    <li class="timeline-item">
-                                                        <div class="timeline-badge primary"><i class=""></i></div>
-                                                        <div class="timeline-panel">
-                                                            <div class="timeline-heading">
-                                                                <h4 class="timeline-title">Mussum ipsum cacilds 3</h4>
-                                                                <p><small class="text-muted"><i class="glyphicon glyphicon-time"></i> - </small></p>
-                                                            </div>
-                                                        </div>
-                                                    </li>
-                                                    <li class="timeline-item">
-                                                        <div class="timeline-badge"><i class=""></i></div>
-                                                        <div class="timeline-panel">
-                                                            <div class="timeline-heading">
-                                                                <h4 class="timeline-title">Mussum ipsum cacilds 4</h4>
-                                                                <p><small class="text-muted"><i class="glyphicon glyphicon-time"></i> - </small></p>
-                                                            </div>
-                                                        </div>
-                                                    </li>
-                                                    <li class="timeline-item">
-                                                        <div class="timeline-badge"><i class=""></i></div>
-                                                        <div class="timeline-panel">
-                                                            <div class="timeline-heading">
-                                                                <h4 class="timeline-title">Mussum ipsum cacilds 5</h4>
-                                                                <p><small class="text-muted"><i class="glyphicon glyphicon-time"></i> - </small></p>
-                                                            </div>
-                                                        </div>
-                                                    </li>
-                                                    <li class="timeline-item">
-                                                        <div class="timeline-badge"><i class=""></i></div>
-                                                        <div class="timeline-panel">
-                                                            <div class="timeline-heading">
-                                                                <h4 class="timeline-title">Mussum ipsum cacilds 6</h4>
-                                                                <p><small class="text-muted"><i class="glyphicon glyphicon-time"></i> - </small></p>
-                                                            </div>
-                                                        </div>
-                                                    </li>
+                                                        </li>
+                                                        <?php
+                                                        $ultimoPasso = $modicacao->getstatus()->getcodigo();
+                                                    }
+                                                    while ($ultimoPasso < 12) {
+                                                        $ultimoPasso++;
+                                                        if ($ultimoPasso != 3 && $ultimoPasso != 5 && $ultimoPasso != 7 && $ultimoPasso != 9 && $ultimoPasso != 10) {
+                                                            ?>
+                                                            <li class="timeline-item">
+                                                                <div class="timeline-badge primary"><i class=""></i></div>
+                                                                <div class="timeline-panel">
+                                                                    <div class="timeline-heading">
+                                                                        <h4 class="timeline-title"><?php
+                                                                            if ($ultimoPasso == 1) {
+                                                                                echo "Estagio criado";
+                                                                            } elseif ($ultimoPasso == 2) {
+                                                                                echo "Estagio deferido";
+                                                                            } elseif ($ultimoPasso == 4) {
+                                                                                echo "Professor orientador definido";
+                                                                            } elseif ($ultimoPasso == 6) {
+                                                                                echo "Inicio de estágio autorizado";
+                                                                            } elseif ($ultimoPasso == 8) {
+                                                                                echo "Relatório aprovado";
+                                                                            } elseif ($ultimoPasso == 11) {
+                                                                                echo "Empresa conveniada";
+                                                                            } elseif ($ultimoPasso == 12) {
+                                                                                echo "Estágio concluido";
+                                                                            }
+                                                                            ?></h4>
+                                                                        <p><small class="text-muted"><i class="glyphicon glyphicon-time"></i> - </small></p>
+                                                                    </div>
+                                                                </div>
+                                                            </li>
+                                                            <?php
+                                                        }
+                                                    }
+                                                    ?>
                                                 </ul>
                                             </div>
                                         </div>
@@ -666,8 +824,8 @@ require_once $_SERVER['DOCUMENT_ROOT'] . "/estajui/scripts/controllers/HomeContr
                                                 ?>
                                                 <tr>
                                                     <th scope="row"><?php echo $cont ?></th>
-                                                    <td><?php echo $estagio->getpe()->getdata_inicio() ?></td>
-                                                    <td><?php echo $estagio->getempresa()->getnome() ?></td>
+                                                    <td><?php echo ($estagio->getpe()) ? $estagio->getpe()->getdata_inicio() : " - " ?></td>
+                                                    <td><?php echo (!$estagio->getempresa()) ? " - " : $estagio->getempresa()->getnome() ?></td>
                                                     <td><?php echo $estagio->getstatus()->getdescricao() ?></td>
                                                     <td><?php echo $estagio->getmatricula()->getoferta()->getcurso()->getnome() ?></td>
                                                     <td class="center">
@@ -695,33 +853,33 @@ require_once $_SERVER['DOCUMENT_ROOT'] . "/estajui/scripts/controllers/HomeContr
                                                                     <br>
                                                                     <br>
                                                                     <h6>Status: </h6> <p><?php echo $estagio->getstatus()->getdescricao(); ?></p><br>
-                                                                    <h6>Nº da apólice seguradora: </h6> <p><?php echo $estagio->getapolice()->getnumero(); ?></p><br>
-                                                                    <h6>Setor/Unidade da empresa: </h6> <p><?php echo $estagio->getpe()->getsetor_unidade(); ?></p> <br>
-                                                                    <h6>Supervisor: </h6> <p><?php echo $estagio->getsupervisor()->getnome(); ?></p> <br>
-                                                                    <h6>Habilitação profissional: </h6> <p><?php echo $estagio->getsupervisor()->gethabilitacao(); ?></p> <br>
-                                                                    <h6>Cargo: </h6> <p><?php echo $estagio->getsupervisor()->getcargo(); ?></p> <br>
-                                                                    <h6>Professor orientador: </h6> <p><?php echo $estagio->getfuncionario()->getnome(); ?></p> <br>
-                                                                    <h6>Formação profissional: </h6> <p><?php echo $estagio->getfuncionario()->getformacao(); ?></p> <br>
-                                                                    <h6>Data prevista para ínicio do estágio: </h6> <p><?php echo $estagio->getpe()->getdata_inicio(); ?></p> <br>
-                                                                    <h6>Data prevista para término do estágio: </h6> <p><?php echo $estagio->getpe()->getdata_fim(); ?></p> <br>
-                                                                    <h6>Jornada: </h6> <p><?php echo $estagio->getpe()->gethora_inicio1(); ?>h às <?php echo $estagio->getpe()->gethora_fim1(); ?>h, totalizando <?php echo $estagio->getpe()->gettotal_horas(); ?>h semanais</p> <br>
+                                                                    <h6>Nº da apólice seguradora: </h6> <p><?php echo ($estagio->getapolice()) ? $estagio->getapolice()->getnumero() : NULL; ?></p><br>
+                                                                    <h6>Setor/Unidade da empresa: </h6> <p><?php echo ($estagio->getpe()) ? $estagio->getpe()->getsetor_unidade() : NULL; ?></p> <br>
+                                                                    <h6>Supervisor: </h6> <p><?php echo (!$estagio->getsupervisor()) ? NULL : $estagio->getsupervisor()->getnome(); ?></p> <br>
+                                                                    <h6>Habilitação profissional: </h6> <p><?php echo (!$estagio->getsupervisor()) ? NULL : $estagio->getsupervisor()->gethabilitacao(); ?></p> <br>
+                                                                    <h6>Cargo: </h6> <p><?php echo (!$estagio->getsupervisor()) ? NULL : $estagio->getsupervisor()->getcargo(); ?></p> <br>
+                                                                    <h6>Professor orientador: </h6> <p><?php echo ($estagio->getfuncionario()) ? $estagio->getfuncionario()->getnome() : NULL; ?></p> <br>
+                                                                    <h6>Formação profissional: </h6> <p><?php echo ($estagio->getfuncionario()) ? $estagio->getfuncionario()->getformacao() : NULL; ?></p> <br>
+                                                                    <h6>Data prevista para ínicio do estágio: </h6> <p><?php echo ($estagio->getpe()) ? $estagio->getpe()->getdata_inicio() : NULL; ?></p> <br>
+                                                                    <h6>Data prevista para término do estágio: </h6> <p><?php echo ($estagio->getpe()) ? $estagio->getpe()->getdata_fim() : NULL; ?></p> <br>
+                                                                    <h6>Jornada: </h6> <p><?php echo ($estagio->getpe()) ? $estagio->getpe()->gethora_inicio1() . "h às " . $estagio->getpe()->gethora_fim1() . "h, totalizando " . $estagio->getpe()->gettotal_horas() . "h semanais." : NULL ?></p> <br>
                                                                     <h6>Principais atividdes a serem desenvolvidas: </h6>
-                                                                    <p><?php echo $estagio->getpe()->getatividades(); ?></p> <br>
-                                                                    <h6>Nome fantasia da empresa: </h6> <p><?php echo $estagio->getempresa()->getnome(); ?></p> <br>
-                                                                    <h6>Razão social da empresa: </h6> <p><?php echo $estagio->getempresa()->getrazaosocial(); ?></p> <br>
-                                                                    <h6>CNPJ: </h6> <p><?php echo $estagio->getempresa()->getcnpj(); ?></p> <br>
-                                                                    <h6>Telefone: </h6> <p><?php echo $estagio->getempresa()->gettelefone(); ?></p> <br>
-                                                                    <h6>FAX: </h6> <p><?php echo $estagio->getempresa()->getfax(); ?></p> <br>
-                                                                    <h6>Logradouro: </h6> <p><?php echo $estagio->getempresa()->getendereco()->getlogradouro(); ?></p> <br>
-                                                                    <h6>Número: </h6> <p><?php echo $estagio->getempresa()->getendereco()->getnumero(); ?></p> <br>
-                                                                    <h6>Sala: </h6> <p><?php echo $estagio->getempresa()->getendereco()->getsala(); ?></p> <br>
-                                                                    <h6>Bairro: </h6> <p><?php echo $estagio->getempresa()->getendereco()->getbairro(); ?></p> <br>
-                                                                    <h6>Cidade: </h6> <p><?php echo $estagio->getempresa()->getendereco()->getcidade(); ?></p> <br>
-                                                                    <h6>UF: </h6> <p><?php echo $estagio->getempresa()->getendereco()->getuf(); ?></p> <br>
-                                                                    <h6>CEP: </h6> <p><?php echo $estagio->getempresa()->getendereco()->getcep(); ?></p> <br>
-                                                                    <h6>Cidade: </h6> <p><?php echo $estagio->getempresa()->getendereco()->getcidade(); ?></p> <br>
-                                                                    <h6>Nº de registro da empresa: </h6> <p><?php echo $estagio->getempresa()->getnregistro(); ?></p> <br>
-                                                                    <h6>Conselho de fiscalização: </h6> <p><?php echo $estagio->getempresa()->getconselhofiscal(); ?></p> <br>
+                                                                    <p><?php echo ($estagio->getpe()) ? $estagio->getpe()->getatividades() : NULL; ?></p> <br>
+                                                                    <h6>Nome fantasia da empresa: </h6> <p><?php echo (!$estagio->getempresa()) ? NULL : $estagio->getempresa()->getnome(); ?></p> <br>
+                                                                    <h6>Razão social da empresa: </h6> <p><?php echo (!$estagio->getempresa()) ? NULL : $estagio->getempresa()->getrazaosocial(); ?></p> <br>
+                                                                    <h6>CNPJ: </h6> <p><?php echo (!$estagio->getempresa()) ? NULL : $estagio->getempresa()->getcnpj(); ?></p> <br>
+                                                                    <h6>Telefone: </h6> <p><?php echo (!$estagio->getempresa()) ? NULL : $estagio->getempresa()->gettelefone(); ?></p> <br>
+                                                                    <h6>FAX: </h6> <p><?php echo (!$estagio->getempresa()) ? NULL : $estagio->getempresa()->getfax(); ?></p> <br>
+                                                                    <h6>Logradouro: </h6> <p><?php echo (!$estagio->getempresa()) ? NULL : $estagio->getempresa()->getendereco()->getlogradouro(); ?></p> <br>
+                                                                    <h6>Número: </h6> <p><?php echo (!$estagio->getempresa()) ? NULL : $estagio->getempresa()->getendereco()->getnumero(); ?></p> <br>
+                                                                    <h6>Sala: </h6> <p><?php echo (!$estagio->getempresa()) ? NULL : $estagio->getempresa()->getendereco()->getsala(); ?></p> <br>
+                                                                    <h6>Bairro: </h6> <p><?php echo (!$estagio->getempresa()) ? NULL : $estagio->getempresa()->getendereco()->getbairro(); ?></p> <br>
+                                                                    <h6>Cidade: </h6> <p><?php echo (!$estagio->getempresa()) ? NULL : $estagio->getempresa()->getendereco()->getcidade(); ?></p> <br>
+                                                                    <h6>UF: </h6> <p><?php echo (!$estagio->getempresa()) ? NULL : $estagio->getempresa()->getendereco()->getuf(); ?></p> <br>
+                                                                    <h6>CEP: </h6> <p><?php echo (!$estagio->getempresa()) ? NULL : $estagio->getempresa()->getendereco()->getcep(); ?></p> <br>
+                                                                    <h6>Cidade: </h6> <p><?php echo (!$estagio->getempresa()) ? NULL : $estagio->getempresa()->getendereco()->getcidade(); ?></p> <br>
+                                                                    <h6>Nº de registro da empresa: </h6> <p><?php echo (!$estagio->getempresa()) ? NULL : $estagio->getempresa()->getnregistro(); ?></p> <br>
+                                                                    <h6>Conselho de fiscalização: </h6> <p><?php echo (!$estagio->getempresa()) ? NULL : $estagio->getempresa()->getconselhofiscal(); ?></p> <br>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -749,41 +907,55 @@ require_once $_SERVER['DOCUMENT_ROOT'] . "/estajui/scripts/controllers/HomeContr
         <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
-        <?php
-        if (is_a($usuario, "Aluno")) {
-            ?>
-            <script>
-                                                        var options = {
+        <script>
+                                                    $(function(){
+<?php
+if ($session->hasError('normal')):
+    ?>
+                                                        alert('<?php echo $session->getErrors('normal')[0] ?>');
+<?php elseif ($session->hasValues('resultado')): ?>
+                                                        alert('<?php echo $session->getValues('resultado')[0] ?>');
+<?php endif ?>
+
+                                                    var options = {
+<?php
+foreach ($campi as $campus):
+    ?>
+    <?php echo $campus->getcnpj() ?> :
+                                                        {
     <?php
-    foreach ($campi as $campus):
+    foreach ($cursos[$campus->getcnpj()] as $curso):
         ?>
-        <?php echo $campus->getcnpj() ?> :
-                                                            {
         <?php
-        foreach ($cursos[$campus->getcnpj()] as $curso):
-            ?>
-            <?php
-            echo "\"$curso->getnome()\" : \"$curso->getid()\"";
-            ?>
-            <?php
-        endforeach;
+        echo "\"" . $curso->getnome() . "\": \"" . $curso->getid() . "\",";
         ?>
         <?php
     endforeach;
     ?>
-                                                        };
-                                                        $("#cursos"), select(function(){
-                                                        var $el = $(this);
-                                                        $el.empty();
-                                                        $.each(options[el.val()], function(key, value) {
-                                                        $el.append($("<option></option>")
-                                                                .attr("value", value).text(key));
-                                                        });
-                                                        });
-            </script>
-            <?php
-        }
-        ?>
+                                                        },
+    <?php
+endforeach;
+?>
+                                                    };
+                                                    var alteraCampus = function(campus){
+                                                    console.log(campus);
+                                                    $cursos = $('#cursos');
+                                                    $cursos.empty();
+                                                    $.each(options[campus.val()], function(key, value) {
+                                                    $cursos.append($("<option></option>")
+                                                            .attr("value", value).text(key));
+                                                    });
+                                                    }
+
+                                                    $("#campus").select(function(){
+                                                    alteraCampus($(this));
+                                                    });
+                                                    $('#cadastrar-estagio').click(function(){
+                                                    $('#novo-estagio').submit();
+                                                    });
+                                                    alteraCampus($('#campus').children());
+                                                    });
+        </script>
 
         <?php
         if (is_a($usuario, "Funcionario")) {
@@ -843,5 +1015,22 @@ require_once $_SERVER['DOCUMENT_ROOT'] . "/estajui/scripts/controllers/HomeContr
             }
         }
         ?>
+        <script>
+            $(function(){
+<?php if ($session->hasError('normal')): ?>
+                alert(<?php echo "\"" . $session->getErrors('normal')[0] . "\"" ?>);
+<?php elseif ($session->hasValues('resultado')): ?>
+                alert(<?php echo "\"" . $session->getValues('resultado')[0] . "\"" ?>);
+<?php endif ?>
+
+            $('.definirOrientador').click(function(){
+            $('.modal-data-target').html($(this).find('div').html());
+            $('#estagio-id').val($(this).find('div').find('.estagio-id').html());
+            });
+            $('#definirOrientadorBtt').click(function(){
+            $('#form-def-orientador').submit();
+            });
+            });
+        </script>
     </body>
 </html>
