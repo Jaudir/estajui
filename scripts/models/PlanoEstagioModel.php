@@ -11,14 +11,14 @@ class PlanoEstagioModel extends MainModel{
 
         try{
             //verifica se a empresa já existe
-            $_empresa = $empresaModel->buscarConveniada($empresa->get_cnpj(), false);
-            $_responsavel = $responsavelModel->read($responsavel);
+            $_empresa = $empresaModel->buscarConveniada($empresa->getcnpj(), 0);
+            $_responsavel = $responsavelModel->read($responsavel->getemail(), 1);
         
             $this->conn->beginTransaction();
 
             //pré-cadastra empresa caso não esteja cadastrada
             if(!$_empresa){
-                $empresaModel->create($empresa);
+                $empresaModel->cadastrar($empresa);
             }else{
                 $empresa = $_empresa;
             }
@@ -53,16 +53,16 @@ class PlanoEstagioModel extends MainModel{
 
             $stmt->execute(
                 array(
-                    ':estagio' => $plano->get_estagio()->getid(),
-                    ':atividades' => $plano->get_atividades(),
-                    ':data_ini' => $plano->get_data_inicio(),
-                    ':data_fim' => $plano->get_data_fim(),
-                    ':hora_inicio1' => $plano->get_hora_inicio1(),
-                    ':hora_fim1' => $plano->get_hora_fim1(),
-                    ':total_horas' => $plano->get_total_horas()));
+                    ':estagio' => $plano->getestagio()->getid(),
+                    ':atividades' => $plano->getatividades(),
+                    ':data_ini' => $plano->getdata_inicio(),
+                    ':data_fim' => $plano->getdata_fim(),
+                    ':hora_inicio1' => $plano->gethora_inicio1(),
+                    ':hora_fim1' => $plano->gethora_fim1(),
+                    ':total_horas' => $plano->gettotal_horas()));
 
             //atualiza o status do modafoquing dark night
-            $statusModel->adicionaNotificacao(StatusModel::$AGURDANDO_DEF, $plano->get_estagio(), $usuario);
+            $statusModel->adicionaNotificacao(StatusModel::$AGURDANDO_DEF, $plano->getestagio(), $usuario);
 
             $this->conn->commit();
         }catch(PDOException $ex){

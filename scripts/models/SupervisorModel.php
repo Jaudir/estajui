@@ -11,7 +11,7 @@ class SupervisorModel extends MainModel {
         $pstmt = $this->conn->prepare("INSERT INTO " . $this->_tabela . " (nome, cargo, habilitacao, empresa_cnpj) VALUES(?, ?, ?, ?)");
         try {
             $this->conn->beginTransaction();
-            $pstmt->execute(array($supervisor->getnome(), $supervisor->getcargo(), $supervisor->gethabilitação(), $supervisor->getempresa()->getcnpj));
+            $pstmt->execute(array($supervisor->getnome(), $supervisor->getcargo(), $supervisor->gethabilitacao(), $supervisor->getempresa()->getcnpj()));
             $id = $this->conn->lastInsertId();
             $this->conn->commit();
             $supervisor->setid($id);

@@ -52,7 +52,6 @@ class Validation{
                         continue;
 
                     if(!$this->internalValidation($key, $type, $params)){
-                        echo "Error: " . $key . " " . $type . " " . $params . "<br>";
                         $this->errors[$key][] = $type;
                         break;
                     }
