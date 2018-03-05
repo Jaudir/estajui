@@ -5,16 +5,16 @@ require_once $_SERVER['DOCUMENT_ROOT'] . "/estajui/scripts/controllers/base-cont
 $session = getSession();
 if (isset($_GET["logoff"])) {
     $session->destroy();
-    redirect("login.php");
+    redirectToView("login");
 }
 if (!$session->isLogged()) {
-    redirect("login.php");
+    redirectToView("login");
 }
 $estagios = array();
 $usuario = $session->getUsuario();
 $estagioModel = $loader->loadModel("EstagioModel", "EstagioModel");
 $notificacoesModel = $loader->loadModel("NotificacaoModel", "NotificacaoModel");
-$notificacoes = $notificacoesModel->read(null, 0);
+$notificacoes = $notificacoesModel->getNotificacoes($usuario);
 if (is_a($usuario, "Aluno")) {
     $titulo = "Estudante";
     $estagios = $estagioModel->readbyaluno($usuario, 0);
@@ -31,19 +31,58 @@ if (is_a($usuario, "Aluno")) {
 } elseif (is_a($usuario, "Funcionario")) {
     if ($usuario->isroot()) {
         $titulo = "Administrador";
-    } elseif ($usuario->isce()) {
-        $titulo = "Coordenador de extensão";
-    } elseif ($usuario->isoe()) {
+    }
+    if ($usuario->isce()) {
+        //$session->clearErrors();
+        $ce = $session->getUsuario('usuario');
+        $model = $loader->loadModel('FuncionarioModel', 'FuncionarioModel');
+        $estagiomodel = $loader->loadModel('EstagioModel', 'EstagioModel');
+        $ce = $model->read($ce->getsiape(), 1)[0];
+
+        if ($model != null) {
+
+            $listaDeEstagios = $estagiomodel->read(null, 0);
+            if (is_array($listaDeEstagios)) {
+                foreach ($listaDeEstagios as $le) {
+                    if ($le->getpe()) {
+                        $retorno_ajax[] = array("id" => $le->getid(), "aluno" => $le->getaluno()->getnome(), "status" => $le->getstatus()->getdescricao(), "curso" => $le->getmatricula()->getoferta()->getcurso()->getnome(), "data_ini" => $le->getpe()->getdata_inicio(), "data_fim" => $le->getpe()->getdata_fim(), "po" => $le->getfuncionario()->getnome(), "empresa" => $le->getempresa()->getnome());
+                    }
+                }
+            }
+            
+            $statusEmpresas = $model->listaEmpresas();
+
+            if (!$listaDeEstagios)
+                $listaDeEstagios = array();
+
+            if (!$statusEmpresas)
+                $statusEmpresas = array();
+        }
+    }
+    if ($usuario->isoe()) {
+        /* Carregar dados dos estágios agurdando professor orientador */
+        $peModel = $loader->loadModel('PlanoEstagioModel', 'PlanoEstagioModel');
+//carregar estágios que estão aguardando definição de professor orientador
+        $estagios = $peModel->carregarAguardandoOrientador();
+        if ($estagios == false) {
+            $estagios = array();
+        }
+        /* Carregar professores orientadores */
+        $funcModel = $loader->loadModel('FuncionarioModel', 'FuncionarioModel');
+        $professores = $funcModel->carregarOrientadores();
+        if ($professores == false) {
+            $professores = array();
+        }
         $titulo = "Organizador de estagio";
-    } elseif ($usuario->issra()) {
+    }
+    if ($usuario->issra()) {
         $titulo = "Secretaria";
         $estagios = $estagioModel->read(null, 0);
-    } elseif ($usuario->ispo()) {
+    }
+    if ($usuario->ispo()) {
         $titulo = "Professor orientador";
-    } else {
-        $titulo = "Funcionario";
     }
 } else {
-    redirect("login.php");
+    redirectToView("login");
 }
 $nome = $usuario->getnome();

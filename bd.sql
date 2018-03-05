@@ -63,6 +63,7 @@ create table curso(
 create table status(
 	codigo int auto_increment primary key,
 	descricao varchar(170),
+	texto TEXT,
 	bitmap_usuarios_alvos varchar(5) /* Aluno PO OE CE SRA*/
 );
 
@@ -121,7 +122,7 @@ create table oferece_curso (
 );
 
 create table aluno_estuda_curso(
-	matricula int unique primary key,
+	matricula int unique auto_increment primary key,
 	semestre_inicio int,
 	ano_inicio int,
 	oferece_curso_id int,
@@ -241,6 +242,9 @@ create table comentario_relatorio(
 	descricao TEXT,
 	relatorio_id int,
 	po_siape numeric(9),
+	nome varchar(50),
+	tipo varchar(10),
+	conteudo LONGBLOB,
 	foreign key(po_siape) references funcionario(siape),
 	foreign key(relatorio_id) references relatorio(id)
 );
@@ -281,6 +285,7 @@ create table verificar(
 	codigo varchar(50) unique not null,
 	data_geracao date, 
 	verificado int not null,
+	tipo int,
 	foreign key(email ) references usuario(email)
 );
 
@@ -289,7 +294,7 @@ insert into status (descricao) values ("Estágio deferido pela secretaria");
 insert into status (descricao) values ("Aguardando definição do Professor orientador");
 insert into status (descricao) values ("Professor orientador definido. Aguardando que o estudante encaminhe à Coordenadoria de Extensão os documentos (TC, PE, *Minuta de convênio) devidamente assinados");
 insert into status (descricao) values ("Aguardando que o estudante retire os documentos na Coordenadoria de Extensão e os encaminhe a secretaria");
-insert into status (descricao) values ("Início de Estágio Autorizado. Aguardando que o estudante submeta o relatório de estágio");
+insert into status (descricao, texto) values ("Início de Estágio Autorizado. Aguardando que o estudante submeta o relatório de estágio", "Os documentos iniciais do estágio foram entregues e validados, você pode iniciar o estágio como estimado, após o término do estágio redija o relatório final como descrito no modelo e envie para análise do orientador.");
 insert into status (descricao) values ("Aguardando correção do relatório de estágio");
 insert into status (descricao) values ("Relatório de estágio aprovado. Aguardando que o estudante encaminhe o relatório de estágio para a Coordenadoria de Extensão");
 insert into status (descricao) values ("Relatório Final de Estágio e Declaração de Conclusão do Estágio enviados à Secretaria");
@@ -298,6 +303,7 @@ insert into status (descricao) values ("Convênio de empresa aprovado");
 insert into status (descricao) values ("Estágio concluído");
 insert into status (descricao) values ("Convênio de empresa reprovado");
 insert into status (descricao) values ("Estágio reprovado");
+insert into status (descricao) values ("Aguardando que o estudante submeta uma nova versão do relatório de estágio");
 
 -- Adicionando dados pra testar
 
@@ -306,12 +312,6 @@ INSERT INTO usuario (email, senha, tipo) VALUES ('aluno0@aluno.com', '$2y$10$89a
 INSERT INTO usuario (email, senha, tipo) VALUES ('aluno1@aluno.com', '$2y$10$89a178NmXg.4XRDj5KB1h.ZRYnsN3CockVltOQvrkRRnAsx2KPqjW', 1);
 INSERT INTO usuario (email, senha, tipo) VALUES ('aluno2@aluno.com', '$2y$10$89a178NmXg.4XRDj5KB1h.ZRYnsN3CockVltOQvrkRRnAsx2KPqjW', 1);
 INSERT INTO usuario (email, senha, tipo) VALUES ('aluno3@aluno.com', '$2y$10$89a178NmXg.4XRDj5KB1h.ZRYnsN3CockVltOQvrkRRnAsx2KPqjW', 1);
-
--- USUARIO (para funcionários) a senha é "senha"
-INSERT INTO usuario(`email`, `senha`, `tipo`) VALUES ('funcionario0@funcionario.com', '$2y$10$89a178NmXg.4XRDj5KB1h.ZRYnsN3CockVltOQvrkRRnAsx2KPqjW', 2);
-INSERT INTO usuario(`email`, `senha`, `tipo`) VALUES ('funcionario1@funcionario.com', '$2y$10$89a178NmXg.4XRDj5KB1h.ZRYnsN3CockVltOQvrkRRnAsx2KPqjW', 2);
-INSERT INTO usuario(`email`, `senha`, `tipo`) VALUES ('funcionario2@funcionario.com', '$2y$10$89a178NmXg.4XRDj5KB1h.ZRYnsN3CockVltOQvrkRRnAsx2KPqjW', 2);
-INSERT INTO usuario(`email`, `senha`, `tipo`) VALUES ('funcionario3@funcionario.com', '$2y$10$89a178NmXg.4XRDj5KB1h.ZRYnsN3CockVltOQvrkRRnAsx2KPqjW', 2);
 
 
 -- ENDEREÇO
@@ -370,11 +370,16 @@ INSERT INTO oferece_curso (id, turno, curso_id, campus_cnpj, oe_siape) VALUES (1
 INSERT INTO oferece_curso (id, turno, curso_id, campus_cnpj, oe_siape) VALUES (2, 'Integral', 2, 10727655000462, 2 );
 INSERT INTO oferece_curso (id, turno, curso_id, campus_cnpj, oe_siape) VALUES (3, 'Noturno', 1, 10727655000462, 3 );
 INSERT INTO oferece_curso (id, turno, curso_id, campus_cnpj, oe_siape) VALUES (4, 'Noturno', 2, 10727655000462, 4 );
+INSERT INTO oferece_curso(id, turno,campus_cnpj,curso_id, oe_siape) VALUES (5, 'Diurno', 10727655000462, 3, 1);
+INSERT INTO oferece_curso(id, turno,campus_cnpj,curso_id, oe_siape) VALUES (6, 'Diurno', 10727655000462, 4, 1);
+INSERT INTO oferece_curso(id, turno,campus_cnpj,curso_id, oe_siape) VALUES (7, 'Noturno', 10727655000462, 5, 1);
+INSERT INTO oferece_curso(id, turno,campus_cnpj,curso_id, oe_siape) VALUES (8, 'Noturno', 10727655000462, 6, 1);
+
 
 -- ALUNO CURSO
 INSERT INTO aluno_estuda_curso (matricula, semestre_inicio, ano_inicio, oferece_curso_id, aluno_cpf) VALUES (1, 1, 1990, 1, 16380342656);
 INSERT INTO aluno_estuda_curso (matricula, semestre_inicio, ano_inicio, oferece_curso_id, aluno_cpf) VALUES (2, 1, 1990, 2, 94634652943);
-INSERT INTO aluno_estuda_curso (matricula, semestre_inicio, ano_inicio, oferece_curso_id, aluno_cpf) VALUES (3, 1, 1990, 3, 38594126476);
+INSERT INTO aluno_estuda_curso (matricula, semestre_inicio, ano_inicio, oferece_curso_id, aluno_cpf) VALUES (3, 1, 1990, 2, 38594126476);
 INSERT INTO aluno_estuda_curso (matricula, semestre_inicio, ano_inicio, oferece_curso_id, aluno_cpf) VALUES (4, 1, 1990, 2, 57927414410);
 INSERT INTO aluno_estuda_curso (matricula, semestre_inicio, ano_inicio, oferece_curso_id, aluno_cpf) VALUES (5, 1, 1990, 2, 16380342656);
 
@@ -384,7 +389,7 @@ INSERT INTO empresa (cnpj, nome, telefone, fax, nregistro, conselhofiscal, ender
 
 -- Estagios
 INSERT INTO estagio(bool_aprovado, bool_obrigatorio, justificativa, aluno_cpf, empresa_cnpj, aluno_estuda_curso_matricula, po_siape, status_codigo)
-VALUES(1, 1, 'justificativa05', 16380342656, 1, 1, 1, 1),
+VALUES (1, 1, 'justificativa05', 16380342656, 1, 1, 1, 1),
 (1, 1, 'justificativa06', 94634652943, 2, 2, 2, 2),
 (1, 1, 'justificativa07', 38594126476, 1, 1, 3, 3),
 (1, 1, 'justificativa08', 57927414410, 2, 4, 4, 4),

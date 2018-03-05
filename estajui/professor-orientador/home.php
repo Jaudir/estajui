@@ -1,4 +1,5 @@
-<!DOCTYPE html>
+<?php require_once $_SERVER['DOCUMENT_ROOT'] . "/estajui/scripts/controllers/HomeController.php";?>
+
 <html>
   <head>
     <meta charset="utf-8">
@@ -11,7 +12,7 @@
     <div class="container-home container-fluid fullscreen">
       <nav class="navbar navbar-expand-lg navbar-light nav-menu">
         <a class="navbar-brand" href="#">
-          <img src="../../assets/img/LOGO.PNG" height="42" class="d-inline-block align-top" alt="">
+          <img src="../../assets/img/logo.png" height="42" class="d-inline-block align-top" alt="">
         </a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
@@ -35,8 +36,24 @@
           </ul>
         </div>
       </nav>
-
       <div class="row fullscreen">
+      <?php if ($session->hasError("error-validacao")) { ?>
+                                <div class="alert alert-warning">
+                                    <strong>Aviso:</strong> <?php echo $session->getErrors("error-validacao")[0]; ?>
+                                </div>
+                            <?php } ?>
+                            <?php if ($session->hasError("error-critico")) { ?>
+                                <div class="alert alert-danger">
+                                    <strong>Erro:</strong> <?php echo $session->getErrors("error-critico")[0]; ?>
+                                </div>
+                            <?php } ?>
+                            <?php if ($session->hasValues("sucesso")) { ?>
+                                <div class="alert alert-success">
+                                    <strong>Sucesso:</strong> <?php echo $session->getValues("sucesso")[0]; ?>
+                                </div>
+                            <?php } ?>  
+      
+
         <div class="col-lg-2 left-menu">
           <ul class="nav flex-column">
             <li class="nav-item">
@@ -110,7 +127,7 @@
                      </a> <br> <br>
                   </div>
                 </div>
-                <form name="dados-aluno">
+                <form enctype="multipart/form-data" name="dados-aluno" method="POST"  action="<?php echo base_url().'/scripts/controllers/organizador-estagio/avaliar-relatorio-final.php';?>" >
                   <div class="form-group">
                     <div class="row">
                       <div class="col-md-12">
@@ -119,35 +136,37 @@
                     </div>
                     <div class="custom-controls-stacked">
                       <label class="custom-control custom-radio" style="margin-top: 10px;">
-                        <input id="radioStacked3" name="radio-stacked" type="radio" class="custom-control-input">
+                        <input id="radioStacked3"  name="aprovado" type="radio" class="custom-control-input">
                         <span class="custom-control-indicator"></span>
                         <span class="custom-control-description">SIM</span>
                       </label>
                       <label class="custom-control custom-radio" style="margin-top: 3px;">
-                        <input id="radioStacked5" name="radio-stacked" type="radio" class="custom-control-input">
+                        <input id="radioStacked5" name="reprovado"  type="radio" class="custom-control-input">
                         <span class="custom-control-indicator"></span>
                         <span class="custom-control-description">NÃO</span>
                       </label>
                     </div>
                     <div class="row">
                       <div class="col-md-12">
-                        <label for="exampleFormControlFile1">Correções</label>
-                        <input type="file" class="form-control-file" id="exampleFormControlFile1">
+                        <label for="correcao">Correções</label>
+                        <input type="file" class="form-control-file" name="correcao">
                       </div>
                     </div> <br>
                     <div class="row">
+                        
                       <div class="col-md-12">
-                        <label for="justificativa">Justificativa</label>
-                        <textarea name="justificativa" rows="3" class="form-control" required>
+                        <input type="hidden" name="justificativa" value="" id='justificativa_post'>
+                        <label for="justificativa_text">Justificativa</label>
+                        <textarea id="justificativa_text" rows="3" class="form-control" required>
                         </textarea>
                       </div>
                     </div>
                   </div>
-                </form>
-              </div>
-              <div class="modal-footer">
+                  <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Sair</button>
-                <button type="button" class="btn btn-primary">Confirmar</button>
+                <button type="submit"  id='confirmar' name="confirmar" class="btn btn-primary">Confirmar</button>
+              </div>
+                </form>
               </div>
             </div>
           </div>
@@ -158,5 +177,6 @@
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
+   <script src='../../assets/js/home_po.js'></script>
   </body>
 </html>

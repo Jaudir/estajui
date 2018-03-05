@@ -50,7 +50,7 @@ class ModificacaoStatusModel extends MainModel {
                 $estagioModel = $this->loader->loadModel("EstagioModel", "EstagioModel");
                 $statusModel = $this->loader->loadModel("StatusModel", "StatusModel");
                 $usuarioModel = $this->loader->loadModel("UsuarioModel", "UsuarioModel");
-                $result[$cont] = new ModificacaoStatus($row["id"], $row["data"], $estagioModel->read($row["estagio_id"],1)[0], $statusModel->read($row["status_codigo"],1)[0], $usuarioModel->read($row["usuario_email"],1)[0]);
+                $result[$cont] = new ModificacaoStatus($row["id"], $row["data"], $estagioModel->read($row["estagio_id"], 1)[0], $statusModel->read($row["status_codigo"], 1)[0], $usuarioModel->read($row["usuario_email"], 1)[0]);
                 $cont++;
             }
             return $result;
@@ -65,15 +65,17 @@ class ModificacaoStatusModel extends MainModel {
             if ($estagio == NULL) {
                 $pstmt = $this->conn->prepare("SELECT * FROM " . $this->_tabela . "");
             } else {
+                $key = $estagio->getid();
                 $pstmt = $this->conn->prepare("SELECT * FROM " . $this->_tabela . " WHERE estagio_id LIKE :estagio_id");
-                $pstmt->bindParam(':estagio_id', $estagio->getid());
+                $pstmt->bindParam(':estagio_id', $key);
             }
         } else {
             if ($estagio == NULL) {
                 $pstmt = $this->conn->prepare("SELECT * FROM " . $this->_tabela . " LIMIT :limite");
             } else {
+                $key = $estagio->getid();
                 $pstmt = $this->conn->prepare("SELECT * FROM " . $this->_tabela . " WHERE estagio_id LIKE :estagio_id LIMIT :limite");
-                $pstmt->bindParam(':estagio_id', $estagio->getid());
+                $pstmt->bindParam(':estagio_id', $key);
             }
             $pstmt->bindParam(':limite', $limite, PDO::PARAM_INT);
         }
@@ -86,7 +88,7 @@ class ModificacaoStatusModel extends MainModel {
             while ($row = $pstmt->fetch()) {
                 $statusModel = $this->loader->loadModel("StatusModel", "StatusModel");
                 $usuarioModel = $this->loader->loadModel("UsuarioModel", "UsuarioModel");
-                $result[$cont] = new ModificacaoStatus($row["id"], $row["data"], $estagio, $statusModel->read($row["status_codigo"],1)[0], $usuarioModel->read($row["usuario_email"],1)[0]);
+                $result[$cont] = new ModificacaoStatus($row["id"], $row["data"], $estagio, $statusModel->read($row["status_codigo"], 1)[0], $usuarioModel->read($row["usuario_email"], 1)[0]);
                 $cont++;
             }
             return $result;
@@ -122,7 +124,7 @@ class ModificacaoStatusModel extends MainModel {
             while ($row = $pstmt->fetch()) {
                 $estagioModel = $this->loader->loadModel("EstagioModel", "EstagioModel");
                 $usuarioModel = $this->loader->loadModel("UsuarioModel", "UsuarioModel");
-                $result[$cont] = new ModificacaoStatus($row["id"], $row["data"], $estagioModel->read($row["estagio_id"],1)[0], $status, $usuarioModel->read($row["usuario_email"],1)[0]);
+                $result[$cont] = new ModificacaoStatus($row["id"], $row["data"], $estagioModel->read($row["estagio_id"], 1)[0], $status, $usuarioModel->read($row["usuario_email"], 1)[0]);
                 $cont++;
             }
             return $result;
@@ -158,7 +160,7 @@ class ModificacaoStatusModel extends MainModel {
             while ($row = $pstmt->fetch()) {
                 $estagioModel = $this->loader->loadModel("EstagioModel", "EstagioModel");
                 $statusModel = $this->loader->loadModel("StatusModel", "StatusModel");
-                $result[$cont] = new ModificacaoStatus($row["id"], $row["data"], $estagioModel->read($row["estagio_id"],1)[0], $statusModel->read($row["status_codigo"],1)[0], $usuario);
+                $result[$cont] = new ModificacaoStatus($row["id"], $row["data"], $estagioModel->read($row["estagio_id"], 1)[0], $statusModel->read($row["status_codigo"], 1)[0], $usuario);
                 $cont++;
             }
             return $result;

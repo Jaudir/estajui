@@ -10,8 +10,10 @@ create table endereco(
 	numero int,
 	complemento varchar(10),
 	cidade varchar(30),
+	sala varchar(30),
 	uf char(2),
 	cep numeric(8)
+
 );
 
 create table empresa (
@@ -55,15 +57,13 @@ create table campus(
 
 create table curso(
 	id int auto_increment primary key,
-	nome varchar(40),
-	turno varchar(10),
-	campus_cnpj numeric(14),
-	foreign key(campus_cnpj) references campus(cnpj)
+	nome varchar(40)
 );
 
 create table status(
 	codigo int auto_increment primary key,
 	descricao varchar(170),
+	texto TEXT,
 	bitmap_usuarios_alvos varchar(5) /* Aluno PO OE CE SRA*/
 );
 
@@ -144,6 +144,7 @@ create table estagio(
 	justificativa varchar(150),
 	endereco_tc varchar(100),
 	endereco_pe varchar(100),
+	horas_contabilizadas TIME,
 	aluno_cpf numeric(11),
 	empresa_cnpj numeric(14),
 	aluno_estuda_curso_matricula int,
@@ -152,7 +153,9 @@ create table estagio(
 	foreign key(po_siape) references funcionario(siape),
 	foreign key(aluno_cpf ) references aluno(cpf),
 	foreign key(empresa_cnpj) references empresa(cnpj),	
-	foreign key(aluno_estuda_curso_matricula) references aluno_estuda_curso(matricula),
+	foreign key(aluno_estuda_curso_matricula) references aluno_estuda_curso(matricula)
+        ON UPDATE CASCADE
+        ON DELETE CASCADE,
 	foreign key(status_codigo) references status(codigo)
 );
 
@@ -192,16 +195,16 @@ create table plano_estagio(
 	setor_unidade varchar(100),
 	estagio_id int primary key, 
 	data_assinatura date,
-	atividades varchar(100),
+	atividades TEXT,
 	remuneracao real,
 	vale_transporte real,
 	data_ini date,
 	data_fim date,
-	hora_inicio1 timestamp default now(),
-	hora_inicio2 timestamp default now(),
-	hora_fim1 timestamp default now(),
-	hora_fim2 timestamp default now(),
-	total_horas timestamp default now(),
+	hora_inicio1 TIME,
+	hora_inicio2 TIME,
+	hora_fim1 TIME,
+	hora_fim2 TIME,
+	total_horas TIME,
 	data_efetivacao date,
 	foreign key(estagio_id) references estagio(id)
 );
@@ -225,7 +228,9 @@ create table apolice(
 
 create table relatorio(
 	id int auto_increment primary key,
-	endereco varchar(30),
+	nome varchar(50),
+	tipo varchar(10),
+	conteudo LONGBLOB,
 	data_envio date,
 	estagio_id int,
 	foreign key(estagio_id) references estagio(id)
@@ -275,6 +280,7 @@ create table verificar(
 	id int(11)  primary key  NOT NULL auto_increment,
 	email varchar(50)  not null,
 	codigo varchar(50) unique not null,
+	data_geracao date, 
 	verificado int not null,
 	foreign key(email ) references usuario(email)
 );
@@ -284,13 +290,15 @@ insert into status (descricao) values ("Estágio deferido pela secretaria");
 insert into status (descricao) values ("Aguardando definição do Professor orientador");
 insert into status (descricao) values ("Professor orientador definido. Aguardando que o estudante encaminhe à Coordenadoria de Extensão os documentos (TC, PE, *Minuta de convênio) devidamente assinados");
 insert into status (descricao) values ("Aguardando que o estudante retire os documentos na Coordenadoria de Extensão e os encaminhe a secretaria");
-insert into status (descricao) values ("Início de Estágio Autorizado. Aguardando que o estudante submeta o relatório de estágio");
+insert into status (descricao, texto) values ("Início de Estágio Autorizado. Aguardando que o estudante submeta o relatório de estágio", "Os documentos iniciais do estágio foram entregues e validados, você pode iniciar o estágio como estimado, após o término do estágio redija o relatório final como descrito no modelo e envie para análise do orientador.");
 insert into status (descricao) values ("Aguardando correção do relatório de estágio");
 insert into status (descricao) values ("Relatório de estágio aprovado. Aguardando que o estudante encaminhe o relatório de estágio para a Coordenadoria de Extensão");
 insert into status (descricao) values ("Relatório Final de Estágio e Declaração de Conclusão do Estágio enviados à Secretaria");
-insert into status (descricao) values ("Estágio concluído");
+insert into status (descricao) values ("Reentregar documentos do estágio na secretaria");
 insert into status (descricao) values ("Convênio de empresa aprovado");
+insert into status (descricao) values ("Estágio concluído");
 insert into status (descricao) values ("Convênio de empresa reprovado");
+insert into status (descricao) values ("Estágio reprovado");
 
 -- Adicionando dados pra testar
 
@@ -300,6 +308,7 @@ INSERT INTO usuario (email, senha, tipo) VALUES ('aluno1@aluno.com', '$2y$10$89a
 INSERT INTO usuario (email, senha, tipo) VALUES ('aluno2@aluno.com', '$2y$10$89a178NmXg.4XRDj5KB1h.ZRYnsN3CockVltOQvrkRRnAsx2KPqjW', 1);
 INSERT INTO usuario (email, senha, tipo) VALUES ('aluno3@aluno.com', '$2y$10$89a178NmXg.4XRDj5KB1h.ZRYnsN3CockVltOQvrkRRnAsx2KPqjW', 1);
 
+
 -- ENDEREÇO
 INSERT INTO endereco (id, logradouro, bairro, numero, complemento, cidade, uf, cep) VALUES (1, 'Logradouro', 'Bairro', '000', 'comp', 'Montes Claros', 'MG', '12345678');
 INSERT INTO endereco (id, logradouro, bairro, numero, complemento, cidade, uf, cep) VALUES (2, 'Logradouro', 'Bairro', '000', 'comp', 'Montes Claros', 'MG', '12345678');
@@ -307,10 +316,10 @@ INSERT INTO endereco (id, logradouro, bairro, numero, complemento, cidade, uf, c
 INSERT INTO endereco (id, logradouro, bairro, numero, complemento, cidade, uf, cep) VALUES (4, 'Logradouro', 'Bairro', '000', 'comp', 'Montes Claros', 'MG', '12345678');
 
 -- ALUNO
-INSERT INTO aluno (cpf, nome, data_nasc, rg_num, rg_orgao, estado_civil, sexo, telefone, celular, nome_pai, nome_mae, cidade_natal, estado_natal, acesso, usuario_email, endereco_id) VALUES (00000000001,'Nome de um aluno 1','2000-01-30','123456789012345','SSP','solteiro','masculino',00000000011, 00000000011,'Joao Pai','Joao Mae','MOC HELL','MG', 1,'aluno0@aluno.com', 1);
-INSERT INTO aluno (cpf, nome, data_nasc, rg_num, rg_orgao, estado_civil, sexo, telefone, celular, nome_pai, nome_mae, cidade_natal, estado_natal, acesso, usuario_email, endereco_id) VALUES (00000000002,'Nome de um aluno 2','2000-01-30','123456789012345','SSP','solteiro','masculino',00000000011, 00000000011,'Joao Pai','Joao Mae','MOC HELL','MG', 1,'aluno1@aluno.com', 2);
-INSERT INTO aluno (cpf, nome, data_nasc, rg_num, rg_orgao, estado_civil, sexo, telefone, celular, nome_pai, nome_mae, cidade_natal, estado_natal, acesso, usuario_email, endereco_id) VALUES (00000000003,'Nome de um aluno 3','2000-01-30','123456789012345','SSP','solteiro','masculino',00000000011, 00000000011,'Joao Pai','Joao Mae','MOC HELL','MG', 1,'aluno2@aluno.com', 3);
-INSERT INTO aluno (cpf, nome, data_nasc, rg_num, rg_orgao, estado_civil, sexo, telefone, celular, nome_pai, nome_mae, cidade_natal, estado_natal, acesso, usuario_email, endereco_id) VALUES (00000000004,'Nome de um aluno 4','2000-01-30','123456789012345','SSP','solteiro','masculino',00000000011, 00000000011,'Joao Pai','Joao Mae','MOC HELL','MG', 0,'aluno3@aluno.com', 4);
+INSERT INTO aluno (cpf, nome, data_nasc, rg_num, rg_orgao, estado_civil, sexo, telefone, celular, nome_pai, nome_mae, cidade_natal, estado_natal, acesso, usuario_email, endereco_id) VALUES (16380342656,'Nome de um aluno 1','2000-01-30','123456789012345','SSP','solteiro','masculino',00000000011, 00000000011,'Joao Pai','Joao Mae','MOC HELL','MG', 1,'aluno0@aluno.com', 1);
+INSERT INTO aluno (cpf, nome, data_nasc, rg_num, rg_orgao, estado_civil, sexo, telefone, celular, nome_pai, nome_mae, cidade_natal, estado_natal, acesso, usuario_email, endereco_id) VALUES (94634652943,'Nome de um aluno 2','2000-01-30','123456789012345','SSP','solteiro','masculino',00000000011, 00000000011,'Joao Pai','Joao Mae','MOC HELL','MG', 1,'aluno1@aluno.com', 2);
+INSERT INTO aluno (cpf, nome, data_nasc, rg_num, rg_orgao, estado_civil, sexo, telefone, celular, nome_pai, nome_mae, cidade_natal, estado_natal, acesso, usuario_email, endereco_id) VALUES (38594126476,'Nome de um aluno 3','2000-01-30','123456789012345','SSP','solteiro','masculino',00000000011, 00000000011,'Joao Pai','Joao Mae','MOC HELL','MG', 1,'aluno2@aluno.com', 3);
+INSERT INTO aluno (cpf, nome, data_nasc, rg_num, rg_orgao, estado_civil, sexo, telefone, celular, nome_pai, nome_mae, cidade_natal, estado_natal, acesso, usuario_email, endereco_id) VALUES (57927414410,'Nome de um aluno 4','2000-01-30','123456789012345','SSP','solteiro','masculino',00000000011, 00000000011,'Joao Pai','Joao Mae','MOC HELL','MG', 0,'aluno3@aluno.com', 4);
 
 -- USUARIOS(para funcionarios) a senha é "senha"
 INSERT INTO usuario (email, senha, tipo) VALUES ('funcionario1@funcionario.com', '$2y$10$89a178NmXg.4XRDj5KB1h.ZRYnsN3CockVltOQvrkRRnAsx2KPqjW', 2);
@@ -335,46 +344,39 @@ INSERT INTO endereco (id, logradouro, bairro, numero, complemento, cidade, uf, c
 INSERT INTO campus (cnpj, telefone, endereco_id) VALUES (10727655000462, 3821034141, 11);
 
 -- CURSO
-INSERT INTO curso (id, nome, turno, campus_cnpj) VALUES (1, 'Ciência da Computação', 'Diurno', 10727655000462);
-INSERT INTO curso (id, nome, turno, campus_cnpj) VALUES (2, 'Engenharia Química', 'Diurno', 10727655000462);
-INSERT INTO curso VALUES (3, 'Técnico em Informática', 'Diurno', 10727655000462);
-INSERT INTO curso VALUES (4, 'Técnico em Química', 'Diurno', 10727655000462);
-INSERT INTO curso VALUES (5, 'Técnico em Eletrotécnica', 'Noturno', 10727655000462);
-INSERT INTO curso VALUES (6, 'Técnico em Segurança do Trabalho', 'Noturno', 10727655000462);
+INSERT INTO curso VALUES (1, 'Ciência da Computação');
+INSERT INTO curso VALUES (2, 'Engenharia Química');
+INSERT INTO curso VALUES (3, 'Técnico em Informática');
+INSERT INTO curso VALUES (4, 'Técnico em Química');
+INSERT INTO curso VALUES (5, 'Técnico em Eletrotécnica');
+INSERT INTO curso VALUES (6, 'Técnico em Segurança do Trabalho');
 
 -- FUNCIONARIO
 INSERT INTO funcionario (siape, nome, bool_po, bool_oe, bool_ce, bool_sra, bool_root, formacao, privilegio, usuario_email, campus_cnpj) VALUES (000000001, 'Professor1', 1, 0, 0, 0, 0, 'ticher', 1, 'funcionario1@funcionario.com', 10727655000462);
-INSERT INTO funcionario (siape, nome, bool_po, bool_oe, bool_ce, bool_sra, bool_root, formacao, privilegio, usuario_email, campus_cnpj) VALUES (000000002, 'Professor2', 0, 1, 0, 0, 0, 'ticher', 1, 'funcionario1@funcionario.com', 10727655000462);
-INSERT INTO funcionario (siape, nome, bool_po, bool_oe, bool_ce, bool_sra, bool_root, formacao, privilegio, usuario_email, campus_cnpj) VALUES (000000003, 'Professor3', 0, 0, 1, 0, 0, 'ticher', 1, 'funcionario1@funcionario.com', 10727655000462);
-INSERT INTO funcionario (siape, nome, bool_po, bool_oe, bool_ce, bool_sra, bool_root, formacao, privilegio, usuario_email, campus_cnpj) VALUES (000000004, 'Professor4', 0, 0, 0, 1, 0, 'ticher', 1, 'funcionario1@funcionario.com', 10727655000462);
-INSERT INTO funcionario (siape, nome, bool_po, bool_oe, bool_ce, bool_sra, bool_root, formacao, privilegio, usuario_email, campus_cnpj) VALUES (000000005, 'Professor5', 0, 0, 0, 0, 1, 'ticher', 1, 'funcionario1@funcionario.com', 10727655000462);
-INSERT INTO funcionario (siape, nome, bool_po, bool_oe, bool_ce, bool_sra, bool_root, formacao, privilegio, usuario_email, campus_cnpj) VALUES (000000006, 'Professor6', 1, 1, 1, 1, 1, 'ticher', 1, 'funcionario1@funcionario.com', 10727655000462);
+INSERT INTO funcionario (siape, nome, bool_po, bool_oe, bool_ce, bool_sra, bool_root, formacao, privilegio, usuario_email, campus_cnpj) VALUES (000000002, 'Professor2', 0, 1, 0, 0, 0, 'ticher', 1, 'funcionario2@funcionario.com', 10727655000462);
+INSERT INTO funcionario (siape, nome, bool_po, bool_oe, bool_ce, bool_sra, bool_root, formacao, privilegio, usuario_email, campus_cnpj) VALUES (000000003, 'Professor3', 0, 0, 1, 0, 0, 'ticher', 1, 'funcionario3@funcionario.com', 10727655000462);
+INSERT INTO funcionario (siape, nome, bool_po, bool_oe, bool_ce, bool_sra, bool_root, formacao, privilegio, usuario_email, campus_cnpj) VALUES (000000004, 'Professor4', 0, 0, 0, 1, 0, 'ticher', 1, 'funcionario4@funcionario.com', 10727655000462);
+INSERT INTO funcionario (siape, nome, bool_po, bool_oe, bool_ce, bool_sra, bool_root, formacao, privilegio, usuario_email, campus_cnpj) VALUES (000000005, 'Professor5', 0, 0, 0, 0, 1, 'ticher', 1, 'funcionario5@funcionario.com', 10727655000462);
+INSERT INTO funcionario (siape, nome, bool_po, bool_oe, bool_ce, bool_sra, bool_root, formacao, privilegio, usuario_email, campus_cnpj) VALUES (000000006, 'Professor6', 1, 1, 1, 1, 1, 'ticher', 1, 'funcionario6@funcionario.com', 10727655000462);
 
 
 -- OFERECE CURSO
-<<<<<<< HEAD
 INSERT INTO oferece_curso (id, turno, curso_id, campus_cnpj, oe_siape) VALUES (1, 'Integral', 1, 10727655000462, 1 );
 INSERT INTO oferece_curso (id, turno, curso_id, campus_cnpj, oe_siape) VALUES (2, 'Integral', 2, 10727655000462, 2 );
-INSERT INTO oferece_curso (id, turno, curso_id, campus_cnpj, oe_siape) VALUES (3, 'Noturno', 1, 10727655000462, 3 );
-INSERT INTO oferece_curso (id, turno, curso_id, campus_cnpj, oe_siape) VALUES (4, 'Noturno', 2, 10727655000462, 4 );
+INSERT INTO oferece_curso (id, turno, curso_id, campus_cnpj, oe_siape) VALUES (3, 'Noturno', 1, 10727655000462, 3 );*/
+INSERT INTO oferece_curso (id, turno, curso_id, campus_cnpj, oe_siape) VALUES (4, 'Noturno', 2, 10727655000462, 4 );*/
+INSERT INTO oferece_curso(id, `turno`, `campus_cnpj`, `curso_id`, oe_siape) VALUES (5, 'Diurno', 10727655000462, 3, 1);
+INSERT INTO oferece_curso(id, `turno`, `campus_cnpj`, `curso_id`, oe_siape) VALUES (6, 'Diurno', 10727655000462, 4, 1);
+INSERT INTO oferece_curso(id, `turno`, `campus_cnpj`, `curso_id`, oe_siape) VALUES (7, 'Noturno', 10727655000462, 5, 1);
+INSERT INTO oferece_curso(id, `turno`, `campus_cnpj`, `curso_id`, oe_siape) VALUES (8, 'Noturno', 10727655000462, 6, 1);
+
 
 -- ALUNO CURSO
-INSERT INTO aluno_estuda_curso (matricula, semestre_inicio, ano_inicio, oferece_curso_id, aluno_cpf) VALUES (1, 1, 1990, 1, 000000001);
-INSERT INTO aluno_estuda_curso (matricula, semestre_inicio, ano_inicio, oferece_curso_id, aluno_cpf) VALUES (2, 1, 1990, 4, 000000002);
-INSERT INTO aluno_estuda_curso (matricula, semestre_inicio, ano_inicio, oferece_curso_id, aluno_cpf) VALUES (3, 1, 1990, 4, 000000003);
-INSERT INTO aluno_estuda_curso (matricula, semestre_inicio, ano_inicio, oferece_curso_id, aluno_cpf) VALUES (4, 1, 1990, 1, 000000004);
-=======
-INSERT INTO oferece_curso (id, turno, curso_id, campus_cnpj, oe_siape) VALUES (1, 'Integral', 1, 10727655000462, 000000001 );
-INSERT INTO oferece_curso (id, turno, curso_id, campus_cnpj, oe_siape) VALUES (2, 'Integral', 2, 10727655000462, 000000001 );
-INSERT INTO oferece_curso (id, turno, curso_id, campus_cnpj, oe_siape) VALUES (3, 'Noturno', 1, 10727655000462, 000000001 );
-INSERT INTO oferece_curso (id, turno, curso_id, campus_cnpj, oe_siape) VALUES (4, 'Noturno', 2, 10727655000462, 000000001 );
-
--- ALUNO CURSO
-INSERT INTO aluno_estuda_curso (matricula, semestre_inicio, ano_inicio, oferece_curso_id, aluno_cpf) VALUES (1, 1, 1990, 1, 00000000001);
-INSERT INTO aluno_estuda_curso (matricula, semestre_inicio, ano_inicio, oferece_curso_id, aluno_cpf) VALUES (2, 1, 1990, 2, 00000000002);
-INSERT INTO aluno_estuda_curso (matricula, semestre_inicio, ano_inicio, oferece_curso_id, aluno_cpf) VALUES (3, 1, 1990, 2, 00000000003);
-INSERT INTO aluno_estuda_curso (matricula, semestre_inicio, ano_inicio, oferece_curso_id, aluno_cpf) VALUES (4, 1, 1990, 1, 00000000004);
->>>>>>> caso-uso-10-paulo
+INSERT INTO aluno_estuda_curso (matricula, semestre_inicio, ano_inicio, oferece_curso_id, aluno_cpf) VALUES (1, 1, 1990, 1, 16380342656);
+INSERT INTO aluno_estuda_curso (matricula, semestre_inicio, ano_inicio, oferece_curso_id, aluno_cpf) VALUES (2, 1, 1990, 2, 94634652943);
+INSERT INTO aluno_estuda_curso (matricula, semestre_inicio, ano_inicio, oferece_curso_id, aluno_cpf) VALUES (3, 1, 1990, 2, 38594126476);
+INSERT INTO aluno_estuda_curso (matricula, semestre_inicio, ano_inicio, oferece_curso_id, aluno_cpf) VALUES (4, 1, 1990, 2, 57927414410);
+INSERT INTO aluno_estuda_curso (matricula, semestre_inicio, ano_inicio, oferece_curso_id, aluno_cpf) VALUES (5, 1, 1990, 2, 16380342656);
 
 -- EMPRESA
 INSERT INTO empresa (cnpj, nome, telefone, fax, nregistro, conselhofiscal, endereco_id, conveniada) VALUES (00001, 'Google', 12345566, 12312431, 31231, 'Conselho', 12, 0);
@@ -382,26 +384,22 @@ INSERT INTO empresa (cnpj, nome, telefone, fax, nregistro, conselhofiscal, ender
 
 -- Estagios
 INSERT INTO estagio(bool_aprovado, bool_obrigatorio, justificativa, aluno_cpf, empresa_cnpj, aluno_estuda_curso_matricula, po_siape, status_codigo)
-<<<<<<< HEAD
-VALUES(1, 1, 'justificativa05', 1, 1, 1, 1, 1),
-=======
-VALUES(1, 1, 'justificativa05', 1, 1, 1, NULL, 1),
->>>>>>> caso-uso-10-paulo
-(1, 1, 'justificativa06', 2, 2, 2, 2, 2),
-(1, 1, 'justificativa07', 3, 1, 1, 3, 3),
-(1, 1, 'justificativa08', 4, 2, 4, 4, 4),
-(1, 1, 'justificativa09', 1, 1, 1, 5, 5),
-(1, 1, 'justificativa10', 2, 2, 4, 6, 6),
-(1, 1, 'justificativa11', 3, 1, 1, 1, 7),
-(1, 1, 'justificativa12', 4, 2, 2, 2, 8),
-(1, 1, 'justificativa13', 1, 1, 2, 3, 9),
-(1, 1, 'justificativa14', 2, 2, 4, 4, 10),
-(1, 1, 'justificativa15', 3, 1, 1, 5, 11);
+VALUES (1, 1, 'justificativa05', 16380342656, 1, 1, 1, 1),
+(1, 1, 'justificativa06', 94634652943, 2, 2, 2, 2),
+(1, 1, 'justificativa07', 38594126476, 1, 1, 3, 3),
+(1, 1, 'justificativa08', 57927414410, 2, 4, 4, 4),
+(1, 1, 'justificativa09', 16380342656, 1, 1, 5, 5),
+(1, 1, 'justificativa10', 94634652943, 2, 4, 6, 6),
+(1, 1, 'justificativa11', 38594126476, 1, 1, 1, 7),
+(1, 1, 'justificativa12', 57927414410, 2, 2, 2, 8),
+(1, 1, 'justificativa13', 16380342656, 1, 2, 3, 9),
+(1, 1, 'justificativa14', 94634652943, 2, 4, 4, 10),
+(1, 1, 'justificativa15', 38594126476, 1, 1, 5, 11);
 INSERT INTO estagio(justificativa, aluno_cpf, empresa_cnpj, aluno_estuda_curso_matricula, po_siape, status_codigo)
-VALUES('justificativa01', 1, 2, 1, 5, 12),
-('justificativa02', 2, 1, 4, 6, 11),
-('justificativa03', 2, 2, 2, 3, 10),
-('justificativa04', 2, 1, 1, 2, 9);
+VALUES('justificativa01', 16380342656, 2, 1, 5, 12),
+('justificativa02', 94634652943, 1, 4, 6, 11),
+('justificativa03', 94634652943, 2, 2, 3, 10),
+('justificativa04', 94634652943, 1, 1, 2, 9);
 
 
 -- PLANO DE ESTÁGIO
@@ -444,6 +442,12 @@ VALUES
 (14, 14, 'seguradora13'),
 (15, 15, 'seguradora15');
 
+-- Responsavel
+INSERT INTO responsavel(email, nome, telefone,cargo, empresa_cnpj, aprovado)
+VALUES
+('responsavel1@email.com', 'Responsável1',00000000011 , 'cargo01', 1, 1),
+('responsavel2@email.com', 'Responsável2', 00000000011, 'cargo02', 2, 0);
+
 -- SUPERVISOR
 INSERT INTO supervisor(nome, cargo, habilitacao, empresa_cnpj)
 VALUES
@@ -481,4 +485,3 @@ VALUES
 (13, 13),
 (14, 14),
 (15, 15);
-

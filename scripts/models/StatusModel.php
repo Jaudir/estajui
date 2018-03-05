@@ -15,9 +15,12 @@ class StatusModel extends MainModel {
     public static $AGURDANDO_REL = 7;
     public static $RELATORIO_APR = 8;
     public static $RELATORIO_SEC = 9;
-    public static $ESTAGIO_CON = 10;
+    public static $ESTAGIO_CON = 12;
     public static $CONVENIO_APR = 11;
-    public static $CONVENIO_RPR = 12;
+    public static $RELATORIO_REV = 15;
+    public static $CONVENIO_RPR = 13;
+    public static $REENTREG_DOC = 10;
+    public static $ESTAGIO_RPR = 14;
 
     public function adicionaNotificacao($statusId, $estagio, $usuario, $justificativa = null) {
         try {
@@ -33,12 +36,12 @@ class StatusModel extends MainModel {
 
             $stmt = $this->conn->prepare('INSERT INTO notificacao(lida, modifica_status_id, temJustificativa, justificativa) VALUES(:lida, :modifica_status_id, :temJustificativa, :justificativa)');
             $stmt->execute(
-                array(
-                    ':lida' => 0, 
-                    ':modifica_status_id' => $id, 
-                    ':temJustificativa' => $justificativa != null, 
-                    ':justificativa' => $justificativa));
-                    
+                    array(
+                        ':lida' => 0,
+                        ':modifica_status_id' => $id,
+                        ':temJustificativa' => (int) ($justificativa != null),
+                        ':justificativa' => $justificativa));
+
             $this->conn->commit();
         } catch (PDOException $ex) {
             Log::LogPDOError($ex);
@@ -47,10 +50,10 @@ class StatusModel extends MainModel {
     }
 
     public function create(Status $status) {
-        $pstmt = $this->conn->prepare("INSERT INTO " . $this->_tabela . " (descricao, bitmap_usuarios_alvo) VALUES(?, ?)");
+        $pstmt = $this->conn->prepare("INSERT INTO " . $this->_tabela . " (descricao, bitmap_usuarios_alvo, texto) VALUES(?, ?, ?)");
         try {
             $this->conn->beginTransaction();
-            $pstmt->execute(array($status->getdescricao(), $status->get_usuarios_alvo()));
+            $pstmt->execute(array($status->getdescricao(), $status->get_usuarios_alvo(), $status->gettexto()));
             $id = $this->conn->lastInsertId();
             $this->conn->commit();
             $status->setcodigo($id);
@@ -87,6 +90,7 @@ class StatusModel extends MainModel {
             $result = [];
             while ($row = $pstmt->fetch()) {
                 $result[$cont] = new Status($row["codigo"], $row["descricao"], $row["bitmap_usuarios_alvos"]);
+                $result[$cont]->settexto($row["texto"]);
                 $cont++;
             }
             return $result;
@@ -97,10 +101,10 @@ class StatusModel extends MainModel {
     }
 
     public function update(Status $status) {
-        $pstmt = $this->conn->prepare("UPDATE " . $this->$_tabela . " SET descricao=?, bitmap_usuarios_alvo=? WHERE codigo = ?");
+        $pstmt = $this->conn->prepare("UPDATE " . $this->$_tabela . " SET descricao=?, bitmap_usuarios_alvo=?, texto=? WHERE codigo = ?");
         try {
             $this->conn->beginTransaction();
-            $pstmt->execute(array($status->getdescricao(), $status->get_usuarios_alvo(), $status->getcodigo()));
+            $pstmt->execute(array($status->getdescricao(), $status->get_usuarios_alvo(), $status->gettexto(), $status->getcodigo()));
             $this->conn->commit();
             return 0;
         } catch (PDOExecption $e) {

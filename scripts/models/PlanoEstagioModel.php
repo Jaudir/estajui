@@ -77,7 +77,7 @@ class PlanoEstagioModel extends MainModel{
             $estagioModel = $this->loader->loadModel('EstagioModel', 'EstagioModel');
             $this->loader->loadDao('PlanoDeEstagio');
 
-            $stmt = $this->conn->prepare("SELECT plano_estagio.* FROM estagio JOIN plano_estagio ON estagio.id = plano_estagio.estagio_id WHERE po_siape is NULL");
+            $stmt = $this->conn->prepare("SELECT plano_estagio.* FROM estagio JOIN plano_estagio ON estagio.id = plano_estagio.estagio_id WHERE status_codigo = 3");
             $stmt->execute();
 
             $estagios = $stmt->fetchAll();

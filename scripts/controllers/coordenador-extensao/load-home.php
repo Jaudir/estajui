@@ -3,17 +3,19 @@
 require_once(dirname(__FILE__) . '/../base-controller.php');
 
 $session = getSession();
-/*$session->setUsuario(
-    new Funcionario("func@func", "12345", 1, 1, "Jirafalles", false, false, true, false, null, null, null, null)
-);*/
+//CE
+$session->setUsuario(
+    new Funcionario("func@func", "12345", 1, 2, "Prof", false, false, true, false, null, null, null, null)
+);
+
+$listaDeEstagios = array();
+$statusEmpresas = array();
+
 if($session->isce()){
-    $session->clearErrors();
+    //$session->clearErrors();
     $ce = $session->getUsuario('usuario');
     $model = $loader->loadModel('FuncionarioModel', 'FuncionarioModel');
     $ce = $model->read($ce->getsiape(),1)[0];
-
-    $statusEstagios = null;
-    $statusEmpresas = null;
 
     if($model != null){
         /* Carregar dados de estágios e empresas e o que mais for preciso para a home do CE*/
@@ -27,6 +29,7 @@ if($session->isce()){
         $palavras_chave['po'] = "%" . $palavras_chave['po'] . "%";
 
         $listaDeEstagios = $model->listarEstagios_ce($palavras_chave);
+        // var_dump($listaDeEstagios);
         if (is_array($listaDeEstagios)){
             foreach($listaDeEstagios as $le){
                 $le->getpe()->setdata_inicio(date('d/m/Y', strtotime($le->getpe()->getdata_inicio())));
@@ -37,8 +40,8 @@ if($session->isce()){
         }
         $statusEmpresas = $model->listaEmpresas();
 
-        if(!$statusEstagios)
-            $statusEstagios = array();
+        if(!$listaDeEstagios)
+            $listaDeEstagios = array();
         
         if(!$statusEmpresas)
             $statusEmpresas = array();
