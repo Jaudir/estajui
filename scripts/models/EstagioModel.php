@@ -290,8 +290,8 @@ class EstagioModel extends MainModel {
                  return true;  
             }else if($aprovado == false){
                 $this->conn->beginTransaction();  
-                $pstmt = $this->conn->prepare("insert into ".$this->_tabela_intermediaria2." (descricao, relatorio_id, po_siape, conteudo, tipo, nome) values (?,?,?)");
-                $pstmt->execute(array($comentarioRelatorio->get_descricao(),$relatorio_id,$usuario->getsiape(),$arquivo->get_conteudo(),$arquivo->get_tipo(),$arquivo->get_nome()));
+                $pstmt = $this->conn->prepare("insert into ".$this->_tabela_intermediaria2." (descricao, relatorio_id, po_siape, conteudo, tipo, nome) values (?,?,?,?,?,?)");
+                $pstmt->execute(array($comentarioRelatorio,$relatorio_id,$usuario->getsiape(),$arquivo->get_conteudo(),$arquivo->get_tipo(),$arquivo->get_nome()));
                 $statusModel->adicionaNotificacao(StatusModel::$RELATORIO_REV,$estagio, $usuario);
                 
                 $pstmt = $this->conn->prepare("update ".$this->_tabela." set status_codigo = ? where id = ?");

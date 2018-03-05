@@ -127,7 +127,7 @@
                      </a> <br> <br>
                   </div>
                 </div>
-                <form name="dados-aluno" method="POST"  action="<?php echo base_url().'/scripts/controllers/organizador-estagio/avaliar-relatorio-final.php';?>" >
+                <form enctype="multipart/form-data" name="dados-aluno" method="POST"  action="<?php echo base_url().'/scripts/controllers/organizador-estagio/avaliar-relatorio-final.php';?>" >
                   <div class="form-group">
                     <div class="row">
                       <div class="col-md-12">
@@ -149,7 +149,7 @@
                     <div class="row">
                       <div class="col-md-12">
                         <label for="correcao">Correções</label>
-                        <input type="file" class="form-control-file" id="correcao">
+                        <input type="file" class="form-control-file" name="correcao">
                       </div>
                     </div> <br>
                     <div class="row">

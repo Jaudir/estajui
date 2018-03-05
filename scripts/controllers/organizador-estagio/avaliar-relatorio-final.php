@@ -16,7 +16,7 @@ if(isset($_POST['confirmar']) && isset($_POST['estagio_id']) && isset($_POST['re
         $estagio_atual->avaliarrelatorio(isset($_POST['aprovado']),$_POST['estagio_id'], null,$session->getusuario(),$_POST['relatorio_id'],null);
         $session->pushValue('Relatorio aprovado!', 'sucesso');
     }else if(isset($_POST['reprovado'])){
-        if(isset($_POST['justificativa'])){
+        if(!isset($_POST['justificativa'])){
             $session->pushError('Ao rejeitar um relatório é necessário expressar uma justificativa!', 'error-validacao');
         }else{
             if(!is_uploaded_file($_FILES['correcao']['tmp_name'])){
