@@ -40,15 +40,6 @@ if (is_a($usuario, "Aluno")) {
         $ce = $model->read($ce->getsiape(), 1)[0];
 
         if ($model != null) {
-            /* Carregar dados de estágios e empresas e o que mais for preciso para a home do CE */
-            $palavras_chave = array("curso" => "", "status" => "4", "empresa" => "", "responsavel" => "", "aluno" => "", "po" => "", "data_ini" => "", "data_fim" => "");
-
-            $palavras_chave['curso'] = "%" . $palavras_chave['curso'] . "%";
-            $palavras_chave['status'] = "%" . $palavras_chave['status'] . "%";
-            $palavras_chave['empresa'] = "%" . $palavras_chave['empresa'] . "%";
-            $palavras_chave['responsavel'] = "%" . $palavras_chave['responsavel'] . "%";
-            $palavras_chave['aluno'] = "%" . $palavras_chave['aluno'] . "%";
-            $palavras_chave['po'] = "%" . $palavras_chave['po'] . "%";
 
             $listaDeEstagios = $estagiomodel->read(null, 0);
             if (is_array($listaDeEstagios)) {
@@ -58,6 +49,7 @@ if (is_a($usuario, "Aluno")) {
                     }
                 }
             }
+            
             $statusEmpresas = $model->listaEmpresas();
 
             if (!$listaDeEstagios)
