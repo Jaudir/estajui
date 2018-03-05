@@ -84,15 +84,13 @@ class Database {
     public static function getConnection() {
         if (is_null(self::$db)) {
             try {
-                $conn = new CascadePDO("mysql:host=" . self::$servername . ";dbname=" . self::$dbname . ";charset=utf8", self::$username, self::$password);
-                $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-                return $conn;
+                self::$db = new CascadePDO("mysql:host=" . self::$servername . ";dbname=" . self::$dbname . ";charset=utf8", self::$username, self::$password);
+                self::$db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
             } catch (PDOException $e) {
                 return false;
             }
-        } else {
-            return self::$db;
         }
+        return self::$db;
     }
 
 }

@@ -37,8 +37,8 @@ class Validation{
     }
 
     /*
-        Se shortCiruit = true: para no primeiro erro encontrado e o registra
-        caso contrário, vai processar todos os erros
+        $shortCiruit = true: para no primeiro erro encontrado e o registra
+        caso contrário: Processar e registra todos os erros encontrados
     */
     public function validate($shortCircuit = true){
         $this->errors = array();
