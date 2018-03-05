@@ -36,7 +36,7 @@
 
     $model = $loader->loadModel('AlunoModel', 'AlunoModel');
     if ($model != null) {
-        if ($estagioModel->preCadastrarEstagio($estagio, $curso, $campus)) {
+        if ($estagioModel->create($estagio)) {
             $session->pushValue('Estágio pré-cadastrado!', 'resultado');
         }else{
             $session->pushError('Falha ao cadastrar estágio!');
