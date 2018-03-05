@@ -8,10 +8,10 @@ class ResponsavelModel extends MainModel {
     private $_tabela = "responsavel";
 
     public function create(Responsavel $reponsavel) {
-        $pstmt = $this->conn->prepare("INSERT INTO " . $this->_tabela . " (email, nome, telefone, cargo, empresa_cnpj, aprovado) VALUES(?, ?, ?, ?, ?)");
+        $pstmt = $this->conn->prepare("INSERT INTO " . $this->_tabela . " (email, nome, telefone, cargo, empresa_cnpj, aprovado) VALUES(?, ?, ?, ?, ?, ?)");
         try {
             $this->conn->beginTransaction();
-            $pstmt->execute(array($reponsavel->getemail(), $reponsavel->getnome(), $reponsavel->gettelefone(), $reponsavel->getcargo(), $reponsavel->getempresa()->getcnpj(),(int) $reponsavel->getaprovado()));
+            $pstmt->execute(array($reponsavel->getemail(), $reponsavel->getnome(), $reponsavel->gettelefone(), $reponsavel->getcargo(), $reponsavel->getempresa()->getcnpj(), 0));
             $this->conn->commit();
             return 0;
         } catch (PDOExecption $e) {

@@ -26,6 +26,8 @@ class Aluno extends Usuario {
     private $_acesso;
     private $_endereco;
 
+    private $cursos;
+
     public function __construct($login, $senha, $tipo, $_cpf, $_nome, $_data_nasc, $_rg_num, $_rg_orgao, $_estado_civil, $_sexo, $_telefone, $_celular, $_nome_pai, $_nome_mae, $_cidade_natal, $_estado_natal, $_acesso, $_endereco) {
         parent::__construct($login, $senha, $tipo);
         $this->_cpf = $_cpf;
@@ -248,6 +250,14 @@ class Aluno extends Usuario {
     function setdata_nasc($_data_nasc) {
         $date = new DateTime($_data_nasc);
         $this->_data_nasc = $date->format('d/m/Y');
+    }
+
+    public function setCursos($cursos){
+        $this->cursos = $cursos;
+    }
+
+    public function getCursos(){
+        return $this->cursos;
     }
 
 }

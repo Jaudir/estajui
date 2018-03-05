@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <?php
   require_once('../../scripts/controllers/base-controller.php');
+
   $session = getSession();
 
   function printErrorFeedback($error){
@@ -21,6 +22,13 @@
 
     if($session->hasValues($index))
       echo 'value="' . $session->getValues($index)[0] . '"';
+  }
+
+  function readonly(){
+    global $session;
+
+    if($session->hasValues('busca') && !$session->hasError())
+      echo ' readonly';
   }
 
   function selectOption($index, $opt){
@@ -77,7 +85,7 @@
                   <div class="input-group">
                     <input class="form-control" type="search" id="search" 
                     placeholder="Buscar empresa .." aria-label="Pesquisar" 
-                    aria-describedby="buscarEmpresaHelp" required>
+                    aria-describedby="buscarEmpresaHelp" name="cnpj-busca" required>
                     <button id="search-btn" type="button" class="input-group-addon"><i class="fa fa-search"></i></button>
                   </div>
                   <small id="buscarEmpresaHelp" class="form-text text-muted">
@@ -85,55 +93,56 @@
                   </small>
                 </div>
               </div>
+              
               <div class="row">
                   <div class="col-md-6 mb-3">
                     <label for="validationCustom03">Nome fantasia</label>
-                    <input <?php printValue('nome_fantasia');?> name="nome_fantasia" type="text" class="form-control" id="validationCustom03" required>
+                    <input <?php printValue('nome_fantasia'); readonly()?> name="nome_fantasia" type="text" class="form-control" id="validationCustom03" required>
                     <?php printError('nome_fantasia'); //Por favor, informe um nome válido.?>
                   </div>
                   <div class="col-md-6 mb-3">
                     <label for="cnpj">CNPJ</label>
-                    <input <?php printValue('cnpj')?> name="cnpj" type="text" class="form-control" id="cnpj" required>
+                    <input <?php printValue('cnpj'); readonly()?> name="cnpj" type="text" class="form-control" id="cnpj" required>
                     <?php printError('cnpj'); // Por favor, informe um CNPJ válido.?>
                   </div>
                   <div class="col-md-12 mb-3">
                     <label for="validationCustom04">Razão Social</label>
-                    <input <?php printValue('razao_social')?> name="razao_social" type="text" class="form-control" id="validationCustom04" required>
+                    <input <?php printValue('razao_social'); readonly()?> name="razao_social" type="text" class="form-control" id="validationCustom04" required>
                     <?php printError('razao_social'); //Por favor, informe a razão social.?>
                   </div>
                   <div class="col-md-8 mb-3">
                     <label for="validationCustom11">Logradouro</label>
-                    <input <?php printValue('logradouro')?> name="logradouro" type="text" class="form-control" id="validationCustom11" placeholder="Rua, Av., etc." required>
+                    <input <?php printValue('logradouro'); readonly()?> name="logradouro" type="text" class="form-control" id="validationCustom11" placeholder="Rua, Av., etc." required>
                     <?php printError('logradouro'); //Preencha este campo.?>
                   </div>
                   <div class="col-md-4 mb-2">
                     <label for="validationCustom13">Número</label>
-                    <input <?php printValue('numero')?> name="numero" type="text" class="form-control" id="validationCustom13" required>
+                    <input <?php printValue('numero'); readonly()?> name="numero" type="text" class="form-control" id="validationCustom13" required>
                     <?php printError('numero'); //Preencha este campo.?>
                   </div>
                   <div class="col-md-6 mb-2">
                     <label for="validationCustom12">Bairro</label>
-                    <input <?php printValue('bairro')?> name="bairro" type="text" class="form-control" id="validationCustom12" required>
+                    <input <?php printValue('bairro'); readonly()?> name="bairro" type="text" class="form-control" id="validationCustom12" required>
                     <?php printError('bairro'); //Preencha este campo.?>
                   </div>
                   <div class="col-md-3 mb-3">
                     <label for="validationCustom15">Sala</label>
-                    <input <?php printValue('sala')?> name="sala" type="text" class="form-control" id="validationCustom15">
+                    <input <?php printValue('sala'); readonly()?> name="sala" type="text" class="form-control" id="validationCustom15">
                     <?php printError('sala'); //Preencha este campo.?>
                   </div>
                   <div class="col-md-3 mb-2">
                     <label for="cep">CEP</label>
-                    <input <?php printValue('cep')?> name="cep" type="text" class="form-control" id="cep" required>
+                    <input <?php printValue('cep'); readonly()?> name="cep" type="text" class="form-control" id="cep" required>
                     <?php printError('cep'); //Por favor, informe um CEP válido.?>
                   </div>
                   <div class="col-md-6 mb-2">
                     <label for="validationCustom16">Cidade</label>
-                    <input <?php printValue('cidade')?> name="cidade" type="text" class="form-control" id="validationCustom16" required>
+                    <input <?php printValue('cidade'); readonly()?> name="cidade" type="text" class="form-control" id="validationCustom16" required>
                     <?php printError('cidade'); //Preencha este campo.?>
                   </div>
                   <div class="col-md-6 mb-2">
                     <label for="validationCustom17">Estado</label>
-                    <select name="estado" class="form-control" required>
+                    <select <?php readonly()?>name="estado" class="form-control" required>
                       <option <?php selectOption('estado', 'MG') ?> value="MG">Minas Gerais</option>
                       <option <?php selectOption('estado', 'BA') ?> value="BA">Bahia</option>
                     </select>
@@ -141,42 +150,42 @@
                   </div>
                   <div class="col-md-6 mb-2">
                     <label for="telefone">Telefone</label>
-                    <input <?php printValue('telefone')?> name="telefone" type="text" class="form-control" id="telefone" placeholder="(DD) 9999-9999" required>
+                    <input <?php printValue('telefone'); readonly()?> name="telefone" type="text" class="form-control" id="telefone" placeholder="(DD) 9999-9999" required>
                     <?php printError('telefone'); //Preencha este campo.?>
                   </div>
                   <div class="col-md-6 mb-3">
                     <label for="validationCustom18">FAX</label>
-                    <input <?php printValue('fax')?> name="fax" type="text" class="form-control" id="validationCustom18">
+                    <input <?php printValue('fax'); readonly()?> name="fax" type="text" class="form-control" id="validationCustom18">
                     <?php printError('fax'); //Preencha este campo.?>
                   </div>
                   <div class="col-md-6 mb-2">
                     <label for="validationCustom20">Nº de registro</label>
-                    <input <?php printValue('nregistro')?> name="nregistro" type="text" class="form-control" id="validationCustom20" required>
+                    <input <?php printValue('nregistro'); readonly()?> name="nregistro" type="text" class="form-control" id="validationCustom20" required>
                     <?php printError('nregistro'); //Preencha este campo.?>
                   </div>
                   <div class="col-md-6 mb-3">
                     <label for="validationCustom21">Conselho de fiscalização</label>
-                    <input <?php printValue('conselhofiscal')?> name="conselhofiscal" type="text" class="form-control" id="validationCustom21" required>
+                    <input <?php printValue('conselhofiscal'); readonly()?> name="conselhofiscal" type="text" class="form-control" id="validationCustom21" required>
                     <?php printError('conselhofiscal'); //Preencha este campo.?>
                   </div>
                   <div class="col-md-6 mb-2">
                     <label for="validationCustom22">Nome do responsável</label>
-                    <input <?php printValue('nome_responsavel')?> name="nome_responsavel" type="text" class="form-control" id="validationCustom22" required>
+                    <input <?php printValue('nome_responsavel'); readonly()?> name="nome_responsavel" type="text" class="form-control" id="validationCustom22" required>
                     <?php printError('nome_responsavel'); //Preencha este campo.?>
                   </div>
                   <div class="col-md-6 mb-3">
                     <label for="tel-resp">Telefone do responsável</label>
-                    <input <?php printValue('telefone_responsavel')?> name="telefone_responsavel" type="text" class="form-control" id="tel-resp" placeholder="(DD) 9999-9999" required>
+                    <input <?php printValue('telefone_responsavel'); readonly()?> name="telefone_responsavel" type="text" class="form-control" id="tel-resp" placeholder="(DD) 9999-9999" required>
                     <?php printError('telefone_responsavel'); //Preencha este campo.?>
                   </div>
                   <div class="col-md-6 mb-2">
                     <label for="validationCustom24">Email</label>
-                    <input <?php printValue('email_responsavel')?> name="email_responsavel" type="text" class="form-control" id="validationCustom24" required>
+                    <input <?php printValue('email_responsavel'); readonly()?> name="email_responsavel" type="text" class="form-control" id="validationCustom24" required>
                     <?php printError('email_responsavel'); //Preencha este campo.?>
                   </div>
                   <div class="col-md-6 mb-3">
                     <label for="validationCustom25">Cargo ocupado</label>
-                    <input <?php printValue('cargo_responsavel')?> name="cargo_responsavel" type="text" class="form-control" id="validationCustom25" required>
+                    <input <?php printValue('cargo_responsavel'); readonly()?> name="cargo_responsavel" type="text" class="form-control" id="validationCustom25" required>
                     <?php printError('cargo_responsavel'); //Preencha este campo.?>
                   </div>
               </div>
@@ -282,14 +291,16 @@
     <script src="../../assets/js/jquery-3.3.1.min.js" type="text/javascript" charset="utf-8"></script>
     <script src="../../assets/js/jquery.maskedinput.js" type="text/javascript"></script>
     <script src="../../assets/js/masks.js" type="text/javascript"></script>
-    <script src="../../assets/js/search-box.js" type="text/javascript"></script>
+    <!--<script src="../../assets/js/search-box.js" type="text/javascript"></script>-->
     <!--<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>-->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
     <script>
           // Example starter JavaScript for disabling form submissions if there are invalid fields
           $(function() {
-          <?php if($session->hasValues('resultado')):?>
+          <?php if($session->hasError('missing')):?>
+            alert("Campos obrigatórios não foram preenchidos!");
+          <?php elseif($session->hasValues('resultado')):?>
             alert(<?php echo "\"" . $session->getValues('resultado')[0] ."\""?>);
           <?php elseif($session->hasError('estagio')):?>
             alert(<?php echo "\"" . $session->getErrors('estagio')[0] . "\""?>);
@@ -309,6 +320,12 @@
             }, false);
           
             $('#cadastrar').click(function(){
+              $('#needs-validation').attr('action', '<?php echo base_url() . '/scripts/controllers/estudante/cadastrar-estagio.php'?>');
+              $('#needs-validation').submit();
+            });
+
+            $('#search-btn').click(function(){
+              $('#needs-validation').attr('action', '<?php echo base_url() . '/scripts/controllers/estudante/buscar-empresa.php'?>');
               $('#needs-validation').submit();
             });
           });
@@ -318,3 +335,6 @@
     </div>
 </body>
 </html>
+<?php
+  $session->getValues('busca');
+?>

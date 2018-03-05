@@ -11,7 +11,7 @@ class CursoModel extends MainModel {
         try {
             $this->loader->loadDAO('Curso');
 
-            $stmt = $this->conn->prepare('SELECT curso.* FROM aluno JOIN aluno_estuda_curso ON aluno_estuda_curso.aluno_cpf=aluno.cpf JOIN curso ON curso.id=aluno_estuda_curso.cpf WHERE aluno.cpf = :cpf');
+            $stmt = $this->conn->prepare('SELECT curso.* FROM aluno JOIN aluno_estuda_curso ON aluno_estuda_curso.aluno_cpf=aluno.cpf JOIN oferece_curso ON oferece_curso.id=aluno_estuda_curso.oferece_curso_id JOIN curso ON oferece_curso.curso_id=curso.id WHERE aluno.cpf = :cpf');
             $stmt->execute(array(':cpf' => $aluno->getcpf()));
 
             $cursos = $stmt->fetchAll();

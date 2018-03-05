@@ -156,11 +156,14 @@ class FuncionarioModel extends MainModel {
                 $status_codigo = StatusModel::$CONVENIO_RPR;
             }
 
-            /* Carregar alunos de estágios associados que devem ser notificados desta ação */
+            /* Carregar estágios associados que devem ser notificados desta ação */
             $estagios = $estagioModel->buscarPorEmpresa($cnpj);
 
-            if($estagios == false)
+            if($estagios == false){
+                //acontece quando você insere dados manualmente para testes...
+                Log::LogError('Empresa não possui nenhum estágio associado');
                 return false;
+            }
 
             //inserção dos dados
             $this->conn->beginTransaction();
@@ -230,7 +233,6 @@ class FuncionarioModel extends MainModel {
                     $empresas[] = new Empresa(
                         $empr['cnpj'],
                         $empr['nome'],
-                        $empr['razao_social'],
                         $empr['telefone'],
                         $empr['fax'],
                         $empr['nregistro'],
@@ -251,9 +253,11 @@ class FuncionarioModel extends MainModel {
                             $empr['resp_nome'],
                             $empr['resp_tel'],
                             $empr['resp_cargo'],
+                            null,
                             null
                         ),
-                        $empr['conveniada']
+                        $empr['conveniada'],
+                        $empr['razao_social']
                     );
                 }
                 return $empresas;
@@ -470,6 +474,55 @@ class FuncionarioModel extends MainModel {
             return 2;
         }
     }
+
+    public function carregarOrientadores(){
+        try{
+            $campusModel = $this->loader->loadModel('CampusModel', 'CampusModel');
+
+            $stmt = $this->conn->prepare('SELECT * FROM funcionario JOIN usuario ON usuario.email = funcionario.usuario_email WHERE bool_po = 1');
+            $stmt->execute();
+
+            $stmt = $stmt->fetchAll();
+
+            $orientadores = array();
+            foreach($stmt as $orientador){
+                $campus = $campusModel->read($orientador["campus_cnpj"], 1)[0];
+                $func = $this->newFuncionario($orientador);
+
+                $func->setcampus($campus);
+
+                $orientadores[] = $func;
+            }
+            return $orientadores;
+
+        }catch(PDOException $ex){
+            Log::LogPDOError($ex);
+            return false;
+        }
+    }
+
+    private function newFuncionario($array){
+        $this->loader->loadDao('Funcionario');
+
+        $func = new Funcionario(null, null, null, null, null, null, null, null, null, null, null, null, null);
+        
+        if(isset($array['email'])) $func->setlogin($array['email']);
+        if(isset($array['senha'])) $func->setsenha($array['senha']);
+        if(isset($array['tipo'])) $func->settipo($array['tipo']);
+
+        if(isset($array['siape'])) $func->setsiape($array['siape']);
+        if(isset($array['nome'])) $func->setnome($array['nome']);
+        if(isset($array['bool_po'])) $func->setpo(boolval($array['bool_po']));
+        if(isset($array['bool_oe'])) $func->setoe(boolval($array['bool_oe']));
+        if(isset($array['bool_ce'])) $func->setce(boolval($array['bool_ce']));
+        if(isset($array['bool_sra'])) $func->setsra(boolval($array['bool_sra']));
+        if(isset($array['bool_root'])) $func->setroot(boolval($array['bool_root']));
+        if(isset($array['formacao'])) $func->setformacao($array['formacao']);
+        if(isset($array['privilegio'])) $func->setformacao(boolval($array['formacao']));
+
+        return $func;
+    }
+
 	// Campos de pesquisa: nome da empresa, nome do responsável, professor orientador ou aluno, entre data de início e de término
 	// Infos a serem retornadas: Nome do Estagiário, Data de Início, Término, PO, empresa
 	// a função recebe o array $palavras_chave que sao os termos de pesquisa
