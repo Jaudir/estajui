@@ -46,7 +46,7 @@
               <a class="nav-link active" href="#">Home</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#">Usuários</a>
+              <a class="nav-link" href="usuarios.php">Usuários</a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="#">Empresas</a>

@@ -363,13 +363,18 @@ INSERT INTO funcionario (siape, nome, bool_po, bool_oe, bool_ce, bool_sra, bool_
 -- OFERECE CURSO
 INSERT INTO oferece_curso (id, turno, curso_id, campus_cnpj, oe_siape) VALUES (1, 'Integral', 1, 10727655000462, 1 );
 INSERT INTO oferece_curso (id, turno, curso_id, campus_cnpj, oe_siape) VALUES (2, 'Integral', 2, 10727655000462, 2 );
-INSERT INTO oferece_curso (id, turno, curso_id, campus_cnpj, oe_siape) VALUES (3, 'Noturno', 1, 10727655000462, 3 );
-INSERT INTO oferece_curso (id, turno, curso_id, campus_cnpj, oe_siape) VALUES (4, 'Noturno', 2, 10727655000462, 4 );
+INSERT INTO oferece_curso (id, turno, curso_id, campus_cnpj, oe_siape) VALUES (3, 'Noturno', 1, 10727655000462, 3 );*/
+INSERT INTO oferece_curso (id, turno, curso_id, campus_cnpj, oe_siape) VALUES (4, 'Noturno', 2, 10727655000462, 4 );*/
+INSERT INTO oferece_curso(id, `turno`, `campus_cnpj`, `curso_id`, oe_siape) VALUES (5, 'Diurno', 10727655000462, 3, 1);
+INSERT INTO oferece_curso(id, `turno`, `campus_cnpj`, `curso_id`, oe_siape) VALUES (6, 'Diurno', 10727655000462, 4, 1);
+INSERT INTO oferece_curso(id, `turno`, `campus_cnpj`, `curso_id`, oe_siape) VALUES (7, 'Noturno', 10727655000462, 5, 1);
+INSERT INTO oferece_curso(id, `turno`, `campus_cnpj`, `curso_id`, oe_siape) VALUES (8, 'Noturno', 10727655000462, 6, 1);
+
 
 -- ALUNO CURSO
 INSERT INTO aluno_estuda_curso (matricula, semestre_inicio, ano_inicio, oferece_curso_id, aluno_cpf) VALUES (1, 1, 1990, 1, 16380342656);
 INSERT INTO aluno_estuda_curso (matricula, semestre_inicio, ano_inicio, oferece_curso_id, aluno_cpf) VALUES (2, 1, 1990, 2, 94634652943);
-INSERT INTO aluno_estuda_curso (matricula, semestre_inicio, ano_inicio, oferece_curso_id, aluno_cpf) VALUES (3, 1, 1990, 3, 38594126476);
+INSERT INTO aluno_estuda_curso (matricula, semestre_inicio, ano_inicio, oferece_curso_id, aluno_cpf) VALUES (3, 1, 1990, 2, 38594126476);
 INSERT INTO aluno_estuda_curso (matricula, semestre_inicio, ano_inicio, oferece_curso_id, aluno_cpf) VALUES (4, 1, 1990, 2, 57927414410);
 INSERT INTO aluno_estuda_curso (matricula, semestre_inicio, ano_inicio, oferece_curso_id, aluno_cpf) VALUES (5, 1, 1990, 2, 16380342656);
 
