@@ -19,7 +19,7 @@ $estagios = array();
 $usuario = $session->getUsuario();
 $estagioModel = $loader->loadModel("EstagioModel", "EstagioModel");
 $notificacoesModel = $loader->loadModel("NotificacaoModel", "NotificacaoModel");
-$notificacoes = $notificacoesModel->read(null, 0);
+$notificacoes = $notificacoesModel->getNotificacoes($usuario);
 if (is_a($usuario, "Aluno")) {
     $titulo = "Estudante";
     $estagios = $estagioModel->readbyaluno($usuario, 0);

@@ -66,14 +66,14 @@ require_once $_SERVER['DOCUMENT_ROOT'] . "/estajui/scripts/controllers/HomeContr
                         <li class="nav-item">
                             <a class="nav-link active" href="home.php">Home</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="estudante/alterar-dados-pessoais.php">Meus dados</a>
-                        </li>
 
                         <!--Estudante-->
                         <?php
                         if (is_a($usuario, "Aluno")) {
                             ?>
+                            <li class="nav-item">
+                                <a class="nav-link" href="estudante/alterar-dados-pessoais.php">Meus dados</a>
+                            </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="estudante/historico.php">Histórico de estágios</a>
                             </li>
@@ -120,7 +120,7 @@ require_once $_SERVER['DOCUMENT_ROOT'] . "/estajui/scripts/controllers/HomeContr
                         if (!is_a($usuario, "Aluno")) {
                             ?>
                             <li class="nav-item">
-                                <a class="nav-link" href="#">Relatórios</a>
+                                <a class="nav-link" href="generico/listar-estagios.php">Relatórios</a>
                             </li>
                             <?php
                         }

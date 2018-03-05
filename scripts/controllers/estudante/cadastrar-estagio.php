@@ -99,4 +99,4 @@ if($session->isAluno()){
 }else{
     $session->pushError('Você não é um aluno, não é possível criar estágios!');
 }
-redirect(base_url() . '/estajui/estudante/cadastrar-dados-estagio.php');
+redirect(base_url() . '/estajui/home.php');
