@@ -34,6 +34,19 @@ if (is_a($usuario, "Aluno")) {
     } elseif ($usuario->isce()) {
         $titulo = "Coordenador de extensão";
     } elseif ($usuario->isoe()) {
+        /* Carregar dados dos estágios agurdando professor orientador */
+        $peModel = $loader->loadModel('PlanoEstagioModel', 'PlanoEstagioModel');
+//carregar estágios que estão aguardando definição de professor orientador
+        $estagios = $peModel->carregarAguardandoOrientador();
+        if ($estagios == false) {
+            $estagios = array();
+        }
+        /* Carregar professores orientadores */
+        $funcModel = $loader->loadModel('FuncionarioModel', 'FuncionarioModel');
+        $professores = $funcModel->carregarOrientadores();
+        if ($professores == false) {
+            $professores = array();
+        }
         $titulo = "Organizador de estagio";
     } elseif ($usuario->issra()) {
         $titulo = "Secretaria";
