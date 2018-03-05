@@ -379,7 +379,7 @@ INSERT INTO empresa (cnpj, nome, telefone, fax, nregistro, conselhofiscal, ender
 
 -- Estagios
 INSERT INTO estagio(bool_aprovado, bool_obrigatorio, justificativa, aluno_cpf, empresa_cnpj, aluno_estuda_curso_matricula, po_siape, status_codigo)
-VALUES /*(1, 1, 'justificativa05', 16380342656, 1, 1, 1, 1),*/
+VALUES (1, 1, 'justificativa05', 16380342656, 1, 1, 1, 1),
 (1, 1, 'justificativa06', 94634652943, 2, 2, 2, 2),
 (1, 1, 'justificativa07', 38594126476, 1, 1, 3, 3),
 (1, 1, 'justificativa08', 57927414410, 2, 4, 4, 4),
