@@ -222,9 +222,24 @@ class EstagioModel extends MainModel {
                 $planodeestagioModel = $this->loader->loadModel("PlanoDeEstagioModel", "PlanoDeEstagioModel");
                 $result[$cont] = new Estagio($row["id"], boolval($row["bool_aprovado"]), boolval($row["bool_obrigatorio"]), null, null, $row["periodo"], $row["serie"], $row["modulo"], $row["integ_ano"], $row["integ_semestre"], $row["dependencias"], $row["justificativa"], $row["endereco_tc"], $row["endereco_pe"], (!$row["empresa_cnpj"]) ? NULL : $empresaModel->read($row["empresa_cnpj"], 1)[0], $alunoModel->read($row["aluno_cpf"], 1)[0], $funcionarioModel->read($row["po_siape"], 1)[0], $matriculaModel->read($row["aluno_estuda_curso_matricula"], 1)[0], $statusModel->read($row["status_codigo"], 1)[0], null);
                 $result[$cont]->sethoras_contabilizadas($row["horas_contabilizadas"]);
-                $result[$cont]->setapolice($apoliceModel->readbyestagio($result[$cont], 1)[0]);
-                $result[$cont]->setpe($planodeestagioModel->read($result[$cont], 1)[0]);
-                $result[$cont]->setsupervisor($supervisorModel->read($result[$cont]->getempresa()->getcnpj(), 1)[0]);
+                
+                $aux = $apoliceModel->readbyestagio($result[$cont], 1);
+
+                if(!empty($aux)){
+                    $result[$cont]->setapolice($aux[0]);
+                
+                }
+                
+                
+                $aux = $planodeestagioModel->read($result[$cont], 1);
+                if(!empty($aux)){
+                 $result[$cont]->setpe($aux[0]);
+                }
+               
+                $aux = $supervisorModel->read($result[$cont]->getempresa()->getcnpj(), 1);
+                if(!empty($aux)){
+                $result[$cont]->setsupervisor($aux[0]);
+                }
                 $cont++;
             }
             return $result;
