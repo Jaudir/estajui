@@ -1,4 +1,5 @@
-<!DOCTYPE html>
+<?php require_once $_SERVER['DOCUMENT_ROOT'] . "/estajui/scripts/controllers/HomeController.php";?>
+
 <html>
   <head>
     <meta charset="utf-8">
@@ -11,7 +12,7 @@
     <div class="container-home container-fluid fullscreen">
       <nav class="navbar navbar-expand-lg navbar-light nav-menu">
         <a class="navbar-brand" href="#">
-          <img src="../../assets/img/LOGO.PNG" height="42" class="d-inline-block align-top" alt="">
+          <img src="../../assets/img/logo.png" height="42" class="d-inline-block align-top" alt="">
         </a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
@@ -110,7 +111,7 @@
                      </a> <br> <br>
                   </div>
                 </div>
-                <form name="dados-aluno">
+                <form name="dados-aluno" method="POST"  action="<?php echo base_url().'/scripts/controllers/organizador-estagio/avaliar-relatorio-final.php';?>" >
                   <div class="form-group">
                     <div class="row">
                       <div class="col-md-12">
@@ -119,20 +120,20 @@
                     </div>
                     <div class="custom-controls-stacked">
                       <label class="custom-control custom-radio" style="margin-top: 10px;">
-                        <input id="radioStacked3" name="radio-stacked" type="radio" class="custom-control-input">
+                        <input id="radioStacked3"  name="aprovado" type="radio" class="custom-control-input">
                         <span class="custom-control-indicator"></span>
                         <span class="custom-control-description">SIM</span>
                       </label>
                       <label class="custom-control custom-radio" style="margin-top: 3px;">
-                        <input id="radioStacked5" name="radio-stacked" type="radio" class="custom-control-input">
+                        <input id="radioStacked5" name="reprovado"  type="radio" class="custom-control-input">
                         <span class="custom-control-indicator"></span>
                         <span class="custom-control-description">NÃO</span>
                       </label>
                     </div>
                     <div class="row">
                       <div class="col-md-12">
-                        <label for="exampleFormControlFile1">Correções</label>
-                        <input type="file" class="form-control-file" id="exampleFormControlFile1">
+                        <label for="correcao">Correções</label>
+                        <input type="file" class="form-control-file" id="correcao">
                       </div>
                     </div> <br>
                     <div class="row">
@@ -143,11 +144,11 @@
                       </div>
                     </div>
                   </div>
-                </form>
-              </div>
-              <div class="modal-footer">
+                  <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Sair</button>
-                <button type="button" class="btn btn-primary">Confirmar</button>
+                <button type="submit"  name="confirmar" class="btn btn-primary">Confirmar</button>
+              </div>
+                </form>
               </div>
             </div>
           </div>
