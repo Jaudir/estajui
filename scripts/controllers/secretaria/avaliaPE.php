@@ -17,7 +17,11 @@ if (isset($_POST["id"])) {
                 $estagio = $estagio[0];
                 $valorestmp = explode("/", $_POST["semestre"]);
                 $matricula = $estagio->getmatricula();
-                $matricula_anterior = clone($matricula);
+                if($matricula) {
+                    $matricula_anterior = clone($matricula);
+                } else {
+                    $matricula_anterior = null;
+                }
                 $matricula->setmatricula((int) $_POST["matricula"]);
                 $matricula->setsemestre_inicio((int) $valorestmp[0]);
                 $matricula->setano_inicio((int) $valorestmp[1]);
