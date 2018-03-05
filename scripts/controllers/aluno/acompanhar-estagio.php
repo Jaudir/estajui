@@ -23,6 +23,16 @@ $notificacoes = $notificacoesModel->read(null, 0);
 if (is_a($usuario, "Aluno")) {
     $titulo = "Estudante";
     $estagios = $estagioModel->readbyaluno($usuario, 0);
+    $cursoModel = $loader->loadModel('CursoModel', 'CursoModel');
+    $campusModel = $loader->loadModel('CampusModel', 'CampusModel');
+
+    $campi = $campusModel->recuperarTodos();
+
+    $cursos = array();
+    foreach ($campi as $campus) {
+        $var = $cursoModel->recuperarPorCampus($campus);
+        $cursos[$campus->getcnpj()] = $var;
+    }
 } else {
     redirect("../login.php");
 }

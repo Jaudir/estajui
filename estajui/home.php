@@ -545,7 +545,7 @@ require_once $_SERVER['DOCUMENT_ROOT'] . "/estajui/scripts/controllers/HomeContr
                                     ?>
                                     <div class="row" id="estagio<?php echo $estagio->getid(); ?>">
                                         <div class="offset-lg-1 col-lg-10 status-desc-item bg-gray">
-                                            <h3> Estágio atual (<?php echo $estagio->getempresa()->getnome(); ?>) </h3>
+                                            <h3> Estágio atual <?php echo (!$estagio->getempresa()) ? NULL : "(" . $estagio->getempresa()->getnome() . ")"; ?> </h3>
                                         </div>
                                     </div>
                                     <div class="row">
@@ -700,7 +700,7 @@ require_once $_SERVER['DOCUMENT_ROOT'] . "/estajui/scripts/controllers/HomeContr
                                                 <tr>
                                                     <th scope="row"><?php echo $cont ?></th>
                                                     <td><?php echo ($estagio->getpe()) ? $estagio->getpe()->getdata_inicio() : " - " ?></td>
-                                                    <td><?php echo $estagio->getempresa()->getnome() ?></td>
+                                                    <td><?php echo (!$estagio->getempresa()) ? " - " : $estagio->getempresa()->getnome() ?></td>
                                                     <td><?php echo $estagio->getstatus()->getdescricao() ?></td>
                                                     <td><?php echo $estagio->getmatricula()->getoferta()->getcurso()->getnome() ?></td>
                                                     <td class="center">
