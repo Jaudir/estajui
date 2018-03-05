@@ -431,10 +431,10 @@ class FuncionarioModel extends MainModel {
     }
 	
 	public function updatePermissoes($funcionario) {
-		 $pstmt = $this->conn->prepare("UPDATE " . $this->_tabela . " SET bool_po=?, bool_oe=?, bool_ce=?, bool_sra=?, bool_root=?, privilegio=? WHERE siape = ?");
+		 $pstmt = $this->conn->prepare("UPDATE " . $this->_tabela . " SET bool_po=?, bool_oe=?, bool_ce=?, bool_sra=?, bool_root=?, privilegio=?, formacao=? WHERE siape = ?");
         try {
             $this->conn->beginTransaction();
-            $pstmt->execute(array((int) $funcionario->ispo(), (int) $funcionario->isoe(), (int) $funcionario->isce(), (int) $funcionario->issra(), (int) $funcionario->isroot(), (int) $funcionario->isprivilegio(), $funcionario->getsiape()));
+            $pstmt->execute(array((int) $funcionario->ispo(), (int) $funcionario->isoe(), (int) $funcionario->isce(), (int) $funcionario->issra(), (int) $funcionario->isroot(), (int) $funcionario->isprivilegio(), $funcionario->getformacao(),$funcionario->getsiape()));
             $this->conn->commit();
             $usuarioModel = $this->loader->loadModel("UsuarioModel", "UsuarioModel");
             return $usuarioModel->update($funcionario);
