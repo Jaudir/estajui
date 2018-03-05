@@ -9,6 +9,7 @@ $estagioModel = $loader->loadModel('PlanoEstagioModel', 'PlanoEstagioModel');
 
 //carregar estágios que estão aguardando definição de professor orientador
 $estagios = $estagioModel->carregarAguardandoOrientador();
+//var_dump($estagios);
 
 if($estagios == false){
     $estagios = array();

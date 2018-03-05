@@ -86,7 +86,7 @@ require_once(dirname(__FILE__) . '/../../scripts/controllers/organizador-estagio
                     <td><?php echo $estagio->getdata_inicio(); ?></td>
                     <td><?php echo $estagio->getestagio()->getaluno()->getcursos()[0]->getnome() ?></td>
                     <td class="center">
-                      <button class="definirOrientador" type="button" class="btn btn-link"
+                      <button type="button" class="definirOrientador btn btn-link"
                         data-toggle="modal" data-target="#definirOrientador">
                         <i class="fa fa-pencil"></i>
                         <div style="display:none;" class="modal-data-hold row">

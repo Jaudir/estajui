@@ -154,58 +154,100 @@ require_once $_SERVER['DOCUMENT_ROOT'] . "/estajui/scripts/controllers/HomeContr
                 if (is_a($usuario, "Funcionario")) {
                     if ($usuario->isoe()) {
                         ?>
-                        <div class="offset-lg-1 col-lg-10">
-                            <table class="table table-bordered">
-                                <thead>
-                                    <tr>
-                                        <th scope="col">#</th>
-                                        <th scope="col">Status</th>
-                                        <th scope="col">Nome</th>
-                                        <th scope="col">Data início</th>
-                                        <th scope="col">Curso</th>
-                                        <th scope="col">Editar</td>
-                                        <th scope="col">Ver</td>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <?php
-                                    $i = 0;
-                                    foreach ($estagios as &$estagio):
-                                        ?>
-                                        <?php $aluno = $estagio->getestagio()->getaluno(); ?>
-                                        <tr class="red">
-                                            <th scope="row"><?php echo ++$i; ?></th>
-                                            <td><?php echo $estagio->getestagio()->getstatus()->getdescricao(); ?></td>
-                                            <td><?php echo $estagio->getestagio()->getaluno()->getnome(); ?></td>
-                                            <td><?php echo $estagio->getdata_inicio(); ?></td>
-                                            <td><?php echo $estagio->getestagio()->getaluno()->getcursos()[0]->getnome() ?></td>
-                                            <td class="center">
-                                                <button class="definirOrientador" type="button" class="btn btn-link"
-                                                        data-toggle="modal" data-target="#definirOrientador">
-                                                    <i class="fa fa-pencil"></i>
-                                                    <div style="display:none;" class="modal-data-hold row">
-                                                        <span class="estagio-id" style="display:none;"><?php echo $estagio->getestagio()->getid(); ?></span>
-                                                        <h6>Nome: </h6> <p><?php echo $aluno->getnome(); ?></p><br>
-                                                        <h6>Cpf: </h6> <p><?php echo $aluno->getcpf(); ?></p><br>
-                                                        <h6>Curso: </h6> <p><?php echo $aluno->getcursos()[0]->getnome(); ?></p> <br>
-                                                        <h6>Nome fantasia da empresa: </h6> <p><?php echo $estagio->getestagio()->getempresa()->getnome(); ?></p> <br>
-                                                        <h6>Setor/Unidade da empresa: </h6> <p><?php echo "T.I."; //$estagio->getestagio()->getempresa()->getsetor_unidade();    ?></p> <br>
-                                                        <h6>Supervisor: </h6> <p><?php echo $estagio->getestagio()->getsupervisor()->getnome(); ?></p> <br>
-                                                        <h6>Telefone do supervisor: </h6> <p><?php echo "(38) 9878-3177"//$estagio->getestagio()->getsupervisor()->gettelefone();    ?></p> <br>
-                                                        <h6>Habilitação profissional: </h6> <p><?php echo $estagio->getestagio()->getsupervisor()->gethabilitacao(); ?></p> <br>
-                                                        <h6>Cargo: </h6> <p><?php echo $estagio->getestagio()->getsupervisor()->getcargo(); ?></p> <br>
-                                                        <h6>Principais atividdes a serem desenvolvidas: </h6>
-                                                        <p><?php echo $estagio->getatividades(); ?></p> <br>
-                                                        <h6>Data prevista para ínicio do estágio: </h6> <p><?php echo $estagio->getdata_inicio(); ?></p> <br>
-                                                        <h6>Data prevista para término do estágio: </h6> <p><?php echo $estagio->getdata_fim(); ?></p> <br>
-                                                    </div>
-                                                </button>
-                                            </td>
-                                            <td class="center"><a href="#"> <i class="fa fa-eye"></i> </a></td>
-                                        </tr>
-                                    <?php endforeach; ?>
-                                </tbody>
-                            </table>
+                        <div class="col-lg-10 status-desc">
+                            <div class="row table-estagios">
+                                <div class="offset-lg-1 col-lg-10 table-title">
+                                    <h3 class="bg-gray"> Todos os estágios</h3>
+                                </div>
+                                <div class="offset-lg-1 col-lg-10">
+                                    <table class="table table-bordered">
+                                        <thead>
+                                            <tr>
+                                                <th scope="col">#</th>
+                                                <th scope="col">Status</th>
+                                                <th scope="col">Nome</th>
+                                                <th scope="col">Data início</th>
+                                                <th scope="col">Curso</th>
+                                                <th scope="col">Editar</td>
+                                                <th scope="col">Ver</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <?php
+                                            $i = 0;
+                                            foreach ($estagios as &$estagio):
+                                                ?>
+                                                <?php $aluno = $estagio->getestagio()->getaluno(); ?>
+                                                <tr class="red">
+                                                    <th scope="row"><?php echo ++$i; ?></th>
+                                                    <td><?php echo $estagio->getestagio()->getstatus()->getdescricao(); ?></td>
+                                                    <td><?php echo $estagio->getestagio()->getaluno()->getnome(); ?></td>
+                                                    <td><?php echo $estagio->getdata_inicio(); ?></td>
+                                                    <td><?php echo $estagio->getestagio()->getaluno()->getcursos()[0]->getnome() ?></td>
+                                                    <td class="center">
+                                                        <button type="button" class="definirOrientador btn btn-link"
+                                                                data-toggle="modal" data-target="#definirOrientador">
+                                                            <i class="fa fa-pencil"></i>
+                                                            <div style="display:none;" class="modal-data-hold row">
+                                                                <span class="estagio-id" style="display:none;"><?php echo $estagio->getestagio()->getid(); ?></span>
+                                                                <h6>Nome: </h6> <p><?php echo $aluno->getnome(); ?></p><br>
+                                                                <h6>Cpf: </h6> <p><?php echo $aluno->getcpf(); ?></p><br>
+                                                                <h6>Curso: </h6> <p><?php echo $aluno->getcursos()[0]->getnome(); ?></p> <br>
+                                                                <h6>Nome fantasia da empresa: </h6> <p><?php echo $estagio->getestagio()->getempresa()->getnome(); ?></p> <br>
+                                                                <h6>Setor/Unidade da empresa: </h6> <p><?php echo "T.I."; //$estagio->getestagio()->getempresa()->getsetor_unidade();  ?></p> <br>
+                                                                <h6>Supervisor: </h6> <p><?php echo $estagio->getestagio()->getsupervisor()->getnome(); ?></p> <br>
+                                                                <h6>Telefone do supervisor: </h6> <p><?php echo "(38) 9878-3177"//$estagio->getestagio()->getsupervisor()->gettelefone();  ?></p> <br>
+                                                                <h6>Habilitação profissional: </h6> <p><?php echo $estagio->getestagio()->getsupervisor()->gethabilitacao(); ?></p> <br>
+                                                                <h6>Cargo: </h6> <p><?php echo $estagio->getestagio()->getsupervisor()->getcargo(); ?></p> <br>
+                                                                <h6>Principais atividdes a serem desenvolvidas: </h6>
+                                                                <p><?php echo $estagio->getatividades(); ?></p> <br>
+                                                                <h6>Data prevista para ínicio do estágio: </h6> <p><?php echo $estagio->getdata_inicio(); ?></p> <br>
+                                                                <h6>Data prevista para término do estágio: </h6> <p><?php echo $estagio->getdata_fim(); ?></p> <br>
+                                                            </div>
+                                                        </button>
+                                                    </td>
+                                                    <td class="center"><a href="#"> <i class="fa fa-eye"></i> </a></td>
+                                                </tr>
+                                            <?php endforeach; ?>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- MODAL para definir prof. Orientador -->
+                        <div class="modal fade" id="definirOrientador" tabindex="-1" role="dialog" aria-labelledby="definirOrientadorTitle" aria-hidden="true">
+                            <div class="modal-dialog modal-lg" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="definirOrientadorTitle">Atribuir Orientador</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="modal-data-target" class="row">
+                                        </div>
+                                        <form id="form-def-orientador" name="dados-aluno" method="post" action="<?php echo base_url() . '/scripts/controllers/organizador-estagio/definir-po.php'; ?>">
+                                            <input type="hidden" value="define" name="tipo">
+                                            <input id="estagio-id" type="hidden" value="" name="estagio">
+                                            <div class="row">
+                                                <div class="col-md-6 mb-2">
+                                                    <label for="validationCustom17">Professor Orientador</label>
+                                                    <select class="form-control" name="professor" required>
+                                                        <?php foreach ($professores as $professor): ?>
+                                                            <option value="<?php echo $professor->getsiape(); ?>"><?php echo $professor->getnome(); ?></option>
+                                                        <?php endforeach; ?>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Sair</button>
+                                        <button id="definirOrientadorBtt" type="button" class="btn btn-primary">Confirmar</button>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                         <?php
                     }
@@ -690,26 +732,26 @@ require_once $_SERVER['DOCUMENT_ROOT'] . "/estajui/scripts/controllers/HomeContr
                                                             <div class="timeline-panel">
                                                                 <div class="timeline-heading">
                                                                     <h4 class="timeline-title"><?php
-                                    if ($modicacao->getstatus()->getcodigo() == 1) {
-                                        echo "Estagio criado";
-                                    } elseif ($modicacao->getstatus()->getcodigo() == 2) {
-                                        echo "Estagio deferido";
-                                    } elseif ($modicacao->getstatus()->getcodigo() == 4) {
-                                        echo "Professor orientador definido";
-                                    } elseif ($modicacao->getstatus()->getcodigo() == 6) {
-                                        echo "Inicio de estágio autorizado";
-                                    } elseif ($modicacao->getstatus()->getcodigo() == 8) {
-                                        echo "Relatório aprovado";
-                                    } elseif ($modicacao->getstatus()->getcodigo() == 11) {
-                                        echo "Empresa conveniada";
-                                    } elseif ($modicacao->getstatus()->getcodigo() == 12) {
-                                        echo "Estágio concluido";
-                                    }
-                                                        ?></h4>
+                                                                        if ($modicacao->getstatus()->getcodigo() == 1) {
+                                                                            echo "Estagio criado";
+                                                                        } elseif ($modicacao->getstatus()->getcodigo() == 2) {
+                                                                            echo "Estagio deferido";
+                                                                        } elseif ($modicacao->getstatus()->getcodigo() == 4) {
+                                                                            echo "Professor orientador definido";
+                                                                        } elseif ($modicacao->getstatus()->getcodigo() == 6) {
+                                                                            echo "Inicio de estágio autorizado";
+                                                                        } elseif ($modicacao->getstatus()->getcodigo() == 8) {
+                                                                            echo "Relatório aprovado";
+                                                                        } elseif ($modicacao->getstatus()->getcodigo() == 11) {
+                                                                            echo "Empresa conveniada";
+                                                                        } elseif ($modicacao->getstatus()->getcodigo() == 12) {
+                                                                            echo "Estágio concluido";
+                                                                        }
+                                                                        ?></h4>
                                                                     <p><small class="text-muted"><?php
-                                                    $date = new DateTime($modicacao->getdata());
-                                                    echo $date->format('d/m/Y') . " às " . $date->format('H:i');
-                                                        ?></small></p>
+                                                                            $date = new DateTime($modicacao->getdata());
+                                                                            echo $date->format('d/m/Y') . " às " . $date->format('H:i');
+                                                                            ?></small></p>
                                                                 </div>
                                                             </div>
                                                         </li>
@@ -725,22 +767,22 @@ require_once $_SERVER['DOCUMENT_ROOT'] . "/estajui/scripts/controllers/HomeContr
                                                                 <div class="timeline-panel">
                                                                     <div class="timeline-heading">
                                                                         <h4 class="timeline-title"><?php
-                                    if ($ultimoPasso == 1) {
-                                        echo "Estagio criado";
-                                    } elseif ($ultimoPasso == 2) {
-                                        echo "Estagio deferido";
-                                    } elseif ($ultimoPasso == 4) {
-                                        echo "Professor orientador definido";
-                                    } elseif ($ultimoPasso == 6) {
-                                        echo "Inicio de estágio autorizado";
-                                    } elseif ($ultimoPasso == 8) {
-                                        echo "Relatório aprovado";
-                                    } elseif ($ultimoPasso == 11) {
-                                        echo "Empresa conveniada";
-                                    } elseif ($ultimoPasso == 12) {
-                                        echo "Estágio concluido";
-                                    }
-                                                            ?></h4>
+                                                                            if ($ultimoPasso == 1) {
+                                                                                echo "Estagio criado";
+                                                                            } elseif ($ultimoPasso == 2) {
+                                                                                echo "Estagio deferido";
+                                                                            } elseif ($ultimoPasso == 4) {
+                                                                                echo "Professor orientador definido";
+                                                                            } elseif ($ultimoPasso == 6) {
+                                                                                echo "Inicio de estágio autorizado";
+                                                                            } elseif ($ultimoPasso == 8) {
+                                                                                echo "Relatório aprovado";
+                                                                            } elseif ($ultimoPasso == 11) {
+                                                                                echo "Empresa conveniada";
+                                                                            } elseif ($ultimoPasso == 12) {
+                                                                                echo "Estágio concluido";
+                                                                            }
+                                                                            ?></h4>
                                                                         <p><small class="text-muted"><i class="glyphicon glyphicon-time"></i> - </small></p>
                                                                     </div>
                                                                 </div>
