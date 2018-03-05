@@ -139,6 +139,15 @@ require_once $_SERVER['DOCUMENT_ROOT'] . "/estajui/scripts/controllers/HomeContr
 
                     </ul>
                 </div>
+                <!--Coordenador de extensão-->
+                <?php
+                if (is_a($usuario, "Funcionario")) {
+                    if ($usuario->isce()) {
+                        ?>
+                        <?php
+                    }
+                }
+                ?>
                 <!--Professor orientador-->
                 <!--"Wadson,aqui"-->
                 <?php
@@ -194,9 +203,9 @@ require_once $_SERVER['DOCUMENT_ROOT'] . "/estajui/scripts/controllers/HomeContr
                                                                 <h6>Cpf: </h6> <p><?php echo $aluno->getcpf(); ?></p><br>
                                                                 <h6>Curso: </h6> <p><?php echo $aluno->getcursos()[0]->getnome(); ?></p> <br>
                                                                 <h6>Nome fantasia da empresa: </h6> <p><?php echo $estagio->getestagio()->getempresa()->getnome(); ?></p> <br>
-                                                                <h6>Setor/Unidade da empresa: </h6> <p><?php echo "T.I."; //$estagio->getestagio()->getempresa()->getsetor_unidade();      ?></p> <br>
+                                                                <h6>Setor/Unidade da empresa: </h6> <p><?php echo "T.I."; //$estagio->getestagio()->getempresa()->getsetor_unidade();       ?></p> <br>
                                                                 <h6>Supervisor: </h6> <p><?php echo $estagio->getestagio()->getsupervisor()->getnome(); ?></p> <br>
-                                                                <h6>Telefone do supervisor: </h6> <p><?php echo "(38) 9878-3177"//$estagio->getestagio()->getsupervisor()->gettelefone();      ?></p> <br>
+                                                                <h6>Telefone do supervisor: </h6> <p><?php echo "(38) 9878-3177"//$estagio->getestagio()->getsupervisor()->gettelefone();       ?></p> <br>
                                                                 <h6>Habilitação profissional: </h6> <p><?php echo $estagio->getestagio()->getsupervisor()->gethabilitacao(); ?></p> <br>
                                                                 <h6>Cargo: </h6> <p><?php echo $estagio->getestagio()->getsupervisor()->getcargo(); ?></p> <br>
                                                                 <h6>Principais atividdes a serem desenvolvidas: </h6>
@@ -474,18 +483,18 @@ require_once $_SERVER['DOCUMENT_ROOT'] . "/estajui/scripts/controllers/HomeContr
                                                         <div class="custom-controls-stacked">
                                                             <label class="custom-control custom-radio" style="margin-top: 10px;">
                                                                 <input id="aptidao1" name="aptidao" value="1" onchange='if ($(this).is(":checked")) {
-                                                                    $("#justificativa").attr("disabled", "disabled");
-                                                                    $("#justificativa").removeAttr("required");
-                                                                    }' type="radio" class="custom-control-input" required="required">
+                                                                                    $("#justificativa").attr("disabled", "disabled");
+                                                                                    $("#justificativa").removeAttr("required");
+                                                                                    }' type="radio" class="custom-control-input" required="required">
                                                                 <span class="custom-control-indicator"></span>
                                                                 <span class="custom-control-description">SIM</span>
                                                             </label>
                                                             <label class="custom-control custom-radio" style="margin-top: 3px;">
                                                                 <input id="aptidao2"  onchange='if ($(this).is(":checked")) {
-                                                                    $("#justificativa").removeAttr("disabled");
-                                                                    $("#justificativa").attr("required", "required");
-                                                                    $("#justificativa").focus();
-                                                                    }' name="aptidao" value="0" type="radio" class="custom-control-input" required="required">
+                                                                                    $("#justificativa").removeAttr("disabled");
+                                                                                    $("#justificativa").attr("required", "required");
+                                                                                    $("#justificativa").focus();
+                                                                                    }' name="aptidao" value="0" type="radio" class="custom-control-input" required="required">
                                                                 <span class="custom-control-indicator"></span>
                                                                 <span class="custom-control-description">NÃO</span>
                                                             </label>
@@ -965,22 +974,43 @@ require_once $_SERVER['DOCUMENT_ROOT'] . "/estajui/scripts/controllers/HomeContr
         <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
+        <script src="../../assets/js/busca_estagio.js"></script>
+        <script src="../../assets/js/ce-load-home.js"></script>
         <script>
-                                                    $(function(){
+                                                                        $(function(){
 <?php
 if ($session->hasError('normal')):
     ?>
-                                                        alert('<?php echo $session->getErrors('normal')[0] ?>');
+                                                                            alert(<?php echo "\"" . $session->getErrors('normal')[0] . "\"" ?>);
 <?php elseif ($session->hasValues('resultado')): ?>
-                                                        alert('<?php echo $session->getValues('resultado')[0] ?>');
+                                                                            alert(<?php echo "\"" . $session->getValues('resultado')[0] . "\"" ?>);
+<?php endif; ?>
+
+                                                                        $('.empresaModalToggle').click(function(){
+                                                                        $('#ecnpj').val($(this).find('.cnpj').html());
+                                                                        $('#empresaDadosInModal').html($(this).children('.empresaDados').html());
+                                                                        });
+                                                                        $('#enviarFormEmpresa').click(function(){
+                                                                        $('#empresaForm').submit();
+                                                                        });
+                                                                        });
+        </script>
+        <script>
+            $(function(){
+<?php
+if ($session->hasError('normal')):
+    ?>
+                alert('<?php echo $session->getErrors('normal')[0] ?>');
+<?php elseif ($session->hasValues('resultado')): ?>
+                alert('<?php echo $session->getValues('resultado')[0] ?>');
 <?php endif ?>
 
-                                                    var options = {
+            var options = {
 <?php
 foreach ($campi as $campus):
     ?>
     <?php echo $campus->getcnpj() ?> :
-                                                        {
+                {
     <?php
     foreach ($cursos[$campus->getcnpj()] as $curso):
         ?>
@@ -990,29 +1020,29 @@ foreach ($campi as $campus):
         <?php
     endforeach;
     ?>
-                                                        },
+                },
     <?php
 endforeach;
 ?>
-                                                    };
-                                                    var alteraCampus = function(campus){
-                                                    console.log(campus);
-                                                    $cursos = $('#cursos');
-                                                    $cursos.empty();
-                                                    $.each(options[campus.val()], function(key, value) {
-                                                    $cursos.append($("<option></option>")
-                                                            .attr("value", value).text(key));
-                                                    });
-                                                    }
+            };
+            var alteraCampus = function(campus){
+            console.log(campus);
+            $cursos = $('#cursos');
+            $cursos.empty();
+            $.each(options[campus.val()], function(key, value) {
+            $cursos.append($("<option></option>")
+                    .attr("value", value).text(key));
+            });
+            }
 
-                                                    $("#campus").select(function(){
-                                                    alteraCampus($(this));
-                                                    });
-                                                    $('#cadastrar-estagio').click(function(){
-                                                    $('#novo-estagio').submit();
-                                                    });
-                                                    alteraCampus($('#campus').children());
-                                                    });
+            $("#campus").select(function(){
+            alteraCampus($(this));
+            });
+            $('#cadastrar-estagio').click(function(){
+            $('#novo-estagio').submit();
+            });
+            alteraCampus($('#campus').children());
+            });
         </script>
 
         <?php
@@ -1089,6 +1119,27 @@ endforeach;
             $('#form-def-orientador').submit();
             });
             });
+        </script>
+        <script src="../../assets/js/busca_estagio.js"></script>
+        <script src="../../assets/js/ce-load-home.js"></script>
+        <script>
+                $(function(){
+<?php
+if ($session->hasError('normal')):
+    ?>
+                    alert(<?php echo "\"" . $session->getErrors('normal')[0] . "\"" ?>);
+<?php elseif ($session->hasValues('resultado')): ?>
+                    alert(<?php echo "\"" . $session->getValues('resultado')[0] . "\"" ?>);
+<?php endif; ?>
+
+                $('.empresaModalToggle').click(function(){
+                $('#ecnpj').val($(this).find('.cnpj').html());
+                $('#empresaDadosInModal').html($(this).children('.empresaDados').html());
+                });
+                $('#enviarFormEmpresa').click(function(){
+                $('#empresaForm').submit();
+                });
+                });
         </script>
     </body>
 </html>
