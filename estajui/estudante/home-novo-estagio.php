@@ -174,59 +174,6 @@ $session = getSession();
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
-	<script>
-		$(function(){
-      <?php
-        if($session->hasError('normal')):
-      ?>
-      alert('<?php echo $session->getErrors('normal')[0]?>');
-      <?php elseif($session->hasValues('resultado')):?>
-      alert('<?php echo $session->getValues('resultado')[0]?>');
-      <?php endif?>
-
-    var options = {
-    <?php 
-		foreach($campi as $campus): 
-		?>
-			<?php echo $campus->getcnpj() ?> : 
-			{
-					<?php 
-						foreach($cursos[$campus->getcnpj()] as $curso): 
-					?>
-          <?php
-            echo "\"" . $curso->getnome() . "\": \"" . $curso->getid() . "\",";
-					?>
-					<?php
-						endforeach;
-					?>
-      },
-		<?php 
-		endforeach;
-		?>
-		};
-
-    var alteraCampus = function(campus){
-      console.log(campus);
-
-      $cursos = $('#cursos');
-      $cursos.empty();
-      $.each(options[campus.val()], function(key,value) {
-        $cursos.append($("<option></option>")
-          .attr("value", value).text(key));
-      });	
-    }
-
-    $("#campus").select(function(){
-      alteraCampus($(this));
-    }); 
-
-    $('#cadastrar-estagio').click(function(){
-      $('#novo-estagio').submit();
-    });
-
-
-    alteraCampus($('#campus').children());
-    });
-	</script>
+	
   </body>
 </html>

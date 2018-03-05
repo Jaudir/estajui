@@ -28,14 +28,31 @@ require_once $_SERVER['DOCUMENT_ROOT'] . "/estajui/scripts/controllers/HomeContr
                             </span>
                         </li>
                         <li class="nav-item">
+                            <div class="dropdown">
+                                <a class="btn nav-link" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <i class="fa fa-envelope fa-2x" aria-hidden="true"></i>
+                                    <span class="notification"> <?php echo count($notificacoes) ?> </span>
+                                </a>
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                    <?php
+                                    foreach ($notificacoes as $notificacao) {
+                                        if (!$notificacao->getlida()) {
+                                            ?>
+                                            <a class="dropdown-item" href="#estagio<?php echo $notificacao->getmodificacao_status()->getestagio()->getid(); ?>">
+                                                Novo status:<br>
+                                                <?php echo $notificacao->getmodificacao_status()->getstatus()->getdescricao(); ?>
+                                            </a>
+                                            <?php
+                                        }
+                                    }
+                                    ?>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="nav-item">
                             <form method="get">
                                 <button type="submit" name="logoff" class="btn btn-outline-light bt-sair">Sair</button>
                             </form>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#"><i class="fa fa-envelope fa-2x" aria-hidden="true"></i>
-                                <span class="notification"> 5 </span>
-                            </a>
                         </li>
                     </ul>
                 </div>
@@ -58,13 +75,13 @@ require_once $_SERVER['DOCUMENT_ROOT'] . "/estajui/scripts/controllers/HomeContr
                         if (is_a($usuario, "Aluno")) {
                             ?>
                             <li class="nav-item">
-                                <a class="nav-link" href="historico.html">Histórico de estágios</a>
+                                <a class="nav-link" href="estudante/historico.php">Histórico de estágios</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="#">Orientações gerais</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="#">+ Novo estágio</a>
+                                <a class="nav-link" href="#"  data-toggle="modal" data-target="#modalNovoEstagio" >+ Novo estágio</a>
                             </li>
                             <?php
                         }
@@ -419,88 +436,88 @@ require_once $_SERVER['DOCUMENT_ROOT'] . "/estajui/scripts/controllers/HomeContr
                 }
                 ?>
                 <!--Aluno-->
+
+                <!-- Modal para solicitar um novo estágio -->
+                <div class="modal fade" id="modalNovoEstagio" tabindex="-1" role="dialog" aria-labelledby="modalNovoEstagioTitle" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="modalNovoEstagioTitle">Solicitação de estágio</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <form id="novo-estagio" name="novo-estagio" style="text-align: left;" method="POST" action="<?php echo base_url() ?>/scripts/controllers/estudante/comeca-estagio.php">
+                                    <div class="form-group">
+                                        <div class="form-check">
+                                            <label class="form-check-label">
+                                                <input class="form-check-input" type="radio" name="obrigatorio" id="exampleRadios1" value="1" checked>
+                                                Obrigatório
+                                            </label>
+                                        </div>
+                                        <div class="form-check">
+                                            <label class="form-check-label">
+                                                <input class="form-check-input" type="radio" name="obrigatorio" id="exampleRadios2" value="2">
+                                                Não obrigatório.
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Campus</label>
+                                        <select class="form-control" id="campus" name="campus" required>
+                                            <?php foreach ($campi as $campus): ?>
+                                                <option value="<?php echo $campus->getcnpj(); ?>"><?php echo $campus->getendereco()->getcidade(); ?></option>
+                                            <?php endforeach; ?> 
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Curso</label>
+                                        <select class="form-control" id="cursos" name="curso" required>
+
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="form-check">
+                                            <label class="form-check-label">
+                                                <input class="form-check-input" type="radio" name="horario" id="" value="1" checked>
+                                                Integral
+                                            </label>
+                                        </div>
+                                        <div class="form-check">
+                                            <label class="form-check-label">
+                                                <input class="form-check-input" type="radio" name="horario" id="" value="2">
+                                                Matutino
+                                            </label>
+                                        </div>
+                                        <div class="form-check">
+                                            <label class="form-check-label">
+                                                <input class="form-check-input" type="radio" name="horario" id="" value="3">
+                                                Vespertino
+                                            </label>
+                                        </div>
+                                        <div class="form-check">
+                                            <label class="form-check-label">
+                                                <input class="form-check-input" type="radio" name="horario" id="" value="4">
+                                                Noturno
+                                            </label>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Sair</button>
+                                <button type="button" id="cadastrar-estagio" class="btn btn-primary">Confirmar</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 <?php
                 if (is_a($usuario, "Aluno")) {
                     if (count($estagios) == 0) {
                         ?>
                         <div class="col-lg-10 align-self-center center">
                             <button type="button" class="btn btn-outline-success" data-toggle="modal" data-target="#modalNovoEstagio" style="padding: 25px;">Novo estágio</button>
-
-                            <!-- Modal para solicitar um novo estágio -->
-                            <div class="modal fade" id="modalNovoEstagio" tabindex="-1" role="dialog" aria-labelledby="modalNovoEstagioTitle" aria-hidden="true">
-                                <div class="modal-dialog" role="document">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h5 class="modal-title" id="modalNovoEstagioTitle">Solicitação de estágio</h5>
-                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                <span aria-hidden="true">&times;</span>
-                                            </button>
-                                        </div>
-                                        <div class="modal-body">
-                                            <form name="novo-estagio" style="text-align: left;" method="POST" action="comeca-estagio.php">
-                                                <div class="form-group">
-                                                    <div class="form-check">
-                                                        <label class="form-check-label">
-                                                            <input class="form-check-input" type="radio" name="exampleRadios1" id="exampleRadios1" value="obrigatorio" checked>
-                                                            Obrigatório
-                                                        </label>
-                                                    </div>
-                                                    <div class="form-check">
-                                                        <label class="form-check-label">
-                                                            <input class="form-check-input" type="radio" name="exampleRadios1" id="exampleRadios2" value="option2">
-                                                            Não obrigatório.
-                                                        </label>
-                                                    </div>
-                                                </div>
-                                                <div class="form-group">
-                                                    <label>Campus</label>
-        <!--                                                    <select class="form-control" value="<?php if (!empty($_SESSION['campus_nome'])) echo htmlspecialchars($_SESSION['campus_nome']);unset($_SESSION['campus_nome']); ?>" required>
-                                                    <?php foreach ($campi as $campus): ?>
-                                                                                                                                                                                                                    <option value="<?php echo $campus->getcnpj(); ?>"><?php echo $campus->endereco()->getcidade(); ?></option>
-                                                    <?php endforeach; ?> 
-                                                    </select>-->
-                                                </div>
-                                                <div class="form-group">
-                                                    <label>Curso</label>
-        <!--                                                    <select class="form-control" id="cursos" value="<?php if (!empty($_SESSION['curso_nome'])) echo htmlspecialchars($_SESSION['curso_nome']);unset($_SESSION['curso_nome']); ?>" required>
-
-                                                    </select>-->
-                                                </div>
-                                                <div class="form-group">
-                                                    <div class="form-check">
-                                                        <label class="form-check-label">
-                                                            <input class="form-check-input" type="radio" name="integral" id="" value="option1" checked>
-                                                            Integral
-                                                        </label>
-                                                    </div>
-                                                    <div class="form-check">
-                                                        <label class="form-check-label">
-                                                            <input class="form-check-input" type="radio" name="matutino" id="" value="option2">
-                                                            Matutino
-                                                        </label>
-                                                    </div>
-                                                    <div class="form-check">
-                                                        <label class="form-check-label">
-                                                            <input class="form-check-input" type="radio" name="vespertino" id="" value="option3">
-                                                            Vespertino
-                                                        </label>
-                                                    </div>
-                                                    <div class="form-check">
-                                                        <label class="form-check-label">
-                                                            <input class="form-check-input" type="radio" name="noturno" id="" value="option4">
-                                                            Noturno
-                                                        </label>
-                                                    </div>
-                                                </div>
-                                            </form>
-                                        </div>
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Sair</button>
-                                            <button type="button" class="btn btn-primary">Confirmar</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
                         </div>
                         <?php
                     } else {
@@ -526,9 +543,9 @@ require_once $_SERVER['DOCUMENT_ROOT'] . "/estajui/scripts/controllers/HomeContr
                             foreach ($estagios as $estagio) {
                                 if ($estagio->getstatus()->getcodigo() <= 11) {
                                     ?>
-                                    <div class="row">
+                                    <div class="row" id="estagio<?php echo $estagio->getid(); ?>">
                                         <div class="offset-lg-1 col-lg-10 status-desc-item bg-gray">
-                                            <h3> Estágio atual <?php echo $cont; ?> </h3>
+                                            <h3> Estágio atual (<?php echo $estagio->getempresa()->getnome(); ?>) </h3>
                                         </div>
                                     </div>
                                     <div class="row">
@@ -539,20 +556,20 @@ require_once $_SERVER['DOCUMENT_ROOT'] . "/estajui/scripts/controllers/HomeContr
                                     </div>
                                     <div class="row">
                                         <div class="offset-lg-1 col-lg-10 status-desc-item">
-                                            <h4>Descrição: </h4>
-                                            <p>Os documentos iniciais do estágio foram entregues e validados, você pode iniciar o estágio como
-                                                estimado, após o término do estágio redija o relatório final como descrito no modelo e envie para
-                                                análise do orientador.
-                                            </p>
                                             <?php
                                             if ($estagio->getstatus()->getcodigo() == 2) {
                                                 ?>
+                                                <h4>Descrição: </h4>
+                                                <p>Os documentos iniciais do estágio foram entregues e validados, você pode iniciar o estágio como
+                                                    estimado, após o término do estágio redija o relatório final como descrito no modelo e envie para
+                                                    análise do orientador.
+                                                </p>
                                                 <a href="./estudante/cadastrar-dados-estagio.php"><button type="button" class="btn btn-outline-dark" data-toggle="modal"
                                                                                                           data-target="#modalEstagio" style="padding: 10px;">Preencher dados</button></a>
                                                     <?php
                                                 } elseif ($estagio->getstatus()->getcodigo() == 6) {
                                                     ?>
-                                                <form  enctype="multipart/form-data"  method="POST" action="<?php echo base_url().'/scripts/controllers/estudante/submeter_relatorio.php';?>" >
+                                                <form  enctype="multipart/form-data"  method="POST" action="<?php echo base_url() . '/scripts/controllers/estudante/submeter_relatorio.php'; ?>" >
                                                     <div class="form-group">
                                                         <label for="exampleFormControlFile1">Relatório final</label>
                                                         <input type="file" name="relatorio" class="form-control-file" id="exampleFormControlFile1" required>
@@ -563,7 +580,7 @@ require_once $_SERVER['DOCUMENT_ROOT'] . "/estajui/scripts/controllers/HomeContr
                                                     <?php $_SESSION['estagio'] = $estagio; ?>
                                                     <!--input type="hidden" name="MAX_FILE_SIZE" value="55000000"-->
                                                     <button type="submit" name="enviar_relatorio" class="btn btn-outline-success"
-                                                                        style="padding: 10px; width: 100px;">Enviar</button>
+                                                            style="padding: 10px; width: 100px;">Enviar</button>
                                                 </form>
                                                 <?php
                                             }
@@ -749,41 +766,55 @@ require_once $_SERVER['DOCUMENT_ROOT'] . "/estajui/scripts/controllers/HomeContr
         <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
-        <?php
-        if (is_a($usuario, "Aluno")) {
-            ?>
-            <script>
-                                                        var options = {
+        <script>
+                                                    $(function(){
+<?php
+if ($session->hasError('normal')):
+    ?>
+                                                        alert('<?php echo $session->getErrors('normal')[0] ?>');
+<?php elseif ($session->hasValues('resultado')): ?>
+                                                        alert('<?php echo $session->getValues('resultado')[0] ?>');
+<?php endif ?>
+
+                                                    var options = {
+<?php
+foreach ($campi as $campus):
+    ?>
+    <?php echo $campus->getcnpj() ?> :
+                                                        {
     <?php
-    foreach ($campi as $campus):
+    foreach ($cursos[$campus->getcnpj()] as $curso):
         ?>
-        <?php echo $campus->getcnpj() ?> :
-                                                            {
         <?php
-        foreach ($cursos[$campus->getcnpj()] as $curso):
-            ?>
-            <?php
-            echo "\"$curso->getnome()\" : \"$curso->getid()\"";
-            ?>
-            <?php
-        endforeach;
+        echo "\"" . $curso->getnome() . "\": \"" . $curso->getid() . "\",";
         ?>
         <?php
     endforeach;
     ?>
-                                                        };
-                                                        $("#cursos"), select(function(){
-                                                        var $el = $(this);
-                                                        $el.empty();
-                                                        $.each(options[el.val()], function(key, value) {
-                                                        $el.append($("<option></option>")
-                                                                .attr("value", value).text(key));
-                                                        });
-                                                        });
-            </script>
-            <?php
-        }
-        ?>
+                                                        },
+    <?php
+endforeach;
+?>
+                                                    };
+                                                    var alteraCampus = function(campus){
+                                                    console.log(campus);
+                                                    $cursos = $('#cursos');
+                                                    $cursos.empty();
+                                                    $.each(options[campus.val()], function(key, value) {
+                                                    $cursos.append($("<option></option>")
+                                                            .attr("value", value).text(key));
+                                                    });
+                                                    }
+
+                                                    $("#campus").select(function(){
+                                                    alteraCampus($(this));
+                                                    });
+                                                    $('#cadastrar-estagio').click(function(){
+                                                    $('#novo-estagio').submit();
+                                                    });
+                                                    alteraCampus($('#campus').children());
+                                                    });
+        </script>
 
         <?php
         if (is_a($usuario, "Funcionario")) {

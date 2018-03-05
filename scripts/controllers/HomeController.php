@@ -13,15 +13,21 @@ if (!$session->isLogged()) {
 $estagios = array();
 $usuario = $session->getUsuario();
 $estagioModel = $loader->loadModel("EstagioModel", "EstagioModel");
+$notificacoesModel = $loader->loadModel("NotificacaoModel", "NotificacaoModel");
+$notificacoes = $notificacoesModel->read(null, 0);
 if (is_a($usuario, "Aluno")) {
     $titulo = "Estudante";
     $estagios = $estagioModel->readbyaluno($usuario, 0);
-//    $cursoModel = $loader->loadModel('curso-model', 'CursoModel');
-//    $campusModel = $loader->loadModel('campus-model', 'CampusModel');
-//    $campi = $campusModel->recuperarTodos();
-//    $cursos = array();
-//    foreach ($campi as $campus)
-//        $cursos[$campus->getcnpj()] = $cursoModel->recuperarPorCampus($campus);
+    $cursoModel = $loader->loadModel('CursoModel', 'CursoModel');
+    $campusModel = $loader->loadModel('CampusModel', 'CampusModel');
+
+    $campi = $campusModel->recuperarTodos();
+
+    $cursos = array();
+    foreach ($campi as $campus) {
+        $var = $cursoModel->recuperarPorCampus($campus);
+        $cursos[$campus->getcnpj()] = $var;
+    }
 } elseif (is_a($usuario, "Funcionario")) {
     if ($usuario->isroot()) {
         $titulo = "Administrador";
