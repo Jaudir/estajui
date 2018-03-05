@@ -599,69 +599,73 @@ require_once $_SERVER['DOCUMENT_ROOT'] . "/estajui/scripts/controllers/HomeContr
                                                     <?php
                                                     $modificacaoModel = $loader->loadModel("ModificacaoStatusModel", "ModificacaoStatusModel");
                                                     $modificacoes = $modificacaoModel->readbyestagio($estagio, 0);
-                                                    $ultimoPasso = 1;
+                                                    $ultimoPasso = 0;
                                                     foreach ($modificacoes as $modicacao) {
                                                         ?>
                                                         <li class="timeline-item">
                                                             <div class="timeline-badge success"><i class="fa fa-check"></i></div>
                                                             <div class="timeline-panel">
                                                                 <div class="timeline-heading">
-                                                                    <h4 class="timeline-title"><?php echo $modicacao->getstatus()->getdescricao(); ?></h4>
-                                                                    <p><small class="text-muted"><?php $date = new DateTime($modicacao->getdata());
-                                    echo $date->format('d/m/Y') . " às " . $date->format('H:i');
-                                                        ?></small></p>
+                                                                    <h4 class="timeline-title"><?php
+                                                                        if ($modicacao->getstatus()->getcodigo() == 1) {
+                                                                            echo "Estagio criado";
+                                                                        } elseif ($modicacao->getstatus()->getcodigo() == 2) {
+                                                                            echo "Estagio deferido";
+                                                                        } elseif ($modicacao->getstatus()->getcodigo() == 4) {
+                                                                            echo "Professor orientador definido";
+                                                                        } elseif ($modicacao->getstatus()->getcodigo() == 6) {
+                                                                            echo "Inicio de estágio autorizado";
+                                                                        } elseif ($modicacao->getstatus()->getcodigo() == 8) {
+                                                                            echo "Relatório aprovado";
+                                                                        } elseif ($modicacao->getstatus()->getcodigo() == 11) {
+                                                                            echo "Empresa conveniada";
+                                                                        } elseif ($modicacao->getstatus()->getcodigo() == 12) {
+                                                                            echo "Estágio concluido";
+                                                                        }
+                                                                        ?></h4>
+                                                                    <p><small class="text-muted"><?php
+                                                                            $date = new DateTime($modicacao->getdata());
+                                                                            echo $date->format('d/m/Y') . " às " . $date->format('H:i');
+                                                                            ?></small></p>
                                                                 </div>
                                                             </div>
                                                         </li>
                                                         <?php
                                                         $ultimoPasso = $modicacao->getstatus()->getcodigo();
                                                     }
+                                                    while ($ultimoPasso < 12) {
+                                                        $ultimoPasso++;
+                                                        if ($ultimoPasso != 3 && $ultimoPasso != 5 && $ultimoPasso != 7 && $ultimoPasso != 9 && $ultimoPasso != 10) {
+                                                            ?>
+                                                            <li class="timeline-item">
+                                                                <div class="timeline-badge primary"><i class=""></i></div>
+                                                                <div class="timeline-panel">
+                                                                    <div class="timeline-heading">
+                                                                        <h4 class="timeline-title"><?php
+                                                                            if ($ultimoPasso == 1) {
+                                                                                echo "Estagio criado";
+                                                                            } elseif ($ultimoPasso == 2) {
+                                                                                echo "Estagio deferido";
+                                                                            } elseif ($ultimoPasso == 4) {
+                                                                                echo "Professor orientador definido";
+                                                                            } elseif ($ultimoPasso == 6) {
+                                                                                echo "Inicio de estágio autorizado";
+                                                                            } elseif ($ultimoPasso == 8) {
+                                                                                echo "Relatório aprovado";
+                                                                            } elseif ($ultimoPasso == 11) {
+                                                                                echo "Empresa conveniada";
+                                                                            } elseif ($ultimoPasso == 12) {
+                                                                                echo "Estágio concluido";
+                                                                            }
+                                                                            ?></h4>
+                                                                        <p><small class="text-muted"><i class="glyphicon glyphicon-time"></i> - </small></p>
+                                                                    </div>
+                                                                </div>
+                                                            </li>
+                                                            <?php
+                                                        }
+                                                    }
                                                     ?>
-                                                    <li class="timeline-item">
-                                                        <div class="timeline-badge success"><i class="fa fa-check"></i></div>
-                                                        <div class="timeline-panel">
-                                                            <div class="timeline-heading">
-                                                                <h4 class="timeline-title">Mussum ipsum cacilds 2</h4>
-                                                                <p><small class="text-muted"> 10/12/2017 às 11:30 </small></p>
-                                                            </div>
-                                                        </div>
-                                                    </li>
-                                                    <li class="timeline-item">
-                                                        <div class="timeline-badge primary"><i class=""></i></div>
-                                                        <div class="timeline-panel">
-                                                            <div class="timeline-heading">
-                                                                <h4 class="timeline-title">Mussum ipsum cacilds 3</h4>
-                                                                <p><small class="text-muted"><i class="glyphicon glyphicon-time"></i> - </small></p>
-                                                            </div>
-                                                        </div>
-                                                    </li>
-                                                    <li class="timeline-item">
-                                                        <div class="timeline-badge"><i class=""></i></div>
-                                                        <div class="timeline-panel">
-                                                            <div class="timeline-heading">
-                                                                <h4 class="timeline-title">Mussum ipsum cacilds 4</h4>
-                                                                <p><small class="text-muted"><i class="glyphicon glyphicon-time"></i> - </small></p>
-                                                            </div>
-                                                        </div>
-                                                    </li>
-                                                    <li class="timeline-item">
-                                                        <div class="timeline-badge"><i class=""></i></div>
-                                                        <div class="timeline-panel">
-                                                            <div class="timeline-heading">
-                                                                <h4 class="timeline-title">Mussum ipsum cacilds 5</h4>
-                                                                <p><small class="text-muted"><i class="glyphicon glyphicon-time"></i> - </small></p>
-                                                            </div>
-                                                        </div>
-                                                    </li>
-                                                    <li class="timeline-item">
-                                                        <div class="timeline-badge"><i class=""></i></div>
-                                                        <div class="timeline-panel">
-                                                            <div class="timeline-heading">
-                                                                <h4 class="timeline-title">Mussum ipsum cacilds 6</h4>
-                                                                <p><small class="text-muted"><i class="glyphicon glyphicon-time"></i> - </small></p>
-                                                            </div>
-                                                        </div>
-                                                    </li>
                                                 </ul>
                                             </div>
                                         </div>
@@ -726,9 +730,9 @@ require_once $_SERVER['DOCUMENT_ROOT'] . "/estajui/scripts/controllers/HomeContr
                                                                     <h6>Status: </h6> <p><?php echo $estagio->getstatus()->getdescricao(); ?></p><br>
                                                                     <h6>Nº da apólice seguradora: </h6> <p><?php echo ($estagio->getapolice()) ? $estagio->getapolice()->getnumero() : NULL; ?></p><br>
                                                                     <h6>Setor/Unidade da empresa: </h6> <p><?php echo ($estagio->getpe()) ? $estagio->getpe()->getsetor_unidade() : NULL; ?></p> <br>
-                                                                    <h6>Supervisor: </h6> <p><?php echo $estagio->getsupervisor()->getnome(); ?></p> <br>
-                                                                    <h6>Habilitação profissional: </h6> <p><?php echo $estagio->getsupervisor()->gethabilitacao(); ?></p> <br>
-                                                                    <h6>Cargo: </h6> <p><?php echo $estagio->getsupervisor()->getcargo(); ?></p> <br>
+                                                                    <h6>Supervisor: </h6> <p><?php echo (!$estagio->getsupervisor()) ? NULL : $estagio->getsupervisor()->getnome(); ?></p> <br>
+                                                                    <h6>Habilitação profissional: </h6> <p><?php echo (!$estagio->getsupervisor()) ? NULL : $estagio->getsupervisor()->gethabilitacao(); ?></p> <br>
+                                                                    <h6>Cargo: </h6> <p><?php echo (!$estagio->getsupervisor()) ? NULL : $estagio->getsupervisor()->getcargo(); ?></p> <br>
                                                                     <h6>Professor orientador: </h6> <p><?php echo ($estagio->getfuncionario()) ? $estagio->getfuncionario()->getnome() : NULL; ?></p> <br>
                                                                     <h6>Formação profissional: </h6> <p><?php echo ($estagio->getfuncionario()) ? $estagio->getfuncionario()->getformacao() : NULL; ?></p> <br>
                                                                     <h6>Data prevista para ínicio do estágio: </h6> <p><?php echo ($estagio->getpe()) ? $estagio->getpe()->getdata_inicio() : NULL; ?></p> <br>
