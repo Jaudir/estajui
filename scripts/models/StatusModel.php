@@ -15,9 +15,11 @@ class StatusModel extends MainModel {
     public static $AGURDANDO_REL = 7;
     public static $RELATORIO_APR = 8;
     public static $RELATORIO_SEC = 9;
-    public static $ESTAGIO_CON = 10;
+    public static $ESTAGIO_CON = 12;
     public static $CONVENIO_APR = 11;
-    public static $CONVENIO_RPR = 12;
+    public static $CONVENIO_RPR = 13;
+    public static $REENTREG_DOC = 10;
+    public static $ESTAGIO_RPR = 14;
 
     public function adicionaNotificacao($statusId, $estagio, $usuario, $justificativa = null) {
         try {
@@ -36,7 +38,7 @@ class StatusModel extends MainModel {
                     array(
                         ':lida' => 0,
                         ':modifica_status_id' => $id,
-                        ':temJustificativa' => $justificativa != null,
+                        ':temJustificativa' => (int) ($justificativa != null),
                         ':justificativa' => $justificativa));
 
             $this->conn->commit();

@@ -26,4 +26,4 @@ if($session->isoe()){
 }else{
     $session->pushError('Você não tem permissão para essa operação');
 }
-redirect(base_url() . '/estajui/organizador-estagio/home.php');
+redirect(base_url() . '/estajui/home.php');
