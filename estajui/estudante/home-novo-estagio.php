@@ -176,17 +176,12 @@ $session = getSession();
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
 	<script>
 		$(function(){
-    <?php
-        if($session->hasErrors()):
+      <?php
+        if($session->hasError('normal')):
       ?>
-        <?php
-          $erros = $session->getErrors('normal');
-          $msg = '';
-          foreach($erros as $erro){
-            $msg = $msg . '\n' . $erro;
-          }
-        ?>
-      alert('Erro:\n<?php echo $msg?>');
+      alert('<?php echo $session->getErrors('normal')[0]?>');
+      <?php elseif($session->hasValues('resultado')):?>
+      alert('<?php echo $session->getValues('resultado')[0]?>');
       <?php endif?>
 
     var options = {

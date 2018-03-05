@@ -346,4 +346,7 @@ class AlunoModel extends MainModel {
         }
 	}
 
+    public function obterCursos(){
+        
+    }
 }

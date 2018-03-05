@@ -23,22 +23,26 @@
     $estagioModel = $loader->loadModel('EstagioModel','EstagioModel');
     $modificacaoModel = $loader->loadModel('StatusModel','StatusModel');
 
-    $curso = new Curso(null, $_POST['curso'], null);
+    $curso = new Curso($_POST['curso'], null);
+    $campus = new Campus($_POST['campus'], null, null);
+
     $obrigatorio = 0;
     if (isset($_POST['obrigatorio']) && $_POST['obrigatorio'] == '1')
         $obrigatorio = 1;
     else
         $obrigatorio = 0;
 
-    $estagio = new Estagio(null, 0, $obrigatorio, null, null, null, null, null, null, null, null, null, null, $session->getUsuario(), null, $curso, null, 0);
+    $estagio = new Estagio(null, 0, $obrigatorio, null, null, null, null, null, null, null, null, null, null, null, null, $session->getUsuario(), null, null, null, null);
 
     $model = $loader->loadModel('AlunoModel', 'AlunoModel');
     if ($model != null) {
-        if (!$estagioModel->preCadastrarEstagio($estagio)) {
+        if ($estagioModel->preCadastrarEstagio($estagio, $curso, $campus)) {
+            $session->pushValue('Estágio pré-cadastrado!', 'resultado');
+        }else{
             $session->pushError('Falha ao cadastrar estágio!');
         }
     } else {
         $session->pushError('Falha ao comunicar com o servidor!');
     }
 
-    redirect(base_url() . '/estajui/estudante/home-novo-estagio.php');
+    //redirect(base_url() . '/estajui/estudante/home-novo-estagio.php');

@@ -376,14 +376,22 @@ class EstagioModel extends MainModel {
 	}
 */
 
-	public function preCadastrarEstagio($estagio){
+	public function preCadastrarEstagio($estagio, $curso, $campus){
 		try{
+            $model = $this->loader->loadModel('AlunoEstudaCursoModel', 'AlunoEstudaCursoModel');
+
+            $alunoEstudaCurso = $model->buscarPorAlunoCursoCampus($estagio->getaluno(), $curso, $campus);
+
+            if($alunoEstudaCurso == false){
+                return false;
+            }
+
 			$this->conn->beginTransaction();
-			$stmt = $this->conn->prepare("INSERT INTO estagio(bool_aprovado, bool_obrigatorio, aluno_cpf, curso_id) VALUES(?, ?, ?, ?)");
-			$stmt->execute(array(0, $estagio->getobrigatorio(), $estagio->getaluno()->getcpf(), $estagio->getcurso()->getid()));
-			$this->conn->commit();
-			return true;
+			$stmt = $this->conn->prepare("INSERT INTO estagio(bool_aprovado, bool_obrigatorio, aluno_cpf, aluno_estuda_curso_matricula) VALUES(?, ?, ?, ?)");
+			$stmt->execute(array(0, $estagio->getobrigatorio(), $estagio->getaluno()->getcpf(), $alunoEstudaCurso->getmatricula()));
+			return $this->conn->commit();
 		}catch(PDOException $ex){
+            Log::LogPDOError($ex);
             $this->conn->rollback();
             return false;
 		}
