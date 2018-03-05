@@ -21,12 +21,17 @@ $loader->loadDao('Estagio');
 $cursoModel = $loader->loadModel('CursoModel', 'CursoModel');
 $campusModel = $loader->loadModel('CampusModel', 'CampusModel');
 $estagioModel = $loader->loadModel('EstagioModel', 'EstagioModel');
+$ofereceModel = $loader->loadModel('OfereceCursoModel', 'OfereceCursoModel');
 $modificacaoModel = $loader->loadModel('ModificacaoStatusModel', 'ModificacaoStatusModel');
+$MatriculaModel = $loader->loadModel('MatriculaModel', 'MatriculaModel');
 $model = $loader->loadModel('AlunoModel', 'AlunoModel');
 $statusModel = $loader->loadModel("StatusModel", "StatusModel");
 
+$modificacaoModel = $loader->loadModel('ModificacaoStatusModel', 'ModificacaoStatusModel');
+
 $curso = new Curso($_POST['curso'], null);
 $campus = new Campus($_POST['campus'], null, null);
+$oferta = $ofereceModel->readbyoferta($curso, $campus, 1)[0];
 
 $obrigatorio = 0;
 if (isset($_POST['obrigatorio']) && $_POST['obrigatorio'] == '1')
@@ -34,7 +39,9 @@ if (isset($_POST['obrigatorio']) && $_POST['obrigatorio'] == '1')
 else
     $obrigatorio = 0;
 
-$estagio = new Estagio(null, 0, $obrigatorio, null, null, null, null, null, null, null, null, null, null, null, null, $session->getUsuario(), null, null, null, null);
+$matricula = new Matricula(null, null, null, $oferta, $session->getUsuario());
+$MatriculaModel->create($matricula);
+$estagio = new Estagio(null, 0, $obrigatorio, null, null, null, null, null, null, null, null, null, null, null, null, $session->getUsuario(), null, $matricula, null, null);
 
 $status = $statusModel->read(1, 1);
 if ($status)

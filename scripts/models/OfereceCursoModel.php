@@ -60,6 +60,49 @@ class OfereceCursoModel extends MainModel {
         }
     }
 
+    public function readbyoferta(Curso $curso, Campus $campus, $limite) {
+        if ($limite == 0) {
+            if ($curso == NULL) {
+                $pstmt = $this->conn->prepare("SELECT * FROM " . $this->_tabela . "");
+            } else {
+                $key = $curso->getid();
+                $key2 = $campus->getcnpj();
+                $pstmt = $this->conn->prepare("SELECT * FROM " . $this->_tabela . " WHERE curso_id = :id AND campus_cnpj = :camps");
+                $pstmt->bindParam(':id', $key);
+                $pstmt->bindParam(':camps', $key2);
+            }
+        } else {
+            if ($curso == NULL) {
+                $pstmt = $this->conn->prepare("SELECT * FROM " . $this->_tabela . " LIMIT :limite");
+            } else {
+                $key = $curso->getid();
+                $key2 = $campus->getcnpj();
+                $pstmt = $this->conn->prepare("SELECT * FROM " . $this->_tabela . " WHERE curso_id = :id AND campus_cnpj = :camps LIMIT :limite");
+                $pstmt->bindParam(':id', $key);
+                $pstmt->bindParam(':camps', $key2);
+            }
+            $pstmt->bindParam(':limite', $limite, PDO::PARAM_INT);
+        }
+        try {
+            $this->conn->beginTransaction();
+            $pstmt->execute();
+            $this->conn->commit();
+            $cont = 0;
+            $result = [];
+            while ($row = $pstmt->fetch()) {
+                $funcionarioModel = $this->loader->loadModel("FuncionarioModel", "FuncionarioModel");
+                $campusModel = $this->loader->loadModel("CampusModel", "CampusModel");
+                $cursoModel = $this->loader->loadModel("CursoModel", "CursoModel");
+                $result[$cont] = new OfereceCurso($row["id"], $row["turno"], $cursoModel->read($row["curso_id"], 1)[0], $campusModel->read($row["campus_cnpj"], 1)[0], $funcionarioModel->read($row["oe_siape"], 1)[0]);
+                $cont++;
+            }
+            return $result;
+        } catch (PDOExecption $e) {
+            #return "Error!: " . $e->getMessage() . "</br>";
+            return 2;
+        }
+    }
+
     public function update(OfereceCurso $ofereceCurso) {
         $pstmt = $this->conn->prepare("UPDATE " . $this->$_tabela . " SET turno=? , curso_id=? , campus_cnpj=? , oe_siape=? WHERE id = ?");
         try {
