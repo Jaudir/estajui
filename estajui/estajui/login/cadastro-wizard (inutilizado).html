@@ -1,0 +1,310 @@
+﻿<!-- ESTE MODELO DE CADASTRO FOI SUGERIDO POR SER MAIS INTUITIVO, PORÉM ELE 
+POSSUI MAIOR DIFICULDADE EM IMPLEMENTAÇÃO E FICARÁ PARA FUTURAS ATUALIZAÇÕES E MELHORIAS -->
+<!DOCTYPE html>
+<html class="no-js">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <title>Teste Form-Wizard</title>
+        <link rel="stylesheet" href="../js/plugins/wizard/demo/css/normalize.css">
+        <link rel="stylesheet" href="../js/plugins/wizard/demo/css/main.css">
+        <link rel="stylesheet" href="../js/plugins/wizard/demo/css/jquery.steps.css">
+
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
+        <link rel="stylesheet" href="../css/icons/css/font-awesome.min.css">
+        <link rel="stylesheet" href="../css/main.css">
+
+        <script src="../js/plugins/wizard/lib/modernizr-2.6.2.min.js"></script>
+        <script src="../js/plugins/wizard/lib/jquery-1.9.1.min.js"></script>
+        <script src="../js/plugins/wizard/lib/jquery.cookie-1.3.1.js"></script>
+        <script src="../js/plugins/wizard/build/jquery.steps.js"></script>
+    </head>
+    <body>
+      <div class="container-fluid">
+        <nav class="navbar navbar-expand-lg navbar-light nav-menu">
+          <a class="navbar-brand" href="#">
+            <img src="../img/LOGO.PNG" height="42" class="d-inline-block align-top" alt="">
+          </a>
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+
+            <ul class="nav-content navbar-nav">
+              <li class="nav-item">
+                <button type="button" class="btn btn-outline-light bt-sair">Voltar</button
+              </li>
+            </ul>
+          </div>
+        </nav>
+        <div class="row">
+          <div class="offset-lg-2 col-lg-8 form-wizard">
+            <div class="content">
+              <div class="row">
+                <div class="col-md-12 title">
+                  <h3>Cadastro do estudante</h3>
+                </div>
+              </div>
+                <script>
+                    $(function ()
+                    {
+                        $("#wizard").steps({
+                            headerTag: "h2",
+                            bodyTag: "section",
+                            transitionEffect: "slideLeft"
+                        });
+                    });
+                </script>
+
+                <div id="wizard">
+                    <h2>Dados pessoais</h2>
+                    <section>
+                      <form class="container" id="needs-validation1" novalidate>
+                        <div class="row">
+                          <div class="col-md-6 mb-3">
+                            <label for="validationCustom01">Nome completo</label>
+                            <input type="text" class="form-control" id="validationCustom01" required>
+                            <div class="invalid-feedback">
+                              Por favor, informe seu nome completo.
+                            </div>
+                          </div>
+                          <div class="col-md-6 mb-3">
+                            <label for="validationCustom02">CPF</label>
+                            <input type="text" class="form-control" id="validationCustom02" placeholder="999.999.999-99" >required
+                            <div class="invalid-feedback">
+                              Por favor, informe um CPF válido.
+                            </div>
+                          </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                              <label for="validationCustom03">Nº de identidade</label>
+                              <input type="text" class="form-control" id="validationCustom03" placeholder="Apenas o número" > required
+                              <div class="invalid-feedback">
+                                Por favor, informe um número válido.
+                              </div>
+                            </div>
+                            <div class="col-md-6 mb-2">
+                              <label for="validationCustom04">Orgão expedidor</label>
+                              <input type="text" class="form-control" id="validationCustom04" >required
+                              <div class="invalid-feedback">
+                                Por favor, informe o orgão expedidor da identidade.
+                              </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                          <div class="col-md-6 mb-3">
+                            <label for="validationCustom05">Cidade natal</label>
+                            <input type="text" class="form-control" id="validationCustom05" placeholder="A cidade onde você nasceu" >required
+                            <div class="invalid-feedback">
+                              Por favor, informe sua cidade natal.
+                            </div>
+                          </div>
+                          <div class="col-md-6 mb-2">
+                            <label>Estado natal</label>
+                            <select class="form-control" >required
+                              <option>Minas Gerais</option>
+                              <option>Bahia</option>
+                            </select>
+                          </div>
+                        </div>
+                        <div class="row">
+                          <div class="col-md-4 mb-3">
+                            <label for="validationCustom06">Data de nascimento</label>
+                            <input type="text" class="form-control" id="validationCustom06" placeholder="DD/MM/AAAA" >required
+                            <div class="invalid-feedback">
+                              Por favor, informe a sua data de nascimento.
+                            </div>
+                          </div>
+                          <div class="col-md-4 mb-2">
+                            <label for="validationCustom07">Sexo</label>
+                            <select class="form-control">
+                              <option>Feminino</option>
+                              <option>Masculino</option>
+                              <option>Outro</option>
+                            </select>
+                          </div>
+                          <div class="col-md-4 mb-3">
+                            <label for="validationCustom08">Estado civil</label>
+                            <select class="form-control">
+                              <option>Solteiro(a)</option>
+                              <option>Casado(a)</option>
+                              <option>Divorciado(a)</option>
+                              <option>Viúvo(a)</option>
+                              <option>Separado(a)</option>
+                              <option>União Estável</option>
+                            </select>
+                          </div>
+                        </div>
+                        <div class="row">
+                          <div class="col-md-6 mb-3">
+                            <label for="validationCustom09">Nome da mãe</label>
+                            <input type="text" class="form-control" id="validationCustom09" placeholder="Nome completo" >required
+                            <div class="invalid-feedback">
+                              Por favor, informe um nome.
+                            </div>
+                          </div>
+                          <div class="col-md-6 mb-2">
+                            <label for="validationCustom10">Nome do pai</label>
+                            <input type="text" class="form-control" id="validationCustom03" placeholder="Nome completo" >required
+                            <div class="invalid-feedback">
+                              Por favor, informe um nome.
+                            </div>
+                          </div>
+                        </div>
+                        <div class="row">
+                          <div class="col-md-6 mb-3">
+                            <label for="validationCustom18">Celular</label>
+                            <input type="text" class="form-control" id="validationCustom18" placeholder="(DDD) 9999-9999" >required
+                            <div class="invalid-feedback">
+                              Preencha este campo.
+                            </div>
+                          </div>
+                          <div class="col-md-6 mb-2">
+                            <label for="validationCustom19">Telefone fixo</label>
+                            <input type="text" class="form-control" id="validationCustom19">
+                          </div>
+                        </div>
+                        <!--
+                        <div class="col-md-12" style="margin-top: 30px;">
+                          <button class="btn btn-success" type="submit">Cadastrar</button>
+                          <button class="btn btn-danger" type="submit">Cancelar</button>
+                        </div>-->
+                      </form>
+                    </section>
+
+                    <h2>Endereço atual</h2>
+                    <section>
+                      <form class="container" id="needs-validation2" novalidate>
+                        <div class="row">
+                          <div class="col-md-4 mb-3">
+                            <label for="validationCustom11">Logradouro</label>
+                            <input type="text" class="form-control" id="validationCustom11" placeholder="Rua, Av., etc." required>
+                            <div class="invalid-feedback">
+                              Preencha este campo.
+                            </div>
+                          </div>
+                          <div class="col-md-4 mb-2">
+                            <label for="validationCustom12">Bairro</label>
+                            <input type="text" class="form-control" id="validationCustom12" required>
+                            <div class="invalid-feedback">
+                              Preencha este campo.
+                            </div>
+                          </div>
+                          <div class="col-md-2 mb-2">
+                            <label for="validationCustom13">Número</label>
+                            <input type="text" class="form-control" id="validationCustom13" required>
+                            <div class="invalid-feedback">
+                              Preencha este campo.
+                            </div>
+                          </div>
+                          <div class="col-md-2 mb-2">
+                            <label for="validationCustom14">CEP</label>
+                            <input type="text" class="form-control" id="validationCustom14" required>
+                            <div class="invalid-feedback">
+                              Por favor, informe um CEP válido.
+                            </div>
+                          </div>
+                        </div>
+                        <div class="row">
+                          <div class="col-md-4 mb-3">
+                            <label for="validationCustom15">Complemento</label>
+                            <input type="text" class="form-control" id="validationCustom15">
+                          </div>
+                          <div class="col-md-4 mb-2">
+                            <label for="validationCustom16">Cidade</label>
+                            <input type="text" class="form-control" id="validationCustom16" required>
+                            <div class="invalid-feedback">
+                              Preencha este campo.
+                            </div>
+                          </div>
+                          <div class="col-md-4 mb-2">
+                            <label for="validationCustom17">Estado</label>
+                            <select class="form-control" required>
+                              <option>Minas Gerais</option>
+                              <option>Bahia</option>
+                            </select>
+                          </div>
+                        </div>
+                        <!--
+                        <div class="col-md-12" style="margin-top: 30px;">
+                          <button class="btn btn-success" type="submit">Cadastrar</button>
+                          <button class="btn btn-danger" type="submit">Cancelar</button>
+                        </div>-->
+                      </form>
+                    </section>
+
+                    <h2>Dados de acesso</h2>
+                    <section>
+                      <form class="container" id="needs-validation3" novalidate>
+                        <div class="row">
+                          <div class="col-md-6 mb-3">
+                            <label for="validationCustom20">Email</label>
+                            <input type="text" class="form-control" id="validationCustom20" placeholder="Usado para acesso ao sistema" required>
+                            <div class="invalid-feedback">
+                              Por favor, informe um e-mail válido.
+                            </div>
+                          </div>
+                          <div class="col-md-6 mb-3">
+                            <label for="validationCustom21">Confirmação de email</label>
+                            <input type="text" class="form-control" id="validationCustom21" required>
+                            <div class="invalid-feedback">
+                              Por favor, informe um e-mail coerente.
+                            </div>
+                          </div>
+                        </div>
+                        <div class="row">
+                          <div class="col-md-6 mb-3">
+                            <label for="validationCustom22">Senha de acesso</label>
+                            <input type="password" class="form-control" id="validationCustom22" required>
+                            <div class="invalid-feedback">
+                              Por favor, informe um senha válida.
+                            </div>
+                          </div>
+                          <div class="col-md-6 mb-3">
+                            <label for="validationCustom23">Confirmação de senha</label>
+                            <input type="password" class="form-control" id="validationCustom23" required>
+                            <div class="invalid-feedback">
+                              Por favor, informe um senha coerente.
+                            </div>
+                          </div>
+                        </div>
+                        <!--
+                        <div class="col-md-12" style="margin-top: 30px;">
+                          <button class="btn btn-success" type="submit">Cadastrar</button>
+                          <button class="btn btn-danger" type="submit">Cancelar</button>
+                        </div>-->
+                      </form>
+                    </section>
+                </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!--<a href="http://google.com" id="linkao"> Teste</a>-->
+      <script>
+        function chamaClique(){
+  				document.getElementById('linkao').click();
+  			}
+        // Example starter JavaScript for disabling form submissions if there are invalid fields
+        (function() {
+          'use strict';
+          window.addEventListener('load', function() {
+            var form = document.getElementById('needs-validation1');
+            form.addEventListener('submit', function(event) {
+              if (form.checkValidity() === false) {
+                event.preventDefault();
+                event.stopPropagation();
+              }
+              //else{
+                //document.getElementById('linkao').style.color = 'red';
+                //chamaClique();
+              //}
+              form.classList.add('was-validated');
+            }, false);
+          },false);
+        })();
+        </script>
+    </body>
+</html>
