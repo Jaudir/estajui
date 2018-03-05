@@ -4,9 +4,9 @@ require_once(dirname(__FILE__) . '/../base-controller.php');
 
 $session = getSession();
 //CE
-$session->setUsuario(
+/*$session->setUsuario(
     new Funcionario("func@func", "12345", 1, 2, "Prof", false, false, true, false, null, null, null, null)
-);
+);*/
 
 $listaDeEstagios = array();
 $statusEmpresas = array();

@@ -16,9 +16,9 @@ $session = getSession();
 	new Funcionario("func@func", "12345", 1, 1, "Professor1", true, false, false, false, null, null, null, null)
 );*/
 //CE
-$session->setUsuario(
+/*$session->setUsuario(
 	new Funcionario("func@func", "12345", 1, 2, "Prof", false, false, true, false, null, null, null, null)
-);
+);*/
 if (isset($_GET["logoff"])) {
     $session->destroy();
     redirect("../login.php");
