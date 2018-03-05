@@ -135,7 +135,7 @@ class PlanoDeEstagio {
 
     public function setdata_inicio($_data_inicio) {
         $date = new DateTime($_data_inicio);
-        $this->_data_inicio = $date->format('d/m/Y');;
+        $this->_data_inicio = $date->format('d/m/Y');
         return $this;
     }
 

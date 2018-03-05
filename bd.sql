@@ -63,6 +63,7 @@ create table curso(
 create table status(
 	codigo int auto_increment primary key,
 	descricao varchar(170),
+	texto TEXT,
 	bitmap_usuarios_alvos varchar(5) /* Aluno PO OE CE SRA*/
 );
 
@@ -289,7 +290,7 @@ insert into status (descricao) values ("Estágio deferido pela secretaria");
 insert into status (descricao) values ("Aguardando definição do Professor orientador");
 insert into status (descricao) values ("Professor orientador definido. Aguardando que o estudante encaminhe à Coordenadoria de Extensão os documentos (TC, PE, *Minuta de convênio) devidamente assinados");
 insert into status (descricao) values ("Aguardando que o estudante retire os documentos na Coordenadoria de Extensão e os encaminhe a secretaria");
-insert into status (descricao) values ("Início de Estágio Autorizado. Aguardando que o estudante submeta o relatório de estágio");
+insert into status (descricao, texto) values ("Início de Estágio Autorizado. Aguardando que o estudante submeta o relatório de estágio", "Os documentos iniciais do estágio foram entregues e validados, você pode iniciar o estágio como estimado, após o término do estágio redija o relatório final como descrito no modelo e envie para análise do orientador.");
 insert into status (descricao) values ("Aguardando correção do relatório de estágio");
 insert into status (descricao) values ("Relatório de estágio aprovado. Aguardando que o estudante encaminhe o relatório de estágio para a Coordenadoria de Extensão");
 insert into status (descricao) values ("Relatório Final de Estágio e Declaração de Conclusão do Estágio enviados à Secretaria");
@@ -306,12 +307,6 @@ INSERT INTO usuario (email, senha, tipo) VALUES ('aluno0@aluno.com', '$2y$10$89a
 INSERT INTO usuario (email, senha, tipo) VALUES ('aluno1@aluno.com', '$2y$10$89a178NmXg.4XRDj5KB1h.ZRYnsN3CockVltOQvrkRRnAsx2KPqjW', 1);
 INSERT INTO usuario (email, senha, tipo) VALUES ('aluno2@aluno.com', '$2y$10$89a178NmXg.4XRDj5KB1h.ZRYnsN3CockVltOQvrkRRnAsx2KPqjW', 1);
 INSERT INTO usuario (email, senha, tipo) VALUES ('aluno3@aluno.com', '$2y$10$89a178NmXg.4XRDj5KB1h.ZRYnsN3CockVltOQvrkRRnAsx2KPqjW', 1);
-
--- USUARIO (para funcionários) a senha é "senha"
-INSERT INTO usuario(`email`, `senha`, `tipo`) VALUES ('funcionario0@funcionario.com', '$2y$10$89a178NmXg.4XRDj5KB1h.ZRYnsN3CockVltOQvrkRRnAsx2KPqjW', 2);
-INSERT INTO usuario(`email`, `senha`, `tipo`) VALUES ('funcionario1@funcionario.com', '$2y$10$89a178NmXg.4XRDj5KB1h.ZRYnsN3CockVltOQvrkRRnAsx2KPqjW', 2);
-INSERT INTO usuario(`email`, `senha`, `tipo`) VALUES ('funcionario2@funcionario.com', '$2y$10$89a178NmXg.4XRDj5KB1h.ZRYnsN3CockVltOQvrkRRnAsx2KPqjW', 2);
-INSERT INTO usuario(`email`, `senha`, `tipo`) VALUES ('funcionario3@funcionario.com', '$2y$10$89a178NmXg.4XRDj5KB1h.ZRYnsN3CockVltOQvrkRRnAsx2KPqjW', 2);
 
 
 -- ENDEREÇO

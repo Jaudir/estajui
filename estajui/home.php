@@ -556,14 +556,14 @@ require_once $_SERVER['DOCUMENT_ROOT'] . "/estajui/scripts/controllers/HomeContr
                                     </div>
                                     <div class="row">
                                         <div class="offset-lg-1 col-lg-10 status-desc-item">
-                                            <?php
-                                            if ($estagio->getstatus()->getcodigo() == 2) {
+                                            <?php if ($estagio->getstatus()->gettexto()) {
                                                 ?>
                                                 <h4>Descrição: </h4>
-                                                <p>Os documentos iniciais do estágio foram entregues e validados, você pode iniciar o estágio como
-                                                    estimado, após o término do estágio redija o relatório final como descrito no modelo e envie para
-                                                    análise do orientador.
-                                                </p>
+                                                <p><?php echo $estagio->getstatus()->gettexto() ?></p>
+                                                <?php
+                                            }
+                                            if ($estagio->getstatus()->getcodigo() == 2) {
+                                                ?>
                                                 <a href="./estudante/cadastrar-dados-estagio.php"><button type="button" class="btn btn-outline-dark" data-toggle="modal"
                                                                                                           data-target="#modalEstagio" style="padding: 10px;">Preencher dados</button></a>
                                                     <?php
@@ -596,15 +596,27 @@ require_once $_SERVER['DOCUMENT_ROOT'] . "/estajui/scripts/controllers/HomeContr
                                             </div>-->
                                             <div style="display:inline-block;width:100%;overflow-y:auto;">
                                                 <ul class="timeline timeline-horizontal">
-                                                    <li class="timeline-item">
-                                                        <div class="timeline-badge success"><i class="fa fa-check"></i></div>
-                                                        <div class="timeline-panel">
-                                                            <div class="timeline-heading">
-                                                                <h4 class="timeline-title">Mussum ipsum cacilds 1</h4>
-                                                                <p><small class="text-muted"> 09/12/2017 às 9:42 </small></p>
+                                                    <?php
+                                                    $modificacaoModel = $loader->loadModel("ModificacaoStatusModel", "ModificacaoStatusModel");
+                                                    $modificacoes = $modificacaoModel->readbyestagio($estagio, 0);
+                                                    $ultimoPasso = 1;
+                                                    foreach ($modificacoes as $modicacao) {
+                                                        ?>
+                                                        <li class="timeline-item">
+                                                            <div class="timeline-badge success"><i class="fa fa-check"></i></div>
+                                                            <div class="timeline-panel">
+                                                                <div class="timeline-heading">
+                                                                    <h4 class="timeline-title"><?php echo $modicacao->getstatus()->getdescricao(); ?></h4>
+                                                                    <p><small class="text-muted"><?php $date = new DateTime($modicacao->getdata());
+                                    echo $date->format('d/m/Y') . " às " . $date->format('H:i');
+                                                        ?></small></p>
+                                                                </div>
                                                             </div>
-                                                        </div>
-                                                    </li>
+                                                        </li>
+                                                        <?php
+                                                        $ultimoPasso = $modicacao->getstatus()->getcodigo();
+                                                    }
+                                                    ?>
                                                     <li class="timeline-item">
                                                         <div class="timeline-badge success"><i class="fa fa-check"></i></div>
                                                         <div class="timeline-panel">
@@ -683,7 +695,7 @@ require_once $_SERVER['DOCUMENT_ROOT'] . "/estajui/scripts/controllers/HomeContr
                                                 ?>
                                                 <tr>
                                                     <th scope="row"><?php echo $cont ?></th>
-                                                    <td><?php echo $estagio->getpe()->getdata_inicio() ?></td>
+                                                    <td><?php echo ($estagio->getpe()) ? $estagio->getpe()->getdata_inicio() : " - " ?></td>
                                                     <td><?php echo $estagio->getempresa()->getnome() ?></td>
                                                     <td><?php echo $estagio->getstatus()->getdescricao() ?></td>
                                                     <td><?php echo $estagio->getmatricula()->getoferta()->getcurso()->getnome() ?></td>
@@ -712,33 +724,33 @@ require_once $_SERVER['DOCUMENT_ROOT'] . "/estajui/scripts/controllers/HomeContr
                                                                     <br>
                                                                     <br>
                                                                     <h6>Status: </h6> <p><?php echo $estagio->getstatus()->getdescricao(); ?></p><br>
-                                                                    <h6>Nº da apólice seguradora: </h6> <p><?php echo $estagio->getapolice()->getnumero(); ?></p><br>
-                                                                    <h6>Setor/Unidade da empresa: </h6> <p><?php echo $estagio->getpe()->getsetor_unidade(); ?></p> <br>
+                                                                    <h6>Nº da apólice seguradora: </h6> <p><?php echo ($estagio->getapolice()) ? $estagio->getapolice()->getnumero() : NULL; ?></p><br>
+                                                                    <h6>Setor/Unidade da empresa: </h6> <p><?php echo ($estagio->getpe()) ? $estagio->getpe()->getsetor_unidade() : NULL; ?></p> <br>
                                                                     <h6>Supervisor: </h6> <p><?php echo $estagio->getsupervisor()->getnome(); ?></p> <br>
                                                                     <h6>Habilitação profissional: </h6> <p><?php echo $estagio->getsupervisor()->gethabilitacao(); ?></p> <br>
                                                                     <h6>Cargo: </h6> <p><?php echo $estagio->getsupervisor()->getcargo(); ?></p> <br>
-                                                                    <h6>Professor orientador: </h6> <p><?php echo $estagio->getfuncionario()->getnome(); ?></p> <br>
-                                                                    <h6>Formação profissional: </h6> <p><?php echo $estagio->getfuncionario()->getformacao(); ?></p> <br>
-                                                                    <h6>Data prevista para ínicio do estágio: </h6> <p><?php echo $estagio->getpe()->getdata_inicio(); ?></p> <br>
-                                                                    <h6>Data prevista para término do estágio: </h6> <p><?php echo $estagio->getpe()->getdata_fim(); ?></p> <br>
-                                                                    <h6>Jornada: </h6> <p><?php echo $estagio->getpe()->gethora_inicio1(); ?>h às <?php echo $estagio->getpe()->gethora_fim1(); ?>h, totalizando <?php echo $estagio->getpe()->gettotal_horas(); ?>h semanais</p> <br>
+                                                                    <h6>Professor orientador: </h6> <p><?php echo ($estagio->getfuncionario()) ? $estagio->getfuncionario()->getnome() : NULL; ?></p> <br>
+                                                                    <h6>Formação profissional: </h6> <p><?php echo ($estagio->getfuncionario()) ? $estagio->getfuncionario()->getformacao() : NULL; ?></p> <br>
+                                                                    <h6>Data prevista para ínicio do estágio: </h6> <p><?php echo ($estagio->getpe()) ? $estagio->getpe()->getdata_inicio() : NULL; ?></p> <br>
+                                                                    <h6>Data prevista para término do estágio: </h6> <p><?php echo ($estagio->getpe()) ? $estagio->getpe()->getdata_fim() : NULL; ?></p> <br>
+                                                                    <h6>Jornada: </h6> <p><?php echo ($estagio->getpe()) ? $estagio->getpe()->gethora_inicio1() . "h às " . $estagio->getpe()->gethora_fim1() . "h, totalizando " . $estagio->getpe()->gettotal_horas() . "h semanais." : NULL ?></p> <br>
                                                                     <h6>Principais atividdes a serem desenvolvidas: </h6>
-                                                                    <p><?php echo $estagio->getpe()->getatividades(); ?></p> <br>
-                                                                    <h6>Nome fantasia da empresa: </h6> <p><?php echo $estagio->getempresa()->getnome(); ?></p> <br>
-                                                                    <h6>Razão social da empresa: </h6> <p><?php echo $estagio->getempresa()->getrazaosocial(); ?></p> <br>
-                                                                    <h6>CNPJ: </h6> <p><?php echo $estagio->getempresa()->getcnpj(); ?></p> <br>
-                                                                    <h6>Telefone: </h6> <p><?php echo $estagio->getempresa()->gettelefone(); ?></p> <br>
-                                                                    <h6>FAX: </h6> <p><?php echo $estagio->getempresa()->getfax(); ?></p> <br>
-                                                                    <h6>Logradouro: </h6> <p><?php echo $estagio->getempresa()->getendereco()->getlogradouro(); ?></p> <br>
-                                                                    <h6>Número: </h6> <p><?php echo $estagio->getempresa()->getendereco()->getnumero(); ?></p> <br>
-                                                                    <h6>Sala: </h6> <p><?php echo $estagio->getempresa()->getendereco()->getsala(); ?></p> <br>
-                                                                    <h6>Bairro: </h6> <p><?php echo $estagio->getempresa()->getendereco()->getbairro(); ?></p> <br>
-                                                                    <h6>Cidade: </h6> <p><?php echo $estagio->getempresa()->getendereco()->getcidade(); ?></p> <br>
-                                                                    <h6>UF: </h6> <p><?php echo $estagio->getempresa()->getendereco()->getuf(); ?></p> <br>
-                                                                    <h6>CEP: </h6> <p><?php echo $estagio->getempresa()->getendereco()->getcep(); ?></p> <br>
-                                                                    <h6>Cidade: </h6> <p><?php echo $estagio->getempresa()->getendereco()->getcidade(); ?></p> <br>
-                                                                    <h6>Nº de registro da empresa: </h6> <p><?php echo $estagio->getempresa()->getnregistro(); ?></p> <br>
-                                                                    <h6>Conselho de fiscalização: </h6> <p><?php echo $estagio->getempresa()->getconselhofiscal(); ?></p> <br>
+                                                                    <p><?php echo ($estagio->getpe()) ? $estagio->getpe()->getatividades() : NULL; ?></p> <br>
+                                                                    <h6>Nome fantasia da empresa: </h6> <p><?php echo (!$estagio->getempresa()) ? NULL : $estagio->getempresa()->getnome(); ?></p> <br>
+                                                                    <h6>Razão social da empresa: </h6> <p><?php echo (!$estagio->getempresa()) ? NULL : $estagio->getempresa()->getrazaosocial(); ?></p> <br>
+                                                                    <h6>CNPJ: </h6> <p><?php echo (!$estagio->getempresa()) ? NULL : $estagio->getempresa()->getcnpj(); ?></p> <br>
+                                                                    <h6>Telefone: </h6> <p><?php echo (!$estagio->getempresa()) ? NULL : $estagio->getempresa()->gettelefone(); ?></p> <br>
+                                                                    <h6>FAX: </h6> <p><?php echo (!$estagio->getempresa()) ? NULL : $estagio->getempresa()->getfax(); ?></p> <br>
+                                                                    <h6>Logradouro: </h6> <p><?php echo (!$estagio->getempresa()) ? NULL : $estagio->getempresa()->getendereco()->getlogradouro(); ?></p> <br>
+                                                                    <h6>Número: </h6> <p><?php echo (!$estagio->getempresa()) ? NULL : $estagio->getempresa()->getendereco()->getnumero(); ?></p> <br>
+                                                                    <h6>Sala: </h6> <p><?php echo (!$estagio->getempresa()) ? NULL : $estagio->getempresa()->getendereco()->getsala(); ?></p> <br>
+                                                                    <h6>Bairro: </h6> <p><?php echo (!$estagio->getempresa()) ? NULL : $estagio->getempresa()->getendereco()->getbairro(); ?></p> <br>
+                                                                    <h6>Cidade: </h6> <p><?php echo (!$estagio->getempresa()) ? NULL : $estagio->getempresa()->getendereco()->getcidade(); ?></p> <br>
+                                                                    <h6>UF: </h6> <p><?php echo (!$estagio->getempresa()) ? NULL : $estagio->getempresa()->getendereco()->getuf(); ?></p> <br>
+                                                                    <h6>CEP: </h6> <p><?php echo (!$estagio->getempresa()) ? NULL : $estagio->getempresa()->getendereco()->getcep(); ?></p> <br>
+                                                                    <h6>Cidade: </h6> <p><?php echo (!$estagio->getempresa()) ? NULL : $estagio->getempresa()->getendereco()->getcidade(); ?></p> <br>
+                                                                    <h6>Nº de registro da empresa: </h6> <p><?php echo (!$estagio->getempresa()) ? NULL : $estagio->getempresa()->getnregistro(); ?></p> <br>
+                                                                    <h6>Conselho de fiscalização: </h6> <p><?php echo (!$estagio->getempresa()) ? NULL : $estagio->getempresa()->getconselhofiscal(); ?></p> <br>
                                                                 </div>
                                                             </div>
                                                         </div>
