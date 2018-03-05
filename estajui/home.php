@@ -421,9 +421,9 @@ require_once $_SERVER['DOCUMENT_ROOT'] . "/estajui/scripts/controllers/HomeContr
                                                         <h6>Cpf: </h6> <p><?php echo $aluno->getcpf(); ?></p><br>
                                                         <h6>Curso: </h6> <p><?php echo $aluno->getcursos()[0]->getnome(); ?></p> <br>
                                                         <h6>Nome fantasia da empresa: </h6> <p><?php echo $estagio->getestagio()->getempresa()->getnome(); ?></p> <br>
-                                                        <h6>Setor/Unidade da empresa: </h6> <p><?php echo "T.I."; //$estagio->getestagio()->getempresa()->getsetor_unidade();          ?></p> <br>
+                                                        <h6>Setor/Unidade da empresa: </h6> <p><?php echo "T.I."; //$estagio->getestagio()->getempresa()->getsetor_unidade();           ?></p> <br>
                                                         <h6>Supervisor: </h6> <p><?php echo $estagio->getestagio()->getsupervisor()->getnome(); ?></p> <br>
-                                                        <h6>Telefone do supervisor: </h6> <p><?php echo "(38) 9878-3177"//$estagio->getestagio()->getsupervisor()->gettelefone();          ?></p> <br>
+                                                        <h6>Telefone do supervisor: </h6> <p><?php echo "(38) 9878-3177"//$estagio->getestagio()->getsupervisor()->gettelefone();           ?></p> <br>
                                                         <h6>Habilitação profissional: </h6> <p><?php echo $estagio->getestagio()->getsupervisor()->gethabilitacao(); ?></p> <br>
                                                         <h6>Cargo: </h6> <p><?php echo $estagio->getestagio()->getsupervisor()->getcargo(); ?></p> <br>
                                                         <h6>Principais atividdes a serem desenvolvidas: </h6>
@@ -646,9 +646,12 @@ require_once $_SERVER['DOCUMENT_ROOT'] . "/estajui/scripts/controllers/HomeContr
                                                 <div class="col-md-6">
                                                     <div class="form-group">
                                                         <label for="semestre">Aluno iniciou o curso em (Semestre/Ano):</label>
-                                                        <input type="text" id="semestre" name="semestre" pattern="[1-2]\/(19[0-9][0-9]|2[0-9][0-9][0-9])" value="<?php if ($estagio->getmatricula()) {
-                                                            if (!empty($estagio->getmatricula()->getsemestre_inicio()) && !empty($estagio->getmatricula()->getano_inicio())) echo $estagio->getmatricula()->getsemestre_inicio() . "/" . $estagio->getmatricula()->getano_inicio();
-                                                        } ?>" class="form-control" placeholder="s/AAAA"  required="required">
+                                                        <input type="text" id="semestre<?php echo $estagio->getid() ?>" name="semestre" pattern="[1-2]\/(19[0-9][0-9]|2[0-9][0-9][0-9])" value="<?php
+                                                        if ($estagio->getmatricula()) {
+                                                            if (!empty($estagio->getmatricula()->getsemestre_inicio()) && !empty($estagio->getmatricula()->getano_inicio()))
+                                                                echo $estagio->getmatricula()->getsemestre_inicio() . "/" . $estagio->getmatricula()->getano_inicio();
+                                                        }
+                                                        ?>" class="form-control" placeholder="s/AAAA"  required="required">
                                                     </div>
                                                 </div>
                                             </div>
@@ -656,44 +659,44 @@ require_once $_SERVER['DOCUMENT_ROOT'] . "/estajui/scripts/controllers/HomeContr
                                             <div class="form-group">
                                                 <div class="custom-controls-stacked">
                                                     <label class="custom-control custom-radio" style="margin-top: 10px;">
-                                                        <input id="matriculado" name="matriculado" type="checkbox" class="custom-control-input">
+                                                        <input id="matriculado<?php echo $estagio->getid() ?>" name="matriculado" type="checkbox" class="custom-control-input">
                                                         <span class="custom-control-indicator"></span>
                                                         <span class="custom-control-description">Aluno está regularmente matriculado</span>
                                                     </label>
                                                     <div class="row">
                                                         <div class="col-md-4">
                                                             <label for="serie">Série:</label>
-                                                            <input type="number" name="serie" id="serie" class="form-control" placeholder="" disabled="disabled">
+                                                            <input type="number" name="serie" id="serie<?php echo $estagio->getid() ?>" class="form-control" placeholder="" disabled="disabled">
                                                         </div>
                                                         <div class="col-md-4">
                                                             <label for="modulo">Módulo:</label>
-                                                            <input type="number" name="modulo" id="modulo" class="form-control" placeholder="" disabled="disabled">
+                                                            <input type="number" name="modulo" id="modulo<?php echo $estagio->getid() ?>" class="form-control" placeholder="" disabled="disabled">
                                                         </div>
                                                         <div class="col-md-4">
                                                             <label for="periodo">Período:</label>
-                                                            <input type="number" name="periodo" id="periodo" class="form-control" placeholder="" disabled="disabled">
+                                                            <input type="number" name="periodo" id="periodo<?php echo $estagio->getid() ?>" class="form-control" placeholder="" disabled="disabled">
                                                         </div>
                                                     </div>
                                                     <label class="custom-control custom-radio">
-                                                        <input id="integralizado" name="integralizado" type="checkbox" class="custom-control-input">
+                                                        <input id="integralizado<?php echo $estagio->getid() ?>" name="integralizado" type="checkbox" class="custom-control-input">
                                                         <span class="custom-control-indicator"></span>
                                                         <span class="custom-control-description">Aluno integralizou a carga horário do curso</span>
                                                     </label>
                                                     <div class="row">
                                                         <div class="col-md-6">
                                                             <label for="integralizacao">Semestre/Ano de integralização</label>
-                                                            <input type="text" name="integralizacao" id="integralizacao"  pattern="[1-2]\/(19[0-9][0-9]|2[0-9][0-9][0-9])" class="form-control" placeholder="s/AAAA" disabled="disabled">
+                                                            <input type="text" name="integralizacao" id="integralizacao<?php echo $estagio->getid() ?>"  pattern="[1-2]\/(19[0-9][0-9]|2[0-9][0-9][0-9])" class="form-control" placeholder="s/AAAA" disabled="disabled">
                                                         </div>
                                                     </div>
                                                     <label class="custom-control custom-radio">
-                                                        <input id="emregime" name="emregime" type="checkbox" class="custom-control-input">
+                                                        <input id="emregime<?php echo $estagio->getid() ?>" name="emregime" type="checkbox" class="custom-control-input">
                                                         <span class="custom-control-indicator"></span>
                                                         <span class="custom-control-description">Aluno em regime de dependência</span>
                                                     </label>
                                                     <div class="row">
                                                         <div class="col-md-12">
                                                             <label for="dependencias">Dependências</label>
-                                                            <textarea name="dependencias" id="dependencias" rows="3" class="form-control" disabled="disabled"></textarea>
+                                                            <textarea name="dependencias" id="dependencias<?php echo $estagio->getid() ?>" rows="3" class="form-control" disabled="disabled"></textarea>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -707,19 +710,19 @@ require_once $_SERVER['DOCUMENT_ROOT'] . "/estajui/scripts/controllers/HomeContr
                                                 </div>
                                                 <div class="custom-controls-stacked">
                                                     <label class="custom-control custom-radio" style="margin-top: 10px;">
-                                                        <input id="aptidao1" name="aptidao" value="1" onchange='if ($(this).is(":checked")) {
-                                                                            $("#justificativa").attr("disabled", "disabled");
-                                                                            $("#justificativa").removeAttr("required");
-                                                                            }' type="radio" class="custom-control-input" required="required">
+                                                        <input id="aptidao1<?php echo $estagio->getid() ?>" name="aptidao" value="1" onchange='if ($(this).is(":checked")) {
+                                                            $("#justificativa<?php echo $estagio->getid() ?>").attr("disabled", "disabled");
+                                                            $("#justificativa<?php echo $estagio->getid() ?>").removeAttr("required");
+                                                            }' type="radio" class="custom-control-input" required="required">
                                                         <span class="custom-control-indicator"></span>
                                                         <span class="custom-control-description">SIM</span>
                                                     </label>
                                                     <label class="custom-control custom-radio" style="margin-top: 3px;">
-                                                        <input id="aptidao2"  onchange='if ($(this).is(":checked")) {
-                                                                            $("#justificativa").removeAttr("disabled");
-                                                                            $("#justificativa").attr("required", "required");
-                                                                            $("#justificativa").focus();
-                                                                            }' name="aptidao" value="0" type="radio" class="custom-control-input" required="required">
+                                                        <input id="aptidao2<?php echo $estagio->getid() ?>"  onchange='if ($(this).is(":checked")) {
+                                                            $("#justificativa<?php echo $estagio->getid() ?>").removeAttr("disabled");
+                                                            $("#justificativa<?php echo $estagio->getid() ?>").attr("required", "required");
+                                                            $("#justificativa<?php echo $estagio->getid() ?>").focus();
+                                                            }' name="aptidao" value="0" type="radio" class="custom-control-input" required="required">
                                                         <span class="custom-control-indicator"></span>
                                                         <span class="custom-control-description">NÃO</span>
                                                     </label>
@@ -727,7 +730,7 @@ require_once $_SERVER['DOCUMENT_ROOT'] . "/estajui/scripts/controllers/HomeContr
                                                 <div class="row">
                                                     <div class="col-md-12">
                                                         <label for="justificativa">Justificativa</label>
-                                                        <textarea name="justificativa" id="justificativa" rows="3" class="form-control" disabled="disabled"></textarea>
+                                                        <textarea name="justificativa" id="justificativa<?php echo $estagio->getid() ?>" rows="3" class="form-control" disabled="disabled"></textarea>
                                                     </div>
                                                 </div>
                                             </div>
@@ -929,37 +932,37 @@ require_once $_SERVER['DOCUMENT_ROOT'] . "/estajui/scripts/controllers/HomeContr
                 </div>
             </div>
         </div>
-<?php
-if (is_a($usuario, "Aluno")) {
-    if (count($estagios) == 0) {
-        ?>
+        <?php
+        if (is_a($usuario, "Aluno")) {
+            if (count($estagios) == 0) {
+                ?>
                 <div class="col-lg-10 align-self-center center">
                     <button type="button" class="btn btn-outline-success" data-toggle="modal" data-target="#modalNovoEstagio" style="padding: 25px;">Novo estágio</button>
                 </div>
-        <?php
-    } else {
-        ?>
+                    <?php
+                } else {
+                    ?>
                 <div class="col-lg-10 status-desc">
                     <?php if ($session->hasError("error-validacao")) { ?>
                         <div class="alert alert-warning">
                             <strong>Aviso:</strong> <?php echo $session->getErrors("error-validacao")[0]; ?>
                         </div>
-                    <?php } ?>
+        <?php } ?>
                     <?php if ($session->hasError("error-critico")) { ?>
                         <div class="alert alert-danger">
                             <strong>Erro:</strong> <?php echo $session->getErrors("error-critico")[0]; ?>
                         </div>
-                    <?php } ?>
+        <?php } ?>
                     <?php if ($session->hasValues("sucesso")) { ?>
                         <div class="alert alert-success">
                             <strong>Sucesso:</strong> <?php echo $session->getValues("sucesso")[0]; ?>
                         </div>
                     <?php } ?>
-        <?php
-        $cont = 1;
-        foreach ($estagios as $estagio) {
-            if ($estagio->getstatus()->getcodigo() <= 11) {
-                ?>
+                    <?php
+                    $cont = 1;
+                    foreach ($estagios as $estagio) {
+                        if ($estagio->getstatus()->getcodigo() <= 11) {
+                            ?>
                             <div class="row" id="estagio<?php echo $estagio->getid(); ?>">
                                 <div class="offset-lg-1 col-lg-10 status-desc-item bg-gray">
                                     <h3> Estágio atual <?php echo (!$estagio->getempresa()) ? NULL : "(" . $estagio->getempresa()->getnome() . ")"; ?> </h3>
@@ -977,10 +980,10 @@ if (is_a($usuario, "Aluno")) {
                                         ?>
                                         <h4>Descrição: </h4>
                                         <p><?php echo $estagio->getstatus()->gettexto() ?></p>
-                                            <?php
-                                        }
-                                        if ($estagio->getstatus()->getcodigo() == 2) {
-                                            ?>
+                                        <?php
+                                    }
+                                    if ($estagio->getstatus()->getcodigo() == 2) {
+                                        ?>
                                         <a href="./estudante/cadastrar-dados-estagio.php"><button type="button" class="btn btn-outline-dark" data-toggle="modal"
                                                                                                   data-target="#modalEstagio" style="padding: 10px;">Preencher dados</button></a>
                     <?php
@@ -994,7 +997,7 @@ if (is_a($usuario, "Aluno")) {
                                                     O seu arquivo deve ter um tamanho máximo de 50 MB.
                                                 </small>
                                             </div>
-                                        <?php $_SESSION['estagio'] = $estagio; ?>
+                    <?php $_SESSION['estagio'] = $estagio; ?>
                                             <!--input type="hidden" name="MAX_FILE_SIZE" value="55000000"-->
                                             <button type="submit" name="enviar_relatorio" class="btn btn-outline-success"
                                                     style="padding: 10px; width: 100px;">Enviar</button>
@@ -1041,9 +1044,9 @@ if (is_a($usuario, "Aluno")) {
                                                                 }
                                                                 ?></h4>
                                                             <p><small class="text-muted"><?php
-                                                                $date = new DateTime($modicacao->getdata());
-                                                                echo $date->format('d/m/Y') . " às " . $date->format('H:i');
-                                                                ?></small></p>
+                                                $date = new DateTime($modicacao->getdata());
+                                                echo $date->format('d/m/Y') . " às " . $date->format('H:i');
+                                                ?></small></p>
                                                         </div>
                                                     </div>
                                                 </li>
@@ -1079,20 +1082,20 @@ if (is_a($usuario, "Aluno")) {
                                                             </div>
                                                         </div>
                                                     </li>
-                        <?php
-                    }
-                }
-                ?>
+                                                    <?php
+                                                }
+                                            }
+                                            ?>
                                         </ul>
                                     </div>
                                 </div>
                             </div>
                             <div class="row" style="margin-bottom: 20px;"></div>
-                <?php
-            }
-            $cont++;
-        }
-        ?>
+                            <?php
+                        }
+                        $cont++;
+                    }
+                    ?>
                     <div class="row table-estagios">
                         <div class="offset-lg-1 col-lg-10 table-title bg-gray">
                             <h3> Todos os estágios </h3>
@@ -1110,10 +1113,10 @@ if (is_a($usuario, "Aluno")) {
                                     </tr>
                                 </thead>
                                 <tbody>
-        <?php
-        $cont = 1;
-        foreach ($estagios as $estagio) {
-            ?>
+                                    <?php
+                                    $cont = 1;
+                                    foreach ($estagios as $estagio) {
+                                        ?>
                                         <tr>
                                             <th scope="row"><?php echo $cont ?></th>
                                             <td><?php echo ($estagio->getpe()) ? $estagio->getpe()->getdata_inicio() : " - " ?></td>
@@ -1181,19 +1184,19 @@ if (is_a($usuario, "Aluno")) {
                                             </div>
                                         </div>
                                     </div>
-            <?php
-            $cont++;
-        }
-        ?>
+                                    <?php
+                                    $cont++;
+                                }
+                                ?>
                                 </tbody>
                             </table>
                         </div>
                     </div>
                 </div>
-        <?php
-    }
-}
-?>
+                <?php
+            }
+        }
+        ?>
     </div>
 </div>
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
@@ -1202,23 +1205,23 @@ if (is_a($usuario, "Aluno")) {
 <script src="../../assets/js/busca_estagio.js"></script>
 <script src="../../assets/js/ce-load-home.js"></script>
 <script>
-                                                            $(function(){
+                                            $(function(){
 <?php
 if ($session->hasError('normal')):
     ?>
-                                                                alert(<?php echo "\"" . $session->getErrors('normal')[0] . "\"" ?>);
+                                                alert(<?php echo "\"" . $session->getErrors('normal')[0] . "\"" ?>);
 <?php elseif ($session->hasValues('resultado')): ?>
-                                                                alert(<?php echo "\"" . $session->getValues('resultado')[0] . "\"" ?>);
+                                                alert(<?php echo "\"" . $session->getValues('resultado')[0] . "\"" ?>);
 <?php endif; ?>
 
-                                                            $('.empresaModalToggle').click(function(){
-                                                            $('#ecnpj').val($(this).find('.cnpj').html());
-                                                            $('#empresaDadosInModal').html($(this).children('.empresaDados').html());
-                                                            });
-                                                            $('#enviarFormEmpresa').click(function(){
-                                                            $('#empresaForm').submit();
-                                                            });
-                                                            });</script>
+                                            $('.empresaModalToggle').click(function(){
+                                            $('#ecnpj').val($(this).find('.cnpj').html());
+                                            $('#empresaDadosInModal').html($(this).children('.empresaDados').html());
+                                            });
+                                            $('#enviarFormEmpresa').click(function(){
+                                            $('#empresaForm').submit();
+                                            });
+                                            });</script>
 <script>
     $(function(){
 <?php
@@ -1271,58 +1274,57 @@ endforeach;
 <?php
 if (is_a($usuario, "Funcionario")) {
     if ($usuario->issra()) {
-        ?>
-        <script type="text/javascript">
-            $(function () {
-            $("#matriculado").click(function () {
-            if ($(this).is(":checked")) {
-            $("#serie").removeAttr("disabled");
-            $("#modulo").removeAttr("disabled");
-            $("#periodo").removeAttr("disabled");
-            $("#serie").attr("required", "required");
-            $("#modulo").attr("required", "required");
-            $("#periodo").attr("required", "required");
-            $("#serie").focus();
-            } else {
-            $("#serie").attr("disabled", "disabled");
-            $("#modulo").attr("disabled", "disabled");
-            $("#periodo").attr("disabled", "disabled");
-            $("#serie").removeAttr("required");
-            $("#modulo").removeAttr("required");
-            $("#periodo").removeAttr("required");
-            }
-            });
-            });
-        </script>
-        <script type="text/javascript">
-            $(function () {
-            $("#integralizado").click(function () {
-            if ($(this).is(":checked")) {
-            $("#integralizacao").removeAttr("disabled");
-            $("#integralizacao").attr("required", "required");
-            $("#integralizacao").focus();
-            } else {
-            $("#integralizacao").attr("disabled", "disabled");
-            $("#integralizacao").removeAttr("required");
-            }
-            });
-            });
-        </script>
-        <script type="text/javascript">
-            $(function () {
-            $("#emregime").click(function () {
-            if ($(this).is(":checked")) {
-            $("#dependencias").removeAttr("disabled");
-            $("#dependencias").attr("required", "required");
-            $("#dependencias").focus();
-            } else {
-            $("#dependencias").attr("disabled", "disabled");
-            $("#dependencias").removeAttr("required");
-            }
-            });
-            });
-        </script>
-        <?php
+        foreach ($estagios as $estagio) {
+            ?>
+            <script type="text/javascript">
+                $(function () {
+                $("#matriculado<?php echo $estagio->getid() ?>").click(function () {
+                if ($(this).is(":checked")) {
+                $("#serie<?php echo $estagio->getid() ?>").removeAttr("disabled");
+                $("#modulo<?php echo $estagio->getid() ?>").removeAttr("disabled");
+                $("#periodo<?php echo $estagio->getid() ?>").removeAttr("disabled");
+                $("#serie<?php echo $estagio->getid() ?>").attr("required", "required");
+                $("#modulo<?php echo $estagio->getid() ?>").attr("required", "required");
+                $("#periodo<?php echo $estagio->getid() ?>").attr("required", "required");
+                $("#serie<?php echo $estagio->getid() ?>").focus();
+                } else {
+                $("#serie<?php echo $estagio->getid() ?>").attr("disabled", "disabled");
+                $("#modulo<?php echo $estagio->getid() ?>").attr("disabled", "disabled");
+                $("#periodo<?php echo $estagio->getid() ?>").attr("disabled", "disabled");
+                $("#serie<?php echo $estagio->getid() ?>").removeAttr("required");
+                $("#modulo<?php echo $estagio->getid() ?>").removeAttr("required");
+                $("#periodo<?php echo $estagio->getid() ?>").removeAttr("required");
+                }
+                });
+                });</script>
+            <script type="text/javascript">
+                $(function () {
+                $("#integralizado<?php echo $estagio->getid() ?>").click(function () {
+                if ($(this).is(":checked")) {
+                $("#integralizacao<?php echo $estagio->getid() ?>").removeAttr("disabled");
+                $("#integralizacao<?php echo $estagio->getid() ?>").attr("required", "required");
+                $("#integralizacao<?php echo $estagio->getid() ?>").focus();
+                } else {
+                $("#integralizacao<?php echo $estagio->getid() ?>").attr("disabled", "disabled");
+                $("#integralizacao<?php echo $estagio->getid() ?>").removeAttr("required");
+                }
+                });
+                });</script>
+            <script type="text/javascript">
+                $(function () {
+                $("#emregime<?php echo $estagio->getid() ?>").click(function () {
+                if ($(this).is(":checked")) {
+                $("#dependencias<?php echo $estagio->getid() ?>").removeAttr("disabled");
+                $("#dependencias<?php echo $estagio->getid() ?>").attr("required", "required");
+                $("#dependencias<?php echo $estagio->getid() ?>").focus();
+                } else {
+                $("#dependencias<?php echo $estagio->getid() ?>").attr("disabled", "disabled");
+                $("#dependencias<?php echo $estagio->getid() ?>").removeAttr("required");
+                }
+                });
+                });</script>
+            <?php
+        }
     }
 }
 ?>

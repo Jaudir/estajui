@@ -31,7 +31,8 @@ if (is_a($usuario, "Aluno")) {
 } elseif (is_a($usuario, "Funcionario")) {
     if ($usuario->isroot()) {
         $titulo = "Administrador";
-    } elseif ($usuario->isce()) {
+    }
+    if ($usuario->isce()) {
         $titulo = "Coordenador de extensão";
 
         //$session->clearErrors();
@@ -66,7 +67,8 @@ if (is_a($usuario, "Aluno")) {
             if (!$statusEmpresas)
                 $statusEmpresas = array();
         }
-    } elseif ($usuario->isoe()) {
+    }
+    if ($usuario->isoe()) {
         /* Carregar dados dos estágios agurdando professor orientador */
         $peModel = $loader->loadModel('PlanoEstagioModel', 'PlanoEstagioModel');
 //carregar estágios que estão aguardando definição de professor orientador
@@ -81,13 +83,13 @@ if (is_a($usuario, "Aluno")) {
             $professores = array();
         }
         $titulo = "Organizador de estagio";
-    } elseif ($usuario->issra()) {
+    }
+    if ($usuario->issra()) {
         $titulo = "Secretaria";
         $estagios = $estagioModel->read(null, 0);
-    } elseif ($usuario->ispo()) {
+    }
+    if ($usuario->ispo()) {
         $titulo = "Professor orientador";
-    } else {
-        $titulo = "Funcionario";
     }
 } else {
     redirectToView("login");
