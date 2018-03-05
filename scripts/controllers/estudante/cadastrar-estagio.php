@@ -1,6 +1,6 @@
 <?php
 
-/* 
+/*
     Este script irá:
         * Cadastrar uma empresa para ser conveniada caso não esteja.
             - Nesse caso, também será cadastrado o supervisor do estágio
@@ -45,14 +45,14 @@ if($session->isAluno()){
     $validate->addField('razao_social', array('required' => true, 'min_size' => 4, 'max_size' => 100));
 
     //campos do responsável
-    $validate->addField('email_responsavel', array('required' => true, 'min_size' => 4, 'max_size' => 50, 'email' => true)); 
-    $validate->addField('nome_responsavel', array('required' => true, 'min_size' => 4, 'max_size' => 50)); 
+    $validate->addField('email_responsavel', array('required' => true, 'min_size' => 4, 'max_size' => 50, 'email' => true));
+    $validate->addField('nome_responsavel', array('required' => true, 'min_size' => 4, 'max_size' => 50));
     $validate->addField('telefone_responsavel', array('required' => true, 'tel' => true));
     $validate->addField('cargo_responsavel', array('required' => true, 'min_size' => 4, 'max_size' => 20));
-    
+
     //campos do supervisor
-    $validate->addField('nome_supervisor', array('required' => true, 'min_size' => 4, 'max_size' => 200)); 
-    $validate->addField('cargo', array('required' => true, 'min_size' => 4, 'max_size' => 20)); 
+    $validate->addField('nome_supervisor', array('required' => true, 'min_size' => 4, 'max_size' => 200));
+    $validate->addField('cargo', array('required' => true, 'min_size' => 4, 'max_size' => 20));
     $validate->addField('habilitacao', array('required' => true, 'min_size' => 4, 'max_size' => 100));
 
     //campos do estágio
@@ -61,10 +61,10 @@ if($session->isAluno()){
     //campos do plano de estágio
     $validate->addField('setor', array('required' => true, 'min_size' => 4, 'max_size' => 100));
     $validate->addField('atividades', array('required' => true, 'min_size' => 4, 'max_size' => 100));
-    $validate->addField('data_inicio', array('required' => true, 'date' => true)); 
-    $validate->addField('data_termino', array('required' => true, 'date' => true,)); 
-    $validate->addField('inicio_jornada', array('required' => true, 'time' => true)); 
-    $validate->addField('termino_jornada', array('required' => true, 'time' => true)); 
+    $validate->addField('data_inicio', array('required' => true, 'date' => true));
+    $validate->addField('data_termino', array('required' => true, 'date' => true,));
+    $validate->addField('inicio_jornada', array('required' => true, 'time' => true));
+    $validate->addField('termino_jornada', array('required' => true, 'time' => true));
     $validate->addField('horas_semanais', array('required' => true, 'time' => true));
 
     if($validate->validate(false)){
@@ -99,4 +99,4 @@ if($session->isAluno()){
 }else{
     $session->pushError('Você não é um aluno, não é possível criar estágios!');
 }
-redirect(base_url() . '/estajui/home.php');
+redirect(base_url() . '/estajui/estudante/cadastrar-dados-estagio.php');

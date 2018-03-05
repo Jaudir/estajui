@@ -37,7 +37,7 @@
       echo 'selected';
   }
 
-  $_POST['estagio'] = 1;
+  $_POST['estagio'] = $_GET['id'];
 ?>
 <html>
   <head>
@@ -83,8 +83,8 @@
                 <div class="col-md-12 mb-3">
                   <h6> Busque e selecione a empresa onde será feito o estágio. </h6>
                   <div class="input-group">
-                    <input class="form-control" type="search" id="search" 
-                    placeholder="Buscar empresa .." aria-label="Pesquisar" 
+                    <input class="form-control" type="search" id="search"
+                    placeholder="Buscar empresa .." aria-label="Pesquisar"
                     aria-describedby="buscarEmpresaHelp" name="cnpj-busca" required>
                     <button id="search-btn" type="button" class="input-group-addon"><i class="fa fa-search"></i></button>
                   </div>
@@ -93,7 +93,7 @@
                   </small>
                 </div>
               </div>
-              
+
               <div class="row">
                   <div class="col-md-6 mb-3">
                     <label for="validationCustom03">Nome fantasia</label>
@@ -318,7 +318,7 @@
                 form.classList.add('was-validated');
               }, false);
             }, false);
-          
+
             $('#cadastrar').click(function(){
               $('#needs-validation').attr('action', '<?php echo base_url() . '/scripts/controllers/estudante/cadastrar-estagio.php'?>');
               $('#needs-validation').submit();

@@ -948,7 +948,7 @@ require_once $_SERVER['DOCUMENT_ROOT'] . "/estajui/scripts/controllers/HomeContr
                                         <select class="form-control" id="campus" name="campus" required>
                                             <?php foreach ($campi as $campus): ?>
                                                 <option value="<?php echo $campus->getcnpj(); ?>"><?php echo $campus->getendereco()->getcidade(); ?></option>
-                                            <?php endforeach; ?> 
+                                            <?php endforeach; ?>
                                         </select>
                                     </div>
                                     <div class="form-group">
@@ -1044,7 +1044,7 @@ require_once $_SERVER['DOCUMENT_ROOT'] . "/estajui/scripts/controllers/HomeContr
                                             }
                                             if ($estagio->getstatus()->getcodigo() == 2) {
                                                 ?>
-                                                <a href="./estudante/cadastrar-dados-estagio.php"><button type="button" class="btn btn-outline-dark" data-toggle="modal"
+                                                <a href="./estudante/cadastrar-dados-estagio.php?id=<?php echo $estagio->getid();?>"><button type="button" class="btn btn-outline-dark" data-toggle="modal"
                                                                                                           data-target="#modalEstagio" style="padding: 10px;">Preencher dados</button></a>
                                                     <?php
                                                 } elseif ($estagio->getstatus()->getcodigo() == 6) {
