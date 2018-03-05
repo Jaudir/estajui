@@ -95,7 +95,7 @@ require_once $_SERVER['DOCUMENT_ROOT'] . "/estajui/scripts/controllers/HomeContr
                             if ($usuario->isroot() || $usuario->isce()) {
                                 ?>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="#">Usuários</a>
+                                    <a class="nav-link" href="coordenador-extensao/usuarios.php">Usuários</a>
                                 </li>
                                 <li class="nav-item">
                                     <a class="nav-link" href="#">Empresas</a>

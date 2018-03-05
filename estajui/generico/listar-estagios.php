@@ -97,13 +97,10 @@ $errosExibir = $session->getErrors('normal');
                             if ($usuario->isroot() || $usuario->isce()) {
                                 ?>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="#">Usuários</a>
+                                    <a class="nav-link" href="../coordenador-extensao/usuarios.php">Usuários</a>
                                 </li>
                                 <li class="nav-item">
                                     <a class="nav-link" href="#">Empresas</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" href="#">Professores</a>
                                 </li>
                                 <li class="nav-item">
                                     <a class="nav-link" href="#">Cursos</a>
