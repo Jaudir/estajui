@@ -219,15 +219,13 @@ class EstagioModel extends MainModel {
                 $matriculaModel = $this->loader->loadModel("MatriculaModel", "MatriculaModel");
                 $statusModel = $this->loader->loadModel("StatusModel", "StatusModel");
                 $planodeestagioModel = $this->loader->loadModel("PlanoDeEstagioModel", "PlanoDeEstagioModel");
-                $result[$cont] = new Estagio($row["id"], boolval($row["bool_aprovado"]), boolval($row["bool_obrigatorio"]), null, null, $row["periodo"], $row["serie"], $row["modulo"], $row["integ_ano"], $row["integ_semestre"], $row["dependencias"], $row["justificativa"], $row["endereco_tc"], $row["endereco_pe"], (!$row["empresa_cnpj"]) ? NULL : $empresaModel->read($row["empresa_cnpj"], 1)[0], $alunoModel->read($row["aluno_cpf"], 1)[0], $funcionarioModel->read($row["po_siape"], 1)[0], $matriculaModel->read($row["aluno_estuda_curso_matricula"], 1)[0], $statusModel->read($row["status_codigo"], 1)[0], null);
+                $result[$cont] = new Estagio($row["id"], boolval($row["bool_aprovado"]), boolval($row["bool_obrigatorio"]), null, null, $row["periodo"], $row["serie"], $row["modulo"], $row["integ_ano"], $row["integ_semestre"], $row["dependencias"], $row["justificativa"], $row["endereco_tc"], $row["endereco_pe"], (!$row["empresa_cnpj"]) ? NULL : $empresaModel->read($row["empresa_cnpj"], 1)[0],  (!$row["aluno_cpf"]) ? NULL : $alunoModel->read($row["aluno_cpf"], 1)[0],  (!$row["po_siape"]) ? NULL : $funcionarioModel->read($row["po_siape"], 1)[0],  (!$row["aluno_estuda_curso_matricula"]) ? NULL : $matriculaModel->read($row["aluno_estuda_curso_matricula"], 1)[0],  (!$row["status_codigo"]) ? NULL : $statusModel->read($row["status_codigo"], 1)[0], null);
                 $result[$cont]->sethoras_contabilizadas($row["horas_contabilizadas"]);
-
-                $temp = $apoliceModel->readbyestagio($result[$cont], 1);
-                $result[$cont]->setapolice((count($temp) > 0) ? $temp[0] : NULL);
-                $temp = $planodeestagioModel->read($result[$cont], 1);
-                $result[$cont]->setpe((count($temp) > 0) ? $temp[0] : NULL);
-                $temp = $supervisorModel->read($result[$cont]->getempresa()->getcnpj(), 1);
-                $result[$cont]->setsupervisor((count($temp) > 0) ? $temp[0] : NULL);
+                $apolice = $apoliceModel->readbyestagio($result[$cont], 1);
+                $pe = $planodeestagioModel->read($result[$cont], 1);
+                $result[$cont]->setapolice((count($apolice) > 0) ? $apolice[0] : NULL);
+                $result[$cont]->setpe((count($pe) > 0) ? $pe[0] : NULL);
+                $result[$cont]->setsupervisor((!$result[$cont]->getempresa()) ? NULL : $supervisorModel->read($result[$cont]->getempresa()->getcnpj(), 1)[0]);
                 $cont++;
             }
             return $result;
@@ -309,7 +307,7 @@ class EstagioModel extends MainModel {
                 $matriculaModel = $this->loader->loadModel("MatriculaModel", "MatriculaModel");
                 $statusModel = $this->loader->loadModel("StatusModel", "StatusModel");
                 $planodeestagioModel = $this->loader->loadModel("PlanoDeEstagioModel", "PlanoDeEstagioModel");
-                $result[$cont] = new Estagio($row["id"], boolval($row["bool_aprovado"]), boolval($row["bool_obrigatorio"]), null, null, $row["periodo"], $row["serie"], $row["modulo"], $row["integ_ano"], $row["integ_semestre"], $row["dependencias"], $row["justificativa"], $row["endereco_tc"], $row["endereco_pe"], (!$row["empresa_cnpj"]) ? NULL : $empresaModel->read($row["empresa_cnpj"], 1)[0], $aluno, $funcionarioModel->read($row["po_siape"], 1)[0], $matriculaModel->read($row["aluno_estuda_curso_matricula"], 1)[0], $statusModel->read($row["status_codigo"], 1)[0], null);
+                $result[$cont] = new Estagio($row["id"], boolval($row["bool_aprovado"]), boolval($row["bool_obrigatorio"]), null, null, $row["periodo"], $row["serie"], $row["modulo"], $row["integ_ano"], $row["integ_semestre"], $row["dependencias"], $row["justificativa"], $row["endereco_tc"], $row["endereco_pe"], (!$row["empresa_cnpj"]) ? NULL : $empresaModel->read($row["empresa_cnpj"], 1)[0], $aluno,  (!$row["po_siape"]) ? NULL : $funcionarioModel->read($row["po_siape"], 1)[0],  (!$row["aluno_estuda_curso_matricula"]) ? NULL : $matriculaModel->read($row["aluno_estuda_curso_matricula"], 1)[0],  (!$row["status_codigo"]) ? NULL : $statusModel->read($row["status_codigo"], 1)[0], null);
                 $result[$cont]->sethoras_contabilizadas($row["horas_contabilizadas"]);
                 $apolice = $apoliceModel->readbyestagio($result[$cont], 1);
                 $pe = $planodeestagioModel->read($result[$cont], 1);
