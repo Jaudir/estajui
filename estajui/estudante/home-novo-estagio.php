@@ -1,5 +1,35 @@
 <?php  
-require_once(dirname(__FILE__) . '/../../scripts/controllers/estudante/load_campos_cadastro.php');
+require_once(dirname(__FILE__) . '/../../scripts/controllers/estudante/load_campus_cadastro.php');
+$session = getSession();
+/*$session->setUsuario(new Aluno(
+  "login@login",
+  "123",
+  1,
+  1,
+  "Aluno Nome",
+  "12/12/1990",
+  "123456789012345",
+  "SSP",
+  "Solteiro",
+  "M",
+  "19284912",
+  "e22323",
+  "Nome do Pai",
+  "Nome da Mãe",
+  "Montes Claros",
+  "MG",
+  "1",
+  new Endereco(
+    1,
+    "Logradouro",
+    "Bairro",
+    "0",
+    "Complemento",
+    "Cidade",
+    "0",
+    "MG",
+    "1231231")
+));*/
 ?>
 <!DOCTYPE html>
 <html>
@@ -7,14 +37,14 @@ require_once(dirname(__FILE__) . '/../../scripts/controllers/estudante/load_camp
     <meta charset="utf-8">
     <title>Página inicial | Estudante</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
-    <link rel="stylesheet" href="../css/icons/css/font-awesome.min.css">
-    <link rel="stylesheet" href="../css/main.css">
+    <link rel="stylesheet" href="../../assets/css/icons/css/font-awesome.min.css">
+    <link rel="stylesheet" href="../../assets/css/main.css">
   </head>
   <body>
     <div class="container-home container-fluid fullscreen">
       <nav class="navbar navbar-expand-lg navbar-light nav-menu">
         <a class="navbar-brand" href="#">
-          <img src="../img/LOGO.PNG" height="42" class="d-inline-block align-top" alt="">
+          <img src="../../assets/img/LOGO.PNG" height="42" class="d-inline-block align-top" alt="">
         </a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
@@ -73,57 +103,57 @@ require_once(dirname(__FILE__) . '/../../scripts/controllers/estudante/load_camp
                   </button>
                 </div>
                 <div class="modal-body">
-                  <form name="novo-estagio" style="text-align: left;" method="POST" action="comeca-estagio.php">
+                  <form id="novo-estagio" name="novo-estagio" style="text-align: left;" method="POST" action="<?php echo base_url() ?>/scripts/controllers/estudante/comeca-estagio.php">
                     <div class="form-group">
                       <div class="form-check">
                         <label class="form-check-label">
-                          <input class="form-check-input" type="radio" name="exampleRadios1" id="exampleRadios1" value="obrigatorio" checked>
+                          <input class="form-check-input" type="radio" name="obrigatorio" id="exampleRadios1" value="1" checked>
                           Obrigatório
                         </label>
                       </div>
                       <div class="form-check">
                         <label class="form-check-label">
-                          <input class="form-check-input" type="radio" name="exampleRadios1" id="exampleRadios2" value="option2">
+                          <input class="form-check-input" type="radio" name="obrigatorio" id="exampleRadios2" value="2">
                           Não obrigatório.
                         </label>
                       </div>
                     </div>
                     <div class="form-group">
                       <label>Campus</label>
-                      <select class="form-control" value="<?php if(!empty($_SESSION['campus_nome'])) echo  htmlspecialchars($_SESSION['campus_nome']);unset($_SESSION['campus_nome']); ?>" required>
+                      <select class="form-control" id="campus" name="campus" required>
                         <?php foreach($campi as $campus): ?>
-						<option value="<?php echo $campus->getcnpj(); ?>"><?php echo $campus->endereco()->getcidade(); ?></option>
-						<?php endforeach;?> 
+						            <option value="<?php echo $campus->getcnpj(); ?>"><?php echo $campus->getendereco()->getcidade(); ?></option>
+						            <?php endforeach;?> 
                       </select>
                     </div>
                     <div class="form-group">
                       <label>Curso</label>
-                      <select class="form-control" id="cursos" value="<?php if(!empty($_SESSION['curso_nome'])) echo  htmlspecialchars($_SESSION['curso_nome']);unset($_SESSION['curso_nome']); ?>" required>
+                      <select class="form-control" id="cursos" name="curso" required>
                        
                       </select>
                     </div>
                     <div class="form-group">
                       <div class="form-check">
                         <label class="form-check-label">
-                          <input class="form-check-input" type="radio" name="integral" id="" value="option1" checked>
+                          <input class="form-check-input" type="radio" name="horario" id="" value="1" checked>
                           Integral
                         </label>
                       </div>
                       <div class="form-check">
                         <label class="form-check-label">
-                          <input class="form-check-input" type="radio" name="matutino" id="" value="option2">
+                          <input class="form-check-input" type="radio" name="horario" id="" value="2">
                           Matutino
                         </label>
                       </div>
                       <div class="form-check">
                         <label class="form-check-label">
-                          <input class="form-check-input" type="radio" name="vespertino" id="" value="option3">
+                          <input class="form-check-input" type="radio" name="horario" id="" value="3">
                           Vespertino
                         </label>
                       </div>
                       <div class="form-check">
                         <label class="form-check-label">
-                          <input class="form-check-input" type="radio" name="noturno" id="" value="option4">
+                          <input class="form-check-input" type="radio" name="horario" id="" value="4">
                           Noturno
                         </label>
                       </div>
@@ -132,7 +162,7 @@ require_once(dirname(__FILE__) . '/../../scripts/controllers/estudante/load_camp
                 </div>
                 <div class="modal-footer">
                   <button type="button" class="btn btn-secondary" data-dismiss="modal">Sair</button>
-                  <button type="button" class="btn btn-primary">Confirmar</button>
+                  <button type="button" id="cadastrar-estagio" class="btn btn-primary">Confirmar</button>
                 </div>
               </div>
             </div>
@@ -145,8 +175,17 @@ require_once(dirname(__FILE__) . '/../../scripts/controllers/estudante/load_camp
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
 	<script>
-		var options = {
-		<?php 
+		$(function(){
+      <?php
+        if($session->hasError('normal')):
+      ?>
+      alert('<?php echo $session->getErrors('normal')[0]?>');
+      <?php elseif($session->hasValues('resultado')):?>
+      alert('<?php echo $session->getValues('resultado')[0]?>');
+      <?php endif?>
+
+    var options = {
+    <?php 
 		foreach($campi as $campus): 
 		?>
 			<?php echo $campus->getcnpj() ?> : 
@@ -154,25 +193,40 @@ require_once(dirname(__FILE__) . '/../../scripts/controllers/estudante/load_camp
 					<?php 
 						foreach($cursos[$campus->getcnpj()] as $curso): 
 					?>
-					<?php 
-						echo "\"$curso->getnome()\" : \"$curso->getid()\"";
+          <?php
+            echo "\"" . $curso->getnome() . "\": \"" . $curso->getid() . "\",";
 					?>
 					<?php
 						endforeach;
 					?>
+      },
 		<?php 
 		endforeach;
 		?>
 		};
-		 $("#cursos"),select(function(){
-		 	var $el = $(this);
-			$el.empty();
-			$.each(options[el.val()], function(key,value) {
-			  $el.append($("<option></option>")
-				 .attr("value", value).text(key));
-			});	
-		 }); 
-		
+
+    var alteraCampus = function(campus){
+      console.log(campus);
+
+      $cursos = $('#cursos');
+      $cursos.empty();
+      $.each(options[campus.val()], function(key,value) {
+        $cursos.append($("<option></option>")
+          .attr("value", value).text(key));
+      });	
+    }
+
+    $("#campus").select(function(){
+      alteraCampus($(this));
+    }); 
+
+    $('#cadastrar-estagio').click(function(){
+      $('#novo-estagio').submit();
+    });
+
+
+    alteraCampus($('#campus').children());
+    });
 	</script>
   </body>
 </html>

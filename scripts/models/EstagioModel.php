@@ -1,7 +1,6 @@
 <?php
 
 require_once('MainModel.php');
-require_once $_SERVER['DOCUMENT_ROOT'] . "/estajui/scripts/daos/Estagio.php";
 
 class EstagioModel extends MainModel {
 
@@ -11,23 +10,23 @@ class EstagioModel extends MainModel {
 
 	public function recuperar($estagio_id) {
 		try {
-			$pstmt = $this->conn->prepare("SELECT es.aluno_estuda_curso_matricula AS aluno_estuda_curso_matricula, es.bool_aprovado, es.bool_obrigatorio AS bool_obrigatorio, curso.nome AS curso_nome, aluno.nome AS aluno_nome, s.codigo AS status_codigo, s.descricao AS status_descricao, ap.numero AS ap_numero, ap.seguradora, "
+			$pstmt = $this->conn->prepare("SELECT es.id AS es_id, es.aluno_cpf, es.aluno_estuda_curso_matricula AS aluno_estuda_curso_matricula, es.bool_aprovado, es.bool_obrigatorio AS bool_obrigatorio, curso.nome AS curso_nome, aluno.nome AS aluno_nome, s.codigo AS status_codigo, s.descricao AS status_descricao, ap.numero AS ap_numero, ap.seguradora, "
 			."sor.nome AS sor_nome, sor.habilitacao, sor.cargo, f.nome AS f_nome, f.formacao, p.data_ini, p.data_fim, "
 			."p.hora_inicio1, p.hora_inicio2, p.hora_fim1, p.hora_fim2, p.total_horas, p.atividades, em.nome AS em_nome, em.razao_social, "
 			."em.cnpj, en.logradouro, en.numero AS en_numero, en.bairro, en.cidade, en.uf, en.cep, em.telefone, "
 			."em.fax, em.nregistro, em.conselhofiscal FROM plano_estagio AS p "
-			."JOIN estagio AS es ON p.estagio_id = es.id "
+            ."LEFT JOIN estagio AS es ON p.estagio_id = es.id "
             ."JOIN aluno_estuda_curso AS alescu ON alescu.matricula = es.aluno_estuda_curso_matricula "
             ."JOIN oferece_curso AS ocu ON ocu.id = alescu.oferece_curso_id "
             ."JOIN curso ON curso.id = ocu.curso_id = curso.id "
-            ."JOIN supervisiona AS sona ON es.id = sona.estagio_id "
-			."JOIN supervisor AS sor ON sona.supervisor_id = sor.id "
-			."JOIN apolice AS ap ON es.id = ap.estagio_id "
-			."JOIN funcionario AS f ON es.po_siape = f.siape "
-			."JOIN empresa AS em ON es.empresa_cnpj = em.cnpj "
+            ."LEFT JOIN supervisiona AS sona ON es.id = sona.estagio_id "
+            ."LEFT JOIN supervisor AS sor ON sona.supervisor_id = sor.id "
+            ."LEFT JOIN apolice AS ap ON es.id = ap.estagio_id "
+            ."LEFT JOIN funcionario AS f ON es.po_siape = f.siape "
+            ."LEFT JOIN empresa AS em ON es.empresa_cnpj = em.cnpj "
             ."JOIN aluno ON aluno.cpf = es.aluno_cpf "
-            ."JOIN endereco AS en ON em.endereco_id = en.id "
-			."JOIN status AS s ON es.status_codigo = s.codigo "
+            ."LEFT JOIN endereco AS en ON em.endereco_id = en.id "
+			."LEFT JOIN status AS s ON es.status_codigo = s.codigo "
 			."WHERE es.id=?");
 			$v = $pstmt->execute(array($estagio_id));
 			$res = $pstmt->fetchAll();
@@ -48,24 +47,26 @@ class EstagioModel extends MainModel {
 			$funcionario = new Funcionario(null, null, null, null, $res['f_nome'], null, null, null, null, null, $res['formacao'], null, null);
 			$apolice = new Apolice($res['ap_numero'], $res['seguradora']);
 			$status = new Status($res['status_codigo'], $res['status_descricao'], null);
-			$endereco = new Endereco(null, $res['logradouro'], $res['bairro'], $res['en_numero'], null, $res['cidade'], $res['uf'], $res['cep'], null);
-			$empresa = new Empresa($res['cnpj'], $res['em_nome'], null, $res['telefone'], $res['fax'], $res['nregistro'], $res['conselhofiscal'], $endereco, null, null, null);
+
+            $alunoModel = $this->loader->loadModel('AlunoModel', 'AlunoModel');
+
+			$endereco = new Endereco(null, $res['logradouro'], $res['bairro'], $res['en_numero'], null,$res['cidade'], $res['uf'], $res['cep'], null);
+			$empresa = new Empresa($res['cnpj'], $res['em_nome'], $res['telefone'], $res['fax'], $res['nregistro'], $res['conselhofiscal'], $endereco, null,null, null);
 			$planoDeEstagio = new PlanoDeEstagio(null, null,null, $res['atividades'], null, null, $res['data_ini'], $res['data_fim'], $res['hora_inicio1'], $res['hora_inicio2'], $res['hora_fim1'], $res['hora_fim2'], $res['total_horas'], null, null);
 			$supervisor = new Supervisor(null, $res['sor_nome'], $res['cargo'], $res['habilitacao'], null);
+
             $curso = new Curso(null, $res['curso_nome']);
             $oferta = new OfereceCurso(null, null, $curso, null, null);
             $aluno = new Aluno(null, null, null, null, $res['aluno_nome'], null, null, null, null, null, null, null, null, null, null, null, null, null);
             $matricula = new Matricula($res['aluno_estuda_curso_matricula'], null, null, $oferta, $aluno);
-            $estagio = new Estagio(null, $res['bool_aprovado'], $res['bool_obrigatorio'], null, null, null, null, null, null, null, null, null, null, null, $empresa, $aluno, $funcionario, $matricula, $status, $planoDeEstagio);
-			$estagio->setapolice($apolice);
-			$estagio->setsupervisor($supervisor);
+            $estagio = new Estagio($res['es_id'], $res['bool_aprovado'], $res['bool_obrigatorio'], $apolice, $supervisor, null, null, null, null, null, null, null, null, null, $empresa, $alunoModel->read($res['aluno_cpf'], 1)[0], $funcionario, $matricula, $status, $planoDeEstagio);
             return $estagio;
 		} catch (PDOException $e) {
-			//Log::logPDOError($e, true);
-			$this->conn->rollback();
+			Log::LogPDOError($e, true);
 			return false;
 		}
 	}
+
 	public function cadastrarDadosEstagio($supervisor, $endereco, $planoDeEstagio,$empresa, $novo){
 		if($novo == true){
 			
@@ -363,13 +364,12 @@ class EstagioModel extends MainModel {
 		
 		$estagios = array();
 		foreach($response as $res){
-			$estagio = new Estagio($res['id'], $res['bool_aprovado'], $res['bool_obrigatorio'], null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
+			$estagio = new Estagio($res['id'], $res['bool_aprovado'], $res['bool_obrigatorio'], null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
 			$estagios[] = $estagio;
 		}
 
 		return $estagios;
     }
-}
 /*
     $pstmt->execute(array($planoDeEstagio->get_estagio(),$planoDeEstagio->get_setor_unidade(),$planoDeEstagio->get_data_inicio(),$planoDeEstagio->get_data_fim(),$planoDeEstagio->get_atividades,$planoDeEstagio->get_hora_inicio1(),$planoDeEstagio->get_data_fim1(),$planoDeEstagio->get_total_horas(),$empresa->get_cnpj()));
 				$this->conn->commit();
@@ -381,3 +381,38 @@ class EstagioModel extends MainModel {
 		}
 	}
 */
+
+	public function preCadastrarEstagio($estagio, $curso, $campus){
+		try{
+            $model = $this->loader->loadModel('AlunoEstudaCursoModel', 'AlunoEstudaCursoModel');
+
+            $alunoEstudaCurso = $model->buscarPorAlunoCursoCampus($estagio->getaluno(), $curso, $campus);
+
+            if($alunoEstudaCurso == false){
+                return false;
+            }
+
+			$this->conn->beginTransaction();
+			$stmt = $this->conn->prepare("INSERT INTO estagio(bool_aprovado, bool_obrigatorio, aluno_cpf, aluno_estuda_curso_matricula) VALUES(?, ?, ?, ?)");
+			$stmt->execute(array(0, $estagio->getobrigatorio(), $estagio->getaluno()->getcpf(), $alunoEstudaCurso->getmatricula()));
+			return $this->conn->commit();
+		}catch(PDOException $ex){
+            Log::LogPDOError($ex);
+            $this->conn->rollback();
+            return false;
+		}
+	}
+
+	public function salvar($estagio)
+	{
+		try{
+			$this->conn->beginTransaction();
+			$pstmt = $this->conn->prepare("INSERT INTO estagio (aprovado, obrigatorio, periodo, serie, modulo, ano, semestre, dependencias, justificativa, endereco_tc, endereco_pe, empresa_cnpj, aluno_cpf, po_siape, curso_id, status_codigo) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
+			$pstmt->execute(array($estagio->getaprovado(), $estagio->getobrigatorio(), $estagio->getperiodo(), $estagio->getserie(), $estagio->getmodulo(), $estagio->getano(), $estagio->getsemestre(), $estagio->getdependencias(), $estagio->getjustificativa(), $estagio->getendereco_tc(), $estagio->getendereco_pe(), $estagio->getempresa()->getcnpj(), $estagio->getaluno()->getcpf(), $estagio->getfuncionario()->getsiape(), $estagio->getcurso()->getid(), $estagio->getstatus()->getcodigo()));
+			$this->conn->commit();
+		} catch (PDOExecption $e) {
+            $this->conn->rollback();
+            return false;
+        }
+	}
+}

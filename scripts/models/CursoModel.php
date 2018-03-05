@@ -11,7 +11,7 @@ class CursoModel extends MainModel {
         try {
             $this->loader->loadDAO('Curso');
 
-            $stmt = $this->conn->prepare('SELECT curso.* FROM aluno JOIN aluno_estuda_curso ON aluno_estuda_curso.aluno_cpf=aluno.cpf JOIN curso ON curso.id=aluno_estuda_curso.cpf WHERE aluno.cpf = :cpf');
+            $stmt = $this->conn->prepare('SELECT curso.* FROM aluno JOIN aluno_estuda_curso ON aluno_estuda_curso.aluno_cpf=aluno.cpf JOIN oferece_curso ON oferece_curso.id=aluno_estuda_curso.oferece_curso_id JOIN curso ON oferece_curso.curso_id=curso.id WHERE aluno.cpf = :cpf');
             $stmt->execute(array(':cpf' => $aluno->getcpf()));
 
             $cursos = $stmt->fetchAll();
@@ -110,4 +110,42 @@ class CursoModel extends MainModel {
         }
     }
 
+    public function cadastrar($curso)
+    {
+        try {
+            $this->conn->beginTransaction();
+			
+            $pstmt = $this->conn->prepare("INSERT INTO curso (nome, campus_id) VALUES(?, ?, ?)");
+            $pstmt->execute(array($curso->getnome(), $curso->getcampus()->getid()));
+
+            $this->conn->commit();
+            return true;
+        } catch (PDOExecption $e) {
+            $this->conn->rollback();
+            return false;
+        }
+    }
+
+	public function recuperarPorCampus($campus)
+	{
+		try {
+			$this->loader->loadDAO('Curso');
+			
+            $pstmt = $this->conn->prepare("SELECT curso.id, nome FROM curso JOIN oferece_curso ON oferece_curso.curso_id=curso.id WHERE curso.campus_cnpj=?");
+            $pstmt->execute(array($campus->getcnpj()));
+			$res = $pstmt->fetchAll();
+			
+			if(count($res)==0)
+				return false;
+			
+			$cursos = array();
+			foreach($res as $curso)
+				$cursos[] = new Curso($curso['id'], $curso['nome'],  $campus);
+			
+			return $cursos;
+        } catch (PDOExecption $e) {
+            $this->conn->rollback();
+            return false;
+        }
+	}
 }

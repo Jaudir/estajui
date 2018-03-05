@@ -1,5 +1,6 @@
 <?php
   require_once('../../scripts/controllers/coordenador-extensao/load-home.php');
+  $errosExibir = $session->getErrors('normal');
 ?>
 <!DOCTYPE html>
 <html>

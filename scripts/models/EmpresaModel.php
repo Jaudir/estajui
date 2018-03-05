@@ -38,7 +38,7 @@ class EmpresaModel extends MainModel {
             empresa.razao_social ,empresa.fax ,empresa.nregistro ,empresa.conselhofiscal,
             responsavel.email , responsavel.nome as responsavelnome , responsavel.telefone as responsaveltelefone , 
             responsavel.cargo,endereco.logradouro,endereco.bairro,endereco.numero,endereco.complemento,
-            endereco.cidade,endereco.uf,endereco.cep, endereco.sala
+            endereco.cidade,endereco.uf,endereco.cep
             FROM  empresa 
             JOIN responsavel on responsavel.empresa_cnpj = empresa.cnpj  
             JOIN endereco on endereco.id = empresa.endereco_id 
@@ -63,11 +63,69 @@ class EmpresaModel extends MainModel {
         }
     }
 
+    public function buscar($cnpj) {    
+        try {
+            $this->loader->loadDAO('Empresa');
+            $this->loader->loadDAO('Responsavel');
+            $this->loader->loadDAO('Endereco');
+            $pstmt = $this->conn->prepare("SELECT empresa.cnpj ,empresa.nome as empresanome,empresa.telefone as empresatelefone,
+            empresa.razao_social ,empresa.fax ,empresa.nregistro ,empresa.conselhofiscal,
+            responsavel.email , responsavel.nome as responsavelnome , responsavel.telefone as responsaveltelefone , 
+            responsavel.cargo,endereco.logradouro,endereco.bairro,endereco.numero,endereco.complemento,
+            endereco.cidade,endereco.uf,endereco.cep
+            FROM  empresa 
+            LEFT JOIN responsavel on responsavel.empresa_cnpj = empresa.cnpj  
+            LEFT JOIN endereco on endereco.id = empresa.endereco_id 
+            WHERE empresa.cnpj = :cnpj");
+            $pstmt->bindParam(':cnpj', $cnpj);
+            $pstmt->execute();
+
+            $empresa = $pstmt->fetchAll();
+
+            if(count($empresa) == 1){
+                $empresa = $empresa[0];
+                return
+                    new Empresa(
+                        $empresa["cnpj"],
+                        $empresa["empresanome"],
+                        $empresa["empresatelefone"],
+                        $empresa["fax"],
+                        $empresa["nregistro"],
+                        $empresa["conselhofiscal"],
+                        new Endereco(
+                            null,
+                            $empresa["logradouro"],
+                            $empresa["bairro"],
+                            $empresa["numero"],
+                            $empresa["complemento"],
+                            $empresa["cidade"],
+                            $empresa["uf"],
+                            $empresa["cep"],
+                            null),
+                        new Responsavel(
+                            $empresa["email"], 
+                            $empresa["responsavelnome"],
+                            $empresa["responsaveltelefone"], 
+                            $empresa["cargo"], 
+                            null,
+                            null),
+                        null,
+                        $empresa["razao_social"]);
+            }
+            return false;
+            
+        } catch (PDOExecption $e) {
+            Log::LogPDOError($e);
+            return false;
+        }
+    }
+
     public function create(Empresa $empresa) {
+        //deveria registrar o endereço!!!
         $pstmt = $this->conn->prepare("INSERT INTO " . $this->_tabela . " (cnpj, nome, razao_social, telefone, fax, nregistro, conselhofiscal, endereco_id, conveniada) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)");
         try {
             $this->conn->beginTransaction();
-            $pstmt->execute(array($empresa->getcnpj(), $empresa->getnome(), $empresa->getrazao_social(), $empresa->gettelefone(), $empresa->getfax(), $empresa->getnregistro(), $empresa->getconselhofiscal(), $empresa->getendereco()->getid(), (int) $empresa->getconveniada()));
+            $pstmt->execute(array($empresa->getcnpj(), $empresa->getnome(), $empresa->getrazaosocial(), $empresa->gettelefone(), $empresa->getfax(), $empresa->getnregistro(), $empresa->getconselhofiscal(), $empresa->getendereco()->getid(), (int) $empresa->getconveniada()));
             $this->conn->commit();
             return 0;
         } catch (PDOExecption $e) {
@@ -75,6 +133,51 @@ class EmpresaModel extends MainModel {
             #return "Error!: " . $e->getMessage() . "</br>";
             return 2;
         }
+    }
+
+    public function cadastrar($empresa){
+        $enderecoModel = $this->loader->loadModel('EnderecoModel', 'EnderecoModel');
+        try{
+            $this->conn->beginTransaction();
+            $enderecoModel->create($empresa->getendereco());
+            $stmt = $this->conn->prepare(
+                'INSERT INTO `empresa`(
+                    `cnpj`, 
+                    `nome`, 
+                    `telefone`, 
+                    `fax`, 
+                    `nregistro`, 
+                    `conselhofiscal`, 
+                    `endereco_id`, 
+                    `conveniada`, 
+                    `razao_social`) 
+                    VALUES (
+                        :cnpj,
+                        :nome,
+                        :telefone,
+                        :fax,
+                        :nregistro,
+                        :conselhofiscal,
+                        :endereco_id,
+                        :conveniada,
+                        :razao_social)');
+            $stmt->execute(
+                array(
+                    ':cnpj' => $empresa->getcnpj(),
+                    ':nome' => $empresa->getnome(),
+                    ':telefone' => $empresa->gettelefone(),
+                    ':fax' => $empresa->getfax(),
+                    ':nregistro' => $empresa->getnregistro(),
+                    ':conselhofiscal' => $empresa->getconselhofiscal(),
+                    ':endereco_id' => $empresa->getendereco()->getid(),
+                    ':conveniada' => 0,
+                    ':razao_social' => $empresa->getrazaosocial()));
+            $this->conn->commit();
+        }catch(PDOException $ex){
+            Log::LogPDOError($ex);
+            return false;
+        }
+        return true;
     }
 
     public function read($cnpj, $limite) {
