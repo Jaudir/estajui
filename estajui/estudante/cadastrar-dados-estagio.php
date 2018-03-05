@@ -59,7 +59,7 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <ul class="nav-content navbar-nav">
             <li class="nav-item">
-              <a href="home-preencher-dados.html"><button type="button" class="btn btn-outline-light bt-sair">Voltar</button></a>
+              <a href="../home.php"><button type="button" class="btn btn-outline-light bt-sair">Voltar</button></a>
             </li>
           </ul>
         </div>

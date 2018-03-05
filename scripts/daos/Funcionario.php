@@ -125,4 +125,8 @@ class Funcionario extends Usuario {
         return $this;
     }
 
+    public function getendereco() {
+        return $this->_campus->getendereco();
+    }
+
 }

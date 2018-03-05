@@ -1,6 +1,5 @@
 <?php
   require_once('../../scripts/controllers/coordenador-extensao/load-home.php');
-  $errosExibir = $session->getErrors('normal');
 ?>
 <!DOCTYPE html>
 <html>
@@ -47,7 +46,7 @@
               <a class="nav-link active" href="#">Home</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#">Usuários</a>
+              <a class="nav-link" href="usuarios.php">Usuários</a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="#">Empresas</a>
@@ -85,26 +84,37 @@
                   </tr>
                 </thead>
                 <tbody>
-                  <?php
-                    $row_id = 1;
-                    foreach($statusEstagios as $estagio):
-                  ?>
 
-                  <tr class="red">
-                    <th scope="row"><?php echo $row_id++; ?></th>
-                    <td><?php echo $estagio['descricao']; ?></td>
-                    <td><?php echo $estagio['data'] ?></td>
-                    <td><?php echo $estagio['curso']; ?></td>
-                    <td class="center">
-                      <button type="button" class="btn btn-link"
-                        data-toggle="modal" data-target="#aprovarConvenio">
+                  <?php
+                  $row_id = 1;
+                  foreach($listaDeEstagios as $le):
+                      if ($le->getstatus()->getcodigo() == 4 /*|| $le->getstatus()->getcodigo() == 7*/){
+                  ?>
+                  <tr class="">
+                      <th scope="row"><input type="hidden" value="<?php echo $le->getid(); ?>" class="form-control" id="estagioID<?php echo $row_id;?>"><?php echo $row_id; ?></th>
+                      <td><?php echo $le->getstatus()->getdescricao(); ?></td>
+                      <td><?php echo $le->getpe()->getdata_inicio(); ?></td>
+                      <td><?php echo $le->getmatricula()->getoferta()->getcurso()->getnome(); ?></td>
+                      <td class="center">
+                      <button type="button" class="btn btn-link empresaModalToggle"
+                      onclick="setarId('<?php echo "estagioID".$row_id++;?>')" data-toggle="modal" data-target="<?php
+                        if ($le->getstatus()->getcodigo() == 4){
+                            echo "#apoliceSeguro";
+                        } else {
+                            echo "#aprovarConvenio";
+                        }
+
+                      ?>" >
                         <i class="fa fa-pencil"></i>
                       </button>
+
                     </td>
-                    <td class="center"><a href="#"> <i class="fa fa-eye"></i> </a></td>
+                      <td class="center">
+                          <a href="" onclick="preencherModal(<?php echo $le->getid();?>)" data-toggle="modal" data-target="#ver-estagio" id="ver<?php echo $lin++; ?>"> <i class="fa fa-eye ver"></i></a>
+                      </td>
                   </tr>
 
-                  <?php endforeach; ?>
+                  <?php } endforeach; ?>
 
                   <?php
                     foreach($statusEmpresas as $empresa):
@@ -112,8 +122,8 @@
                   <tr class="red">
                     <th scope="row"><?php echo $row_id++; ?></th>
                     <td>Aguardando aprovação de convênio</td>
-                    <td><?php echo "Data?" ?></td>
-                    <td><?php echo "Curso?" ?></td>
+                    <td><?php echo "-" ?></td>
+                    <td><?php echo "-" ?></td>
                     <td class="center">
                       <button type="button" class="btn btn-link empresaModalToggle"
                         data-toggle="modal" data-target="#aprovarConvenio">
@@ -144,6 +154,7 @@
                   </tr>
 
                   <?php endforeach; ?>
+
                 </tbody>
               </table>
             </div>
@@ -162,7 +173,11 @@
               <div class="modal-body">
                 <div class="row">
                   <div class="col-md-12 dados-aluno" id="empresaDadosInModal">
-                      <!---->
+                      <table class="table table-bordered" id="tabela_modal_editar_aprov">
+                          <tbody>
+                          <!-- BODY Não digite nada aqui -->
+                          </tbody>
+                      </table>
                   </div>
                 </div>
                 <form name="convenio" id="empresaForm" method="post" action="<?php echo base_url() . '/scripts/controllers/coordenador-extensao/validar-cadastro-empresa.php'?>">
@@ -192,112 +207,6 @@
               <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Sair</button>
                 <button type="button" id="enviarFormEmpresa" class="btn btn-primary">Confirmar</button>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Modal para aprovar o convênio da empresa -->
-        <div class="modal fade" id="aprovarConvenio" tabindex="-1" role="dialog" aria-labelledby="aprovarConvenioTitle" aria-hidden="true">
-          <div class="modal-dialog modal-lg" role="document">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h5 class="modal-title" id="aprovarConvenioTitle">Dados da empresa</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                  <span aria-hidden="true">&times;</span>
-                </button>
-              </div>
-              <div class="modal-body">
-                <div class="row">
-                  <div class="col-md-12 dados-aluno" id="empresaDadosInModal">
-                      <!---->
-                  </div>
-                </div>
-                <form name="convenio" id="empresaForm" method="post" action="<?php echo base_url() . '/scripts/controllers/coordenador-extensao/validar-cadastro-empresa.php'?>">
-                  <input type="hidden" id="ecnpj" name="cnpj" value="">
-                  <div class="form-group">
-                    <div class="custom-controls-stacked d-block my-3" style="margin-top: 10px;">
-                      <label class="custom-control custom-radio">
-                        <input id="radioStacked1" name="veredito" value="1" type="radio" class="custom-control-input" required>
-                        <span class="custom-control-indicator"></span>
-                        <span class="custom-control-description">Aprovado</span>
-                      </label>
-                      <label class="custom-control custom-radio" style="margin-left: 20px;">
-                        <input id="radioStacked2" name="veredito" value="0" type="radio" class="custom-control-input" required>
-                        <span class="custom-control-indicator"></span>
-                        <span class="custom-control-description">Reprovado</span>
-                      </label>
-                    </div>
-                    <div class="row">
-                      <div class="col-md-12">
-                        <label for="justificativa">Justificativa</label>
-                        <textarea placeholder="Só será usada em caso de reprovação." name="justificativa" rows="3" class="form-control" required></textarea>
-                      </div>
-                    </div>
-                  </div>
-                </form>
-              </div>
-              <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Sair</button>
-                <button type="button" id="enviarFormEmpresa" class="btn btn-primary">Confirmar</button>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Modal emitir parecer sobre documentos finais do Estágio -->
-        <div class="modal fade" id="aprovarDocumentosFinais" tabindex="-1" role="dialog" aria-labelledby="aprovarDocumentosFinaisTitle" aria-hidden="true">
-          <div class="modal-dialog modal-lg" role="document">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h5 class="modal-title" id="aprovarDocumentosFinaisTitle">Documentos Finais</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                  <span aria-hidden="true">&times;</span>
-                </button>
-              </div>
-              <div class="modal-body">
-                <div class="row">
-                  <div class="col-md-12 dados-aluno">
-                    <h6>Nome: </h6> <p>Joaquim da Silva</p><br>
-                    <h6>Matrícula: </h6> <p>XXXXXX</p><br>
-                    <h6>Curso: </h6> <p>Engenharia Química</p> <br>
-                    <h6>Obrigatoriedade: </h6> <p>Obrigatório</p> <br>
-                    <h6>Empresa: </h6> <p>Lorem ipsum</p> <br>
-                    <h6>CNPJ: </h6> <p>1029.02930.19303-00001</p> <br>
-                    <h6>Razão Social: </h6> <p>Dolor sit amet</p> <br>
-                  </div>
-                </div>
-                <form name="">
-                  <div class="form-group">
-                    <div class="row">
-                      <div class="col-md-12">
-                        <h6>Os documentos finais de estágio foram entregues corretamente?</h6>
-                      </div>
-                    </div>
-                    <div class="custom-controls-stacked d-block my-3" style="margin-top: 10px;">
-                      <label class="custom-control custom-radio">
-                        <input id="radioStacked1" name="veredito" value="1" type="radio" class="custom-control-input" required>
-                        <span class="custom-control-indicator"></span>
-                        <span class="custom-control-description">Sim</span>
-                      </label>
-                      <label class="custom-control custom-radio" style="margin-left: 20px;">
-                        <input id="radioStacked2" name="veredito" value="0" type="radio" class="custom-control-input" required>
-                        <span class="custom-control-indicator"></span>
-                        <span class="custom-control-description">Não</span>
-                      </label>
-                    </div>
-                    <div class="row">
-                      <div class="col-md-12">
-                        <label for="justificativa">Justificativa</label>
-                        <textarea placeholder="Só será usada em caso de reprovação." name="justificativa" rows="3" class="form-control" required></textarea>
-                      </div>
-                    </div>
-                  </div>
-                </form>
-              </div>
-              <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Sair</button>
-                <button type="button" class="btn btn-primary">Confirmar</button>
               </div>
             </div>
           </div>
@@ -316,13 +225,14 @@
               <div class="modal-body">
                 <div class="row">
                   <div class="col-md-12 dados-aluno">
-                    <h6>Nome: </h6> <p>Joaquim da Silva</p><br>
-                    <h6>Matrícula: </h6> <p>XXXXXX</p><br>
-                    <h6>Curso: </h6> <p>Engenharia Química</p> <br>
-                    <h6>Obrigatoriedade: </h6> <p>Obrigatório</p> <br>
-                    <h6>Empresa: </h6> <p>Lorem ipsum</p> <br>
-                    <h6>CNPJ: </h6> <p>1029.02930.19303-00001</p> <br>
-                    <h6>Razão Social: </h6> <p>Dolor sit amet</p> <br>
+                      <div class="modal-body">
+                          <table class="table table-bordered" id="tabela_modal_editar">
+                              <tbody>
+                              <!-- BODY Não digite nada aqui -->
+                              </tbody>
+                          </table>
+
+                      </div>
                   </div>
                 </div>
                 <form name="convenio">
@@ -350,20 +260,46 @@
               </div>
               <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Sair</button>
-                <button type="button" class="btn btn-primary">Confirmar</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="preencherDadosApolice()">Confirmar</button>
               </div>
             </div>
           </div>
         </div>
     </div>
+        <!--MODAL de destalhes do estágio -->
+        <div class="modal fade" id="ver-estagio" tabindex="-1" role="dialog" aria-labelledby="detalhesEstagioTitle" aria-hidden="true">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="detalhesEstagioTitle">Detalhes do estágio</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <table class="table table-bordered" id="tabela_modal">
+                            <tbody>
+                            <!-- BODY -->
+                            </tbody>
+                        </table>
 
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Sair</button>
+                        <button type="button" class="btn btn-primary">Confirmar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="../../assets/js/jquery-1.9.0.min.js" type="text/javascript" charset="utf-8"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
+    <script src="../../assets/js/busca_estagio.js"></script>
+    <script src="../../assets/js/ce-load-home.js"></script>
     <script>
       $(function(){
         <?php
-
           if($session->hasError('normal')):
         ?>
           alert(<?php echo "\"" . $session->getErrors('normal')[0] . "\""?>);

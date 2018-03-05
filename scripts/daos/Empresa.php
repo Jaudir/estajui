@@ -106,7 +106,7 @@ class Empresa {
     }
 
     public function setconveniada($_conveniada) {
-        $this->_razaosocial = $_razaosocial;
+        $this->_conveniada = $_conveniada;
         return $this;
     }
 

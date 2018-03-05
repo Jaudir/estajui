@@ -36,7 +36,7 @@ class LecionaModel extends MainModel {
 								 $f->isoe(), $f->isce(), $f->issra(), $f->isroot(), $f->getformacao(), $f->isprivilegio(),$f->getCampus() );
 				
 				$o = $ofereceCursoModel->read($row["oferece_curso_id"], 1)[0];
-				$ofereceCurso = new OfereceCurso($o->getid(), $o->getturno(), $o->getcurso(), $o->getcampus());
+				$ofereceCurso = new OfereceCurso($o->getid(), $o->getturno(), $o->getcurso(), $o->getcampus(), null);
 			
 				$aux = new Leciona($funcionario, $ofereceCurso);
                 //$result[$cont] = $aux;
@@ -44,7 +44,7 @@ class LecionaModel extends MainModel {
                 $cont++;
             }
             return $result;
-        } catch (PDOExecption $e) {
+        } catch (PDOException $e) {
             #return "Error!: " . $e->getMessage() . "</br>";
             return false;
         }
@@ -58,10 +58,13 @@ class LecionaModel extends MainModel {
             $this->conn->commit();
             return 0;
         } catch (PDOExecption $e) {
+			echo $e;
+			//die();
             $this->conn->rollback();
             #return "Error!: " . $e->getMessage() . "</br>";
             return 2;
         }
+		return 2;
     }
 	
 	public function create(Leciona $leciona) {

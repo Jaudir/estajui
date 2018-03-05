@@ -274,7 +274,7 @@ class AlunoModel extends MainModel {
 
 	public function listarEstagios($palavras_chave, $id, $tipo_de_usuario){
 		try {
-            $pstmt = $this->conn->prepare("SELECT es.id AS estagio_id, aluno.cpf AS aluno_cpf, curso.nome AS curso_nome, aluno.nome AS aluno_nome, status.descricao AS status_descricao, pe.data_ini AS pe_data_ini, "
+            $pstmt = $this->conn->prepare("SELECT es.id AS estagio_id, aluno.cpf AS aluno_cpf, curso.nome AS curso_nome, aluno.nome AS aluno_nome, status.codigo AS status_codigo, status.descricao AS status_descricao, pe.data_ini AS pe_data_ini, "
 			."pe.data_fim AS pe_data_fim, po.nome AS po_nome, em.nome AS em_nome FROM plano_estagio AS pe "
 			."JOIN estagio AS es ON es.id = pe.estagio_id "
 			."JOIN funcionario AS po ON po.siape = es.po_siape "
@@ -318,7 +318,7 @@ class AlunoModel extends MainModel {
 
 				$aluno = new Aluno(null, null, null, null, $linha['aluno_nome'], null, null, null, null, null, null, null, null, null, null, null, null, null);
 
-                $status = new Status(null, $linha['status_descricao'], null);
+                $status = new Status($linha['status_codigo'], $linha['status_descricao'], null);
 
                 $curso = new Curso(null, $linha['curso_nome']);
 
@@ -346,4 +346,7 @@ class AlunoModel extends MainModel {
         }
 	}
 
+    public function obterCursos(){
+        
+    }
 }

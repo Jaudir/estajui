@@ -84,6 +84,8 @@ if($session->isce())
 		array_push($cursos,"tecnicoemquimica");
 	if(isset($_POST['TecElet']) && $_POST['TecElet'] == "on")
 		array_push($cursos,"tecnicoemeletrotecnica");
+		
+	var_dump($cursos);
 	
 	
 	//$_SESSION['erros'] = 0;
@@ -121,7 +123,7 @@ if($session->isce())
 	}
 	//header("Location: cadastro.php");
 	//redirect(base_url() . '/estajui/coordenador-extensao/usuarios.php');
-	}
+	}	
 else{
 
 	if((isset($_POST['cadastrar']) && strcmp($_POST['idUsuario'],"")!=0 )) {
@@ -141,7 +143,8 @@ else{
 		$funcionario = ($funcionarioModel->read(((int)(LimpaString::limpar($_POST['idUsuario']))),1))[0];
 		
 		echo "<br><br>Funcionário<br><br>";
-		var_dump($funcionario);
+		//var_dump($funcionario);
+		var_dump($_POST);
 		
 		$funcionario->setroot(0);
 		$funcionario->setpo(0);
@@ -196,12 +199,14 @@ else{
 		if(isset($_POST['TecElet']) && $_POST['TecElet'] == "on")
 			array_push($cursos,"tecnicoemeletrotecnica");
 		
+		var_dump($cursos);
+		
 		//$_SESSION['erros'] = 0;
 		//$_SESSION['mensagensErro'] = array();///Vetor que indica a presença de erros;
 		
 		if($session->hasError()) {
 			echo "\n\n\nDEVERIA REDIRECIONAR\n\n\n";
-			redirect(base_url() . '/estajui/coordenador-extensao/usuarios.php');
+			//redirect(base_url() . '/estajui/coordenador-extensao/usuarios.php');
 			//echo '<meta HTTP-EQUIV="Refresh" CONTENT=0; URL=base_url() . "/estajui/coordenador-extensao/usuarios.php">';
 		}
 		
@@ -211,76 +216,93 @@ else{
 		if($funcionarioModel->updatePermissoes($funcionario) == 2) {
 			//$_SESSION['mensagensErro'][$_SESSION['erros']] = "Problema ao atualizar informações!";
 			//$_SESSION['erros'] = $_SESSION['erros']+1;
-			$session->pushError("Problema ao atualizar informações!", "erro");
-			redirect(base_url() . '/estajui/coordenador-extensao/usuarios.php');
+			$session->pushError("Problema ao atualizar informações! cód. 1", "erro");
+			//redirect(base_url() . '/estajui/coordenador-extensao/usuarios.php');
 		}
 		
 		if($session->hasError()) {
 			echo "\n\n\nDEVERIA REDIRECIONAR\n\n\n";
-			redirect(base_url() . '/estajui/coordenador-extensao/usuarios.php');
+			//redirect(base_url() . '/estajui/coordenador-extensao/usuarios.php');
 			//echo '<meta HTTP-EQUIV="Refresh" CONTENT=0; URL=base_url() . "/estajui/coordenador-extensao/usuarios.php">';
 		}
 		
-		if (!$session->hasError() && $lecionaModel->deletePorFuncionario($funcionario) != 0) { ///Apagando registros de disciplinas ministradas
+		$r = $lecionaModel->deletePorFuncionario($funcionario);
+		if ($session->hasError() || $r != 0) { ///Apagando registros de disciplinas ministradas
 			//$_SESSION['mensagensErro'][$_SESSION['erros']] = "Problema ao atualizar informações!";
 			//$_SESSION['erros'] = $_SESSION['erros']+1;
-			$session->pushError("Problema ao atualizar informações!", "erro");
-			redirect(base_url() . '/estajui/coordenador-extensao/usuarios.php');
+			$session->pushError("Problema ao atualizar informações! cód. 2", "erro");
+			
+			//echo "Tem erro: " . $session->has
+			//echo "Atualizou: " . $r;
+			//redirect(base_url() . '/estajui/coordenador-extensao/usuarios.php');
 		}
 		
 		foreach($cursos as $curso) {
+			echo "Pegando cursos";
+			var_dump($curso);
 			if(strcmp($curso,"engenhariaquimica") == 0) {
 				$oferta = $ofereceCursoModel->read(2, 1)[0];
 				$leciona = new Leciona($funcionario, $oferta);
-				if (!$session->hasError() && $lecionaModel->create($leciona) == 2) {
+				echo "<br>Tem erro : " . ($session->hasError() ? "true" : "false");
+				var_dump($oferta);
+				if ($session->hasError() || $lecionaModel->create($leciona) == 2) {
 					//$_SESSION['mensagensErro'][$_SESSION['erros']] = "Problema ao atualizar informações!";
 					//$_SESSION['erros'] = $_SESSION['erros']+1;
-					$session->pushError("Problema ao atualizar informações!", "erro");
-					redirect(base_url() . '/estajui/coordenador-extensao/usuarios.php');
+					$session->pushError("Problema ao atualizar informações! cód. 3" , "erro");
+					//redirect(base_url() . '/estajui/coordenador-extensao/usuarios.php');
 				}
 			}
 			
 			if(strcmp($curso,"cienciadacomputacao") == 0) {
 				$oferta = $ofereceCursoModel->read(1, 1)[0];
 				$leciona = new Leciona($funcionario, $oferta);
-				if (!$session->hasError() && $lecionaModel->create($leciona) == 2) {
+				echo "<br>Tem erro : " . ($session->hasError() ? "true" : "false");
+				var_dump($oferta);
+				if ($session->hasError() || $lecionaModel->create($leciona) == 2) {
 					//$_SESSION['mensagensErro'][$_SESSION['erros']] = "Problema ao atualizar informações!";
 					//$_SESSION['erros'] = $_SESSION['erros']+1;
-					$session->pushError("Problema ao atualizar informações!", "erro");
-					redirect(base_url() . '/estajui/coordenador-extensao/usuarios.php');
+					$session->pushError("Problema ao atualizar informações! cód. 4", "erro");
+					//redirect(base_url() . '/estajui/coordenador-extensao/usuarios.php');
 				}
 			}
 			
 			if(strcmp($curso,"tecnicoeminformatica") == 0) {
 				$oferta = $ofereceCursoModel->read(3, 1)[0];
 				$leciona = new Leciona($funcionario, $oferta);
-				if (!$session->hasError() && $lecionaModel->create($leciona) == 2) {
+				echo "<br>Tem erro : " . ($session->hasError() ? "true" : "false");
+				var_dump($oferta);
+				
+				if ($session->hasError() || $lecionaModel->create($leciona) == 2) {
 					//$_SESSION['mensagensErro'][$_SESSION['erros']] = "Problema ao atualizar informações!";
 					//$_SESSION['erros'] = $_SESSION['erros']+1;
-					$session->pushError("Problema ao atualizar informações!", "erro");
-					redirect(base_url() . '/estajui/coordenador-extensao/usuarios.php');
+					$session->pushError("Problema ao atualizar informações! cód. 5", "erro");
+					//redirect(base_url() . '/estajui/coordenador-extensao/usuarios.php');
 				}
 			}
 			
 			if(strcmp($curso,"tecnicoemquimica") == 0) {
 				$oferta = $ofereceCursoModel->read(4, 1)[0];
 				$leciona = new Leciona($funcionario, $oferta);
-				if (!$session->hasError() && $lecionaModel->create($leciona) == 2) {
+				echo "<br>Tem erro : " . ($session->hasError() ? "true" : "false");
+				var_dump($oferta);
+				if ($session->hasError() || $lecionaModel->create($leciona) == 2) {
 					//$_SESSION['mensagensErro'][$_SESSION['erros']] = "Problema atualizar informações!";
 					//$_SESSION['erros'] = $_SESSION['erros']+1;
-					$session->pushError("Problema ao atualizar informações!", "erro");
-					redirect(base_url() . '/estajui/coordenador-extensao/usuarios.php');
+					$session->pushError("Problema ao atualizar informações! cód. 6", "erro");
+					//redirect(base_url() . '/estajui/coordenador-extensao/usuarios.php');
 				}
 			}
 			
 			if(strcmp($curso,"tecnicoemeletrotecnica") == 0) {
 				$oferta = $ofereceCursoModel->read(5, 1)[0];
 				$leciona = new Leciona($funcionario, $oferta);
-				if (!$session->hasError() && $lecionaModel->create($leciona) == 2) {
+				echo "<br>Tem erro : " . ($session->hasError() ? "true" : "false");
+				var_dump($oferta);
+				if ($session->hasError() || $lecionaModel->create($leciona) == 2) {
 					//$_SESSION['mensagensErro'][$_SESSION['erros']] = "Problema atualizar informações!";
 					//$_SESSION['erros'] = $_SESSION['erros']+1;
-					$session->pushError("Problema ao atualizar informações!", "erro");
-					redirect(base_url() . '/estajui/coordenador-extensao/usuarios.php');
+					$session->pushError("Problema ao atualizar informações! cód. 7", "erro");
+					//redirect(base_url() . '/estajui/coordenador-extensao/usuarios.php');
 				}
 			}
 			
@@ -294,7 +316,7 @@ else{
 	$_SESSION['funcionarios'] = null;
 	$_SESSION['leciona'] = null;
 	$session->pushValue('Usuário salvo com sucesso', 'salvar');
-	redirect(base_url() . '/estajui/coordenador-extensao/usuarios.php');
+	//redirect(base_url() . '/estajui/coordenador-extensao/usuarios.php');
 	
 	
 	//var_dump($_SESSION['erros']);

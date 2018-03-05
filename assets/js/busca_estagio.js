@@ -1,6 +1,6 @@
 function preencherModal(id) {
     $.ajax({
-        url: "http://localhost/estajui/scripts/controllers/generico/ver-estagio.php",
+        url: "/../../estajui/scripts/controllers/generico/ver-estagio.php",
         type: "post",
         dataType: "json",
         data:{
@@ -8,6 +8,7 @@ function preencherModal(id) {
         },
         success: function(data) {
             var dataItems = "";
+            console.log("sucesso!");
             $('#tabela_modal > tbody').empty();
             $.each(data, function (index, itemData) {
                 dataItems += index + ": " + itemData["status"] + "\n";
@@ -46,10 +47,12 @@ function preencherModal(id) {
         }
     });
 }
+
+
 $(document).ready(function(){
     $('#filtrar').click(function(){
         $.ajax({
-            url: "http://localhost/estajui/scripts/controllers/generico/listar-estagios.php",
+            url: "/../../estajui/scripts/controllers/generico/listar-estagios.php",
             type: "post",
             dataType:"json",
             data:{

@@ -8,10 +8,10 @@ class ApoliceModel extends MainModel {
     private $_tabela = "apolice";
 
     public function create(Apolice $apolice, $estagio_id) {
-        $pstmt = $this->conn->prepare("INSERT INTO " . $this->_tabela . " (numero, estagio_id, segurador) VALUES(?, ?, ?)");
+        $pstmt = $this->conn->prepare("INSERT INTO " . $this->_tabela . " (numero, estagio_id, seguradora) VALUES(?, ?, ?)");
         try {
             $this->conn->beginTransaction();
-            $pstmt->execute(array($apolice->getnumerot(), $estagio_id, $apolice->getseguradora()));
+            $pstmt->execute(array($apolice->getnumero(), $estagio_id, $apolice->getseguradora()));
             $this->conn->commit();
             return 0;
         } catch (PDOExecption $e) {
