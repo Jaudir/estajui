@@ -33,16 +33,15 @@ if (is_a($usuario, "Aluno")) {
         $titulo = "Administrador";
     }
     if ($usuario->isce()) {
-        $titulo = "Coordenador de extensão";
-
         //$session->clearErrors();
         $ce = $session->getUsuario('usuario');
         $model = $loader->loadModel('FuncionarioModel', 'FuncionarioModel');
+        $estagiomodel = $loader->loadModel('EstagioModel', 'EstagioModel');
         $ce = $model->read($ce->getsiape(), 1)[0];
 
         if ($model != null) {
             /* Carregar dados de estágios e empresas e o que mais for preciso para a home do CE */
-            $palavras_chave = array("curso" => "", "status" => "", "empresa" => "", "responsavel" => "", "aluno" => "", "po" => "", "data_ini" => "", "data_fim" => "");
+            $palavras_chave = array("curso" => "", "status" => "4", "empresa" => "", "responsavel" => "", "aluno" => "", "po" => "", "data_ini" => "", "data_fim" => "");
 
             $palavras_chave['curso'] = "%" . $palavras_chave['curso'] . "%";
             $palavras_chave['status'] = "%" . $palavras_chave['status'] . "%";
@@ -51,12 +50,12 @@ if (is_a($usuario, "Aluno")) {
             $palavras_chave['aluno'] = "%" . $palavras_chave['aluno'] . "%";
             $palavras_chave['po'] = "%" . $palavras_chave['po'] . "%";
 
-            $listaDeEstagios = $model->listarEstagios_ce($palavras_chave);
+            $listaDeEstagios = $estagiomodel->read(null, 0);
             if (is_array($listaDeEstagios)) {
                 foreach ($listaDeEstagios as $le) {
-                    $le->getpe()->setdata_inicio(date('d/m/Y', strtotime($le->getpe()->getdata_inicio())));
-                    $le->getpe()->setdata_fim(date('d/m/Y', strtotime($le->getpe()->getdata_fim())));
-                    $retorno_ajax[] = array("id" => $le->getid(), "aluno" => $le->getaluno()->getnome(), "status" => $le->getstatus()->getdescricao(), "curso" => $le->getmatricula()->getoferta()->getcurso()->getnome(), "data_ini" => $le->getpe()->getdata_inicio(), "data_fim" => $le->getpe()->getdata_fim(), "po" => $le->getfuncionario()->getnome(), "empresa" => $le->getempresa()->getnome());
+                    if ($le->getpe()) {
+                        $retorno_ajax[] = array("id" => $le->getid(), "aluno" => $le->getaluno()->getnome(), "status" => $le->getstatus()->getdescricao(), "curso" => $le->getmatricula()->getoferta()->getcurso()->getnome(), "data_ini" => $le->getpe()->getdata_inicio(), "data_fim" => $le->getpe()->getdata_fim(), "po" => $le->getfuncionario()->getnome(), "empresa" => $le->getempresa()->getnome());
+                    }
                 }
             }
             $statusEmpresas = $model->listaEmpresas();
