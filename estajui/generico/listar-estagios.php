@@ -122,20 +122,13 @@ $errosExibir = $session->getErrors('normal');
                                 <li class="nav-item">
                                     <a class="nav-link" href="#">Professores</a>
                                 </li>
-                                <?php
+                                <?php if ($usuario->ispo() || $usuario->isce()) { ?>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="#">Relatórios</a>
+                                    </li>
+                                    <?php
+                                }
                             }
-                        }
-                        ?>
-
-
-                        <!--PO, SRA, ROOT, CE, OE-->
-                        <?php
-                        if (!is_a($usuario, "Aluno")) {
-                            ?>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#">Relatórios</a>
-                            </li>
-                            <?php
                         }
                         ?>
 

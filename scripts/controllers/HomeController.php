@@ -5,10 +5,10 @@ require_once $_SERVER['DOCUMENT_ROOT'] . "/estajui/scripts/controllers/base-cont
 $session = getSession();
 if (isset($_GET["logoff"])) {
     $session->destroy();
-    redirect("login.php");
+    redirectToView("login");
 }
 if (!$session->isLogged()) {
-    redirect("login.php");
+    redirectToView("login");
 }
 $estagios = array();
 $usuario = $session->getUsuario();
@@ -90,6 +90,6 @@ if (is_a($usuario, "Aluno")) {
         $titulo = "Funcionario";
     }
 } else {
-    redirect("login.php");
+    redirectToView("login");
 }
 $nome = $usuario->getnome();
