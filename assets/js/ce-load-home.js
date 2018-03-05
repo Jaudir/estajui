@@ -1,5 +1,30 @@
 id = -1;
 
+function preencherModalParecerFinal(id){
+    $.ajax({
+        url: "../../estajui/scripts/controllers/generico/ver-estagio.php",
+        type: "post",
+        dataType: "json",
+        data:{
+            estagio_id:id
+        },
+        success: function(data){
+            $.each(data, function (index, itemData){
+                $('#pfnome').text(itemData['aluno']);
+                $('#pfmatricula').text(itemData['matricula']);
+                $('#pfcurso').text(itemData['curso']);
+                $('#pfobrig').text(itemData['bool_obrigatorio'] == 0 ? "Não" : "Sim");
+                $('#pfempresa').text(itemData['empresa']);
+                $('#pfcnpj').text(itemData['empresa_cnpj']);
+                $('#pfrazaos').text(itemData['empresa_razao_social']);
+                $('#concluirEstagioId').val(id);
+            });
+            /*aqui poderia ser disparado o evento para mostrar a modal, 
+            assim ela só será mostrada quando os dados forem carregados*/
+        }
+    });
+}
+
 function preencherModalEditarAprov(id) {
     $.ajax({
         url: "/../../estajui/scripts/controllers/generico/ver-estagio.php",
@@ -82,7 +107,10 @@ function preencherModalEditar(id) {
 
         }
     });
+    /* Três requisições estão sendo feitas para o mesmo estágio, sim, mas estamos a duas horas de apresentar o
+    trabalho e não da pra arriscar agora */
     preencherModalEditarAprov(id);
+    preencherModalParecerFinal(id);
 }
 
 function setarId(rowid) {
