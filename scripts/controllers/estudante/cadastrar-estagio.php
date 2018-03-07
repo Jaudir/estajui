@@ -13,6 +13,10 @@ require_once(dirname(__FILE__) . '/../base-controller.php');
 
 $session = getSession();
 
+/*$session->setUsuario(
+    new Funcionario("func@func", "12345", 1, 2, "Prof", false, false, true, false, null, null, null, null)
+);*/
+
 if($session->isAluno()){
 
     $session->clearErrors();
@@ -99,4 +103,4 @@ if($session->isAluno()){
 }else{
     $session->pushError('Você não é um aluno, não é possível criar estágios!');
 }
-redirect(base_url() . '/estajui/estudante/cadastrar-dados-estagio.php');
+redirect(base_url() . '/estajui/estudante/cadastrar-dados-estagio.php?id=' . $_POST['estagio']);

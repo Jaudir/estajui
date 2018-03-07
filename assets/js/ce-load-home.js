@@ -19,8 +19,6 @@ function preencherModalParecerFinal(id){
                 $('#pfrazaos').text(itemData['empresa_razao_social']);
                 $('#concluirEstagioId').val(id);
             });
-            /*aqui poderia ser disparado o evento para mostrar a modal, 
-            assim ela só será mostrada quando os dados forem carregados*/
         }
     });
 }
@@ -107,8 +105,7 @@ function preencherModalEditar(id) {
 
         }
     });
-    /* Três requisições estão sendo feitas para o mesmo estágio, sim, mas estamos a duas horas de apresentar o
-    trabalho e não da pra arriscar agora */
+    /* Três requisições estão sendo feitas para o mesmo estágio */
     preencherModalEditarAprov(id);
     preencherModalParecerFinal(id);
 }

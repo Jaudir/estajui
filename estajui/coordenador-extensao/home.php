@@ -110,7 +110,7 @@ require_once('../../scripts/controllers/coordenador-extensao/load-home.php');
                                                     </button>
                                                 </td>
                                                 <td class="center">
-                                                    <a href="" onclick="preencherModal(<?php echo $le->getid(); ?>)" data-toggle="modal" data-target="#ver-estagio" id="ver<?php echo $lin++; ?>"> <i class="fa fa-eye ver"></i></a>
+                                                    <a href="" onclick="preencherModal(<?php echo $le->getid(); ?>)" data-toggle="modal" data-target="#ver-estagio" id="ver<?php echo $row_id; ?>"> <i class="fa fa-eye ver"></i></a>
                                                 </td>
                                             </tr>
 

@@ -9,7 +9,6 @@ $session = getSession();
 );*/
 
 $listaDeEstagios = array();
-$statusEmpresas = array();
 
 if($session->isce()){
     //$session->clearErrors();
@@ -29,7 +28,7 @@ if($session->isce()){
         $palavras_chave['po'] = "%" . $palavras_chave['po'] . "%";
 
         $listaDeEstagios = $model->listarEstagios_ce($palavras_chave);
-        // var_dump($listaDeEstagios);
+        
         if (is_array($listaDeEstagios)){
             foreach($listaDeEstagios as $le){
                 $le->getpe()->setdata_inicio(date('d/m/Y', strtotime($le->getpe()->getdata_inicio())));
@@ -38,13 +37,9 @@ if($session->isce()){
 
             }
         }
-        $statusEmpresas = $model->listaEmpresas();
 
         if(!$listaDeEstagios)
             $listaDeEstagios = array();
-        
-        if(!$statusEmpresas)
-            $statusEmpresas = array();
     }
 }else{
     redirect(base_url() . '/estajui/login.php');
